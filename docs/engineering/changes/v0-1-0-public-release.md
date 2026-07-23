@@ -70,3 +70,11 @@ Understanding review is optional and self-attested. Claude and Codex discovery
 can change between client versions. GitHub attestation proves workflow
 provenance, not semantic correctness. These limits are visible rather than
 converted into a score.
+
+## Release incident
+
+The first tag-triggered run failed before tests because backslash-escaped Python
+quotes were embedded inside a shell single-quoted `python -c` expression.
+Inline cross-language quoting was replaced with a tested standard-library
+script. Because no GitHub Release or assets were created, the failed tag is
+removed and recreated only after the fixed main commit passes CI.

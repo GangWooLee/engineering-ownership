@@ -19,8 +19,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Verify tag matches package
-        run: |
-          test "${GITHUB_REF_NAME}" = "v$(python -c 'from pathlib import Path; import tomllib; print(tomllib.loads(Path(\"pyproject.toml\").read_text())[\"project\"][\"version\"])')"
+        run: python scripts/validate_release_tag.py "${GITHUB_REF_NAME}"
       - name: Test
         run: python -m unittest discover -s tests -v
         env:
@@ -40,4 +39,3 @@ jobs:
             --verify-tag \
             --title "${GITHUB_REF_NAME}" \
             --notes-file docs/releases/v0.1.0.md
-
