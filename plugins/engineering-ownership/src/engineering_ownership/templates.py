@@ -1,5 +1,7 @@
-BRIEF = """# Engineering change: {change_id}
+BRIEF = """# {date} · {title}
 
+Change ID: `{change_id}`
+Created: `{created_at}`
 Risk: {risk}
 Status: In progress
 
@@ -33,8 +35,10 @@ was rejected and why.
 Link issues, ADRs, commits, pull requests, and relevant external constraints.
 """
 
-ADR = """# Decision: {change_id}
+ADR = """# {date} · {title}
 
+Change ID: `{change_id}`
+Created: `{created_at}`
 Status: Proposed
 
 ## Context
@@ -46,14 +50,21 @@ Status: Proposed
 
 ## Consequences and reversal
 
+## Implementation references
+
+List repository-relative implementation paths that enforce this decision.
+Leave this section empty when the decision is not enforced in code.
+
 ## Supersession
 
 Supersedes: None
 Superseded by: None
 """
 
-RUNBOOK = """# Runbook: {change_id}
+RUNBOOK = """# {date} · {title}
 
+Change ID: `{change_id}`
+Created: `{created_at}`
 ## Signals and alerts
 
 <!-- engineering-ownership:fill-required -->
@@ -64,8 +75,10 @@ RUNBOOK = """# Runbook: {change_id}
 ## Escalation and data handling
 """
 
-THREAT_MODEL = """# Threat model: {change_id}
+THREAT_MODEL = """# {date} · {title}
 
+Change ID: `{change_id}`
+Created: `{created_at}`
 ## Assets and trust boundaries
 
 <!-- engineering-ownership:fill-required -->

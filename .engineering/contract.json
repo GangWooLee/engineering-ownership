@@ -31,7 +31,7 @@
     },
     {
       "id": "release-package",
-      "argv": ["python3", "scripts/build_release.py", "--version", "0.1.0"],
+      "argv": ["python3", "scripts/build_release.py", "--version", "0.2.0"],
       "env": {},
       "timeout_seconds": 60,
       "required_for": ["R2", "R3"]
@@ -51,6 +51,7 @@
       "plugins/engineering-ownership/src/engineering_ownership/io.py",
       "plugins/engineering-ownership/src/engineering_ownership/model.py",
       "plugins/engineering-ownership/src/engineering_ownership/repository.py",
+      "plugins/engineering-ownership/hooks/**",
       ".github/workflows/release.yml"
     ]
   },
@@ -59,8 +60,11 @@
     "decisions": "docs/engineering/decisions",
     "runbooks": "docs/engineering/runbooks",
     "threat_models": "docs/engineering/security",
-    "evidence": ".engineering/evidence"
+    "evidence": ".engineering/evidence",
+    "handoffs": ".engineering/handoffs"
+  },
+  "automation": {
+    "session_hooks": "off"
   },
   "review_interval_days": 7
 }
-

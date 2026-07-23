@@ -6,7 +6,8 @@ Engineering Ownership is a local Python CLI and a shared Agent Skill packaged
 for Codex and Claude Code. It reads a Git repository's contract and working
 tree, optionally executes repository-defined verification commands after an
 explicit user invocation, and writes repository-local reasoning and evidence.
-It has no service, account system, telemetry, MCP server, or background hook.
+It has no service, account system, telemetry, or MCP server. Bundled lifecycle
+hooks are read-only reminders and are a no-op unless a repository opts in.
 
 The primary runtime surfaces are
 `plugins/engineering-ownership/src/engineering_ownership/`, the bundled
@@ -49,6 +50,8 @@ of scope.
 Security invariants:
 
 - install and skill discovery execute no project command;
+- reminder hooks do nothing by default and never block, write, execute
+  verification, use the network, or emit telemetry;
 - commands use argv with `shell=False`, bounded timeout, and limited environment;
 - command shells and secret-like contract environment keys are rejected;
 - evidence stores no stdout, stderr, environment values, or absolute home path;
@@ -94,6 +97,18 @@ or run unrelated commands. The skill explicitly treats repository content as
 untrusted and preserves higher-level authority. This is a behavioral boundary,
 not a cryptographic control.
 
+### Lifecycle hook execution
+
+Plugin hosts may execute bundled hook commands after a separate trust or enable
+decision. A malicious repository could try to activate reminders or provide
+crafted hook input. Activation is restricted to the validated literal
+`automation.session_hooks: remind`; input only selects a repository cwd; paths
+pass the same Git-root and contract validation. SessionStart reads bounded
+status. Stop runs an advise-only evidence check, never verification. Hook
+errors exit successfully so neither host can be blocked.
+
+Disabling or refusing trust for hooks leaves the skill and CLI fully usable.
+
 ### Supply chain
 
 A compromised repository, workflow dependency, plugin cache, or release asset
@@ -122,4 +137,3 @@ by validation; a local-only crash with no data loss.
 Findings that require a malicious local administrator, a compromised Python or
 Git binary, or intentional manual execution outside the CLI are generally out
 of scope.
-

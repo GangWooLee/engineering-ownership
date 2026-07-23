@@ -28,6 +28,7 @@
   },
   "risk": "R3",
   "schema_version": 1,
+  "title": "v0.1.0 public release",
   "understanding": {
     "gaps": [
       "Revisit the CLI safety boundaries and release rollback after hands-on use."

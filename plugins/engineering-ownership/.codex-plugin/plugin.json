@@ -1,6 +1,6 @@
 {
   "name": "engineering-ownership",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Evidence-based engineering ownership for AI-assisted software changes",
   "author": {
     "name": "GangWooLee",
@@ -29,10 +29,9 @@
     "websiteURL": "https://github.com/GangWooLee/engineering-ownership",
     "supportURL": "https://github.com/GangWooLee/engineering-ownership/issues",
     "defaultPrompt": [
-      "Start an evidence-backed engineering change",
-      "Check whether this diff is actually verified",
-      "Create a handoff that another session can resume"
+      "$engineering-ownership work on this feature",
+      "$engineering-ownership continue the previous work",
+      "$engineering-ownership check this before merge"
     ]
   }
 }
-

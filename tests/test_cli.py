@@ -448,6 +448,192 @@ class CliCase(unittest.TestCase):
         )
         self.assertEqual(evidence["verification"][0]["status"], "failed")
 
+    def test_recorded_r2_is_a_floor_for_document_only_diff(self) -> None:
+        self.init()
+        self.commit_contract()
+        started = self.invoke(
+            "change", "start", "docs-architecture", "--risk", "R2"
+        )
+        self.assertEqual(started.returncode, 0, started.stderr)
+        result = self.invoke(
+            "check", "--mode", "enforce", "--change", "docs-architecture"
+        )
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("Risk: R2", result.stdout)
+        self.assertIn("verification 'unit'", result.stdout)
+
+    def test_detected_r3_requires_explicit_risk_escalation(self) -> None:
+        self.init()
+        self.commit_contract()
+        (self.root / "db").mkdir()
+        (self.root / "db" / "schema.sql").write_text("select 1;\n")
+        self.invoke("change", "start", "schema-change", "--risk", "R2")
+        (self.root / "src" / "auth").mkdir(parents=True)
+        (self.root / "src" / "auth" / "session.py").write_text("ENABLED = True\n")
+        blocked = self.invoke("verify", "schema-change")
+        self.assertEqual(blocked.returncode, 2)
+        self.assertIn("set-risk schema-change --risk R3", blocked.stderr)
+
+    def test_set_risk_preserves_existing_records_and_creates_only_missing_r3_docs(self) -> None:
+        self.init()
+        self.commit_contract()
+        self.invoke(
+            "change",
+            "start",
+            "sensitive-flow",
+            "--risk",
+            "R2",
+            "--title",
+            "Sensitive flow",
+        )
+        decision = self.root / "docs/engineering/decisions/sensitive-flow.md"
+        decision.write_text(decision.read_text() + "\nPreserve this line.\n")
+        raised = self.invoke(
+            "change", "set-risk", "sensitive-flow", "--risk", "R3"
+        )
+        self.assertEqual(raised.returncode, 0, raised.stderr)
+        self.assertIn("Preserve this line.", decision.read_text())
+        self.assertTrue(
+            (self.root / "docs/engineering/security/sensitive-flow.md").is_file()
+        )
+        self.assertTrue(
+            (self.root / "docs/engineering/runbooks/sensitive-flow.md").is_file()
+        )
+        record = json.loads(
+            (self.root / ".engineering/evidence/sensitive-flow.json").read_text()
+        )
+        self.assertEqual(record["risk"], "R3")
+        lower = self.invoke(
+            "change", "set-risk", "sensitive-flow", "--risk", "R2"
+        )
+        self.assertEqual(lower.returncode, 2)
+
+    def test_change_title_and_timestamp_are_human_readable_and_timezone_aware(self) -> None:
+        self.init()
+        self.commit_contract()
+        result = self.invoke(
+            "change",
+            "start",
+            "cache-ai-analysis",
+            "--risk",
+            "R2",
+            "--title",
+            "AI analysis cache policy",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        record = json.loads(
+            (self.root / ".engineering/evidence/cache-ai-analysis.json").read_text()
+        )
+        self.assertRegex(record["created_at"], r"[+-]\d\d:\d\d$")
+        brief = (
+            self.root / "docs/engineering/changes/cache-ai-analysis.md"
+        ).read_text()
+        self.assertIn("· AI analysis cache policy", brief)
+        self.assertIn(f"Created: `{record['created_at']}`", brief)
+        self.assertEqual(record["title"], "AI analysis cache policy")
+
+    def test_refs_check_accepts_canonical_reference_and_implementation_path(self) -> None:
+        self.init()
+        self.commit_contract()
+        self.invoke("change", "start", "cache-policy", "--risk", "R2")
+        app = self.root / "app.py"
+        app.write_text(
+            "# engineering-decision: cache-policy | "
+            "docs/engineering/decisions/cache-policy.md\nVALUE = 1\n"
+        )
+        adr = self.root / "docs/engineering/decisions/cache-policy.md"
+        adr.write_text(
+            adr.read_text().replace(
+                "Leave this section empty when the decision is not enforced in code.",
+                "- `app.py`",
+            )
+        )
+        valid = self.invoke("refs", "check", "--all")
+        self.assertEqual(valid.returncode, 0, valid.stdout + valid.stderr)
+
+        app.write_text(
+            "# engineering-decision: cache-policy | docs/wrong.md\nVALUE = 1\n"
+        )
+        wrong = self.invoke("refs", "check", "--all")
+        self.assertEqual(wrong.returncode, 1)
+        self.assertIn("canonical ADR", wrong.stdout)
+
+    def test_refs_check_reports_missing_and_superseded_decisions(self) -> None:
+        self.init()
+        self.commit_contract()
+        self.invoke("change", "start", "old-policy", "--risk", "R2")
+        app = self.root / "app.py"
+        app.write_text(
+            "# engineering-decision: missing-policy | "
+            "docs/engineering/decisions/missing-policy.md\n"
+        )
+        missing = self.invoke("refs", "check", "--all")
+        self.assertEqual(missing.returncode, 1)
+        self.assertIn("has no evidence", missing.stdout)
+
+        app.write_text(
+            "# engineering-decision: old-policy | "
+            "docs/engineering/decisions/old-policy.md\n"
+        )
+        adr = self.root / "docs/engineering/decisions/old-policy.md"
+        adr.write_text(adr.read_text().replace("Superseded by: None", "Superseded by: new-policy"))
+        superseded = self.invoke("refs", "check", "--all")
+        self.assertEqual(superseded.returncode, 1)
+        self.assertIn("is superseded", superseded.stdout)
+
+    def test_refs_check_rejects_symlinked_implementation_reference(self) -> None:
+        self.init()
+        self.commit_contract()
+        self.invoke("change", "start", "linked-policy", "--risk", "R2")
+        target = self.root.parent / f"{self.root.name}-implementation"
+        target.write_text("external\n")
+        try:
+            (self.root / "linked.py").symlink_to(target)
+            app = self.root / "app.py"
+            app.write_text(
+                "# engineering-decision: linked-policy | "
+                "docs/engineering/decisions/linked-policy.md\n"
+            )
+            adr = self.root / "docs/engineering/decisions/linked-policy.md"
+            adr.write_text(
+                adr.read_text().replace(
+                    "Leave this section empty when the decision is not enforced in code.",
+                    "- `linked.py`",
+                )
+            )
+            result = self.invoke("refs", "check", "--all")
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("Symlink paths are not allowed", result.stdout)
+        finally:
+            target.unlink()
+
+    def test_handoff_save_does_not_change_diff_digest(self) -> None:
+        self.init()
+        self.commit_contract()
+        (self.root / "app.py").write_text("VALUE = 1\n")
+        before = self.invoke("handoff").stdout
+        before_digest = next(
+            line for line in before.splitlines() if "Current diff digest" in line
+        )
+        saved = self.invoke("handoff", "--save")
+        self.assertEqual(saved.returncode, 0, saved.stderr)
+        after = self.invoke("handoff").stdout
+        after_digest = next(
+            line for line in after.splitlines() if "Current diff digest" in line
+        )
+        self.assertEqual(before_digest, after_digest)
+
+    def test_doctor_is_bounded_and_does_not_leak_home_or_secrets(self) -> None:
+        self.init()
+        result = self.invoke("doctor", "--format", "json")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertIn("contract", payload)
+        self.assertIn("verification_commands", payload)
+        self.assertNotIn(str(Path.home()), result.stdout)
+        self.assertNotIn("private-value", result.stdout)
+        self.assertNotIn("argv", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

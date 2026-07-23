@@ -59,9 +59,21 @@ def main() -> int:
         raise SystemExit("competency catalog must contain exactly eight entries")
     if any(schema.get("$schema") != "https://json-schema.org/draft/2020-12/schema" for schema in schemas):
         raise SystemExit("schemas must use draft 2020-12")
-    forbidden = [PLUGIN / "hooks", PLUGIN / ".mcp.json", PLUGIN / "monitors"]
+    hooks = load("plugins/engineering-ownership/hooks/hooks.json")
+    hook_events = hooks.get("hooks", {})
+    if set(hook_events) != {"SessionStart", "Stop"}:
+        raise SystemExit("plugin hooks must contain only SessionStart and Stop")
+    hook_script = (PLUGIN / "hooks" / "ownership_hook.py").read_text(encoding="utf-8")
+    for forbidden_token in ("requests", "urllib", "socket", "engineering_ownership verify"):
+        if forbidden_token in hook_script:
+            raise SystemExit(f"hook contains forbidden behavior: {forbidden_token}")
+    if body.count("engineering-decision:") > 1:
+        raise SystemExit("skill should describe one canonical decision marker only")
+    if len(body.split()) > 5000:
+        raise SystemExit("SKILL.md exceeds the 5,000-token approximation")
+    forbidden = [PLUGIN / ".mcp.json", PLUGIN / "monitors"]
     if any(path.exists() for path in forbidden):
-        raise SystemExit("v0.1 contains an excluded automatic execution surface")
+        raise SystemExit("v0.2 contains an excluded execution surface")
     print("distribution validation passed")
     return 0
 

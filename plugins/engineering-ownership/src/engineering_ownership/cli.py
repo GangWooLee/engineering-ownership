@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import argparse
-import json
-import os
+import re
+import shutil
 import subprocess
 import sys
 import time
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -24,9 +24,9 @@ from .io import json_text, minimal_subprocess_env, redact, safe_relative_path, w
 from .model import (
     COMPETENCIES,
     RISK_ORDER,
-    classify_risk,
     contract_version,
     default_contract,
+    effective_risk,
     migrate_v1,
     read_contract,
     required_command_ids,
@@ -34,6 +34,11 @@ from .model import (
 )
 from .repository import changed_paths, diff_digest, head_revision, repo_root
 from .templates import ADR, BRIEF, POINTER, RUNBOOK, THREAT_MODEL
+
+
+DECISION_REFERENCE = re.compile(
+    r"engineering-decision:\s*([a-z0-9][a-z0-9_-]{2,79})\s*\|\s*([^\s]+)"
+)
 
 
 def relative(root: Path, path: Path) -> str:
@@ -59,6 +64,11 @@ def command_init(args: argparse.Namespace) -> int:
     contract["project"]["kind"] = args.kind
     contract["project"]["status"] = args.status
     write_repo_text(root, ".engineering/contract.json", json_text(contract))
+    write_repo_text(
+        root,
+        ".engineering/handoffs/.gitignore",
+        "*\n!.gitignore\n",
+    )
     if args.agent_pointers:
         for pointer in ("AGENTS.md", "CLAUDE.md"):
             if ensure_pointer(root, pointer):
@@ -134,6 +144,48 @@ def artifact_paths(contract: dict[str, Any], change_id: str, risk: str) -> dict[
     return result
 
 
+def readable_title(change_id: str) -> str:
+    title = " ".join(part for part in re.split(r"[-_]+", change_id) if part)
+    return title[:1].upper() + title[1:]
+
+
+def template_values(record: dict[str, Any]) -> dict[str, str]:
+    created_at = record["created_at"]
+    try:
+        created_date = datetime.fromisoformat(created_at).date().isoformat()
+    except ValueError as exc:
+        raise EngineeringError("Evidence created_at must be a valid ISO timestamp") from exc
+    return {
+        "change_id": record["change_id"],
+        "title": record.get("title") or readable_title(record["change_id"]),
+        "created_at": created_at,
+        "date": created_date,
+        "risk": record["risk"],
+    }
+
+
+def write_missing_artifacts(
+    root: Path,
+    record: dict[str, Any],
+    required: dict[str, str],
+) -> list[str]:
+    templates = {
+        "brief": BRIEF,
+        "decision": ADR,
+        "threat_model": THREAT_MODEL,
+        "runbook": RUNBOOK,
+    }
+    created: list[str] = []
+    values = template_values(record)
+    for kind, path in required.items():
+        target = safe_relative_path(root, path, for_write=True)
+        if target.exists():
+            continue
+        write_repo_text(root, path, templates[kind].format(**values))
+        created.append(path)
+    return created
+
+
 def command_change_start(args: argparse.Namespace) -> int:
     root = repo_root(args.repo)
     contract = read_contract(root)
@@ -145,15 +197,12 @@ def command_change_start(args: argparse.Namespace) -> int:
         raise EngineeringError(f"Change already exists: {change_id}")
     digest, paths = diff_digest(root)
     artifacts = artifact_paths(contract, change_id, args.risk)
-    write_repo_text(root, artifacts["brief"], BRIEF.format(change_id=change_id, risk=args.risk))
-    if "decision" in artifacts:
-        write_repo_text(root, artifacts["decision"], ADR.format(change_id=change_id))
-    if "threat_model" in artifacts:
-        write_repo_text(root, artifacts["threat_model"], THREAT_MODEL.format(change_id=change_id))
-    if "runbook" in artifacts:
-        write_repo_text(root, artifacts["runbook"], RUNBOOK.format(change_id=change_id))
+    title = (args.title or readable_title(change_id)).strip()
+    if not title or len(title) > 160:
+        raise EngineeringError("title must be 1..160 characters")
     record = new_evidence(
         change_id,
+        title,
         args.risk,
         args.competency,
         digest,
@@ -161,10 +210,34 @@ def command_change_start(args: argparse.Namespace) -> int:
         artifacts,
         contract.get("review_interval_days", 7),
     )
+    write_missing_artifacts(root, record, artifacts)
     save_evidence(root, contract, record, overwrite=False)
     print(f"Started change: {change_id} ({args.risk})")
     for kind, path in artifacts.items():
         print(f"  {kind}: {path}")
+    return 0
+
+
+def command_change_set_risk(args: argparse.Namespace) -> int:
+    root = repo_root(args.repo)
+    contract = read_contract(root)
+    record = read_evidence(root, contract, args.change_id)
+    current = record["risk"]
+    target = args.risk
+    if RISK_ORDER[target] < RISK_ORDER[current]:
+        raise EngineeringError("Risk can only be raised; downward adjustment is unsupported")
+    if RISK_ORDER[target] == RISK_ORDER[current]:
+        print(f"Risk unchanged: {record['change_id']} remains {current}")
+        return 0
+    required = artifact_paths(contract, record["change_id"], target)
+    created = write_missing_artifacts(root, record, required)
+    record["risk"] = target
+    record["artifacts"] = {**record.get("artifacts", {}), **required}
+    record["updated_at"] = now_iso()
+    save_evidence(root, contract, record, overwrite=True)
+    print(f"Raised risk: {record['change_id']} {current} -> {target}")
+    for path in created:
+        print(f"  created: {path}")
     return 0
 
 
@@ -191,7 +264,13 @@ def command_verify(args: argparse.Namespace) -> int:
         raise EngineeringError("Contract v1 cannot execute commands; migrate explicitly first")
     record = read_evidence(root, contract, args.change_id)
     digest, paths = diff_digest(root)
-    commands = select_commands(contract, args.id, record["risk"])
+    detected = effective_risk(contract, paths, recorded=record["risk"])
+    if RISK_ORDER[detected] > RISK_ORDER[record["risk"]]:
+        raise EngineeringError(
+            f"Detected risk {detected} exceeds recorded risk {record['risk']}; "
+            f"run `engineering change set-risk {record['change_id']} --risk {detected}` first"
+        )
+    commands = select_commands(contract, args.id, detected)
     if not commands:
         raise EngineeringError("No verification commands selected")
     results: list[dict[str, Any]] = []
@@ -291,20 +370,174 @@ def evidence_gaps(
     return gaps
 
 
+def text_paths(root: Path, paths: list[str]) -> list[str]:
+    result: list[str] = []
+    for relative_path in sorted(set(paths)):
+        try:
+            path = safe_relative_path(root, relative_path)
+        except EngineeringError:
+            continue
+        if not path.is_file() or path.stat().st_size > 1_000_000:
+            continue
+        try:
+            if b"\x00" not in path.read_bytes()[:8192]:
+                result.append(relative_path)
+        except OSError:
+            continue
+    return result
+
+
+def all_repository_paths(root: Path) -> list[str]:
+    completed = subprocess.run(
+        ["git", "ls-files", "-co", "--exclude-standard", "-z"],
+        cwd=root,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if completed.returncode:
+        raise EngineeringError("Could not enumerate repository files")
+    return [
+        value.decode("utf-8", errors="surrogateescape")
+        for value in completed.stdout.split(b"\0")
+        if value
+    ]
+
+
+def implementation_references(text: str) -> list[str]:
+    match = re.search(
+        r"^## Implementation references\s*$\n(.*?)(?=^## |\Z)",
+        text,
+        re.MULTILINE | re.DOTALL,
+    )
+    if not match:
+        return []
+    paths: list[str] = []
+    for line in match.group(1).splitlines():
+        item = re.match(r"^\s*-\s+`?([^`\s]+)`?", line)
+        if item:
+            paths.append(item.group(1).split("::", 1)[0])
+    return paths
+
+
+def decision_is_superseded(text: str) -> bool:
+    status = re.search(r"^Status:\s*(.+)$", text, re.MULTILINE | re.IGNORECASE)
+    if status and "superseded" in status.group(1).lower():
+        return True
+    replacement = re.search(r"^Superseded by:\s*(.+)$", text, re.MULTILINE)
+    return bool(replacement and replacement.group(1).strip().lower() not in {"", "none"})
+
+
+def reference_gaps(
+    root: Path,
+    contract: dict[str, Any],
+    paths: list[str],
+    *,
+    change_id: str | None = None,
+) -> list[str]:
+    gaps: list[str] = []
+    records = {record["change_id"]: record for record in list_evidence(root, contract)}
+    markers: list[tuple[str, str, str]] = []
+    for relative_path in text_paths(root, paths):
+        path = safe_relative_path(root, relative_path)
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for match in DECISION_REFERENCE.finditer(text):
+            marker_id, marker_path = match.groups()
+            if change_id and marker_id != change_id:
+                continue
+            markers.append((relative_path, marker_id, marker_path))
+
+    for source_path, marker_id, marker_path in markers:
+        record = records.get(marker_id)
+        if not record:
+            gaps.append(f"{source_path}: decision reference '{marker_id}' has no evidence")
+            continue
+        canonical = record.get("artifacts", {}).get("decision")
+        if not canonical:
+            gaps.append(f"{source_path}: decision reference '{marker_id}' has no ADR")
+            continue
+        if marker_path != canonical:
+            gaps.append(
+                f"{source_path}: decision reference path must be canonical ADR '{canonical}'"
+            )
+            continue
+        try:
+            adr_path = safe_relative_path(root, canonical)
+        except EngineeringError as exc:
+            gaps.append(str(exc))
+            continue
+        if not adr_path.is_file():
+            gaps.append(f"{source_path}: referenced ADR is missing: {canonical}")
+            continue
+        adr_text = adr_path.read_text(encoding="utf-8", errors="replace")
+        if decision_is_superseded(adr_text):
+            gaps.append(f"{source_path}: decision '{marker_id}' is superseded")
+
+    selected_records = (
+        [records[change_id]] if change_id and change_id in records else list(records.values())
+    )
+    referenced_ids = {marker_id for _, marker_id, _ in markers}
+    for record in selected_records:
+        if change_id is None and record["change_id"] not in referenced_ids:
+            continue
+        decision = record.get("artifacts", {}).get("decision")
+        if not decision:
+            continue
+        try:
+            adr_path = safe_relative_path(root, decision)
+        except EngineeringError as exc:
+            gaps.append(str(exc))
+            continue
+        if not adr_path.is_file():
+            continue
+        for implementation_path in implementation_references(
+            adr_path.read_text(encoding="utf-8", errors="replace")
+        ):
+            try:
+                target = safe_relative_path(root, implementation_path)
+            except EngineeringError as exc:
+                gaps.append(f"{decision}: {exc}")
+                continue
+            if not target.is_file():
+                gaps.append(
+                    f"{decision}: implementation reference is missing: {implementation_path}"
+                )
+    return sorted(set(gaps))
+
+
+def command_refs_check(args: argparse.Namespace) -> int:
+    root = repo_root(args.repo)
+    contract = read_contract(root)
+    if args.change:
+        read_evidence(root, contract, args.change)
+    paths = all_repository_paths(root) if args.all else changed_paths(root)
+    gaps = reference_gaps(root, contract, paths, change_id=args.change)
+    print(f"Decision references checked: {len(text_paths(root, paths))} file(s)")
+    for gap in gaps:
+        print(f"GAP: {gap}")
+    print("RESULT: PASS" if not gaps else "RESULT: BLOCKED")
+    return 1 if gaps else 0
+
+
 def command_check(args: argparse.Namespace) -> int:
     root = repo_root(args.repo)
     contract = read_contract(root)
     digest, paths = diff_digest(root)
-    risk = classify_risk(contract, paths, args.risk)
     gaps: list[str] = []
     record: dict[str, Any] | None = None
+    if args.change and contract_version(contract) == 2:
+        record = read_evidence(root, contract, args.change)
+    risk = effective_risk(
+        contract,
+        paths,
+        explicit=args.risk,
+        recorded=record["risk"] if record else None,
+    )
     if contract_version(contract) == 1:
         gaps.append("contract v1 is read-only compatible; migrate before enforce")
     elif risk != "R0":
         records = list_evidence(root, contract)
-        if args.change:
-            record = read_evidence(root, contract, args.change)
-        else:
+        if not args.change:
             matching = [item for item in records if item.get("diff", {}).get("digest") == digest]
             if len(matching) == 1:
                 record = matching[0]
@@ -314,8 +547,12 @@ def command_check(args: argparse.Namespace) -> int:
                 gaps.append("multiple evidence records match; pass --change")
         if record:
             if RISK_ORDER[record["risk"]] < RISK_ORDER[risk]:
-                gaps.append(f"recorded risk {record['risk']} is lower than detected risk {risk}")
+                gaps.append(
+                    f"recorded risk {record['risk']} is lower than effective risk {risk}; "
+                    f"run `engineering change set-risk {record['change_id']} --risk {risk}`"
+                )
             gaps.extend(evidence_gaps(root, contract, record, digest))
+            gaps.extend(reference_gaps(root, contract, paths, change_id=record["change_id"]))
     print(f"Risk: {risk}")
     print(f"Changed paths: {len(paths)}")
     if gaps:
@@ -422,6 +659,99 @@ def command_status(args: argparse.Namespace) -> int:
     return 0
 
 
+def local_plugin_state(executable: str, argv: list[str]) -> str:
+    if shutil.which(executable) is None:
+        return "unavailable"
+    try:
+        result = subprocess.run(
+            argv,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=2,
+            check=False,
+            env=minimal_subprocess_env({}),
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return "unknown"
+    output = (result.stdout + result.stderr).lower()
+    if "engineering-ownership" not in output:
+        return "not-detected"
+    if any(token in output for token in ("enabled", "installed", "active")):
+        return "detected"
+    return "detected"
+
+
+def doctor_payload(root: Path) -> dict[str, Any]:
+    contract_path = root / ".engineering" / "contract.json"
+    contract: dict[str, Any] | None = None
+    contract_status = "missing"
+    command_checks: list[dict[str, str]] = []
+    if contract_path.is_file():
+        try:
+            contract = read_contract(root)
+            contract_status = f"v{contract_version(contract)}"
+        except EngineeringError:
+            contract_status = "invalid"
+    if contract and contract_version(contract) == 2:
+        for command in contract.get("verification", []):
+            executable = command["argv"][0]
+            available = (
+                Path(executable).is_file()
+                if Path(executable).is_absolute()
+                else shutil.which(executable) is not None
+            )
+            command_checks.append(
+                {"id": command["id"], "executable": "available" if available else "missing"}
+            )
+    pointers = {}
+    for name in ("AGENTS.md", "CLAUDE.md"):
+        path = root / name
+        pointers[name] = (
+            path.is_file()
+            and "<!-- engineering-ownership:start -->" in path.read_text(
+                encoding="utf-8", errors="replace"
+            )
+        )
+    hooks = (
+        contract.get("automation", {}).get("session_hooks", "off")
+        if contract
+        else "unknown"
+    )
+    return {
+        "git": "available" if shutil.which("git") else "missing",
+        "cli": {"version": __version__},
+        "plugins": {
+            "codex": local_plugin_state("codex", ["codex", "plugin", "list"]),
+            "claude": local_plugin_state("claude", ["claude", "plugin", "list"]),
+        },
+        "contract": contract_status,
+        "agent_pointers": pointers,
+        "verification_commands": command_checks,
+        "session_hooks": hooks,
+    }
+
+
+def command_doctor(args: argparse.Namespace) -> int:
+    root = repo_root(args.repo)
+    payload = doctor_payload(root)
+    if args.format == "json":
+        print(json_text(payload), end="")
+        return 0
+    print("Engineering doctor")
+    print(f"  git: {payload['git']}")
+    print(f"  cli: {payload['cli']['version']}")
+    print(f"  contract: {payload['contract']}")
+    print(f"  Codex plugin: {payload['plugins']['codex']}")
+    print(f"  Claude plugin: {payload['plugins']['claude']}")
+    for name, present in payload["agent_pointers"].items():
+        print(f"  {name} pointer: {'present' if present else 'missing'}")
+    for command in payload["verification_commands"]:
+        print(f"  verify {command['id']}: {command['executable']}")
+    print(f"  session hooks: {payload['session_hooks']}")
+    return 0
+
+
 def handoff_text(root: Path, contract: dict[str, Any], change: str | None) -> str:
     digest, paths = diff_digest(root)
     records = list_evidence(root, contract) if contract_version(contract) == 2 else []
@@ -486,7 +816,25 @@ def command_handoff(args: argparse.Namespace) -> int:
     root = repo_root(args.repo)
     contract = read_contract(root)
     output = handoff_text(root, contract, args.change)
-    if args.output:
+    if args.save:
+        handoff_dir = contract.get("artifacts", {}).get(
+            "handoffs", ".engineering/handoffs"
+        )
+        change_id = validate_change_id(args.change) if args.change else "repository"
+        stamp = datetime.now().astimezone().strftime("%Y%m%dT%H%M%S%z")
+        relative_path = f"{handoff_dir}/{stamp}-{change_id}.md"
+        ignore = subprocess.run(
+            ["git", "check-ignore", "-q", "--", relative_path],
+            cwd=root,
+            check=False,
+        )
+        if ignore.returncode != 0:
+            raise EngineeringError(
+                f"{handoff_dir} must ignore generated handoffs before --save"
+            )
+        path = write_repo_text(root, relative_path, output)
+        print(f"Wrote {relative(root, path)}")
+    elif args.output:
         path = write_repo_text(root, args.output, output, overwrite=args.overwrite)
         print(f"Wrote {relative(root, path)}")
     else:
@@ -531,11 +879,16 @@ def build_parser() -> argparse.ArgumentParser:
     audit.add_argument("--format", choices=("text", "json"), default="text")
     audit.set_defaults(func=command_audit)
 
+    doctor = sub.add_parser("doctor", help="Diagnose local setup without network calls")
+    doctor.add_argument("--format", choices=("text", "json"), default="text")
+    doctor.set_defaults(func=command_doctor)
+
     change = sub.add_parser("change", help="Manage a change evidence record")
     change_sub = change.add_subparsers(dest="change_command", required=True)
     start = change_sub.add_parser("start")
     start.add_argument("change_id")
     start.add_argument("--risk", choices=tuple(RISK_ORDER), required=True)
+    start.add_argument("--title")
     start.add_argument(
         "--competency",
         action="append",
@@ -543,6 +896,10 @@ def build_parser() -> argparse.ArgumentParser:
         choices=sorted(COMPETENCIES),
     )
     start.set_defaults(func=command_change_start)
+    set_risk = change_sub.add_parser("set-risk")
+    set_risk.add_argument("change_id")
+    set_risk.add_argument("--risk", choices=("R2", "R3"), required=True)
+    set_risk.set_defaults(func=command_change_set_risk)
     review = change_sub.add_parser("review")
     review.add_argument("change_id")
     review.add_argument("--status", choices=("reviewed", "gaps"), required=True)
@@ -561,6 +918,13 @@ def build_parser() -> argparse.ArgumentParser:
     check.add_argument("--change")
     check.set_defaults(func=command_check)
 
+    refs = sub.add_parser("refs", help="Validate engineering decision references")
+    refs_sub = refs.add_subparsers(dest="refs_command", required=True)
+    refs_check = refs_sub.add_parser("check")
+    refs_check.add_argument("--change")
+    refs_check.add_argument("--all", action="store_true")
+    refs_check.set_defaults(func=command_refs_check)
+
     explain = sub.add_parser(
         "explain", help="Print records and optional decision-review questions"
     )
@@ -573,7 +937,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     handoff = sub.add_parser("handoff", help="Create a conversation-independent handoff")
     handoff.add_argument("--change")
-    handoff.add_argument("--output")
+    handoff_output = handoff.add_mutually_exclusive_group()
+    handoff_output.add_argument("--output")
+    handoff_output.add_argument("--save", action="store_true")
     handoff.add_argument("--overwrite", action="store_true")
     handoff.set_defaults(func=command_handoff)
 

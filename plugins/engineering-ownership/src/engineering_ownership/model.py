@@ -66,7 +66,9 @@ def default_contract(project_name: str) -> dict[str, Any]:
             "runbooks": "docs/engineering/runbooks",
             "threat_models": "docs/engineering/security",
             "evidence": ".engineering/evidence",
+            "handoffs": ".engineering/handoffs",
         },
+        "automation": {"session_hooks": "off"},
         "review_interval_days": 7,
     }
 
@@ -147,6 +149,19 @@ def validate_contract(data: dict[str, Any], *, allow_v1: bool = True) -> dict[st
         value = artifacts.get(key)
         if not isinstance(value, str) or Path(value).is_absolute() or ".." in Path(value).parts:
             raise EngineeringError(f"Contract v2 artifact path '{key}' must be repository-relative")
+    handoffs = artifacts.get("handoffs", ".engineering/handoffs")
+    if (
+        not isinstance(handoffs, str)
+        or Path(handoffs).is_absolute()
+        or ".." in Path(handoffs).parts
+    ):
+        raise EngineeringError("Contract v2 artifact path 'handoffs' must be repository-relative")
+    automation = data.get("automation", {"session_hooks": "off"})
+    if (
+        not isinstance(automation, dict)
+        or automation.get("session_hooks", "off") not in {"off", "remind"}
+    ):
+        raise EngineeringError("automation.session_hooks must be 'off' or 'remind'")
     interval = data.get("review_interval_days", 7)
     if not isinstance(interval, int) or not 1 <= interval <= 365:
         raise EngineeringError("review_interval_days must be 1..365")
@@ -170,7 +185,9 @@ def migrate_v1(data: dict[str, Any]) -> dict[str, Any]:
         "runbooks": old_artifacts.get("runbooks", "docs/engineering/runbooks"),
         "threat_models": old_artifacts.get("threat_models", "docs/engineering/security"),
         "evidence": ".engineering/evidence",
+        "handoffs": ".engineering/handoffs",
     }
+    result["automation"] = {"session_hooks": "off"}
     commands: list[dict[str, Any]] = []
     required_by_category = {
         "static": ["R1", "R2", "R3"],
@@ -207,10 +224,6 @@ def migrate_v1(data: dict[str, Any]) -> dict[str, Any]:
 
 
 def classify_risk(contract: dict[str, Any], paths: list[str], explicit: str | None) -> str:
-    if explicit:
-        if explicit not in RISK_ORDER:
-            raise EngineeringError(f"Unknown risk: {explicit}")
-        return explicit
     highest = "R0"
     for relative in paths:
         if any(
@@ -233,6 +246,27 @@ def classify_risk(contract: dict[str, Any], paths: list[str], explicit: str | No
             and not relative.startswith("docs/")
         ):
             highest = "R1"
+    if explicit:
+        if explicit not in RISK_ORDER:
+            raise EngineeringError(f"Unknown risk: {explicit}")
+        if RISK_ORDER[explicit] > RISK_ORDER[highest]:
+            highest = explicit
+    return highest
+
+
+# engineering-decision: v0-2-immediate-workflow | docs/engineering/decisions/v0-2-immediate-workflow.md
+def effective_risk(
+    contract: dict[str, Any],
+    paths: list[str],
+    explicit: str | None = None,
+    recorded: str | None = None,
+) -> str:
+    highest = classify_risk(contract, paths, explicit)
+    if recorded:
+        if recorded not in RISK_ORDER:
+            raise EngineeringError(f"Unknown recorded risk: {recorded}")
+        if RISK_ORDER[recorded] > RISK_ORDER[highest]:
+            highest = recorded
     return highest
 
 

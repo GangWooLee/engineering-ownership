@@ -56,6 +56,7 @@ def changed_paths(root: Path) -> list[str]:
                 index += 1
         if (
             not path.startswith(".engineering/evidence/")
+            and not path.startswith(".engineering/handoffs/")
             and not any(part in IGNORED_DIFF_PARTS for part in Path(path).parts)
             and not path.endswith((".pyc", ".pyo"))
         ):

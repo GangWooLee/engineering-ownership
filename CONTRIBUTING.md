@@ -18,8 +18,9 @@ python3 -m unittest discover -s tests -v
 python3 scripts/validate_distribution.py
 ```
 
-Do not add telemetry, network calls, automatic hooks, secret collection, shell
-execution, or path writes outside the repository.
+Do not add telemetry, network calls, blocking or mutating hooks, secret
+collection, shell execution, or path writes outside the repository. Reminder
+hooks must remain opt-in, bounded, read-only, and non-blocking.
 
 ## Principle changes
 
@@ -46,4 +47,3 @@ Refs:
 ```
 
 By participating, you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
-

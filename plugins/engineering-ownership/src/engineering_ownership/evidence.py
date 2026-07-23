@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import re
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -11,7 +11,7 @@ from .model import COMPETENCIES, RISK_ORDER
 
 
 def now_iso() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    return datetime.now().astimezone().replace(microsecond=0).isoformat()
 
 
 def validate_change_id(change_id: str) -> str:
@@ -44,6 +44,11 @@ def validate_evidence(
         raise EngineeringError("Evidence record change_id does not match its filename")
     if data.get("risk") not in RISK_ORDER:
         raise EngineeringError(f"Evidence record '{change_id}' has invalid risk")
+    title = data.get("title")
+    if title is not None and (
+        not isinstance(title, str) or not title.strip() or len(title) > 160
+    ):
+        raise EngineeringError(f"Evidence record '{change_id}' has invalid title")
     competencies = data.get("competencies")
     if (
         not isinstance(competencies, list)
@@ -136,6 +141,7 @@ def list_evidence(root: Path, contract: dict[str, Any]) -> list[dict[str, Any]]:
 
 def new_evidence(
     change_id: str,
+    title: str,
     risk: str,
     competencies: list[str],
     digest: str,
@@ -152,6 +158,7 @@ def new_evidence(
     return {
         "schema_version": 1,
         "change_id": validate_change_id(change_id),
+        "title": title,
         "risk": risk,
         "competencies": sorted(set(competencies)),
         "artifacts": artifacts,

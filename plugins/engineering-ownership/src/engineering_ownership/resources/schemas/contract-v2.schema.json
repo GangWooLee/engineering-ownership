@@ -49,7 +49,12 @@
       "required": ["changes", "decisions", "runbooks", "threat_models", "evidence"],
       "additionalProperties": {"type": "string"}
     },
+    "automation": {
+      "type": "object",
+      "properties": {
+        "session_hooks": {"enum": ["off", "remind"]}
+      }
+    },
     "review_interval_days": {"type": "integer", "minimum": 1, "maximum": 365}
   }
 }
-

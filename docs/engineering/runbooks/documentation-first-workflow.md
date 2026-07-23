@@ -1,4 +1,7 @@
-# Runbook: documentation-first-workflow
+# 2026-07-23 · Documentation-first engineering workflow
+
+Change ID: `documentation-first-workflow`
+Created: `2026-07-23T10:37:55+00:00`
 
 ## Signals and alerts
 

@@ -9,20 +9,20 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).parents[1]
-ARCHIVE = ROOT / "dist" / "engineering-ownership-v0.1.0.zip"
+ARCHIVE = ROOT / "dist" / "engineering-ownership-v0.2.0.zip"
 
 
 class ReleaseCase(unittest.TestCase):
     def build(self) -> str:
         result = subprocess.run(
-            [sys.executable, "scripts/build_release.py", "--version", "0.1.0"],
+            [sys.executable, "scripts/build_release.py", "--version", "0.2.0"],
             cwd=ROOT,
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             check=True,
         )
-        self.assertIn("engineering-ownership-v0.1.0.zip", result.stdout)
+        self.assertIn("engineering-ownership-v0.2.0.zip", result.stdout)
         return hashlib.sha256(ARCHIVE.read_bytes()).hexdigest()
 
     def test_release_archive_is_deterministic_and_clean(self) -> None:
@@ -34,12 +34,15 @@ class ReleaseCase(unittest.TestCase):
         self.assertIn(".codex-plugin/plugin.json", names)
         self.assertIn(".claude-plugin/plugin.json", names)
         self.assertIn("skills/engineering-ownership/SKILL.md", names)
+        self.assertIn("hooks/hooks.json", names)
+        self.assertIn("hooks/ownership_hook.py", names)
+        self.assertIn("bin/engineering", names)
         self.assertTrue(all("__pycache__" not in name for name in names))
         self.assertTrue(all(".egg-info" not in name for name in names))
 
     def test_release_tag_validation_has_no_shell_quoting_dependency(self) -> None:
         valid = subprocess.run(
-            [sys.executable, "scripts/validate_release_tag.py", "v0.1.0"],
+            [sys.executable, "scripts/validate_release_tag.py", "v0.2.0"],
             cwd=ROOT,
             text=True,
             stdout=subprocess.PIPE,
