@@ -19,3 +19,7 @@ Commands and results:
 
 ## References
 
+- Change brief:
+- ADR, when architecturally significant:
+- Runbook or threat model, when required:
+- Issue or prior decision:

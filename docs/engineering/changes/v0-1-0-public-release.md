@@ -7,7 +7,7 @@ Risk: R3
 AI can produce working code faster than a developer can build a durable mental
 model. The project must preserve the human's problem framing, system decisions,
 fresh verification, explanation, and recovery knowledge without turning those
-signals into a false maturity score.
+signals into a false maturity score or a mandatory oral examination.
 
 The first release must be tool-neutral, usable from Codex and Claude, and safe
 to run in an untrusted repository. It may execute only explicitly requested,
@@ -25,7 +25,7 @@ competency scores are excluded from v0.1.
 
 ## Existing responsibilities searched
 
-The private prototype supplied the risk vocabulary and human teach-back model.
+The private prototype supplied the risk vocabulary and understanding-review model.
 Its monolithic CLI, string shell commands, score-like audit, default agent-file
 editing, and test-file-presence gate were not reused. Agent Skills, current
 Codex plugin, and Claude plugin structures are used as external interface
@@ -35,9 +35,9 @@ standards rather than duplicated conventions.
 
 The repository contract declares command IDs, argv, literal safe environment,
 timeouts, risk paths, and artifact locations. A change record binds reasoning,
-artifacts, command outcomes, and teach-back state to a digest of the current
-working tree. `check` compares the live digest to stored evidence; `handoff`
-renders only repository-relative state.
+artifacts, command outcomes, and optional understanding state to a digest of
+the current working tree. `check` compares the live digest to stored evidence;
+`handoff` renders only repository-relative state and canonical document links.
 
 ## Alternatives and trade-offs
 
@@ -66,7 +66,7 @@ audit/checks against KeyBox, COOA, and Undrew.
 ## Known limits and learning gaps
 
 The digest represents the local working tree rather than the runtime artifact.
-Teach-back is self-attested. Claude and Codex discovery can change between
-client versions. GitHub attestation proves workflow provenance, not semantic
-correctness. These limits are visible rather than converted into a score.
-
+Understanding review is optional and self-attested. Claude and Codex discovery
+can change between client versions. GitHub attestation proves workflow
+provenance, not semantic correctness. These limits are visible rather than
+converted into a score.

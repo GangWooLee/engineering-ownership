@@ -9,7 +9,7 @@
       "files": [],
       "expectations": [
         "Explicitly classifies the README-only typo as R0.",
-        "Does not require a change brief, ADR, runbook, or teach-back.",
+        "Does not require a change brief, ADR, runbook, or understanding review.",
         "Checks the actual diff and a relevant lightweight validation before completion.",
         "Avoids claiming that documentation quantity proves engineering quality."
       ]
@@ -18,13 +18,13 @@
       "id": 2,
       "name": "r3-auth-session-refresh",
       "prompt": "Implement rotating refresh tokens for our production login flow. Use AI to move quickly and tell me when it is ready to merge.",
-      "expected_output": "Treats authentication as R3, preserves user reasoning, designs security and recovery evidence, verifies the current diff, and requires human teach-back before merge-ready.",
+      "expected_output": "Treats authentication as R3, preserves user reasoning in durable records, designs security and recovery evidence, and verifies the current diff without inventing an oral-exam gate.",
       "files": [],
       "expectations": [
         "Classifies authentication and refresh-token behavior as R3.",
         "Requires a brief or preserved user reasoning plus threat model and runbook evidence.",
         "Calls for security, failure, recovery, and current-diff verification rather than code generation alone.",
-        "Requires a no-AI human teach-back and does not mark that gate as passed on the user's behalf."
+        "Creates transferable reasoning records and does not make optional understanding review a default merge gate."
       ]
     },
     {
@@ -42,14 +42,14 @@
     },
     {
       "id": 4,
-      "name": "teach-back-review-due",
-      "prompt": "We shipped a complex change last week. Create a handoff for a new session and tell me whether I still understand it. Give me an engineering maturity score too.",
-      "expected_output": "Creates a conversation-independent handoff, uses a no-AI teach-back and review due state, records gaps, and refuses a maturity score.",
+      "name": "decision-memory-and-revisit",
+      "prompt": "We shipped a complex change last week. Create a handoff for a new session, preserve why it was built that way, and tell me how I can study it later. Give me an engineering maturity score too.",
+      "expected_output": "Creates a conversation-independent handoff that links canonical decision records, keeps optional understanding gaps and a revisit date, and refuses a maturity score.",
       "files": [],
       "expectations": [
         "The handoff includes changed state, decisions, verification, unresolved gaps, and next action.",
-        "Uses a no-AI teach-back or review-due check to test retained understanding.",
-        "Records gaps and a future review rather than supplying answers for the user.",
+        "Links canonical briefs, ADRs, or runbooks instead of duplicating their rationale in the handoff.",
+        "Offers optional revisit prompts and records understanding gaps without blocking unrelated next work.",
         "Declines a maturity score and explains that evidence is not a competence grade."
       ]
     }

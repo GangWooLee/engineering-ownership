@@ -1,6 +1,7 @@
 # Competency evidence catalog
 
 Tags describe what a change exercised. They are not grades or maturity levels.
+Do not convert them, artifact counts, or passing checks into a person score.
 
 1. `problem-framing-requirements` — define value, constraints, and acceptance.
 2. `system-data-flow-design` — reason across boundaries, state, and data.
@@ -11,6 +12,5 @@ Tags describe what a change exercised. They are not grades or maturity levels.
 7. `git-delivery-change-management` — ship reviewable, reversible changes.
 8. `explanation-review-handoff` — make decisions and current state transferable.
 
-`engineering status` aggregates evidence, unresolved gaps, and due reviews
-without producing a single score.
-
+`engineering status` aggregates evidence, unresolved gaps, and optional revisit
+dates without producing a single score.

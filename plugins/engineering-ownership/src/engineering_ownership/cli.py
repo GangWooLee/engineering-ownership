@@ -286,8 +286,6 @@ def evidence_gaps(
     for command_id in required:
         if command_id not in passing:
             gaps.append(f"verification '{command_id}' has no passing result for current diff")
-    if RISK_ORDER[risk] >= RISK_ORDER["R2"] and record.get("teach_back", {}).get("status") != "passed":
-        gaps.append("teach-back review has not passed")
     if record.get("diff", {}).get("digest") != current_digest:
         gaps.append("evidence diff digest is stale")
     return gaps
@@ -343,10 +341,17 @@ def command_explain(args: argparse.Namespace) -> int:
     root = repo_root(args.repo)
     contract = read_contract(root)
     record = read_evidence(root, contract, args.change_id)
-    print(f"Teach-back for {record['change_id']} ({record['risk']})")
-    print("Answer without AI supplying the content:")
+    print(f"Optional decision review for {record['change_id']} ({record['risk']})")
+    print("Read the canonical records:")
+    for kind, path in record.get("artifacts", {}).items():
+        print(f"  {kind}: {path}")
+    print("Use these prompts when revisiting the change:")
     for question in EXPLAIN_QUESTIONS:
         print(question)
+    print(
+        "This review records retained understanding or learning gaps; "
+        "it is not a default completion gate."
+    )
     return 0
 
 
@@ -356,16 +361,20 @@ def command_change_review(args: argparse.Namespace) -> int:
     record = read_evidence(root, contract, args.change_id)
     gaps = [redact(item.strip()) for item in args.gap if item.strip()]
     status = args.status
-    review_days = args.review_days or contract.get("review_interval_days", 7)
+    review_days = (
+        args.review_days
+        if args.review_days is not None
+        else contract.get("review_interval_days", 7)
+    )
     if not 1 <= review_days <= 365:
-        raise EngineeringError("review-days must be between 1 and 365")
-    if status == "passed" and gaps:
-        raise EngineeringError("A passed review cannot include gaps")
-    record["teach_back"] = {
+        raise EngineeringError("revisit-days must be between 1 and 365")
+    if status == "reviewed" and gaps:
+        raise EngineeringError("A reviewed state cannot include gaps")
+    record["understanding"] = {
         "status": status,
         "gaps": gaps,
         "reviewed_at": now_iso(),
-        "review_due": (
+        "revisit_after": (
             date.today() + timedelta(days=review_days)
         ).isoformat(),
         "self_attested": True,
@@ -387,21 +396,26 @@ def command_status(args: argparse.Namespace) -> int:
     today = date.today().isoformat()
     shown = 0
     for record in records:
-        teach_back = record.get("teach_back", {})
-        due = teach_back.get("review_due")
+        understanding = record.get("understanding", {})
+        due = understanding.get("revisit_after")
         if args.due and (not due or due > today):
             continue
         stale = record.get("diff", {}).get("digest") != digest
         print(
             f"{record['change_id']}: {record['risk']} "
-            f"review={teach_back.get('status', 'pending')} due={due or '-'} "
+            f"understanding={understanding.get('status', 'not-reviewed')} "
+            f"revisit_after={due or '-'} "
             f"current_diff={'no' if stale else 'yes'}"
         )
+        for kind, path in record.get("artifacts", {}).items():
+            print(f"  {kind}: {path}")
         if record.get("competencies"):
             print(f"  competencies: {', '.join(record['competencies'])}")
         current_gaps = evidence_gaps(root, contract, record, digest)
         for gap in current_gaps:
             print(f"  gap: {redact(str(gap))}")
+        for gap in understanding.get("gaps", []):
+            print(f"  understanding gap: {redact(str(gap))}")
         shown += 1
     if not shown:
         print("No matching change records.")
@@ -428,12 +442,16 @@ def handoff_text(root: Path, contract: dict[str, Any], change: str | None) -> st
         lines.append("- Clean working tree")
     lines.extend(["", "## Change records", ""])
     for record in records:
-        review = record.get("teach_back", {})
+        understanding = record.get("understanding", {})
         lines.append(
             f"- `{record['change_id']}`: risk {record['risk']}; "
-            f"teach-back {review.get('status', 'pending')}; "
-            f"review due {review.get('review_due', '-')}"
+            f"understanding {understanding.get('status', 'not-reviewed')}; "
+            f"revisit after {understanding.get('revisit_after', '-')}"
         )
+        if record.get("artifacts"):
+            lines.append("  - canonical records:")
+            for kind, path in record["artifacts"].items():
+                lines.append(f"    - {kind}: `{path}`")
         if record.get("competencies"):
             lines.append(
                 "  - competencies: " + ", ".join(record["competencies"])
@@ -446,8 +464,8 @@ def handoff_text(root: Path, contract: dict[str, Any], change: str | None) -> st
                     f"{result.get('status', 'unknown')} "
                     f"({'current' if current else 'stale'} diff)"
                 )
-        for gap in review.get("gaps", []):
-            lines.append(f"  - gap: {redact(str(gap))}")
+        for gap in understanding.get("gaps", []):
+            lines.append(f"  - understanding gap: {redact(str(gap))}")
     if not records:
         lines.append("- None")
     lines.extend(
@@ -527,9 +545,9 @@ def build_parser() -> argparse.ArgumentParser:
     start.set_defaults(func=command_change_start)
     review = change_sub.add_parser("review")
     review.add_argument("change_id")
-    review.add_argument("--status", choices=("passed", "gaps"), required=True)
+    review.add_argument("--status", choices=("reviewed", "gaps"), required=True)
     review.add_argument("--gap", action="append", default=[])
-    review.add_argument("--review-days", type=int)
+    review.add_argument("--revisit-days", type=int, dest="review_days")
     review.set_defaults(func=command_change_review)
 
     verify = sub.add_parser("verify", help="Execute argv verification and bind results to the diff")
@@ -543,7 +561,9 @@ def build_parser() -> argparse.ArgumentParser:
     check.add_argument("--change")
     check.set_defaults(func=command_check)
 
-    explain = sub.add_parser("explain", help="Print no-AI teach-back questions")
+    explain = sub.add_parser(
+        "explain", help="Print records and optional decision-review questions"
+    )
     explain.add_argument("change_id")
     explain.set_defaults(func=command_explain)
 

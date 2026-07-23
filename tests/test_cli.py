@@ -143,7 +143,7 @@ class CliCase(unittest.TestCase):
         self.assertEqual(result.returncode, 0)
         self.assertIn("RESULT: ADVISE", result.stdout)
 
-    def test_verify_is_bound_to_current_diff_and_stales_after_change(self) -> None:
+    def test_complete_records_and_current_verification_pass_without_review_gate(self) -> None:
         self.init()
         self.commit_contract()
         (self.root / "app.py").write_text("VALUE = 1\n", encoding="utf-8")
@@ -160,8 +160,6 @@ class CliCase(unittest.TestCase):
         self.fill_artifacts("app-value")
         verified = self.invoke("verify", "app-value")
         self.assertEqual(verified.returncode, 0, verified.stdout + verified.stderr)
-        reviewed = self.invoke("change", "review", "app-value", "--status", "passed")
-        self.assertEqual(reviewed.returncode, 0, reviewed.stderr)
         passed = self.invoke("check", "--mode", "enforce", "--change", "app-value")
         self.assertEqual(passed.returncode, 0, passed.stdout + passed.stderr)
 
@@ -169,6 +167,90 @@ class CliCase(unittest.TestCase):
         stale = self.invoke("check", "--mode", "enforce", "--change", "app-value")
         self.assertEqual(stale.returncode, 1)
         self.assertIn("current diff", stale.stdout)
+
+    def test_optional_understanding_review_records_gaps_without_blocking(self) -> None:
+        self.init()
+        self.commit_contract()
+        (self.root / "app.py").write_text("VALUE = 1\n", encoding="utf-8")
+        self.invoke(
+            "change",
+            "start",
+            "review-later",
+            "--risk",
+            "R2",
+            "--competency",
+            "explanation-review-handoff",
+        )
+        self.fill_artifacts("review-later")
+        verified = self.invoke("verify", "review-later")
+        self.assertEqual(verified.returncode, 0, verified.stderr)
+        reviewed = self.invoke(
+            "change",
+            "review",
+            "review-later",
+            "--status",
+            "gaps",
+            "--gap",
+            "Need to revisit retry ownership.",
+        )
+        self.assertEqual(reviewed.returncode, 0, reviewed.stderr)
+        checked = self.invoke(
+            "check", "--mode", "enforce", "--change", "review-later"
+        )
+        self.assertEqual(checked.returncode, 0, checked.stdout + checked.stderr)
+        status = self.invoke("status")
+        self.assertIn("understanding=gaps", status.stdout)
+        self.assertIn("Need to revisit retry ownership.", status.stdout)
+        invalid_days = self.invoke(
+            "change",
+            "review",
+            "review-later",
+            "--status",
+            "gaps",
+            "--revisit-days",
+            "0",
+        )
+        self.assertEqual(invalid_days.returncode, 2)
+        self.assertIn("revisit-days", invalid_days.stderr)
+
+    def test_prerelease_teach_back_record_is_normalized_on_next_write(self) -> None:
+        self.init()
+        self.commit_contract()
+        (self.root / "app.py").write_text("VALUE = 1\n", encoding="utf-8")
+        self.invoke("change", "start", "legacy-review", "--risk", "R1")
+        path = self.root / ".engineering" / "evidence" / "legacy-review.json"
+        record = json.loads(path.read_text())
+        understanding = record.pop("understanding")
+        record["teach_back"] = {
+            "status": "pending",
+            "gaps": understanding["gaps"],
+            "review_due": understanding["revisit_after"],
+        }
+        path.write_text(json.dumps(record))
+
+        verified = self.invoke("verify", "legacy-review")
+        self.assertEqual(verified.returncode, 0, verified.stderr)
+        normalized = json.loads(path.read_text())
+        self.assertNotIn("teach_back", normalized)
+        self.assertEqual(
+            normalized["understanding"]["status"], "not-reviewed"
+        )
+
+    def test_explain_points_to_records_and_is_an_optional_revisit(self) -> None:
+        self.init()
+        self.commit_contract()
+        (self.root / "app.py").write_text("VALUE = 1\n", encoding="utf-8")
+        self.invoke("change", "start", "decision-review", "--risk", "R2")
+        result = self.invoke("explain", "decision-review")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("Optional decision review", result.stdout)
+        self.assertIn(
+            "docs/engineering/changes/decision-review.md", result.stdout
+        )
+        self.assertIn(
+            "docs/engineering/decisions/decision-review.md", result.stdout
+        )
+        self.assertIn("not a default completion gate", result.stdout)
 
     def test_v1_migration_preview_and_write_preserve_original(self) -> None:
         contract = {
@@ -250,7 +332,7 @@ class CliCase(unittest.TestCase):
         self.assertNotIn(str(Path.home()), result.stdout)
         self.assertIn("Resume safely", result.stdout)
 
-    def test_status_reports_competencies_gaps_and_due_date_without_score(self) -> None:
+    def test_status_reports_competencies_gaps_and_revisit_date_without_score(self) -> None:
         self.init()
         self.commit_contract()
         (self.root / "app.py").write_text("VALUE = 1\n")
@@ -267,7 +349,7 @@ class CliCase(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("testing-debugging", result.stdout)
         self.assertIn("verification 'unit'", result.stdout)
-        self.assertIn("due=", result.stdout)
+        self.assertIn("revisit_after=", result.stdout)
         self.assertNotIn("score", result.stdout.lower())
 
     def test_evidence_stores_no_command_output_or_home_path(self) -> None:

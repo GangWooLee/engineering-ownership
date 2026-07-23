@@ -75,13 +75,44 @@ def validate_evidence(
         for item in verification
     ):
         raise EngineeringError(f"Evidence record '{change_id}' has invalid verification data")
-    teach_back = data.get("teach_back")
-    if not isinstance(teach_back, dict) or teach_back.get("status") not in {
-        "pending",
-        "passed",
-        "gaps",
-    }:
-        raise EngineeringError(f"Evidence record '{change_id}' has invalid teach-back state")
+    understanding = data.get("understanding")
+    if not isinstance(understanding, dict):
+        legacy = data.get("teach_back")
+        legacy_status = legacy.get("status") if isinstance(legacy, dict) else None
+        status_map = {
+            "pending": "not-reviewed",
+            "passed": "reviewed",
+            "gaps": "gaps",
+        }
+        if isinstance(legacy, dict) and legacy_status in status_map:
+            understanding = {
+                "status": status_map[legacy_status],
+                "gaps": legacy.get("gaps", []),
+                "revisit_after": legacy.get("review_due"),
+            }
+            for field in ("reviewed_at", "self_attested"):
+                if field in legacy:
+                    understanding[field] = legacy[field]
+            data = dict(data)
+            data.pop("teach_back", None)
+            data["understanding"] = understanding
+    if (
+        not isinstance(understanding, dict)
+        or understanding.get("status") not in {
+            "not-reviewed",
+            "reviewed",
+            "gaps",
+        }
+        or not isinstance(understanding.get("gaps"), list)
+        or any(
+            not isinstance(item, str)
+            for item in understanding.get("gaps", [])
+        )
+        or not isinstance(understanding.get("revisit_after"), str)
+    ):
+        raise EngineeringError(
+            f"Evidence record '{change_id}' has invalid understanding state"
+        )
     return data
 
 
@@ -126,10 +157,12 @@ def new_evidence(
         "artifacts": artifacts,
         "diff": {"digest": digest, "paths": paths},
         "verification": [],
-        "teach_back": {
-            "status": "pending",
+        "understanding": {
+            "status": "not-reviewed",
             "gaps": [],
-            "review_due": (date.today() + timedelta(days=review_days)).isoformat(),
+            "revisit_after": (
+                date.today() + timedelta(days=review_days)
+            ).isoformat(),
         },
         "created_at": created,
         "updated_at": created,

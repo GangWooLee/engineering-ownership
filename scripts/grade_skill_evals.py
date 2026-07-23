@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKSPACE = ROOT / "engineering-ownership-workspace" / "iteration-1"
+WORKSPACE = ROOT / "engineering-ownership-workspace" / "iteration-2"
 EVALS = json.loads(
     (
         ROOT
@@ -66,7 +66,14 @@ def checks(eval_name: str, text: str) -> list[tuple[bool, str]]:
                     ("current diff", "현재 diff"),
                 ],
             ),
-            contains_all(text, [("teach-back", "teach back"), ("대신 통과", "not mark", "on the user's behalf")]),
+            contains_all(
+                text,
+                [
+                    ("brief", "change record", "변경 기록"),
+                    ("adr", "decision record", "의사결정 기록"),
+                    ("optional", "not block", "not a default", "선택", "차단하지"),
+                ],
+            ),
         ]
     if eval_name == "r2-db-api-stale-verification":
         at_least_r2 = "r2" in lower or "r3" in lower
@@ -76,19 +83,32 @@ def checks(eval_name: str, text: str) -> list[tuple[bool, str]]:
             contains_all(text, [("current diff", "현재 diff", "current working tree"), ("integration", "통합", "runtime")]),
             contains_all(text, [("rollback", "롤백", "recovery", "복구")]),
         ]
-    if eval_name == "teach-back-review-due":
+    if eval_name == "decision-memory-and-revisit":
         handoff = contains_all(
             text,
             [
                 ("handoff",),
-                ("decision", "결정"),
+                ("decision", "adr", "brief", "결정"),
                 ("verification", "검증"),
                 ("gap", "risk", "위험"),
                 ("next", "다음"),
             ],
         )
-        teach = contains_all(text, [("teach-back", "teach back"), ("without ai", "ai 도움 없이", "ai의 답을 받지 않고")])
-        review = contains_all(text, [("gap",), ("review",), ("due", "날짜")])
+        links = contains_all(
+            text,
+            [
+                ("canonical", "source of truth", "정본"),
+                ("link", "pointer", "참조"),
+            ],
+        )
+        review = contains_all(
+            text,
+            [
+                ("gap",),
+                ("revisit", "review", "복습", "재확인"),
+                ("optional", "not block", "선택", "차단하지"),
+            ],
+        )
         decline = any(
             term in lower
             for term in (
@@ -99,7 +119,12 @@ def checks(eval_name: str, text: str) -> list[tuple[bool, str]]:
                 "not a competence grade",
             )
         )
-        return [handoff, teach, review, (decline, "The response declines a maturity score.")]
+        return [
+            handoff,
+            links,
+            review,
+            (decline, "The response declines a maturity score."),
+        ]
     raise ValueError(eval_name)
 
 
@@ -212,9 +237,24 @@ def main() -> int:
         "time_seconds": "n/a",
         "tokens": "n/a",
     }
+    with_passed = sum(
+        run["result"]["passed"]
+        for run in runs
+        if run["configuration"] == "with_skill"
+    )
+    baseline_passed = sum(
+        run["result"]["passed"]
+        for run in runs
+        if run["configuration"] == "without_skill"
+    )
+    total = sum(
+        run["result"]["total"]
+        for run in runs
+        if run["configuration"] == "with_skill"
+    )
     notes = [
-        "With-skill passed all 16 expectations; baseline passed 5 of 16.",
-        "The largest separation was explicit R0/R2/R3 classification, required R3 teach-back, and refusal to turn evidence into a maturity score.",
+        f"With-skill passed {with_passed} of {total} expectations; baseline passed {baseline_passed} of {total}.",
+        "The largest intended separation is risk proportionality, durable decision memory, current-diff evidence, recovery, and refusal to turn evidence into a maturity score.",
         "Both configurations handled proportional README verification and rejected stale tests, so those checks alone do not distinguish the skill.",
         "Time and token metrics are intentionally not compared because the orchestration surface did not expose them.",
     ]
