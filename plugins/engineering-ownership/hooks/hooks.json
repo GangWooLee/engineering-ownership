@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/ownership_hook.py session-start",
+            "timeout": 3,
+            "statusMessage": "Checking engineering ownership context"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/ownership_hook.py stop",
+            "timeout": 3,
+            "statusMessage": "Checking engineering ownership evidence"
+          }
+        ]
+      }
+    ]
+  }
+}

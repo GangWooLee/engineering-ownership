@@ -1,4 +1,7 @@
-# Threat model: v0-1-0-public-release
+# 2026-07-23 · v0.1.0 public release
+
+Change ID: `v0-1-0-public-release`
+Created: `2026-07-23T09:57:33+00:00`
 
 ## Assets and trust boundaries
 
@@ -35,4 +38,3 @@ actions and releases a SHA-256 plus provenance attestation.
 Residual risk remains because any explicitly approved executable can run
 arbitrary project code, a human can falsely self-attest understanding, and a
 digest does not prove production equivalence.
-

@@ -45,6 +45,7 @@
   },
   "risk": "R3",
   "schema_version": 1,
+  "title": "Documentation-first engineering workflow",
   "understanding": {
     "gaps": [],
     "revisit_after": "2026-07-30",

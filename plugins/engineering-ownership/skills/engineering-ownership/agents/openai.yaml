@@ -1,7 +1,6 @@
 interface:
   display_name: "Engineering Ownership"
-  short_description: "Own, verify, and explain AI-assisted code"
-  default_prompt: "Apply an evidence-based engineering workflow to this software change."
+  short_description: "Own, verify, and hand off AI-assisted software changes"
+  default_prompt: "Use $engineering-ownership to route this software work through setup, start or resume, verification, and a durable handoff without duplicating other framework artifacts."
 policy:
   allow_implicit_invocation: true
-

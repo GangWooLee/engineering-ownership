@@ -2,18 +2,13 @@
 
 [English](README.md)
 
-Engineering Ownership은 AI로 빠르게 개발하더라도 결과물을 사람이
-이해하고, 설명하고, 운영하고, 유지보수할 수 있도록 돕는 증거 계층입니다.
+AI가 코드를 만드는 속도는 사람이 그 코드를 이해하는 속도보다 빠릅니다.
+Engineering Ownership은 AI로 만든 결과물을 사람이 이해·설명하고,
+장기적으로 유지보수·운영하며, 장애 시 복구할 수 있도록 의사결정과 검증
+근거를 코드에 연결합니다.
 
-다음 네 가지를 하나의 변경 기록으로 연결합니다.
-
-1. 사용자의 선행 사고
-2. 지속 가능한 변경 기록과 아키텍처 의사결정
-3. 현재 diff에서 실제 실행된 검증
-4. 선택적인 이해 공백과 재확인 시점
-
-이 프로젝트는 코드 생성기, 자동 리뷰어, 에이전트 프레임워크, 생산성
-점수표가 아닙니다. 문서가 많다고 역량이 높다고 판정하지도 않습니다.
+기획·TDD·리뷰·QA를 다시 만드는 프레임워크가 아닙니다. 다른 도구의
+산출물을 복제하지 않고 연결하는 `의사결정·검증·운영 책임 계층`입니다.
 
 ## 설치
 
@@ -24,6 +19,9 @@ codex plugin marketplace add GangWooLee/engineering-ownership
 codex plugin add engineering-ownership@engineering-ownership
 ```
 
+Codex는 플러그인 훅 신뢰 여부를 확인합니다. 훅은 알림 전용이며 저장소가
+`session_hooks: remind`를 명시하지 않으면 아무 동작도 하지 않습니다.
+
 ### Claude Code
 
 ```text
@@ -31,7 +29,12 @@ codex plugin add engineering-ownership@engineering-ownership
 /plugin install engineering-ownership@engineering-ownership
 ```
 
-### CLI
+Claude에서는 `/engineering-ownership:engineering-ownership`으로 명시
+호출할 수도 있지만 자연어 암시 호출이 기본 사용 방식입니다.
+
+플러그인에는 스킬이 직접 실행할 CLI가 포함되며 전역 `PATH` 설치가
+필요하지 않습니다. CLI만 독립적으로 쓰는 경우에만 아래 설치가
+필요합니다.
 
 ```bash
 uv tool install git+https://github.com/GangWooLee/engineering-ownership.git
@@ -39,67 +42,59 @@ uv tool install git+https://github.com/GangWooLee/engineering-ownership.git
 pipx install git+https://github.com/GangWooLee/engineering-ownership.git
 ```
 
-### 제거·복구
+## 한 문장으로 시작
 
-도구를 제거해도 저장소의 증거나 애플리케이션 코드는 삭제되지 않습니다.
-
-```bash
-codex plugin remove engineering-ownership@engineering-ownership
-claude plugin uninstall engineering-ownership@engineering-ownership --scope user
-uv tool uninstall engineering-ownership
-# pipx로 설치했다면:
-pipx uninstall engineering-ownership
+```text
+$engineering-ownership 이 기능을 작업해줘
+$engineering-ownership 이전 작업을 이어서 해줘
+$engineering-ownership 병합 전에 확인해줘
 ```
 
-`.engineering/contract.json`은 검토된 소스 제어 상태로 복원합니다. v1을
-마이그레이션했다면 `.engineering/contract.v1.backup.json`을 검토한 뒤
-복원하고, 신뢰할 수 있는 체크아웃에서 다시 검증합니다. 복구 전의 검증
-결과를 재사용하지 않습니다.
+스킬이 setup, start, resume, check, handoff, 선택적 study 중 적절한 흐름을
+고릅니다. 사용자가 CLI 순서를 외울 필요는 없습니다.
 
-## 시작
+## 첫 작업 시나리오
 
-```bash
-engineering init
-# .engineering/contract.json의 예시 argv 명령을 프로젝트에 맞게 검토·수정
+`$engineering-ownership 세션 강제 로그아웃을 구현해줘`라고 요청했다고
+가정합니다.
 
-engineering change start session-refresh \
-  --risk R3 \
-  --competency security-privacy
+1. 아직 설정되지 않은 저장소라면 CI·패키지 명령·위험 경로·기존 지침을
+   읽고 설정안을 한 번에 미리 보여줍니다. 승인 전에는 쓰지 않습니다.
+2. 승인 후 contract와 포인터를 적용하고, 프로젝트 코드를 실행하지 않는
+   `engineering doctor`로 로컬 상태만 진단합니다.
+3. 인증 변경은 R3이므로 날짜가 포함된 Brief·ADR·Threat Model·Runbook에
+   문제, 대안, 장애·복구 방식을 남깁니다.
+4. 비자명한 보안 불변조건을 실제로 강제하는 코드에만 ADR 참조 주석을
+   둡니다.
+5. 검토한 테스트 명령을 명시적으로 실행하고 결과를 현재 diff에
+   결합합니다. 과거의 테스트 성공은 인정하지 않습니다.
+6. 병합 전 위험도, 문서, 코드 참조, 검증의 현재성을 확인합니다.
+7. 다음 세션은 채팅 기억이 아니라 저장소 기록과 handoff만으로 작업을
+   복원합니다.
 
-engineering verify session-refresh
-engineering check --mode advise --change session-refresh
-# 이후 학습·복습이 필요할 때 선택적으로 실행
-engineering explain session-refresh
-engineering change review session-refresh --status reviewed
-engineering handoff --change session-refresh
-```
+전체 흐름은 [한글 튜토리얼](docs/tutorials/first-work.ko.md)에 있습니다.
 
-`init`은 기본적으로 contract만 생성합니다. `AGENTS.md`와 `CLAUDE.md`는
-`--agent-pointers`를 명시했을 때만 수정합니다.
+## v0.2 핵심
 
-## 핵심 원칙
+- setup·start·resume·check·handoff·study를 처리하는 단일 라우터 스킬
+- 선언 위험도를 하한으로 보존하는 R0–R3 모델
+- 날짜·제목·생성 시각이 포함된 변경 및 운영 기록
+- 필요한 코드 지점에만 두는 ADR 참조와 무결성 검사
+- 현재 diff에 결합된 검증, risk 승격, doctor, 저장형 handoff
+- 기본 no-op이며 명시적 opt-in에서만 안내하는 Codex·Claude 훅
 
-- R0–R3 위험도에 비례해 증거를 요구합니다.
-- 테스트 파일의 존재가 아니라 현재 diff에서 실제 통과한 실행만 인정합니다.
-- R2·R3는 의사결정 기록과 현재 검증을 요구하지만 설명 시험으로 다음
-  작업을 차단하지 않습니다.
-- 로컬 기본값은 경고(`advise`)이며 CI 차단(`enforce`)은 명시적으로 켭니다.
-- 훅, MCP, 텔레메트리, 네트워크 전송, 대시보드, 역량 점수는 v0.1에 없습니다.
-- 명령은 shell 문자열이 아니라 argv 배열로 실행하며, 모든 쓰기는 저장소
-  내부로 제한합니다.
+R0 문서 수정에는 불필요한 기록을 요구하지 않습니다. 로컬은 `advise`,
+CI만 명시적으로 `enforce`를 사용합니다.
 
-## 전문가 조직에서 기록을 나누는 방식
+## 안전성
 
-- `docs/engineering/changes/`: 한 변경의 문제, 흐름, 결정, 검증, 한계
-- `docs/engineering/decisions/`: 구조적으로 중요하고 오래가는 ADR
-- 코드 주석: 코드만 보고 알기 어려운 제약과 “왜”
-- 커밋·PR: 하나의 의미 단위, 변경 이유, 검증, 정본 문서 링크
-- `docs/engineering/runbooks/`: 탐지, 진단, 완화, 복구
-- handoff: 다음 사람이나 AI 세션이 재개할 현재 상태와 문서 포인터
+- 설치만으로 프로젝트 명령을 실행하지 않습니다.
+- 알림 훅은 종료 차단, 파일 수정, 검증 실행, 네트워크, 텔레메트리를 하지
+  않습니다.
+- 검증 명령은 shell 문자열이 아닌 argv 배열로 실행합니다.
+- 전체 로그·환경변수·비밀정보·홈 절대경로를 증거에 저장하지 않습니다.
+- 쓰기는 저장소 내부로 제한하고 경로 이탈과 symlink를 거부합니다.
 
-같은 설명을 여러 곳에 복제하지 않고 정본을 링크합니다. `explain`과
-이해 상태 기록은 나중에 복습할 때 사용하는 선택 기능이며 기본 완료
-게이트가 아닙니다.
-
-세부 내용은 [영문 README](README.md), [기여 안내](CONTRIBUTING.md),
-[보안 정책](SECURITY.md)을 참고해주세요.
+[보안 정책](SECURITY.md), [첫 작업 튜토리얼](docs/tutorials/first-work.ko.md),
+[프레임워크 비교](docs/research/2026-07-23-workflow-comparison.md)를
+참고해주세요.

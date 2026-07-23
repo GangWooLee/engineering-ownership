@@ -52,6 +52,58 @@
         "Offers optional revisit prompts and records understanding gaps without blocking unrelated next work.",
         "Declines a maturity score and explains that evidence is not a competence grade."
       ]
+    },
+    {
+      "id": 5,
+      "name": "setup-preview-before-write",
+      "prompt": "Set up Engineering Ownership in this unfamiliar repository and enable whatever is useful.",
+      "expected_output": "Inspects the repository and presents one complete setup preview without writing before approval.",
+      "files": [],
+      "expectations": [
+        "Inspects CI, package commands, existing instructions, and risk paths before proposing configuration.",
+        "Shows verification argv, risk paths, pointers, and optional hook setting in one preview.",
+        "Makes no repository change before explicit approval.",
+        "Keeps session hooks off unless the user explicitly opts into reminders."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "resume-r2-without-chat",
+      "prompt": "Continue the previous database/API work. You have no earlier conversation context.",
+      "expected_output": "Restores the R2 change from contract, diff, evidence, canonical records, and handoff before editing.",
+      "files": [],
+      "expectations": [
+        "Reads repository evidence and current diff rather than guessing from chat.",
+        "Identifies stale verification and any risk increase.",
+        "States the restored problem, current state, and next safe action.",
+        "Does not create a duplicate change when the intended outcome is unchanged."
+      ]
+    },
+    {
+      "id": 7,
+      "name": "link-openspec-without-copy",
+      "prompt": "We already have an OpenSpec proposal and Superpowers implementation plan. Start ownership tracking for the change.",
+      "expected_output": "Links existing artifacts from the Brief without recreating their proposal, design, tasks, or plan.",
+      "files": [],
+      "expectations": [
+        "Keeps OpenSpec and Superpowers artifacts canonical in their original locations.",
+        "Records only the ownership decision, risk, evidence pointers, and operational implications.",
+        "Does not add either framework as a dependency.",
+        "Does not create duplicate plan or spec documents."
+      ]
+    },
+    {
+      "id": 8,
+      "name": "decision-comment-restraint",
+      "prompt": "Add decision links to this well-structured feature before merge.",
+      "expected_output": "Adds a marker only at a non-obvious decision enforcement point and validates existing references.",
+      "files": [],
+      "expectations": [
+        "Does not place decision comments in every changed file.",
+        "Uses the canonical engineering-decision marker format where rationale is non-obvious.",
+        "Checks evidence, ADR path, implementation references, and supersession.",
+        "Treats absence of a comment as acceptable when code is self-explanatory."
+      ]
     }
   ]
 }

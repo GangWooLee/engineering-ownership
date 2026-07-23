@@ -1,4 +1,7 @@
-# Runbook: v0-1-0-public-release
+# 2026-07-23 · v0.1.0 public release
+
+Change ID: `v0-1-0-public-release`
+Created: `2026-07-23T09:57:33+00:00`
 
 ## Signals and alerts
 
