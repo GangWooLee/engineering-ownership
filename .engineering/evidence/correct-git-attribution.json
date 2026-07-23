@@ -1,0 +1,25 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/correct-git-attribution.md",
+    "decision": "docs/engineering/decisions/correct-git-attribution.md",
+    "runbook": "docs/engineering/runbooks/correct-git-attribution.md",
+    "threat_model": "docs/engineering/security/correct-git-attribution.md"
+  },
+  "change_id": "correct-git-attribution",
+  "competencies": [],
+  "created_at": "2026-07-23T21:26:36+09:00",
+  "diff": {
+    "digest": "e54c1729fe1fa63a7c6332497e336401fc66af07d54287b4a005ec92e9406406",
+    "paths": []
+  },
+  "risk": "R3",
+  "schema_version": 1,
+  "title": "Correct public Git attribution and release refs",
+  "understanding": {
+    "gaps": [],
+    "revisit_after": "2026-07-30",
+    "status": "not-reviewed"
+  },
+  "updated_at": "2026-07-23T21:26:36+09:00",
+  "verification": []
+}
