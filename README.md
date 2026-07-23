@@ -8,9 +8,9 @@ AI but still want to understand, explain, operate, and maintain what ships.
 It connects four things that often drift apart:
 
 1. the human's initial reasoning;
-2. the system and data-flow decision;
+2. durable change records and architectural decisions;
 3. verification run against the exact current diff;
-4. a no-AI teach-back and future review date.
+4. optional understanding gaps and a future revisit date.
 
 It is not a best-practices encyclopedia, code generator, autonomous reviewer,
 agent framework, or productivity score. It does not claim that more documents
@@ -94,8 +94,9 @@ engineering change start refresh-session \
 
 engineering verify refresh-session
 engineering check --mode advise --change refresh-session
+# Optional later study:
 engineering explain refresh-session
-engineering change review refresh-session --status passed
+engineering change review refresh-session --status reviewed
 engineering handoff --change refresh-session
 ```
 
@@ -116,7 +117,25 @@ The eight tags are:
 - explanation, review, and handoff.
 
 `engineering status` shows what was exercised, what remains unexplained, and
-what is due for review. It never produces a maturity score.
+what is due for an optional revisit. It never produces a maturity score.
+
+## Where professional engineering knowledge lives
+
+Use one canonical record for each lifetime:
+
+- `docs/engineering/changes/`: one change's problem, flow, decisions,
+  verification, and known limits;
+- `docs/engineering/decisions/`: architecturally significant ADRs with status,
+  alternatives, consequences, and supersession;
+- code comments: only non-obvious local rationale and invariants;
+- commit and pull-request text: atomic delivery context and links to the
+  canonical records;
+- `docs/engineering/runbooks/`: detection, diagnosis, mitigation, and rollback;
+- handoff: current state and pointers for the next human or AI session.
+
+Default `check` requires risk-proportional records and fresh verification. The
+optional understanding review does not block the next change unless a
+repository deliberately adopts a stricter policy.
 
 ## Safety model
 

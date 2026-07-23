@@ -1,22 +1,18 @@
 {
   "artifacts": {
-    "brief": "docs/engineering/changes/v0-1-0-public-release.md",
-    "decision": "docs/engineering/decisions/v0-1-0-public-release.md",
-    "runbook": "docs/engineering/runbooks/v0-1-0-public-release.md",
-    "threat_model": "docs/engineering/security/v0-1-0-public-release.md"
+    "brief": "docs/engineering/changes/documentation-first-workflow.md",
+    "decision": "docs/engineering/decisions/documentation-first-workflow.md",
+    "runbook": "docs/engineering/runbooks/documentation-first-workflow.md",
+    "threat_model": "docs/engineering/security/documentation-first-workflow.md"
   },
-  "change_id": "v0-1-0-public-release",
+  "change_id": "documentation-first-workflow",
   "competencies": [
     "explanation-review-handoff",
     "git-delivery-change-management",
     "problem-framing-requirements",
-    "reliability-observability-recovery",
-    "responsibility-reuse-code-design",
-    "security-privacy",
-    "system-data-flow-design",
-    "testing-debugging"
+    "responsibility-reuse-code-design"
   ],
-  "created_at": "2026-07-23T09:57:33+00:00",
+  "created_at": "2026-07-23T10:37:55+00:00",
   "diff": {
     "digest": "ad9c8e73c1421a0d5881cf0f4f090c6324977591040a207c3aaf6969db6372e9",
     "paths": [
@@ -50,51 +46,47 @@
   "risk": "R3",
   "schema_version": 1,
   "understanding": {
-    "gaps": [
-      "Revisit the CLI safety boundaries and release rollback after hands-on use."
-    ],
-    "reviewed_at": "2026-07-23T10:06:17+00:00",
+    "gaps": [],
     "revisit_after": "2026-07-30",
-    "self_attested": true,
-    "status": "gaps"
+    "status": "not-reviewed"
   },
-  "updated_at": "2026-07-23T10:47:33+00:00",
+  "updated_at": "2026-07-23T10:46:52+00:00",
   "verification": [
     {
       "command_id": "unit",
       "diff_digest": "ad9c8e73c1421a0d5881cf0f4f090c6324977591040a207c3aaf6969db6372e9",
-      "duration_ms": 8080,
+      "duration_ms": 7986,
       "exit_code": 0,
       "status": "passed",
       "timed_out": false,
-      "verified_at": "2026-07-23T10:47:32+00:00"
+      "verified_at": "2026-07-23T10:46:51+00:00"
     },
     {
       "command_id": "distribution",
       "diff_digest": "ad9c8e73c1421a0d5881cf0f4f090c6324977591040a207c3aaf6969db6372e9",
-      "duration_ms": 51,
+      "duration_ms": 52,
       "exit_code": 0,
       "status": "passed",
       "timed_out": false,
-      "verified_at": "2026-07-23T10:47:32+00:00"
+      "verified_at": "2026-07-23T10:46:51+00:00"
     },
     {
       "command_id": "claude-plugin",
       "diff_digest": "ad9c8e73c1421a0d5881cf0f4f090c6324977591040a207c3aaf6969db6372e9",
-      "duration_ms": 1098,
+      "duration_ms": 1027,
       "exit_code": 0,
       "status": "passed",
       "timed_out": false,
-      "verified_at": "2026-07-23T10:47:33+00:00"
+      "verified_at": "2026-07-23T10:46:52+00:00"
     },
     {
       "command_id": "release-package",
       "diff_digest": "ad9c8e73c1421a0d5881cf0f4f090c6324977591040a207c3aaf6969db6372e9",
-      "duration_ms": 55,
+      "duration_ms": 54,
       "exit_code": 0,
       "status": "passed",
       "timed_out": false,
-      "verified_at": "2026-07-23T10:47:33+00:00"
+      "verified_at": "2026-07-23T10:46:52+00:00"
     }
   ]
 }

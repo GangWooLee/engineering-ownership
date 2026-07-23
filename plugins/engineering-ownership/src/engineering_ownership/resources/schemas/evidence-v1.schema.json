@@ -11,7 +11,7 @@
     "artifacts",
     "diff",
     "verification",
-    "teach_back",
+    "understanding",
     "created_at",
     "updated_at"
   ],
@@ -30,9 +30,16 @@
       }
     },
     "verification": {"type": "array"},
-    "teach_back": {"type": "object"},
+    "understanding": {
+      "type": "object",
+      "required": ["status", "gaps", "revisit_after"],
+      "properties": {
+        "status": {"enum": ["not-reviewed", "reviewed", "gaps"]},
+        "gaps": {"type": "array", "items": {"type": "string"}},
+        "revisit_after": {"type": "string"}
+      }
+    },
     "created_at": {"type": "string"},
     "updated_at": {"type": "string"}
   }
 }
-

@@ -1,12 +1,13 @@
 BRIEF = """# Engineering change: {change_id}
 
 Risk: {risk}
+Status: In progress
 
-## User reasoning
+## Problem and intended outcome
 
 <!-- engineering-ownership:fill-required -->
-Describe the problem, desired outcome, constraints, invariants, and your initial
-approach before asking AI to implement it.
+Describe the user or operational problem, desired outcome, constraints,
+invariants, and initial approach before asking AI to implement it.
 
 ## Success and non-goals
 
@@ -16,25 +17,39 @@ State what was reused and why. If similar code was not reused, record why.
 
 ## System and data flow
 
-## Alternatives and trade-offs
+## Decisions and trade-offs
+
+Link any architecturally significant decision record. State which alternative
+was rejected and why.
 
 ## Failure, security, and recovery
 
-## Verification plan
+## Verification evidence
 
 ## Known limits and learning gaps
+
+## References
+
+Link issues, ADRs, commits, pull requests, and relevant external constraints.
 """
 
 ADR = """# Decision: {change_id}
 
+Status: Proposed
+
 ## Context
 
 <!-- engineering-ownership:fill-required -->
+## Options considered
+
 ## Decision
 
-## Alternatives considered
-
 ## Consequences and reversal
+
+## Supersession
+
+Supersedes: None
+Superseded by: None
 """
 
 RUNBOOK = """# Runbook: {change_id}
@@ -68,7 +83,7 @@ POINTER = """<!-- engineering-ownership:start -->
 
 For non-trivial software changes, use the installed `engineering-ownership`
 skill and this repository's `.engineering/contract.json`. Repository rules may
-strengthen these gates, but verification evidence and human explainability
+strengthen these gates, but durable decision records and current verification
 cannot be waived.
 <!-- engineering-ownership:end -->
 """

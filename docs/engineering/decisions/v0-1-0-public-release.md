@@ -13,8 +13,9 @@ repository-root marketplace catalogs for each client. Use a Python standard
 library package for both plugin-bundled and `uv`/`pipx` installation.
 
 Represent commands as argv arrays with bounded timeouts. Bind only command ID,
-outcome, duration, and timestamp to the current diff digest. Keep human
-reasoning in Markdown and machine state in JSON.
+outcome, duration, and timestamp to the current diff digest. Keep durable
+reasoning in Markdown and machine state in JSON. Understanding review is an
+optional learning signal, not a default completion gate.
 
 ## Alternatives considered
 
@@ -31,4 +32,3 @@ reasoning in Markdown and machine state in JSON.
 Plugin manifests and package versions must move together. Users must review and
 configure their contract. The CLI can be removed without changing application
 code; v1 migration preserves its original JSON for reversal.
-
