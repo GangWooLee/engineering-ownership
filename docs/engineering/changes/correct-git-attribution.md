@@ -3,7 +3,7 @@
 Change ID: `correct-git-attribution`
 Created: `2026-07-23T21:26:36+09:00`
 Risk: R3
-Status: In progress
+Status: Completed
 
 ## Problem and intended outcome
 
@@ -54,8 +54,21 @@ failure, or release digest mismatch.
 
 ## Verification evidence
 
-Pending isolated rewrite comparison, atomic ref update, GitHub author
-resolution, CI, release checksum, and provenance verification.
+- Isolated rewrite comparison passed for nine commits: source trees, full
+  messages, author/committer timestamps, names, parent topology, and tag
+  messages/timestamps remained equivalent.
+- Atomic force-with-lease updated `main` and both release tags together.
+- GitHub API resolved all nine authors and committers to `GangWooLee`, with no
+  unresolved identities.
+- CI passed on macOS and Ubuntu with Python 3.11, 3.12, and 3.13:
+  <https://github.com/GangWooLee/engineering-ownership/actions/runs/30007289292>.
+- Rebuilt v0.1.0 and v0.2.0 ZIPs matched the existing public asset digests.
+  Fresh tag-triggered workflows completed tests, builds, and provenance before
+  stopping at the expected "release already exists" create step:
+  <https://github.com/GangWooLee/engineering-ownership/actions/runs/30007289054>
+  and
+  <https://github.com/GangWooLee/engineering-ownership/actions/runs/30007288769>.
+- `gh attestation verify` passed for both rebuilt ZIPs.
 
 ## Known limits and learning gaps
 

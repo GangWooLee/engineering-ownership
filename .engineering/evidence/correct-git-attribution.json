@@ -9,8 +9,12 @@
   "competencies": [],
   "created_at": "2026-07-23T21:26:36+09:00",
   "diff": {
-    "digest": "e54c1729fe1fa63a7c6332497e336401fc66af07d54287b4a005ec92e9406406",
-    "paths": []
+    "digest": "7c39125be966a13f4b09c2247c77debe6ae70d0d8d4bbca268415af3db5571c2",
+    "paths": [
+      "docs/engineering/changes/correct-git-attribution.md",
+      "docs/engineering/decisions/correct-git-attribution.md",
+      "docs/engineering/runbooks/correct-git-attribution.md"
+    ]
   },
   "risk": "R3",
   "schema_version": 1,
@@ -20,6 +24,43 @@
     "revisit_after": "2026-07-30",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-07-23T21:26:36+09:00",
-  "verification": []
+  "updated_at": "2026-07-23T21:32:45+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "7c39125be966a13f4b09c2247c77debe6ae70d0d8d4bbca268415af3db5571c2",
+      "duration_ms": 13932,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-23T21:32:44+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "7c39125be966a13f4b09c2247c77debe6ae70d0d8d4bbca268415af3db5571c2",
+      "duration_ms": 49,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-23T21:32:44+09:00"
+    },
+    {
+      "command_id": "claude-plugin",
+      "diff_digest": "7c39125be966a13f4b09c2247c77debe6ae70d0d8d4bbca268415af3db5571c2",
+      "duration_ms": 1078,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-23T21:32:45+09:00"
+    },
+    {
+      "command_id": "release-package",
+      "diff_digest": "7c39125be966a13f4b09c2247c77debe6ae70d0d8d4bbca268415af3db5571c2",
+      "duration_ms": 55,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-23T21:32:45+09:00"
+    }
+  ]
 }

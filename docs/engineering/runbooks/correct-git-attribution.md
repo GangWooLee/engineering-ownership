@@ -24,6 +24,12 @@ push. Rebuild and replace both Release assets from the restored tag state.
 Verify old commit IDs, CI, checksums, and Release downloads before removing the
 incident status.
 
+The retained remote recovery refs for this operation are:
+
+- `backup/pre-attribution-rewrite-main-20260723-212812`
+- `backup/pre-attribution-rewrite-v0.1.0-20260723-212812`
+- `backup/pre-attribution-rewrite-v0.2.0-20260723-212812`
+
 ## Escalation and data handling
 
 Do not publish the full old or new noreply email, GitHub token, or local backup

@@ -2,7 +2,7 @@
 
 Change ID: `correct-git-attribution`
 Created: `2026-07-23T21:26:36+09:00`
-Status: Proposed
+Status: Accepted
 
 ## Context
 
