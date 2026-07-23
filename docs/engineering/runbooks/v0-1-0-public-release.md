@@ -14,14 +14,23 @@ Do not paste private code or full command output into an issue.
 
 ## Rollback or repair
 
-Disable or uninstall the plugin, uninstall the CLI tool, and restore the
-repository contract from source control. For a migrated v1 contract, copy
-`.engineering/contract.v1.backup.json` back only after reviewing the current
-state. Re-run verification from a trusted checkout.
+Remove the installed clients and CLI:
+
+```bash
+codex plugin remove engineering-ownership@engineering-ownership
+claude plugin uninstall engineering-ownership@engineering-ownership --scope user
+uv tool uninstall engineering-ownership
+# or: pipx uninstall engineering-ownership
+```
+
+These commands do not delete repository evidence or application code. Restore
+the repository contract from reviewed source control. For a migrated v1
+contract, copy `.engineering/contract.v1.backup.json` back only after reviewing
+the current state. Re-run verification from a trusted checkout and do not reuse
+pre-rollback results.
 
 ## Escalation and data handling
 
 Use GitHub private vulnerability reporting. Do not commit secrets or exploit
 details. Coordinate a patched tag and advisory before public disclosure when
 downstream users need time to update.
-

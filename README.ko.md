@@ -39,6 +39,23 @@ uv tool install git+https://github.com/GangWooLee/engineering-ownership.git
 pipx install git+https://github.com/GangWooLee/engineering-ownership.git
 ```
 
+### 제거·복구
+
+도구를 제거해도 저장소의 증거나 애플리케이션 코드는 삭제되지 않습니다.
+
+```bash
+codex plugin remove engineering-ownership@engineering-ownership
+claude plugin uninstall engineering-ownership@engineering-ownership --scope user
+uv tool uninstall engineering-ownership
+# pipx로 설치했다면:
+pipx uninstall engineering-ownership
+```
+
+`.engineering/contract.json`은 검토된 소스 제어 상태로 복원합니다. v1을
+마이그레이션했다면 `.engineering/contract.v1.backup.json`을 검토한 뒤
+복원하고, 신뢰할 수 있는 체크아웃에서 다시 검증합니다. 복구 전의 검증
+결과를 재사용하지 않습니다.
+
 ## 시작
 
 ```bash
@@ -71,4 +88,3 @@ engineering handoff --change session-refresh
 
 세부 내용은 [영문 README](README.md), [기여 안내](CONTRIBUTING.md),
 [보안 정책](SECURITY.md)을 참고해주세요.
-

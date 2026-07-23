@@ -64,6 +64,23 @@ For contributors:
 uv tool install --editable .
 ```
 
+### Uninstall or roll back
+
+Removing the tools does not delete repository evidence or application code:
+
+```bash
+codex plugin remove engineering-ownership@engineering-ownership
+claude plugin uninstall engineering-ownership@engineering-ownership --scope user
+uv tool uninstall engineering-ownership
+# or, when installed with pipx:
+pipx uninstall engineering-ownership
+```
+
+Restore a tracked `.engineering/contract.json` from reviewed source control. If
+v1 was migrated, review and restore
+`.engineering/contract.v1.backup.json`, then verify again from a trusted
+checkout. Do not reuse old verification results after rollback.
+
 ## Quick start
 
 ```bash
@@ -137,4 +154,3 @@ real case, before/after behavior, and evaluation evidence.
 ## License
 
 MIT
-
