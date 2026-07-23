@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/GangWooLee/engineering-ownership/schemas/evidence-v1.schema.json",
+  "title": "Engineering Ownership change evidence v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "change_id",
+    "risk",
+    "competencies",
+    "artifacts",
+    "diff",
+    "verification",
+    "teach_back",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "change_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{1,78}[a-z0-9]$"},
+    "risk": {"enum": ["R0", "R1", "R2", "R3"]},
+    "competencies": {"type": "array", "items": {"type": "string"}},
+    "artifacts": {"type": "object", "additionalProperties": {"type": "string"}},
+    "diff": {
+      "type": "object",
+      "required": ["digest", "paths"],
+      "properties": {
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "paths": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "verification": {"type": "array"},
+    "teach_back": {"type": "object"},
+    "created_at": {"type": "string"},
+    "updated_at": {"type": "string"}
+  }
+}
+

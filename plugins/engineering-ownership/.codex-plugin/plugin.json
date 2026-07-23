@@ -1,0 +1,38 @@
+{
+  "name": "engineering-ownership",
+  "version": "0.1.0",
+  "description": "Evidence-based engineering ownership for AI-assisted software changes",
+  "author": {
+    "name": "GangWooLee",
+    "url": "https://github.com/GangWooLee"
+  },
+  "homepage": "https://github.com/GangWooLee/engineering-ownership",
+  "repository": "https://github.com/GangWooLee/engineering-ownership",
+  "license": "MIT",
+  "keywords": [
+    "engineering",
+    "ai-assisted-development",
+    "verification",
+    "explainability",
+    "handoff"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Engineering Ownership",
+    "shortDescription": "Own, verify, and explain AI-assisted code",
+    "longDescription": "A tool-neutral evidence layer that keeps human engineering judgment, current-diff verification, operations, and teach-back attached to AI-assisted software work.",
+    "developerName": "GangWooLee",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Write"
+    ],
+    "websiteURL": "https://github.com/GangWooLee/engineering-ownership",
+    "supportURL": "https://github.com/GangWooLee/engineering-ownership/issues",
+    "defaultPrompt": [
+      "Start an evidence-backed engineering change",
+      "Check whether this diff is actually verified",
+      "Create a handoff that another session can resume"
+    ]
+  }
+}
+

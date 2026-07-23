@@ -1,0 +1,32 @@
+name: Workflow principle proposal
+description: Propose a reusable engineering-ownership rule grounded in evidence
+title: "[principle] "
+labels: ["workflow"]
+body:
+  - type: textarea
+    id: case
+    attributes:
+      label: Real case
+      description: What project situation exposed the gap?
+    validations:
+      required: true
+  - type: textarea
+    id: before_after
+    attributes:
+      label: Failure before and behavior after
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Verification and evaluation evidence
+    validations:
+      required: true
+  - type: textarea
+    id: burden
+    attributes:
+      label: Cost, limitations, and removal condition
+      description: Explain why this will not overburden R0 work.
+    validations:
+      required: true
+

@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.11"
+      - name: Verify tag matches package
+        run: |
+          test "${GITHUB_REF_NAME}" = "v$(python -c 'from pathlib import Path; import tomllib; print(tomllib.loads(Path(\"pyproject.toml\").read_text())[\"project\"][\"version\"])')"
+      - name: Test
+        run: python -m unittest discover -s tests -v
+        env:
+          PYTHONPATH: plugins/engineering-ownership/src
+      - name: Build release assets
+        run: python scripts/build_release.py --version "${GITHUB_REF_NAME#v}"
+      - uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be
+        with:
+          subject-path: dist/engineering-ownership-${{ github.ref_name }}.zip
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            dist/engineering-ownership-"${GITHUB_REF_NAME}".zip \
+            dist/engineering-ownership-"${GITHUB_REF_NAME}".zip.sha256 \
+            --verify-tag \
+            --title "${GITHUB_REF_NAME}" \
+            --notes-file docs/releases/v0.1.0.md
+

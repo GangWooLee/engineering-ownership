@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "competencies": [
+    {"id": "problem-framing-requirements", "name": "Problem framing and requirements"},
+    {"id": "system-data-flow-design", "name": "System and data-flow design"},
+    {"id": "responsibility-reuse-code-design", "name": "Responsibility, reuse, and code design"},
+    {"id": "testing-debugging", "name": "Testing and debugging"},
+    {"id": "security-privacy", "name": "Security and privacy"},
+    {"id": "reliability-observability-recovery", "name": "Reliability, observability, and recovery"},
+    {"id": "git-delivery-change-management", "name": "Git, delivery, and change management"},
+    {"id": "explanation-review-handoff", "name": "Explanation, review, and handoff"}
+  ]
+}
+

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/GangWooLee/engineering-ownership/schemas/contract-v2.schema.json",
+  "title": "Engineering Ownership contract v2",
+  "type": "object",
+  "required": ["version", "project", "verification", "risk_paths", "artifacts"],
+  "properties": {
+    "version": {"const": 2},
+    "project": {
+      "type": "object",
+      "required": ["name", "kind", "status"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["product", "prototype", "library"]},
+        "status": {"enum": ["active", "portfolio", "coursework", "archived"]}
+      }
+    },
+    "verification": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "argv", "env", "timeout_seconds", "required_for"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$"},
+          "argv": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "env": {"type": "object", "additionalProperties": {"type": "string"}},
+          "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 3600},
+          "required_for": {
+            "type": "array",
+            "items": {"enum": ["R0", "R1", "R2", "R3"]}
+          }
+        }
+      }
+    },
+    "risk_paths": {
+      "type": "object",
+      "required": ["R2", "R3"],
+      "properties": {
+        "R2": {"type": "array", "items": {"type": "string"}},
+        "R3": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "required": ["changes", "decisions", "runbooks", "threat_models", "evidence"],
+      "additionalProperties": {"type": "string"}
+    },
+    "review_interval_days": {"type": "integer", "minimum": 1, "maximum": 365}
+  }
+}
+

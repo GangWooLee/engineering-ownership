@@ -1,0 +1,7 @@
+interface:
+  display_name: "Engineering Ownership"
+  short_description: "Own, verify, and explain AI-assisted code"
+  default_prompt: "Apply an evidence-based engineering workflow to this software change."
+policy:
+  allow_implicit_invocation: true
+
