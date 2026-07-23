@@ -1,0 +1,32 @@
+{
+  "name": "engineering-ownership",
+  "owner": {
+    "name": "GangWooLee"
+  },
+  "description": "Evidence-based engineering ownership for AI-assisted development",
+  "version": "0.1.0",
+  "plugins": [
+    {
+      "name": "engineering-ownership",
+      "source": "./plugins/engineering-ownership",
+      "description": "Keep human engineering judgment, verification, and explainability attached to AI-assisted code",
+      "version": "0.1.0",
+      "author": {
+        "name": "GangWooLee"
+      },
+      "homepage": "https://github.com/GangWooLee/engineering-ownership",
+      "repository": "https://github.com/GangWooLee/engineering-ownership",
+      "license": "MIT",
+      "keywords": [
+        "ai-assisted-development",
+        "engineering",
+        "evidence",
+        "verification",
+        "handoff"
+      ],
+      "category": "development",
+      "strict": true
+    }
+  ]
+}
+

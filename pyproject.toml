@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "engineering-ownership"
+version = "0.1.0"
+description = "Evidence-based engineering ownership for AI-assisted software development"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "GangWooLee" }]
+keywords = ["ai-assisted-development", "engineering", "agent-skills", "codex", "claude"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/GangWooLee/engineering-ownership"
+Repository = "https://github.com/GangWooLee/engineering-ownership"
+Issues = "https://github.com/GangWooLee/engineering-ownership/issues"
+
+[project.scripts]
+engineering = "engineering_ownership.cli:main"
+
+[tool.setuptools]
+package-dir = { "" = "plugins/engineering-ownership/src" }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["plugins/engineering-ownership/src"]
+
+[tool.setuptools.package-data]
+engineering_ownership = ["resources/**/*.json", "resources/**/*.md"]
+
+[tool.unittest]
+start-directory = "tests"
+

@@ -1,0 +1,44 @@
+name: Bug report
+description: Report incorrect or unsafe CLI or plugin behavior
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Observed behavior
+      description: Do not include secrets, private code, or full command logs.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: v0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: client
+    attributes:
+      label: Surface
+      options:
+        - CLI
+        - Codex plugin
+        - Claude Code plugin
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Use a disposable repository and redact local paths.
+    validations:
+      required: true
+

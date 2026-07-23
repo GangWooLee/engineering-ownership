@@ -1,0 +1,66 @@
+{
+  "version": 2,
+  "project": {
+    "name": "engineering-ownership",
+    "kind": "product",
+    "status": "active"
+  },
+  "verification": [
+    {
+      "id": "unit",
+      "argv": ["python3", "-m", "unittest", "discover", "-s", "tests", "-v"],
+      "env": {
+        "PYTHONPATH": "plugins/engineering-ownership/src"
+      },
+      "timeout_seconds": 300,
+      "required_for": ["R1", "R2", "R3"]
+    },
+    {
+      "id": "distribution",
+      "argv": ["python3", "scripts/validate_distribution.py"],
+      "env": {},
+      "timeout_seconds": 60,
+      "required_for": ["R1", "R2", "R3"]
+    },
+    {
+      "id": "claude-plugin",
+      "argv": ["claude", "plugin", "validate", "--strict", "."],
+      "env": {},
+      "timeout_seconds": 60,
+      "required_for": ["R2", "R3"]
+    },
+    {
+      "id": "release-package",
+      "argv": ["python3", "scripts/build_release.py", "--version", "0.1.0"],
+      "env": {},
+      "timeout_seconds": 60,
+      "required_for": ["R2", "R3"]
+    }
+  ],
+  "risk_paths": {
+    "R2": [
+      "plugins/engineering-ownership/skills/**",
+      "plugins/engineering-ownership/.codex-plugin/**",
+      "plugins/engineering-ownership/.claude-plugin/**",
+      ".agents/plugins/**",
+      ".claude-plugin/**",
+      "pyproject.toml"
+    ],
+    "R3": [
+      "plugins/engineering-ownership/src/engineering_ownership/cli.py",
+      "plugins/engineering-ownership/src/engineering_ownership/io.py",
+      "plugins/engineering-ownership/src/engineering_ownership/model.py",
+      "plugins/engineering-ownership/src/engineering_ownership/repository.py",
+      ".github/workflows/release.yml"
+    ]
+  },
+  "artifacts": {
+    "changes": "docs/engineering/changes",
+    "decisions": "docs/engineering/decisions",
+    "runbooks": "docs/engineering/runbooks",
+    "threat_models": "docs/engineering/security",
+    "evidence": ".engineering/evidence"
+  },
+  "review_interval_days": 7
+}
+

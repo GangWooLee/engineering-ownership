@@ -1,0 +1,26 @@
+name: Competency catalog proposal
+description: Propose a change to the eight evidence tags without adding scores
+title: "[competency] "
+labels: ["competency"]
+body:
+  - type: textarea
+    id: gap
+    attributes:
+      label: Evidence gap
+      description: Which real work cannot be represented by the current catalog?
+    validations:
+      required: true
+  - type: textarea
+    id: overlap
+    attributes:
+      label: Overlap analysis
+      description: Why can this not be represented by an existing tag?
+    validations:
+      required: true
+  - type: textarea
+    id: examples
+    attributes:
+      label: Positive and negative examples
+    validations:
+      required: true
+

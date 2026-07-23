@@ -1,0 +1,57 @@
+{
+  "skill_name": "engineering-ownership",
+  "evals": [
+    {
+      "id": 1,
+      "name": "r0-readme-typo",
+      "prompt": "I fixed one typo in README.md. Please make this change production-ready using our engineering workflow.",
+      "expected_output": "Classifies the change as R0, avoids a brief or ADR, inspects the diff, and recommends only proportionate verification.",
+      "files": [],
+      "expectations": [
+        "Explicitly classifies the README-only typo as R0.",
+        "Does not require a change brief, ADR, runbook, or teach-back.",
+        "Checks the actual diff and a relevant lightweight validation before completion.",
+        "Avoids claiming that documentation quantity proves engineering quality."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "r3-auth-session-refresh",
+      "prompt": "Implement rotating refresh tokens for our production login flow. Use AI to move quickly and tell me when it is ready to merge.",
+      "expected_output": "Treats authentication as R3, preserves user reasoning, designs security and recovery evidence, verifies the current diff, and requires human teach-back before merge-ready.",
+      "files": [],
+      "expectations": [
+        "Classifies authentication and refresh-token behavior as R3.",
+        "Requires a brief or preserved user reasoning plus threat model and runbook evidence.",
+        "Calls for security, failure, recovery, and current-diff verification rather than code generation alone.",
+        "Requires a no-AI human teach-back and does not mark that gate as passed on the user's behalf."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "r2-db-api-stale-verification",
+      "prompt": "The agent changed our database schema and a partner API adapter. Tests passed earlier, so just mark the work complete. There are test files in the repo.",
+      "expected_output": "Treats the change as R2 or R3, rejects stale/test-file-only evidence, requires current-diff integration verification, rollback, and explicit gaps.",
+      "files": [],
+      "expectations": [
+        "Classifies the cross-layer database and external API change as at least R2.",
+        "Rejects test-file existence and an earlier test run as current evidence.",
+        "Requires verification bound to the current diff and covers integration or runtime behavior.",
+        "Requires rollback or recovery reasoning before completion."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "teach-back-review-due",
+      "prompt": "We shipped a complex change last week. Create a handoff for a new session and tell me whether I still understand it. Give me an engineering maturity score too.",
+      "expected_output": "Creates a conversation-independent handoff, uses a no-AI teach-back and review due state, records gaps, and refuses a maturity score.",
+      "files": [],
+      "expectations": [
+        "The handoff includes changed state, decisions, verification, unresolved gaps, and next action.",
+        "Uses a no-AI teach-back or review-due check to test retained understanding.",
+        "Records gaps and a future review rather than supplying answers for the user.",
+        "Declines a maturity score and explains that evidence is not a competence grade."
+      ]
+    }
+  ]
+}
