@@ -37,7 +37,27 @@ class ReleaseCase(unittest.TestCase):
         self.assertTrue(all("__pycache__" not in name for name in names))
         self.assertTrue(all(".egg-info" not in name for name in names))
 
+    def test_release_tag_validation_has_no_shell_quoting_dependency(self) -> None:
+        valid = subprocess.run(
+            [sys.executable, "scripts/validate_release_tag.py", "v0.1.0"],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+        self.assertEqual(valid.returncode, 0, valid.stderr)
+        invalid = subprocess.run(
+            [sys.executable, "scripts/validate_release_tag.py", "v9.9.9"],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+        self.assertNotEqual(invalid.returncode, 0)
+        self.assertIn("does not match package tag", invalid.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()
-
