@@ -16,9 +16,16 @@ In an isolated `CODEX_HOME`:
 - `engineering-ownership@engineering-ownership` installed as version `0.1.0`;
 - `codex plugin list` reported it enabled.
 
-A model-backed `codex exec` probe reached session startup but could not sample
-because the isolated home had no OpenAI authentication. This is an
-authentication limitation, not a claimed runtime discovery pass.
+After the public repository was added to the user's normal Codex marketplace:
+
+- the plugin installed and remained enabled as version `0.1.0`;
+- a fresh `codex exec` session named the `engineering-ownership` skill and
+  summarized its evidence-based change and review purpose without reading
+  repository files.
+
+The earlier isolated-home model probe could not sample because that temporary
+home had no OpenAI authentication. The authenticated normal-home probe is the
+runtime discovery result.
 
 ## Claude Code
 
@@ -30,3 +37,13 @@ In an isolated `CLAUDE_CONFIG_DIR`:
   `engineering-ownership`;
 - the inventory contained zero agents, hooks, MCP servers, and LSP servers.
 
+After the public repository was added to the user's normal Claude marketplace:
+
+- the plugin installed and remained enabled at user scope as version `0.1.0`;
+- `claude plugin details` again found one skill and zero agents, hooks, MCP
+  servers, and LSP servers.
+
+A fresh model-backed Claude probe could not sample because the existing OAuth
+session had expired and could not be refreshed. Component discovery and strict
+validation passed, but model invocation remains explicitly unverified until
+Claude authentication is renewed.
