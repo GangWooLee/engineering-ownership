@@ -1,0 +1,30 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/describe-when-to-invoke.md",
+    "decision": "docs/engineering/decisions/describe-when-to-invoke.md"
+  },
+  "change_id": "describe-when-to-invoke",
+  "competencies": [
+    "explanation-review-handoff",
+    "problem-framing-requirements",
+    "testing-debugging"
+  ],
+  "created_at": "2026-07-25T16:21:15+09:00",
+  "diff": {
+    "digest": "558e27e1bb88a50b6fa3a44dccc4791c60e659344d64f79bf31edd1618bbaf89",
+    "paths": [
+      "plugins/engineering-ownership/skills/engineering-ownership/evals/triggers.json",
+      "tests/test_evals.py"
+    ]
+  },
+  "risk": "R2",
+  "schema_version": 1,
+  "title": "Describe when to invoke the skill, and measure whether it does",
+  "understanding": {
+    "gaps": [],
+    "revisit_after": "2026-08-01",
+    "status": "not-reviewed"
+  },
+  "updated_at": "2026-07-25T16:21:15+09:00",
+  "verification": []
+}

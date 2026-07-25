@@ -141,6 +141,79 @@ class EvalManifestCase(unittest.TestCase):
                 )
 
 
+class SkillDescriptionCase(unittest.TestCase):
+    """The description is the only text that decides whether the skill is consulted."""
+
+    def description(self) -> str:
+        text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+        match = re.search(r"^description:\s*(.+?)$", text, re.MULTILINE)
+        self.assertIsNotNone(match, "SKILL.md declares no description")
+        return match.group(1).strip()
+
+    def test_description_fits_the_agent_skills_limits(self) -> None:
+        # Rules taken from the reference validator shipped with skill-creator.
+        # They are enforced here because a description that fails them is not
+        # loaded at all, and nothing else in this repository checks them.
+        value = self.description()
+        self.assertLessEqual(len(value), 1024, "description exceeds the 1024 character limit")
+        self.assertNotIn("<", value, "description cannot contain angle brackets")
+        self.assertNotIn(">", value, "description cannot contain angle brackets")
+        self.assertTrue(value.isascii(), "description must be ASCII")
+
+
+class TriggerProbeCase(unittest.TestCase):
+    """Probes for whether the skill is consulted, kept separate from what it does."""
+
+    def probes(self) -> list[dict]:
+        path = SKILL / "evals" / "triggers.json"
+        if not path.is_file():
+            self.skipTest("no trigger probes are present")
+        return json.loads(path.read_text(encoding="utf-8"))["probes"]
+
+    def test_probes_are_well_formed(self) -> None:
+        probes = self.probes()
+        identifiers = [p["id"] for p in probes]
+        self.assertEqual(len(set(identifiers)), len(identifiers), "probe ids repeat")
+        for probe in probes:
+            self.assertRegex(probe["id"], r"^[a-z0-9]+(-[a-z0-9]+)*$")
+            self.assertIn(probe["expect"], {"trigger", "no-trigger", "unscored"})
+            self.assertIn(probe["split"], {"train", "test"})
+            self.assertTrue(probe["query"].strip(), f"{probe['id']} has an empty query")
+            self.assertTrue(probe["query"].isascii(), f"{probe['id']} query is not ASCII")
+
+    def test_both_scored_classes_are_represented(self) -> None:
+        # With positives alone the measurement has recall and no precision, and a
+        # description that fired on everything would score perfectly. That gap is
+        # why this file exists.
+        probes = self.probes()
+        for label in ("trigger", "no-trigger"):
+            count = sum(1 for p in probes if p["expect"] == label)
+            self.assertGreaterEqual(count, 3, f"too few '{label}' probes to estimate a rate")
+
+    def test_the_split_is_stratified(self) -> None:
+        # A split that puts every negative in one half cannot detect over-triggering
+        # in the other.
+        probes = self.probes()
+        for label in ("trigger", "no-trigger"):
+            splits = {p["split"] for p in probes if p["expect"] == label}
+            self.assertEqual(
+                splits,
+                {"train", "test"},
+                f"'{label}' probes do not appear in both splits",
+            )
+
+    def test_probe_queries_are_not_copied_from_the_capability_evals(self) -> None:
+        # Reusing an eval prompt would measure the description against text the
+        # expectations were already written around.
+        prompts = {item["prompt"].strip().lower() for item in load_evals()["evals"]}
+        for probe in self.probes():
+            self.assertNotIn(
+                probe["query"].strip().lower(),
+                prompts,
+                f"{probe['id']} reuses a capability eval prompt",
+            )
+
+
 class EvalGraderCase(unittest.TestCase):
     """Guard the two grader defects that produced the withdrawn result."""
 
