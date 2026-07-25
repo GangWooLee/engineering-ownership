@@ -596,3 +596,41 @@ class PublishedResultCase(unittest.TestCase):
             published["evals"] * published["assertions_per_eval"] * published["n_runs"],
             "published denominator is not the product of its own factors",
         )
+
+    def test_committed_benchmarks_report_tokens_from_timing_records(self) -> None:
+        # The vendored aggregator falls back to output_chars where tokens
+        # belong, and its fallback always fires for this runner. A committed
+        # benchmark that skipped the fix_benchmark.py post-pass would publish
+        # a character count labelled as tokens — off by three orders of
+        # magnitude in the one pilot that hit it.
+        benchmarks = list(WORKSPACE.glob("iteration-*/benchmark.json")) if WORKSPACE.is_dir() else []
+        if not benchmarks:
+            self.skipTest("no benchmarks are committed yet")
+        checked = 0
+        for path in benchmarks:
+            benchmark = json.loads(path.read_text(encoding="utf-8"))
+            for entry in benchmark.get("runs", []):
+                keys = {"eval_id", "configuration", "run_number", "result"}
+                if not keys.issubset(entry):
+                    continue
+                timing_file = (
+                    path.parent
+                    / f"eval-{entry['eval_id']}"
+                    / entry["configuration"]
+                    / f"run-{entry['run_number']}"
+                    / "timing.json"
+                )
+                if not timing_file.is_file():
+                    continue
+                timing = json.loads(timing_file.read_text(encoding="utf-8"))
+                self.assertEqual(
+                    entry["result"].get("tokens"),
+                    timing.get("total_tokens"),
+                    f"{path.relative_to(ROOT)} eval-{entry['eval_id']} "
+                    f"{entry['configuration']} run-{entry['run_number']}: the "
+                    "benchmark's token figure disagrees with timing.json — run "
+                    "scripts/eval/fix_benchmark.py before committing",
+                )
+                checked += 1
+        if not checked:
+            self.skipTest("no benchmark entry has a matching timing record")

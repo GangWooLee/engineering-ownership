@@ -8,7 +8,8 @@
     "evals_run": [
       6
     ],
-    "runs_per_configuration": 3
+    "runs_per_configuration": 1,
+    "corrected": "tokens from timing.json; runs counted, not assumed"
   },
   "runs": [
     {
@@ -21,7 +22,7 @@
         "failed": 1,
         "total": 4,
         "time_seconds": 311.658,
-        "tokens": 1685,
+        "tokens": 3254669,
         "tool_calls": 35,
         "errors": 0
       },
@@ -59,7 +60,7 @@
         "failed": 0,
         "total": 4,
         "time_seconds": 103.565,
-        "tokens": 1486,
+        "tokens": 725974,
         "tool_calls": 10,
         "errors": 0
       },
@@ -103,10 +104,10 @@
         "max": 311.658
       },
       "tokens": {
-        "mean": 1685.0,
+        "mean": 3254669.0,
         "stddev": 0.0,
-        "min": 1685,
-        "max": 1685
+        "min": 3254669,
+        "max": 3254669
       }
     },
     "without_skill": {
@@ -123,17 +124,19 @@
         "max": 103.565
       },
       "tokens": {
-        "mean": 1486.0,
+        "mean": 725974.0,
         "stddev": 0.0,
-        "min": 1486,
-        "max": 1486
+        "min": 725974,
+        "max": 725974
       }
     },
     "delta": {
       "pass_rate": "-0.25",
       "time_seconds": "+208.1",
-      "tokens": "+199"
+      "tokens": "+2528695"
     }
   },
-  "notes": []
+  "notes": [
+    "Pilot data. Not an evaluation result and not a published claim; see PILOT.md."
+  ]
 }
