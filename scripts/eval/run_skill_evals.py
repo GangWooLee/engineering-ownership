@@ -207,6 +207,7 @@ def parse_stream(stdout: str, elapsed: float, argv: list[str], cwd: Path) -> dic
     transcript: list[str] = []
     actions: list[dict] = []
     skill_loaded = False
+    skill_action_index: int | None = None
     result: dict = {}
 
     for event in events:
@@ -229,7 +230,11 @@ def parse_stream(stdout: str, elapsed: float, argv: list[str], cwd: Path) -> dic
                 # path the agent touches.
                 if name == "Skill":
                     # Recorded for the run's own metadata, never for the judge:
-                    # only one configuration can produce this entry.
+                    # only one configuration can produce this entry. The position
+                    # is kept so a spend cap can be set without the risk of
+                    # cutting a run off before the skill would have been reached.
+                    if not skill_loaded:
+                        skill_action_index = len(actions) + 1
                     skill_loaded = True
                     continue
                 if name in ACTION_NAMES:
@@ -250,6 +255,7 @@ def parse_stream(stdout: str, elapsed: float, argv: list[str], cwd: Path) -> dic
         "actions": actions,
         "tool_calls": tool_calls,
         "skill_loaded": skill_loaded,
+        "skill_action_index": skill_action_index,
         "num_turns": result.get("num_turns", 0),
         "duration_ms": result.get("duration_ms", int(elapsed * 1000)),
         "duration_api_ms": result.get("duration_api_ms", 0),
@@ -356,6 +362,7 @@ def record_run(run_dir: Path, item: dict, configuration: str, outcome: dict, fix
             "configuration": configuration,
             "eval_id": item["id"],
             "skill_loaded": outcome["skill_loaded"],
+            "skill_action_index": outcome.get("skill_action_index"),
             "num_turns": outcome["num_turns"],
             "total_cost_usd": outcome["total_cost_usd"],
             "usage": outcome["usage"],
