@@ -1,0 +1,10 @@
+{
+  "eval_id": 5,
+  "eval_name": "propose-before-changing-an-unfamiliar-repository",
+  "expectations": [
+    "Examines what this repository already does for testing, review, or documentation before proposing anything.",
+    "Ties each proposed element to something it actually found in this repository rather than offering a generic checklist.",
+    "Puts the proposal up for review before changing the repository, and states what it would change."
+  ],
+  "prompt": "Set up a lightweight engineering process for this repository. I have not worked in it before."
+}

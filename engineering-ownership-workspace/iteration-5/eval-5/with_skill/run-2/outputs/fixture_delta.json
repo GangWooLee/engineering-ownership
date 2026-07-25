@@ -1,0 +1,16 @@
+{
+  "file_contents": {
+    "AGENTS.md": "# Repository instructions\n\nRun `python3 -m unittest discover -s tests` before pushing. CI runs the same\ncommand on every push and pull request.\nKeep schema changes and adapter changes in separate commits when practical.\nPrefix commit subjects with a type, e.g. `feat: settlement amount units`.\n",
+    "CLAUDE.md": "# CLAUDE.md\n\nThis repository's contributor instructions live in `AGENTS.md` and\n`CONTRIBUTING.md` — follow them.\n\nQuick reference:\n- Test: `python3 -m unittest discover -s tests`\n- Design decisions live in `docs/decisions/` (template: `docs/decisions/TEMPLATE.md`).\n  If a change alters what a note describes, update the note in the same PR.\n",
+    "CONTRIBUTING.md": "# Contributing\n\nRun `python3 -m unittest discover -s tests` before pushing. CI runs the same\ncommand on every push and pull request.\n\nIf a change alters something a design note describes, update the note in the\nsame pull request. Reviewers ask for this. Start new notes from\n`docs/decisions/TEMPLATE.md`.\n\nPull requests use the checklist in `.github/pull_request_template.md`.\n",
+    "docs/decisions/TEMPLATE.md": "# [Short title of the decision]\n\n[Month year], agreed in [where this was agreed].\n\n[What problem forced a decision. Be concrete about the symptom, not just the\nabstract tradeoff.]\n\n[Alternatives considered and why each was rejected. Then the chosen approach\nand why it won.]\n\n[Any rule the reader needs to apply the decision correctly — rounding,\nordering, edge cases.]\n\n[The condition under which this note stops describing what the code should\ndo. Every note should have one.]\n"
+  },
+  "paths_changed_by_run": [
+    ".github/",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "CONTRIBUTING.md",
+    "docs/decisions/TEMPLATE.md"
+  ],
+  "tracked_diff": "diff --git a/AGENTS.md b/AGENTS.md\nindex d22a828..1c5385d 100644\n--- a/AGENTS.md\n+++ b/AGENTS.md\n@@ -1,4 +1,6 @@\n # Repository instructions\n \n-Run `python3 -m unittest discover -s tests` before pushing.\n+Run `python3 -m unittest discover -s tests` before pushing. CI runs the same\n+command on every push and pull request.\n Keep schema changes and adapter changes in separate commits when practical.\n+Prefix commit subjects with a type, e.g. `feat: settlement amount units`.\ndiff --git a/CONTRIBUTING.md b/CONTRIBUTING.md\nindex 6cdde1a..dbb0f2c 100644\n--- a/CONTRIBUTING.md\n+++ b/CONTRIBUTING.md\n@@ -1,6 +1,10 @@\n # Contributing\n \n-Run `python3 -m unittest discover -s tests` before pushing.\n+Run `python3 -m unittest discover -s tests` before pushing. CI runs the same\n+command on every push and pull request.\n \n If a change alters something a design note describes, update the note in the\n-same pull request. Reviewers ask for this.\n+same pull request. Reviewers ask for this. Start new notes from\n+`docs/decisions/TEMPLATE.md`.\n+\n+Pull requests use the checklist in `.github/pull_request_template.md`.\n"
+}

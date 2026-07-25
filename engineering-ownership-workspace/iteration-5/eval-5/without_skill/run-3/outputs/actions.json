@@ -1,0 +1,100 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "ls -la './.git*'"
+    },
+    {
+      "action": "run",
+      "target": "git log"
+    },
+    {
+      "action": "read",
+      "target": "README.md"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "read",
+      "target": "CONTRIBUTING.md"
+    },
+    {
+      "action": "run",
+      "target": "find . './.git*'"
+    },
+    {
+      "action": "read",
+      "target": "docs/decisions/2026-02-settlement-amount-units.md"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "git log src/api/partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "git log docs/decisions/2026-02-settlement-amount-units.md"
+    },
+    {
+      "action": "run",
+      "target": "cat .gitignore;"
+    },
+    {
+      "action": "run",
+      "target": "ls -la .git/hooks"
+    },
+    {
+      "action": "run",
+      "target": "mkdir -p .github/workflows"
+    },
+    {
+      "action": "write",
+      "target": ".github/workflows/ci.yml"
+    },
+    {
+      "action": "write",
+      "target": ".github/PULL_REQUEST_TEMPLATE.md"
+    },
+    {
+      "action": "write",
+      "target": ".githooks/pre-push"
+    },
+    {
+      "action": "read",
+      "target": "docs/decisions/2026-02-settlement-amount-units.md"
+    },
+    {
+      "action": "run",
+      "target": "chmod +x .githooks/pre-push"
+    },
+    {
+      "action": "write",
+      "target": "docs/decisions/TEMPLATE.md"
+    },
+    {
+      "action": "write",
+      "target": "CONTRIBUTING.md"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m .githooks/pre-push"
+    },
+    {
+      "action": "run",
+      "target": "git diff"
+    }
+  ]
+}

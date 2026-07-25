@@ -1,0 +1,52 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "grep -ril 2>/dev/null"
+    },
+    {
+      "action": "read",
+      "target": "docs/decisions/2026-02-settlement-amount-units.md"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "grep -rl 2>/dev/null"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "grep -rn 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "python3 -c (outside the repository)"
+    },
+    {
+      "action": "write",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "write",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m"
+    },
+    {
+      "action": "write",
+      "target": "docs/decisions/2026-02-settlement-amount-units.md"
+    }
+  ]
+}

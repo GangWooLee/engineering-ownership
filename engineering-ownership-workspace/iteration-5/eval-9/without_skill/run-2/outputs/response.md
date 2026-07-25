@@ -1,0 +1,1 @@
+`src/api/partner_adapter.py` now converts every partner's `amount_cents` to an exact fractional currency unit (`Decimal`, 2 decimal places) instead of rounding whole-unit partners and leaving others as raw cents. Removed `WHOLE_UNIT_PARTNERS`/rounding entirely, updated tests, and updated the decision doc to reflect the new contract. Tests pass.

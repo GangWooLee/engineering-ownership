@@ -15,6 +15,9 @@ disagree.
 | `iteration-2` | Pilot | A two-run harness shakedown on one maintenance scenario. **Not an evaluation result and not a published claim.** It exists to show the runner, the fixture, the blinded judge, and the aggregator working end to end, and to record the harness defects it exposed. |
 | `iteration-3` | Harness validation | One scenario, one run per configuration, exercising write-enabled runs and the action-log judge bundle. **Not an evaluation result.** Recorded because it is what showed the changed harness working, and because the judge's critique of an expectation here is why that expectation was split. |
 | `iteration-4` | Fixture check | The ninth scenario repeated on a repository carrying ordinary engineering conventions instead of this skill's artifacts. **Not an evaluation result.** It was built to size a fixture confound and instead recorded that the skill did not engage at all on that repository. |
+| `iteration-5` | Trigger rate | Two scenarios on the unmanaged base, three runs per configuration, run to settle whether `iteration-4`'s single non-engagement was a sample of one. **Not an evaluation result and not an efficacy claim**: it measures only how often the skill engages, never how well a run went. The treatment engaged in none of six runs. |
 
-No quantitative efficacy claim is published from any iteration here. See
+No quantitative efficacy claim is published from any iteration here.
+`iteration-5` publishes a trigger rate, which is a claim about whether the skill
+runs at all and not about what difference it makes. See
 `docs/validation/skill-evaluation.md`.

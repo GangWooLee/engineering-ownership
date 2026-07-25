@@ -1,0 +1,13 @@
+{
+  "file_contents": {
+    "CONTRIBUTING.md": "# Contributing\n\nRun `python3 -m unittest discover -s tests` before pushing. CI runs the same\ncommand on every push and pull request against `main`.\n\nTo have this run automatically, opt into the repo's git hooks once per clone:\n\n    git config core.hooksPath .githooks\n\nIf a change alters something a design note describes, update the note in the\nsame pull request. Reviewers ask for this. Starting a new note? Copy\n`docs/decisions/TEMPLATE.md`.\n\nKeep schema changes and adapter changes in separate commits when practical.\n\nPull requests use the checklist in `.github/PULL_REQUEST_TEMPLATE.md`.\n",
+    "docs/decisions/TEMPLATE.md": "# Title\n\nMonth year, context of the decision (e.g. where it was agreed).\n\nWhat problem forced this decision, in concrete terms (what was breaking, for\nwhom).\n\nWhat options were considered and why each losing option was rejected.\n\nWhat was chosen and why it wins.\n\nAny constraint under which this decision holds. State what would make this\nnote stop describing what the code does.\n"
+  },
+  "paths_changed_by_run": [
+    ".githooks/",
+    ".github/",
+    "CONTRIBUTING.md",
+    "docs/decisions/TEMPLATE.md"
+  ],
+  "tracked_diff": "diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md\nindex 6cdde1a..b05988a 100644\n--- a/CONTRIBUTING.md\n+++ b/CONTRIBUTING.md\n@@ -1,6 +1,16 @@\n # Contributing\n \n-Run `python3 -m unittest discover -s tests` before pushing.\n+Run `python3 -m unittest discover -s tests` before pushing. CI runs the same\n+command on every push and pull request against `main`.\n+\n+To have this run automatically, opt into the repo's git hooks once per clone:\n+\n+    git config core.hooksPath .githooks\n \n If a change alters something a design note describes, update the note in the\n-same pull request. Reviewers ask for this.\n+same pull request. Reviewers ask for this. Starting a new note? Copy\n+`docs/decisions/TEMPLATE.md`.\n+\n+Keep schema changes and adapter changes in separate commits when practical.\n+\n+Pull requests use the checklist in `.github/PULL_REQUEST_TEMPLATE.md`.\n"
+}

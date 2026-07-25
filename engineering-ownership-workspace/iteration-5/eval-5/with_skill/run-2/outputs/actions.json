@@ -1,0 +1,96 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "ls -la 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "git log"
+    },
+    {
+      "action": "run",
+      "target": "echo \"==="
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "docs/decisions/2026-02-settlement-amount-units.md"
+    },
+    {
+      "action": "run",
+      "target": "git show"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m"
+    },
+    {
+      "action": "run",
+      "target": "git remote 2>/dev/null;"
+    },
+    {
+      "action": "run",
+      "target": "ls -la 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "mkdir -p .github/workflows"
+    },
+    {
+      "action": "write",
+      "target": ".github/workflows/ci.yml"
+    },
+    {
+      "action": "write",
+      "target": ".github/pull_request_template.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/decisions/TEMPLATE.md"
+    },
+    {
+      "action": "write",
+      "target": "CLAUDE.md"
+    },
+    {
+      "action": "write",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "write",
+      "target": "CONTRIBUTING.md"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "read",
+      "target": "CONTRIBUTING.md"
+    },
+    {
+      "action": "write",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "write",
+      "target": "CONTRIBUTING.md"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m"
+    }
+  ]
+}

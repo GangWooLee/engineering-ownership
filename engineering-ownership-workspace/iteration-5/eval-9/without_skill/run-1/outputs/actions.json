@@ -1,0 +1,64 @@
+{
+  "actions": [
+    {
+      "action": "search",
+      "target": "settlement"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "docs/decisions/2026-02-settlement-amount-units.md"
+    },
+    {
+      "action": "run",
+      "target": "grep -n ."
+    },
+    {
+      "action": "run",
+      "target": "grep -n README.md"
+    },
+    {
+      "action": "run",
+      "target": "find /private/var/folders/p1/j0wyrz8117sg39nkjhwx2k_00000gn/T/engo-eval-lmatzpyf/eval-9-without_skill-1"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "search",
+      "target": "to_partner_payload|partner_adapter"
+    },
+    {
+      "action": "run",
+      "target": "ls /private/var/folders/p1/j0wyrz8117sg39nkjhwx2k_00000gn/T/engo-eval-lmatzpyf/eval-9-without_skill-1/docs/decisions/"
+    },
+    {
+      "action": "write",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "write",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "write",
+      "target": "docs/decisions/2026-07-settlement-fractional-amounts.md"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m"
+    }
+  ]
+}

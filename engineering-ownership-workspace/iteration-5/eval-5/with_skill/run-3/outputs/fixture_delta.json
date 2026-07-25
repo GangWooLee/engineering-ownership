@@ -1,0 +1,14 @@
+{
+  "file_contents": {
+    "AGENTS.md": "# Repository instructions\n\nRun `python3 -m unittest discover -s tests` (or `make test`) before pushing.\nCI runs the same suite on every push and pull request.\nKeep schema changes and adapter changes in separate commits when practical.\nDesign decisions live in `docs/decisions/`; if a change alters something a\nnote there describes, update the note in the same PR.\n",
+    "CONTRIBUTING.md": "# Contributing\n\nRun `python3 -m unittest discover -s tests` (or `make test`) before pushing.\nCI runs the same suite on every push and pull request.\n\nIf a change alters something a design note describes, update the note in the\nsame pull request. Reviewers ask for this. The pull request template has a\nchecklist for both of these.\n",
+    "Makefile": ".PHONY: test\n\ntest:\n\tpython3 -m unittest discover -s tests -v\n"
+  },
+  "paths_changed_by_run": [
+    ".github/",
+    "AGENTS.md",
+    "CONTRIBUTING.md",
+    "Makefile"
+  ],
+  "tracked_diff": "diff --git a/AGENTS.md b/AGENTS.md\nindex d22a828..2ad539b 100644\n--- a/AGENTS.md\n+++ b/AGENTS.md\n@@ -1,4 +1,7 @@\n # Repository instructions\n \n-Run `python3 -m unittest discover -s tests` before pushing.\n+Run `python3 -m unittest discover -s tests` (or `make test`) before pushing.\n+CI runs the same suite on every push and pull request.\n Keep schema changes and adapter changes in separate commits when practical.\n+Design decisions live in `docs/decisions/`; if a change alters something a\n+note there describes, update the note in the same PR.\ndiff --git a/CONTRIBUTING.md b/CONTRIBUTING.md\nindex 6cdde1a..1894475 100644\n--- a/CONTRIBUTING.md\n+++ b/CONTRIBUTING.md\n@@ -1,6 +1,8 @@\n # Contributing\n \n-Run `python3 -m unittest discover -s tests` before pushing.\n+Run `python3 -m unittest discover -s tests` (or `make test`) before pushing.\n+CI runs the same suite on every push and pull request.\n \n If a change alters something a design note describes, update the note in the\n-same pull request. Reviewers ask for this.\n+same pull request. Reviewers ask for this. The pull request template has a\n+checklist for both of these.\n"
+}

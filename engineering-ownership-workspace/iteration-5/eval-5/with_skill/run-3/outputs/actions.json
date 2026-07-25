@@ -1,0 +1,84 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "ls -la './.git*'"
+    },
+    {
+      "action": "run",
+      "target": "git log"
+    },
+    {
+      "action": "run",
+      "target": "find . './.git*'"
+    },
+    {
+      "action": "read",
+      "target": "README.md"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "read",
+      "target": "CONTRIBUTING.md"
+    },
+    {
+      "action": "run",
+      "target": "ls -la 2>/dev/null;"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "git log src/api/partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m"
+    },
+    {
+      "action": "run",
+      "target": "mkdir -p .github/workflows"
+    },
+    {
+      "action": "write",
+      "target": ".github/workflows/ci.yml"
+    },
+    {
+      "action": "write",
+      "target": ".github/pull_request_template.md"
+    },
+    {
+      "action": "write",
+      "target": "Makefile"
+    },
+    {
+      "action": "write",
+      "target": "CONTRIBUTING.md"
+    },
+    {
+      "action": "write",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "run",
+      "target": "python3 -c 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "git status"
+    }
+  ]
+}
