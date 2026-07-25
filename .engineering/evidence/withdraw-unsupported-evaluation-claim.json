@@ -1,0 +1,55 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/withdraw-unsupported-evaluation-claim.md"
+  },
+  "change_id": "withdraw-unsupported-evaluation-claim",
+  "competencies": [
+    "explanation-review-handoff",
+    "problem-framing-requirements",
+    "testing-debugging"
+  ],
+  "created_at": "2026-07-25T12:41:41+09:00",
+  "diff": {
+    "digest": "f8ab5fe8045930a7380a344b1414ffaaf4a186fdb65c6fb4d3d47ef648297e2a",
+    "paths": [
+      "CHANGELOG.md",
+      "docs/engineering/changes/withdraw-unsupported-evaluation-claim.md",
+      "docs/validation/README.md",
+      "docs/validation/legacy-project-read-only.md",
+      "docs/validation/plugin-discovery.md",
+      "docs/validation/skill-evaluation.md",
+      "docs/validation/v0.2-host-and-skill.md",
+      "scripts/grade_skill_evals.py",
+      "tests/test_evals.py"
+    ]
+  },
+  "risk": "R1",
+  "schema_version": 1,
+  "title": "Withdraw the unsupported skill evaluation claim",
+  "understanding": {
+    "gaps": [],
+    "revisit_after": "2026-08-01",
+    "status": "not-reviewed"
+  },
+  "updated_at": "2026-07-25T12:43:35+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "f8ab5fe8045930a7380a344b1414ffaaf4a186fdb65c6fb4d3d47ef648297e2a",
+      "duration_ms": 16485,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T12:43:35+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "f8ab5fe8045930a7380a344b1414ffaaf4a186fdb65c6fb4d3d47ef648297e2a",
+      "duration_ms": 77,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T12:43:35+09:00"
+    }
+  ]
+}

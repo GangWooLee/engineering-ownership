@@ -1,5 +1,42 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Withdraw the published skill evaluation result. The "16 / 16 versus 5 / 16"
+  comparison is retracted: the two configurations differed in language as well
+  as skill availability, the grader matched on the skill's own vocabulary so no
+  baseline could pass on merit, only four of eight evals were graded, four
+  checks emitted a fixed evidence string regardless of outcome, there was one
+  run per configuration, and the largest reported separation was credited to a
+  mandatory teach-back that `documentation-first-workflow` removed. The number
+  and its defects are preserved in `docs/validation/skill-evaluation.md`. The
+  project publishes no quantitative efficacy claim until a defensible one
+  exists.
+- Give `docs/validation/` a status and supersession convention mirroring the one
+  used for decision records, with an index at `docs/validation/README.md`.
+  `plugin-discovery.md` is marked superseded by the v0.2 host validation.
+
+### Removed
+
+- `scripts/grade_skill_evals.py`. It could not run (it pointed at a workspace
+  directory that does not exist), covered four of eight evals and raised for the
+  rest, and graded by substring-matching the skill's own vocabulary.
+
+### Added
+
+- `tests/test_evals.py`, enforcing that the eval manifest stays English-only and
+  internally consistent, that no grader hardcodes eval names or matches on the
+  skill's private vocabulary, that every validation document declares a status,
+  and that no efficacy number can be published without a committed artifact
+  whose means match it.
+
+### Fixed
+
+- Record previously unlogged post-0.2.0 work: the versioned release-notes path
+  fix, and the Git attribution rewrite with its verification.
+
 ## 0.2.0 - 2026-07-23
 
 - Rework the shared skill into a single setup/start/resume/check/handoff/study
