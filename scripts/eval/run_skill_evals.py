@@ -172,23 +172,42 @@ def action_target(name: str, tool_input: dict, cwd: Path) -> str:
 
     def relative(raw: str) -> str:
         candidate = Path(raw)
+        # A path written with a leading tilde or an unexpanded $HOME is outside
+        # the fixture just as surely as one written from the root, and it is how
+        # the shell reports a home-relative path after redaction. Treating it as
+        # relative left the skill's own directory name sitting in the log.
+        if raw.startswith(("~", "$")):
+            return "(outside the repository)"
         try:
             return candidate.resolve().relative_to(cwd.resolve()).as_posix()
         except (ValueError, OSError):
             return "(outside the repository)" if candidate.is_absolute() else raw
 
+    def looks_like_path(token: str) -> bool:
+        return "/" in token or token.startswith("~") or token.endswith((".py", ".md", ".json"))
+
+    def scrub(text: str) -> str:
+        # Backstop for any token form the pass above did not recognize: nothing
+        # that reaches the judge-visible log may carry the runner's own
+        # directory name, which identifies the configuration on its own.
+        return text.replace(ROOT.name, "(outside the repository)")
+
     if name in {"Read", "Write", "Edit"}:
-        return relative(str(tool_input.get("file_path", "")))
+        return scrub(relative(str(tool_input.get("file_path", ""))))
     if name in {"Glob", "Grep"}:
-        return str(tool_input.get("pattern", ""))[:120]
+        return scrub(str(tool_input.get("pattern", ""))[:120])
     if name == "Bash":
         command = str(tool_input.get("command", "")).strip()
-        # Keep the verb and the first argument that looks like a path. The full
-        # command line can carry absolute paths that name this repository.
-        parts = command.split()
-        head = " ".join(parts[:2])
-        tail = next((relative(p) for p in parts[2:] if "/" in p or p.endswith(".py")), "")
-        return f"{head} {tail}".strip()[:160]
+        # Every token that could be a path goes through the same normalization,
+        # not just the ones after the first argument. A two-word command puts its
+        # path in the second token, which is exactly where the skill's own
+        # reference files were being read from. Quoting must not defeat the
+        # check: `cat "~/x"` carries the same path as `cat ~/x`.
+        parts = []
+        for token in command.split():
+            bare = token.strip("\"'")
+            parts.append(relative(bare) if looks_like_path(bare) else token)
+        return scrub(" ".join(parts)[:160])
     return ""
 
 

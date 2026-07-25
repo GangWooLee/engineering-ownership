@@ -328,6 +328,47 @@ class JudgeBlindingCase(unittest.TestCase):
                 f"{path.relative_to(ROOT)} identifies the configuration: {leaks}",
             )
 
+    def test_action_targets_never_carry_the_runner_location(self) -> None:
+        # A live sweep recorded `cat ~/engineering-ownership/...` verbatim: the
+        # token pass recognized bare tilde paths but not quoted or $HOME forms.
+        # Every shell-quoting shape of the runner's own location must leave the
+        # judge-visible target, including forms not anticipated here.
+        import importlib.util
+        import sys
+
+        eval_dir = ROOT / "scripts" / "eval"
+        path = eval_dir / "run_skill_evals.py"
+        if not path.is_file():
+            self.skipTest("no runner is present")
+        sys.path.insert(0, str(eval_dir))
+        try:
+            spec = importlib.util.spec_from_file_location("_runner_under_test", path)
+            runner = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(runner)
+        finally:
+            sys.path.remove(str(eval_dir))
+
+        marker = ROOT.name
+        home = str(Path.home())
+        cwd = Path("/tmp/fixture-under-test")
+        cases = [
+            ("Bash", {"command": f"cat ~/{marker}/plugins/{marker}/references/start.md"}),
+            ("Bash", {"command": f'cat "~/{marker}/plugins/x.md"'}),
+            ("Bash", {"command": f"cat '$HOME/{marker}/plugins/x.md'"}),
+            ("Bash", {"command": f"find {home}/{marker}/src 2>/dev/null"}),
+            ("Bash", {"command": f"grep -r ownership ~/{marker}/plugins"}),
+            ("Read", {"file_path": f"{home}/{marker}/skills/SKILL.md"}),
+            ("Write", {"file_path": f"notes/{marker}-copy.md"}),
+            ("Grep", {"pattern": marker}),
+        ]
+        for name, tool_input in cases:
+            target = runner.redact(runner.action_target(name, tool_input, cwd))
+            self.assertNotIn(
+                marker,
+                target,
+                f"{name} {tool_input} leaks the runner location: {target!r}",
+            )
+
 
 class FixtureCoverageCase(unittest.TestCase):
     """Fixtures decide which expectations are ever exercised."""
