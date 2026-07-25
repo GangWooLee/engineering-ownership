@@ -1,0 +1,52 @@
+{
+  "expectations": [
+    {
+      "text": "Explicitly classifies the README-only typo as R0.",
+      "passed": false,
+      "evidence": "Missing evidence for: R0"
+    },
+    {
+      "text": "Does not require a change brief, ADR, runbook, or teach-back.",
+      "passed": true,
+      "evidence": "No heavy artifact is required for the typo-only change."
+    },
+    {
+      "text": "Checks the actual diff and a relevant lightweight validation before completion.",
+      "passed": true,
+      "evidence": "Found: diff; lint"
+    },
+    {
+      "text": "Avoids claiming that documentation quantity proves engineering quality.",
+      "passed": true,
+      "evidence": "No documentation-volume quality claim appears."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 1,
+    "total": 4,
+    "pass_rate": 0.75
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 1,
+    "errors_encountered": 0,
+    "output_chars": 507,
+    "transcript_chars": 0
+  },
+  "timing": {
+    "total_duration_seconds": 0.0,
+    "measurement_note": "Subagent timing and token metrics were not exposed by this orchestration surface."
+  },
+  "claims": [],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "Assertions test risk proportionality, current-diff evidence, recovery, and human ownership."
+  }
+}

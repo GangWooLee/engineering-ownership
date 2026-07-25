@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "project": {"name": "orders-service", "kind": "product", "status": "active"},
+  "verification": [
+    {"id": "unit", "argv": ["python3", "-m", "unittest", "discover", "-s", "tests"],
+     "env": {}, "timeout_seconds": 300, "required_for": ["R1", "R2", "R3"]}
+  ],
+  "risk_paths": {
+    "R2": ["src/db/**", "src/api/**"],
+    "R3": ["**/auth/**", "**/secrets/**"]
+  },
+  "artifacts": {
+    "changes": "docs/engineering/changes",
+    "decisions": "docs/engineering/decisions",
+    "runbooks": "docs/engineering/runbooks",
+    "threat_models": "docs/engineering/security",
+    "evidence": ".engineering/evidence",
+    "handoffs": ".engineering/handoffs"
+  },
+  "automation": {"session_hooks": "off"},
+  "review_interval_days": 7
+}

@@ -1,0 +1,3 @@
+Continue the previous database/API work. You have no earlier conversation context.
+
+Respond in English.

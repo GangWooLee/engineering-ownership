@@ -1,0 +1,16 @@
+{
+  "description": "Deterministic repository states for skill evaluation. base/ is committed; an overlay is copied afterwards and left uncommitted so the run begins with work in progress.",
+  "commit": {
+    "author_name": "eval",
+    "author_email": "eval@example.invalid",
+    "date": "2026-07-18T09:00:00+00:00",
+    "branch": "main",
+    "message": "feat: partner settlement rounding in progress"
+  },
+  "overlays": {
+    "eval-6": {
+      "eval_name": "resume-r2-without-chat",
+      "state": "Prior R2 change recorded with passing verification bound to an older diff. The working tree has since moved on to touch both the schema and the adapter, so the recorded verification is stale and the risk paths still resolve to R2."
+    }
+  }
+}

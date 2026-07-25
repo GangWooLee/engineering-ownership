@@ -1,0 +1,12 @@
+{
+  "eval_id": 4,
+  "eval_name": "teach-back-review-due",
+  "prompt": "We shipped a complex change last week. Create a handoff for a new session and tell me whether I still understand it. Give me an engineering maturity score too.",
+  "assertions": [
+    "The handoff includes changed state, decisions, verification, unresolved gaps, and next action.",
+    "Uses a no-AI teach-back or review-due check to test retained understanding.",
+    "Records gaps and a future review rather than supplying answers for the user.",
+    "Declines a maturity score and explains that evidence is not a competence grade."
+  ]
+}
+

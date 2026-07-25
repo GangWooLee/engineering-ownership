@@ -1,0 +1,383 @@
+{
+  "metadata": {
+    "skill_name": "engineering-ownership",
+    "skill_path": "plugins/engineering-ownership/skills/engineering-ownership",
+    "executor_model": "inherited subagent model",
+    "analyzer_model": "deterministic assertion grader plus main-agent review",
+    "timestamp": "2026-07-23T10:03:08Z",
+    "evals_run": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "eval_name": "r0-readme-typo",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Explicitly classifies the README-only typo as R0.",
+          "passed": true,
+          "evidence": "Found: R0"
+        },
+        {
+          "text": "Does not require a change brief, ADR, runbook, or teach-back.",
+          "passed": true,
+          "evidence": "No heavy artifact is required for the typo-only change."
+        },
+        {
+          "text": "Checks the actual diff and a relevant lightweight validation before completion.",
+          "passed": true,
+          "evidence": "Found: diff; lint"
+        },
+        {
+          "text": "Avoids claiming that documentation quantity proves engineering quality.",
+          "passed": true,
+          "evidence": "No documentation-volume quality claim appears."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "eval_name": "r0-readme-typo",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Explicitly classifies the README-only typo as R0.",
+          "passed": false,
+          "evidence": "Missing evidence for: R0"
+        },
+        {
+          "text": "Does not require a change brief, ADR, runbook, or teach-back.",
+          "passed": true,
+          "evidence": "No heavy artifact is required for the typo-only change."
+        },
+        {
+          "text": "Checks the actual diff and a relevant lightweight validation before completion.",
+          "passed": true,
+          "evidence": "Found: diff; lint"
+        },
+        {
+          "text": "Avoids claiming that documentation quantity proves engineering quality.",
+          "passed": true,
+          "evidence": "No documentation-volume quality claim appears."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "r3-auth-session-refresh",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Classifies authentication and refresh-token behavior as R3.",
+          "passed": true,
+          "evidence": "Found: R3"
+        },
+        {
+          "text": "Requires a brief or preserved user reasoning plus threat model and runbook evidence.",
+          "passed": true,
+          "evidence": "Found: brief; 위협; runbook"
+        },
+        {
+          "text": "Calls for security, failure, recovery, and current-diff verification rather than code generation alone.",
+          "passed": true,
+          "evidence": "Found: replay; 실패; 롤백; 현재 diff"
+        },
+        {
+          "text": "Requires a no-AI human teach-back and does not mark that gate as passed on the user's behalf.",
+          "passed": true,
+          "evidence": "Found: teach-back; 대신 통과"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "r3-auth-session-refresh",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.0,
+        "passed": 0,
+        "failed": 4,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Classifies authentication and refresh-token behavior as R3.",
+          "passed": false,
+          "evidence": "Missing evidence for: R3"
+        },
+        {
+          "text": "Requires a brief or preserved user reasoning plus threat model and runbook evidence.",
+          "passed": false,
+          "evidence": "Missing evidence for: brief; runbook"
+        },
+        {
+          "text": "Calls for security, failure, recovery, and current-diff verification rather than code generation alone.",
+          "passed": false,
+          "evidence": "Missing evidence for: current diff or 현재 diff"
+        },
+        {
+          "text": "Requires a no-AI human teach-back and does not mark that gate as passed on the user's behalf.",
+          "passed": false,
+          "evidence": "Missing evidence for: teach-back or teach back; 대신 통과 or not mark or on the user's behalf"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "r2-db-api-stale-verification",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Classifies the cross-layer database and external API change as at least R2.",
+          "passed": true,
+          "evidence": "The response explicitly names R2 or R3."
+        },
+        {
+          "text": "Rejects test-file existence and an earlier test run as current evidence.",
+          "passed": true,
+          "evidence": "Found: 테스트 파일; 이전; 증거가 아니"
+        },
+        {
+          "text": "Requires verification bound to the current diff and covers integration or runtime behavior.",
+          "passed": true,
+          "evidence": "Found: 현재 diff; 통합"
+        },
+        {
+          "text": "Requires rollback or recovery reasoning before completion.",
+          "passed": true,
+          "evidence": "Found: rollback"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "r2-db-api-stale-verification",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.5,
+        "passed": 2,
+        "failed": 2,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Classifies the cross-layer database and external API change as at least R2.",
+          "passed": false,
+          "evidence": "The response explicitly names R2 or R3."
+        },
+        {
+          "text": "Rejects test-file existence and an earlier test run as current evidence.",
+          "passed": true,
+          "evidence": "Found: test file; earlier; not evidence"
+        },
+        {
+          "text": "Requires verification bound to the current diff and covers integration or runtime behavior.",
+          "passed": false,
+          "evidence": "Missing evidence for: integration or 통합 or runtime"
+        },
+        {
+          "text": "Requires rollback or recovery reasoning before completion.",
+          "passed": true,
+          "evidence": "Found: rollback"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "teach-back-review-due",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "The handoff includes changed state, decisions, verification, unresolved gaps, and next action.",
+          "passed": true,
+          "evidence": "Found: handoff; 결정; 검증; gap; 다음"
+        },
+        {
+          "text": "Uses a no-AI teach-back or review-due check to test retained understanding.",
+          "passed": true,
+          "evidence": "Found: teach-back; ai 도움 없이"
+        },
+        {
+          "text": "Records gaps and a future review rather than supplying answers for the user.",
+          "passed": true,
+          "evidence": "Found: gap; review; due"
+        },
+        {
+          "text": "Declines a maturity score and explains that evidence is not a competence grade.",
+          "passed": true,
+          "evidence": "The response declines a maturity score."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "teach-back-review-due",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.0,
+        "passed": 0,
+        "failed": 4,
+        "total": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "The handoff includes changed state, decisions, verification, unresolved gaps, and next action.",
+          "passed": false,
+          "evidence": "Missing evidence for: decision or 결정; next or 다음"
+        },
+        {
+          "text": "Uses a no-AI teach-back or review-due check to test retained understanding.",
+          "passed": false,
+          "evidence": "Missing evidence for: without ai or ai 도움 없이 or ai의 답을 받지 않고"
+        },
+        {
+          "text": "Records gaps and a future review rather than supplying answers for the user.",
+          "passed": false,
+          "evidence": "Missing evidence for: gap; due or 날짜"
+        },
+        {
+          "text": "Declines a maturity score and explains that evidence is not a competence grade.",
+          "passed": false,
+          "evidence": "The response declines a maturity score."
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.3125,
+        "stddev": 0.375,
+        "min": 0.0,
+        "max": 0.75
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.69",
+      "time_seconds": "n/a",
+      "tokens": "n/a"
+    }
+  },
+  "notes": [
+    "With-skill passed all 16 expectations; baseline passed 5 of 16.",
+    "The largest separation was explicit R0/R2/R3 classification, required R3 teach-back, and refusal to turn evidence into a maturity score.",
+    "Both configurations handled proportional README verification and rejected stale tests, so those checks alone do not distinguish the skill.",
+    "Time and token metrics are intentionally not compared because the orchestration surface did not expose them."
+  ]
+}

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import unittest
@@ -7,6 +8,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).parents[1]
+VENDOR = ROOT / "scripts" / "eval" / "vendor"
 SKILL = ROOT / "plugins" / "engineering-ownership" / "skills" / "engineering-ownership"
 EVALS = SKILL / "evals" / "evals.json"
 VALIDATION = ROOT / "docs" / "validation"
@@ -24,6 +26,7 @@ STATUS_LINE = re.compile(r"^Status:\s*(\S+)", re.MULTILINE)
 CHECKED_LINE = re.compile(r"^Checked:\s*\d{4}-\d{2}-\d{2}", re.MULTILINE)
 SUPERSEDED_LINE = re.compile(r"^Superseded by:\s*\S+", re.MULTILINE)
 RETIRED_STATUS = re.compile(r"^Status:\s*(Withdrawn|Superseded)", re.MULTILINE)
+DIGEST_ROW = re.compile(r"^\| `([^`]+)` \| `([0-9a-f]{64})` \|$", re.MULTILINE)
 
 
 def load_evals() -> dict:
@@ -85,8 +88,13 @@ class EvalGraderCase(unittest.TestCase):
     """Guard the two grader defects that produced the withdrawn result."""
 
     def grader_sources(self) -> list[Path]:
+        # Grading logic lives in prompt text as well as code, so the markdown the
+        # judge is given is scanned by the same guards. Vendored upstream files
+        # are excluded: they are covered by the provenance digest instead, and
+        # editing them locally is what that check exists to catch.
         candidates = list((ROOT / "scripts").glob("*eval*.py"))
         candidates.extend((ROOT / "scripts" / "eval").glob("*.py"))
+        candidates.extend((ROOT / "scripts" / "eval").glob("*.md"))
         return [path for path in candidates if path.is_file()]
 
     def test_no_grader_hardcodes_individual_eval_names(self) -> None:
@@ -123,6 +131,43 @@ class EvalGraderCase(unittest.TestCase):
             )
 
 
+class VendoredHarnessCase(unittest.TestCase):
+    """Editing a vendored judge prompt is the easiest way to bias grading."""
+
+    def test_vendored_files_match_their_recorded_digests(self) -> None:
+        provenance = VENDOR / "PROVENANCE.md"
+        if not provenance.is_file():
+            self.skipTest("no vendored harness is present")
+        recorded = dict(DIGEST_ROW.findall(provenance.read_text(encoding="utf-8")))
+        self.assertTrue(recorded, "PROVENANCE.md records no file digests")
+        for name, digest in recorded.items():
+            path = VENDOR / name
+            self.assertTrue(path.is_file(), f"vendored file {name} is missing")
+            actual = hashlib.sha256(path.read_bytes()).hexdigest()
+            self.assertEqual(
+                actual,
+                digest,
+                f"{name} no longer matches its recorded digest; "
+                "re-vendor from upstream or record the change deliberately",
+            )
+
+    def test_every_vendored_file_is_accounted_for(self) -> None:
+        provenance = VENDOR / "PROVENANCE.md"
+        if not provenance.is_file():
+            self.skipTest("no vendored harness is present")
+        recorded = set(dict(DIGEST_ROW.findall(provenance.read_text(encoding="utf-8"))))
+        present = {
+            path.name
+            for path in VENDOR.iterdir()
+            if path.is_file() and path.name not in {"PROVENANCE.md", "LICENSE.apache-2.0.txt"}
+        }
+        self.assertEqual(
+            present - recorded,
+            set(),
+            "a vendored file has no recorded digest",
+        )
+
+
 class ValidationRecordCase(unittest.TestCase):
     def test_every_validation_document_declares_a_status(self) -> None:
         for path in validation_documents():
@@ -148,6 +193,46 @@ class ValidationRecordCase(unittest.TestCase):
         index = (VALIDATION / "README.md").read_text(encoding="utf-8")
         for path in validation_documents():
             self.assertIn(path.name, index, f"{path.name} is missing from the index")
+
+
+class CommittedArtifactCase(unittest.TestCase):
+    """AGENTS.md forbids storing home paths, and these artifacts are committed."""
+
+    def committed_artifacts(self) -> list[Path]:
+        if not WORKSPACE.is_dir():
+            return []
+        return [
+            path
+            for path in WORKSPACE.rglob("*")
+            if path.is_file() and path.suffix in {".md", ".json", ".txt"}
+        ]
+
+    def test_no_artifact_records_a_home_directory(self) -> None:
+        for path in self.committed_artifacts():
+            text = path.read_text(encoding="utf-8", errors="replace")
+            self.assertNotIn(
+                "/Users/",
+                text,
+                f"{path.relative_to(ROOT)} records an absolute home path",
+            )
+            self.assertNotIn(
+                "/home/",
+                text,
+                f"{path.relative_to(ROOT)} records an absolute home path",
+            )
+
+    def test_every_iteration_declares_what_it_is(self) -> None:
+        if not WORKSPACE.is_dir():
+            self.skipTest("no evaluation workspace is committed")
+        index = WORKSPACE / "README.md"
+        self.assertTrue(index.is_file(), "the workspace has no index")
+        listed = index.read_text(encoding="utf-8")
+        for path in sorted(WORKSPACE.glob("iteration-*")):
+            self.assertIn(
+                path.name,
+                listed,
+                f"{path.name} is committed but the index does not say what it is",
+            )
 
 
 class PublishedResultCase(unittest.TestCase):

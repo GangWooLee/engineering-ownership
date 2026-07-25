@@ -1,0 +1,52 @@
+{
+  "expectations": [
+    {
+      "text": "The handoff includes changed state, decisions, verification, unresolved gaps, and next action.",
+      "passed": false,
+      "evidence": "Missing evidence for: decision or 결정; next or 다음"
+    },
+    {
+      "text": "Uses a no-AI teach-back or review-due check to test retained understanding.",
+      "passed": false,
+      "evidence": "Missing evidence for: without ai or ai 도움 없이 or ai의 답을 받지 않고"
+    },
+    {
+      "text": "Records gaps and a future review rather than supplying answers for the user.",
+      "passed": false,
+      "evidence": "Missing evidence for: gap; due or 날짜"
+    },
+    {
+      "text": "Declines a maturity score and explains that evidence is not a competence grade.",
+      "passed": false,
+      "evidence": "The response declines a maturity score."
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 4,
+    "total": 4,
+    "pass_rate": 0.0
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 1,
+    "errors_encountered": 0,
+    "output_chars": 995,
+    "transcript_chars": 0
+  },
+  "timing": {
+    "total_duration_seconds": 0.0,
+    "measurement_note": "Subagent timing and token metrics were not exposed by this orchestration surface."
+  },
+  "claims": [],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "Assertions test risk proportionality, current-diff evidence, recovery, and human ownership."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "eval_id": 1,
+  "eval_name": "r0-readme-typo",
+  "prompt": "I fixed one typo in README.md. Please make this change production-ready using our engineering workflow.",
+  "assertions": [
+    "Explicitly classifies the README-only typo as R0.",
+    "Does not require a change brief, ADR, runbook, or teach-back.",
+    "Checks the actual diff and a relevant lightweight validation before completion.",
+    "Avoids claiming that documentation quantity proves engineering quality."
+  ]
+}
+
