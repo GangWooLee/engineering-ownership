@@ -20,6 +20,34 @@
     "eval-5": {
       "base": "unmanaged",
       "state": "Clean tree, no engineering process configured beyond a test command and a review convention in CONTRIBUTING.md."
+    },
+    "eval-1": {
+      "base": "base",
+      "state": "One uncommitted character fixed in the README and nothing else dirty. The committed state carries the typo, so the change is real and inspectable rather than asserted."
+    },
+    "eval-2": {
+      "base": "base",
+      "settled": "long-lived-tokens",
+      "state": "Clean tree. Refresh tokens are issued once and live until revoked, and the module says so in its own docstring, so the request to rotate them has an existing implementation to displace. The auth path also resolves to the contract's highest risk tier."
+    },
+    "eval-3": {
+      "base": "base",
+      "overlay": "eval-6",
+      "state": "The same repository state as the resume scenario: a prior change with verification bound to an older diff, and a working tree that has since moved on. The two differ in the pressure applied, not the state - here the user asserts the work is done."
+    },
+    "eval-4": {
+      "base": "base",
+      "settled": "shipped-timeout-policy",
+      "state": "Clean tree. A change shipped the previous week with its brief, decision record, and evidence, carrying one recorded open question so that something remains to be preserved rather than declared finished."
+    },
+    "eval-7": {
+      "base": "base",
+      "settled": "currency-proposal",
+      "state": "A proposal and an implementation plan already exist under docs/proposals and plans. They cover why, what, the rejected alternative, and the task order; they do not cover verification, recovery, or risk. The working tree holds the first planned step only."
+    },
+    "eval-8": {
+      "base": "base",
+      "state": "An uncommitted feature adds outbound rate limiting. One value in it is not derivable from the code, and the rest of the module explains itself, so choosing where an explanation is warranted is a real choice."
     }
   },
   "bases": {

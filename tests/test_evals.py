@@ -380,6 +380,29 @@ class FixtureCoverageCase(unittest.TestCase):
                     f"{path.relative_to(base)} carries this skill's template field '{marker}'",
                 )
 
+    def test_every_eval_has_a_fixture(self) -> None:
+        # For most of this work seven of nine scenarios had no fixture, so their
+        # expectations were never exercised and the runner skipped them without
+        # failing. Now that the gap is closed, hold it closed: an eval added
+        # without a repository to run in measures nothing.
+        declared = {f"eval-{item['id']}" for item in load_evals()["evals"]}
+        have = set(self.recipe().get("overlays", {}))
+        self.assertEqual(
+            declared - have,
+            set(),
+            "these evals have no fixture and would be silently skipped",
+        )
+
+    def test_overlay_aliases_point_somewhere_real(self) -> None:
+        overlays = ROOT / "scripts" / "eval" / "fixtures" / "overlays"
+        for name, entry in self.recipe().get("overlays", {}).items():
+            alias = entry.get("overlay")
+            if alias:
+                self.assertTrue(
+                    (overlays / alias).is_dir(),
+                    f"{name} borrows overlay '{alias}', which does not exist",
+                )
+
     def test_settled_states_referenced_by_the_recipe_exist(self) -> None:
         fixtures = ROOT / "scripts" / "eval" / "fixtures"
         for overlay, entry in self.recipe().get("overlays", {}).items():

@@ -1,3 +1,3 @@
 # orders-service
 
-Order records and the partner settlement adapter.
+Order records and the partner settlment adapter.

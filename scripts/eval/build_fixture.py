@@ -80,7 +80,12 @@ def build(overlay: str, destination: Path) -> dict:
         raise SystemExit(f"unknown fixture base '{base_name}'")
     # An overlay directory is optional. A scenario that starts from a settled,
     # clean repository has no uncommitted work to lay down.
-    overlay_dir = FIXTURES / "overlays" / overlay
+    #
+    # A scenario may also name another scenario's overlay. Two prompts can put
+    # different pressure on the same repository state - one asserting the work is
+    # done, one arriving with no context at all - and duplicating the files would
+    # let the two drift apart while appearing to test the same thing.
+    overlay_dir = FIXTURES / "overlays" / overlays[overlay].get("overlay", overlay)
 
     if destination.exists():
         shutil.rmtree(destination)
