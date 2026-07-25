@@ -69,9 +69,15 @@ def build(overlay: str, destination: Path) -> dict:
         known = ", ".join(sorted(overlays)) or "none"
         raise SystemExit(f"unknown fixture overlay '{overlay}'; known: {known}")
 
-    base = FIXTURES / "base"
+    # Which repository a scenario starts from decides what it can measure. A
+    # repository already managed by this skill hands any reader the conventions
+    # as a worked example, which is fair when the question is whether the skill
+    # helps inside such a repository, and an answer key when the question is
+    # whether the skill produces the discipline in the first place.
+    base_name = overlays[overlay].get("base", "base")
+    base = FIXTURES / base_name
     if not base.is_dir():
-        raise SystemExit("fixture base directory is missing")
+        raise SystemExit(f"unknown fixture base '{base_name}'")
     # An overlay directory is optional. A scenario that starts from a settled,
     # clean repository has no uncommitted work to lay down.
     overlay_dir = FIXTURES / "overlays" / overlay
@@ -80,7 +86,8 @@ def build(overlay: str, destination: Path) -> dict:
         shutil.rmtree(destination)
     destination.mkdir(parents=True)
 
-    commit = recipe["commit"]
+    commit = dict(recipe["commit"])
+    commit.update(recipe.get("base_commits", {}).get(base_name, {}))
     stamp = commit["date"]
     env = {
         "PATH": subprocess.os.environ.get("PATH", ""),

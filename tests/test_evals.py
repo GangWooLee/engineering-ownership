@@ -249,6 +249,35 @@ class FixtureCoverageCase(unittest.TestCase):
                 f"fixture {overlay} does not correspond to any eval in the manifest",
             )
 
+    def test_the_unmanaged_base_carries_none_of_this_skill_artifacts(self) -> None:
+        # A scenario asking whether the skill produces this discipline cannot
+        # start from a repository that already practises it. The first version of
+        # this fixture shipped a decision document that matched this skill's own
+        # template section for section, including an empty supersession field -
+        # a fill-in-the-blank for the very expectation the scenario grades, and
+        # the reason the baseline scored as well as it did.
+        base = ROOT / "scripts" / "eval" / "fixtures" / "unmanaged"
+        if not base.is_dir():
+            self.skipTest("no unmanaged base is present")
+        markers = ("Superseded by:", "Supersedes:", "Change ID:", "engineering-decision:")
+        for path in base.rglob("*"):
+            if not path.is_file():
+                continue
+            self.assertNotIn(
+                ".engineering",
+                path.as_posix(),
+                "the unmanaged base carries this skill's contract directory",
+            )
+            if path.suffix not in {".md", ".json", ".py"}:
+                continue
+            text = path.read_text(encoding="utf-8", errors="replace")
+            for marker in markers:
+                self.assertNotIn(
+                    marker,
+                    text,
+                    f"{path.relative_to(base)} carries this skill's template field '{marker}'",
+                )
+
     def test_settled_states_referenced_by_the_recipe_exist(self) -> None:
         fixtures = ROOT / "scripts" / "eval" / "fixtures"
         for overlay, entry in self.recipe().get("overlays", {}).items():

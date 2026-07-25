@@ -13,9 +13,22 @@
       "state": "Prior R2 change recorded with passing verification bound to an older diff. The working tree has since moved on to touch both the schema and the adapter, so the recorded verification is stale and the risk paths still resolve to R2."
     },
     "eval-9": {
-      "eval_name": "change-that-contradicts-an-accepted-decision",
-      "state": "Clean tree. The accepted decision record states that amounts are converted to whole units at the adapter boundary, and the code implements it. The requested change contradicts that decision, so the honest response is to supersede it rather than edit the accepted record.",
-      "settled": "whole-unit-conversion"
+      "base": "unmanaged",
+      "settled": "whole-unit-conversion",
+      "state": "Clean tree. A design note records the decision to convert amounts to whole units at the adapter boundary and states the assumption it rests on in prose. The requested change violates that assumption. Nothing in the repository offers a supersession field to fill in, so recording the relationship is a judgment rather than bookkeeping."
+    },
+    "eval-5": {
+      "base": "unmanaged",
+      "state": "Clean tree, no engineering process configured beyond a test command and a review convention in CONTRIBUTING.md."
+    }
+  },
+  "bases": {
+    "base": "A repository already managed by this skill: it carries the contract, the evidence records, and decision documents in this skill's own template. Correct for scenarios asking whether the skill helps inside such a repository.",
+    "unmanaged": "The same service with ordinary engineering conventions and none of this skill's artifacts. Its design note states its own assumption in prose and has no supersession fields to fill in. Correct for scenarios asking whether the skill produces the discipline rather than continuing it."
+  },
+  "base_commits": {
+    "unmanaged": {
+      "message": "feat: settlement amount units"
     }
   }
 }
