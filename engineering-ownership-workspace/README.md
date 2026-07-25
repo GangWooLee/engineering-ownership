@@ -17,6 +17,7 @@ disagree.
 | `iteration-4` | Fixture check | The ninth scenario repeated on a repository carrying ordinary engineering conventions instead of this skill's artifacts. **Not an evaluation result.** It was built to size a fixture confound and instead recorded that the skill did not engage at all on that repository. |
 | `iteration-5` | Trigger rate | Two scenarios on the unmanaged base, three runs per configuration, run to settle whether `iteration-4`'s single non-engagement was a sample of one. **Not an evaluation result and not an efficacy claim**: it measures only how often the skill engages, never how well a run went. The treatment engaged in none of six runs. |
 | `iteration-6` | Trigger probes | Whether the skill is consulted, measured against a frozen probe set with a positive and a negative class, before and after its description was rewritten. **Not an evaluation result**: it says whether the skill runs, never whether running it helps. Runs are filed by a digest of the description they measured. |
+| `iteration-7` | Efficacy, in progress | The first run that asks whether the skill helps rather than whether it runs. Nine scenarios, both configurations, graded by a blinded judge against the rewritten expectations. Incomplete while it is being collected; read its own status note before any figure here. |
 
 No quantitative efficacy claim is published from any iteration here.
 `iteration-5` publishes a trigger rate, which is a claim about whether the skill

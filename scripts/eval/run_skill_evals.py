@@ -403,6 +403,8 @@ def main() -> int:
     parser.add_argument("--runs", type=int, default=3)
     parser.add_argument("--timeout", type=int, default=600)
     parser.add_argument("--skip-preflight", action="store_true")
+    parser.add_argument("--pause", type=int, default=15, help="seconds between runs")
+    parser.add_argument("--resume", action="store_true", help="skip runs already recorded")
     args = parser.parse_args()
 
     if args.runs < 1:
@@ -463,6 +465,12 @@ def main() -> int:
         for index in range(1, args.runs + 1):
             for configuration in CONFIGURATIONS:
                 run_dir = eval_dir / configuration / f"run-{index}"
+                # A full sweep takes hours. Losing it to one interruption, or
+                # paying for it twice, is avoidable: a run that already produced
+                # a response is done.
+                if args.resume and (run_dir / "outputs" / "response.md").is_file():
+                    print(f"skipping {overlay} {configuration} run-{index}: already recorded")
+                    continue
                 cwd = scratch / f"{overlay}-{configuration}-{index}"
                 fixture = build_fixture(overlay, cwd)
                 print(f"running {overlay} {configuration} run-{index} ...")
@@ -477,6 +485,11 @@ def main() -> int:
                 print(f"  {outcome['status']} ({outcome.get('elapsed', 0)}s)")
                 completed += 1
                 shutil.rmtree(cwd, ignore_errors=True)
+                # Eight consecutive runs were once rejected three seconds apart
+                # while working runs were fifteen to twenty seconds apart. A
+                # pause costs little against a run that takes minutes, and a
+                # truncated tail costs a whole condition.
+                time.sleep(args.pause)
 
     shutil.rmtree(scratch, ignore_errors=True)
     print(f"completed {completed} run(s) into {iteration.relative_to(ROOT)}")

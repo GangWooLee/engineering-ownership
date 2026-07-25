@@ -214,7 +214,20 @@ def validity_gate(response: str) -> str:
     return ""
 
 
-def grade_run(run_dir: Path, task: str, expectations: list[str], model: str, timeout: int) -> dict:
+def grade_run(
+    run_dir: Path,
+    task: str,
+    expectations: list[str],
+    model: str,
+    timeout: int,
+    resume: bool = False,
+) -> dict:
+    # Grading a full sweep is one judge call per run. Redoing the ones already
+    # judged pays twice for the same verdict.
+    if resume and (run_dir / "grading.json").is_file():
+        existing = json.loads((run_dir / "grading.json").read_text(encoding="utf-8"))
+        summary = existing.get("summary", {})
+        return {"passed": summary.get("passed", 0), "total": summary.get("total", 0), "cached": True}
     response_path = run_dir / "outputs" / "response.md"
     if not response_path.is_file():
         return {"skipped": "no response recorded"}
@@ -301,6 +314,7 @@ def main() -> int:
     parser.add_argument("--model", required=True, help="judge model id, pinned")
     parser.add_argument("--iteration", default="iteration-2")
     parser.add_argument("--timeout", type=int, default=420)
+    parser.add_argument("--resume", action="store_true", help="skip runs already graded")
     args = parser.parse_args()
 
     iteration = WORKSPACE / args.iteration
@@ -317,10 +331,13 @@ def main() -> int:
         expectations = metadata["expectations"]
         for config_dir in sorted(p for p in eval_dir.iterdir() if p.is_dir()):
             for run_dir in sorted(config_dir.glob("run-*")):
-                outcome = grade_run(run_dir, task, expectations, args.model, args.timeout)
+                outcome = grade_run(
+                    run_dir, task, expectations, args.model, args.timeout, args.resume
+                )
                 label = run_dir.relative_to(iteration)
                 if "passed" in outcome:
-                    print(f"{label}: {outcome['passed']}/{outcome['total']}")
+                    mark = " (cached)" if outcome.get("cached") else ""
+                    print(f"{label}: {outcome['passed']}/{outcome['total']}{mark}")
                     graded += 1
                 else:
                     reason = outcome.get("error") or outcome.get("invalid") or outcome.get("skipped")
