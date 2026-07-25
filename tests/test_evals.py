@@ -16,10 +16,26 @@ WORKSPACE = ROOT / "engineering-ownership-workspace"
 
 ALLOWED_STATUS = {"Current", "Superseded", "Withdrawn"}
 
-# Tokens that belong to this skill's own vocabulary. An evaluation that requires
+# Tokens that belong to this skill's own vocabulary. An expectation that requires
 # them cannot be passed on merit by a baseline that has never seen the skill, so
-# a grader must never match on them. See docs/validation/skill-evaluation.md.
+# neither a grader nor an expectation may depend on them. The risk tiers are
+# included as whole words: a baseline can reason about how risky a change is, but
+# it cannot produce a letter-and-digit label this skill invented.
+# See docs/validation/skill-evaluation.md.
 PRIVATE_VOCABULARY = ("teach-back", "engineering-decision:", "runbook")
+PRIVATE_TIERS = re.compile(r"\bR[0-3]\b")
+
+# An expectation phrased purely as restraint is satisfied by a response that says
+# nothing at all, which is how nine of the withdrawn manifest's expectations
+# became free points. Requiring the response to show it made the choice is what
+# turns restraint into an observable behavior.
+BARE_NEGATIVE = re.compile(
+    r"^(does not|do not|avoids|never|refrains|omits)\b", re.IGNORECASE
+)
+SHOWS_ITS_REASONING = re.compile(
+    r"\b(and (says|states|explains|names)|rather than|instead of|because|why)\b",
+    re.IGNORECASE,
+)
 
 RESULTS_BLOCK = re.compile(r"```json\s*(\{[^`]*?\"with_skill_mean\"[^`]*?\})\s*```", re.DOTALL)
 STATUS_LINE = re.compile(r"^Status:\s*(\S+)", re.MULTILINE)
@@ -63,9 +79,50 @@ class EvalManifestCase(unittest.TestCase):
         for name in names:
             self.assertRegex(name, r"^[a-z0-9]+(-[a-z0-9]+)*$")
 
-    def test_every_eval_carries_the_same_expectation_count(self) -> None:
-        counts = {len(item["expectations"]) for item in self.evals}
-        self.assertEqual(len(counts), 1, f"expectation counts diverge: {sorted(counts)}")
+    def test_every_eval_carries_enough_expectations_to_discriminate(self) -> None:
+        # Counts deliberately vary. Requiring a uniform count forced unrelated
+        # observations to be bundled into one expectation, which is how twelve of
+        # the withdrawn manifest's expectations became unresolvable. The harness
+        # computes the denominator, so it does not need them to match.
+        for item in self.evals:
+            self.assertGreaterEqual(
+                len(item["expectations"]),
+                3,
+                f"{item['name']} has too few expectations to discriminate",
+            )
+
+    def test_no_expectation_requires_the_skill_private_vocabulary(self) -> None:
+        # The withdrawn grader matched on these terms. Moving the same dependency
+        # into the expectation text would reintroduce the defect one layer up:
+        # a baseline that has never seen the skill cannot produce them, so it
+        # could not pass on merit however well it reasoned.
+        for item in self.evals:
+            for index, expectation in enumerate(item["expectations"]):
+                lowered = expectation.lower()
+                for token in PRIVATE_VOCABULARY:
+                    self.assertNotIn(
+                        token,
+                        lowered,
+                        f"{item['name']}.expectations[{index}] requires '{token}'",
+                    )
+                self.assertIsNone(
+                    PRIVATE_TIERS.search(expectation),
+                    f"{item['name']}.expectations[{index}] requires a risk-tier label",
+                )
+
+    def test_no_expectation_is_satisfied_by_silence(self) -> None:
+        # A purely negative expectation passes for a response that never raises
+        # the subject. Restraint is only observable when the response shows it
+        # considered the question and chose.
+        for item in self.evals:
+            for index, expectation in enumerate(item["expectations"]):
+                if BARE_NEGATIVE.match(expectation.strip()) and not SHOWS_ITS_REASONING.search(
+                    expectation
+                ):
+                    self.fail(
+                        f"{item['name']}.expectations[{index}] is phrased as bare "
+                        "restraint; require the response to show it made the choice"
+                    )
 
     def test_prompts_and_expectations_are_english_only(self) -> None:
         # The withdrawn evaluation compared Korean with-skill responses against
@@ -129,6 +186,39 @@ class EvalGraderCase(unittest.TestCase):
                 source.read_text(encoding="utf-8").isascii(),
                 f"{source.name} contains non-ASCII terms; grading must be language-neutral",
             )
+
+
+class FixtureCoverageCase(unittest.TestCase):
+    """Fixtures decide which expectations are ever exercised."""
+
+    def recipe(self) -> dict:
+        path = ROOT / "scripts" / "eval" / "fixtures" / "recipe.json"
+        if not path.is_file():
+            self.skipTest("no fixture recipe is present")
+        return json.loads(path.read_text(encoding="utf-8"))
+
+    def test_every_fixture_belongs_to_a_declared_eval(self) -> None:
+        # An orphaned fixture is a scenario nothing evaluates. The reverse gap -
+        # an eval with no fixture - is real and currently large, but the runner
+        # skips those and each iteration records which evals it actually ran, so
+        # it is reported as evidence rather than hidden behind a red suite.
+        declared = {f"eval-{item['id']}" for item in load_evals()["evals"]}
+        for overlay in self.recipe().get("overlays", {}):
+            self.assertIn(
+                overlay,
+                declared,
+                f"fixture {overlay} does not correspond to any eval in the manifest",
+            )
+
+    def test_settled_states_referenced_by_the_recipe_exist(self) -> None:
+        fixtures = ROOT / "scripts" / "eval" / "fixtures"
+        for overlay, entry in self.recipe().get("overlays", {}).items():
+            settled = entry.get("settled")
+            if settled:
+                self.assertTrue(
+                    (fixtures / "settled" / settled).is_dir(),
+                    f"{overlay} references a settled state that does not exist: {settled}",
+                )
 
 
 class VendoredHarnessCase(unittest.TestCase):

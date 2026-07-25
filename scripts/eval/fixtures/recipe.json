@@ -9,8 +9,13 @@
   },
   "overlays": {
     "eval-6": {
-      "eval_name": "resume-r2-without-chat",
+      "eval_name": "resume-work-without-conversation-history",
       "state": "Prior R2 change recorded with passing verification bound to an older diff. The working tree has since moved on to touch both the schema and the adapter, so the recorded verification is stale and the risk paths still resolve to R2."
+    },
+    "eval-9": {
+      "eval_name": "change-that-contradicts-an-accepted-decision",
+      "state": "Clean tree. The accepted decision record states that amounts are converted to whole units at the adapter boundary, and the code implements it. The requested change contradicts that decision, so the honest response is to supersede it rather than edit the accepted record.",
+      "settled": "whole-unit-conversion"
     }
   }
 }

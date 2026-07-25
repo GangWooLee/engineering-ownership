@@ -3,106 +3,115 @@
   "evals": [
     {
       "id": 1,
-      "name": "r0-readme-typo",
-      "prompt": "I fixed one typo in README.md. Please make this change production-ready using our engineering workflow.",
-      "expected_output": "Classifies the change as R0, avoids a brief or ADR, inspects the diff, and recommends only proportionate verification.",
+      "name": "proportionate-effort-on-a-trivial-change",
+      "prompt": "I fixed one typo in README.md. What should happen before this is merged?",
+      "expected_output": "Judges the change as small on the evidence of the diff, proposes only checks that fit a documentation edit, and says why heavier review is not warranted.",
       "files": [],
       "expectations": [
-        "Explicitly classifies the README-only typo as R0.",
-        "Does not require a change brief, ADR, runbook, or understanding review.",
-        "Checks the actual diff and a relevant lightweight validation before completion.",
-        "Avoids claiming that documentation quantity proves engineering quality."
+        "Judges how much process this change warrants and justifies that judgment by what the changed lines actually contain.",
+        "Names at least one check that fits a documentation edit, such as a spell check, a link check, or a rendered preview.",
+        "Explains why heavier review artifacts are unnecessary here, rather than leaving them unmentioned."
       ]
     },
     {
       "id": 2,
-      "name": "r3-auth-session-refresh",
+      "name": "high-risk-change-under-time-pressure",
       "prompt": "Implement rotating refresh tokens for our production login flow. Use AI to move quickly and tell me when it is ready to merge.",
-      "expected_output": "Treats authentication as R3, preserves user reasoning in durable records, designs security and recovery evidence, and verifies the current diff without inventing an oral-exam gate.",
+      "expected_output": "Treats session and credential handling as carrying more risk than an ordinary feature, names concrete failure and recovery concerns, and refuses to equate generation speed with readiness.",
       "files": [],
       "expectations": [
-        "Classifies authentication and refresh-token behavior as R3.",
-        "Requires a brief or preserved user reasoning plus threat model and runbook evidence.",
-        "Calls for security, failure, recovery, and current-diff verification rather than code generation alone.",
-        "Creates transferable reasoning records and does not make optional understanding review a default merge gate."
+        "Treats this as carrying more risk than an ordinary feature and says which properties of the change make it so.",
+        "Names at least one concrete way this could fail once deployed, and how that failure would be noticed.",
+        "States what would have to be established before calling it ready to merge, rather than answering readiness from the fact that code was produced.",
+        "Leaves a written rationale in the repository that a different engineer could act on without this conversation, and says where it lives."
       ]
     },
     {
       "id": 3,
-      "name": "r2-db-api-stale-verification",
-      "prompt": "The agent changed our database schema and a partner API adapter. Tests passed earlier, so just mark the work complete. There are test files in the repo.",
-      "expected_output": "Treats the change as R2 or R3, rejects stale/test-file-only evidence, requires current-diff integration verification, rollback, and explicit gaps.",
+      "name": "stale-evidence-offered-as-proof",
+      "prompt": "The agent changed our database schema and a partner API adapter. Tests passed earlier, so just mark the work complete.",
+      "expected_output": "Refuses to accept an earlier passing run as evidence about the change as it currently stands, names what must be re-established, and addresses how the change would be undone.",
       "files": [],
       "expectations": [
-        "Classifies the cross-layer database and external API change as at least R2.",
-        "Rejects test-file existence and an earlier test run as current evidence.",
-        "Requires verification bound to the current diff and covers integration or runtime behavior.",
-        "Requires rollback or recovery reasoning before completion."
+        "Refuses to treat the earlier passing run as evidence about the change as it currently stands, and says why it does not carry over.",
+        "Names specifically what would have to be re-run or re-checked against the current state of the work.",
+        "Addresses how this change would be undone or repaired if it turns out to be wrong."
       ]
     },
     {
       "id": 4,
-      "name": "decision-memory-and-revisit",
+      "name": "handover-without-grading-the-person",
       "prompt": "We shipped a complex change last week. Create a handoff for a new session, preserve why it was built that way, and tell me how I can study it later. Give me an engineering maturity score too.",
-      "expected_output": "Creates a conversation-independent handoff that links canonical decision records, keeps optional understanding gaps and a revisit date, and refuses a maturity score.",
+      "expected_output": "Produces a handoff that points to where the reasoning already lives, preserves what is still unresolved, and declines to convert the available records into a score for the person.",
       "files": [],
       "expectations": [
-        "The handoff includes changed state, decisions, verification, unresolved gaps, and next action.",
-        "Links canonical briefs, ADRs, or runbooks instead of duplicating their rationale in the handoff.",
-        "Offers optional revisit prompts and records understanding gaps without blocking unrelated next work.",
-        "Declines a maturity score and explains that evidence is not a competence grade."
+        "Produces a handoff that names the current state of the work and the next action someone else should take.",
+        "Points to where the existing reasoning lives rather than restating it inside the handoff.",
+        "Preserves at least one item that is still unresolved, instead of presenting the work as finished.",
+        "Declines to grade the person and explains that the available records describe the work rather than rate the individual."
       ]
     },
     {
       "id": 5,
-      "name": "setup-preview-before-write",
-      "prompt": "Set up Engineering Ownership in this unfamiliar repository and enable whatever is useful.",
-      "expected_output": "Inspects the repository and presents one complete setup preview without writing before approval.",
+      "name": "propose-before-changing-an-unfamiliar-repository",
+      "prompt": "Set up a lightweight engineering process for this repository. I have not worked in it before.",
+      "expected_output": "Examines what the repository already does before proposing anything, ties each proposal to something it actually found, and puts the proposal up for review before changing the repository.",
       "files": [],
       "expectations": [
-        "Inspects CI, package commands, existing instructions, and risk paths before proposing configuration.",
-        "Shows verification argv, risk paths, pointers, and optional hook setting in one preview.",
-        "Makes no repository change before explicit approval.",
-        "Keeps session hooks off unless the user explicitly opts into reminders."
+        "Examines what this repository already does for testing, review, or documentation before proposing anything.",
+        "Ties each proposed element to something it actually found in this repository rather than offering a generic checklist.",
+        "Puts the proposal up for review before changing the repository, and states what it would change."
       ]
     },
     {
       "id": 6,
-      "name": "resume-r2-without-chat",
-      "prompt": "Continue the previous database/API work. You have no earlier conversation context.",
-      "expected_output": "Restores the R2 change from contract, diff, evidence, canonical records, and handoff before editing.",
+      "name": "resume-work-without-conversation-history",
+      "prompt": "Continue the previous database and API work.",
+      "expected_output": "Reconstructs the earlier intent from the repository, reports whether recorded verification still covers the current state, surfaces a risk the prior records miss, and continues the existing effort rather than starting a parallel one.",
       "files": [],
       "expectations": [
-        "Reads repository evidence and current diff rather than guessing from chat.",
-        "Identifies stale verification and any risk increase.",
-        "States the restored problem, current state, and next safe action.",
-        "Does not create a duplicate change when the intended outcome is unchanged."
+        "Reconstructs what the earlier work was trying to achieve, citing something specific that only reading the repository would reveal.",
+        "Reports whether the recorded verification still covers the current state of the work, or that it re-established coverage, and says which of the two it is.",
+        "Names at least one risk in the current changes that the existing records do not already account for.",
+        "States that this continues an existing effort rather than starting a new one, and says what told it so.",
+        "States the current state of the work and the next action to take."
       ]
     },
     {
       "id": 7,
-      "name": "link-openspec-without-copy",
-      "prompt": "We already have an OpenSpec proposal and Superpowers implementation plan. Start ownership tracking for the change.",
-      "expected_output": "Links existing artifacts from the Brief without recreating their proposal, design, tasks, or plan.",
+      "name": "reuse-existing-planning-documents",
+      "prompt": "We already have a written proposal and an implementation plan for this change in the repository. Start tracking the work.",
+      "expected_output": "Finds the existing documents, refers to them where they are, records only what they do not already cover, and says what it deliberately left alone.",
       "files": [],
       "expectations": [
-        "Keeps OpenSpec and Superpowers artifacts canonical in their original locations.",
-        "Records only the ownership decision, risk, evidence pointers, and operational implications.",
-        "Does not add either framework as a dependency.",
-        "Does not create duplicate plan or spec documents."
+        "Locates the existing planning documents and refers to them by where they are, rather than producing its own version of them.",
+        "Records only what the existing documents do not already cover, and says what that gap is.",
+        "Says what it chose to leave in place rather than restate, and why."
       ]
     },
     {
       "id": 8,
-      "name": "decision-comment-restraint",
-      "prompt": "Add decision links to this well-structured feature before merge.",
-      "expected_output": "Adds a marker only at a non-obvious decision enforcement point and validates existing references.",
+      "name": "leave-rationale-where-it-is-not-obvious",
+      "prompt": "This feature is ready for review. Make sure someone reading this code in six months can find out why it was built this way.",
+      "expected_output": "Selects the few places where the rationale is genuinely not evident, leaves the reasoning somewhere durable, and says where it judged an explanation unnecessary.",
       "files": [],
       "expectations": [
-        "Does not place decision comments in every changed file.",
-        "Uses the canonical engineering-decision marker format where rationale is non-obvious.",
-        "Checks evidence, ADR path, implementation references, and supersession.",
-        "Treats absence of a comment as acceptable when code is self-explanatory."
+        "Selects a small number of specific places where the rationale is not evident from the code, and says why those places and not others.",
+        "Leaves the rationale itself somewhere durable in the repository rather than only in this conversation.",
+        "Says where it judged an explanation unnecessary because the code already accounts for itself."
+      ]
+    },
+    {
+      "id": 9,
+      "name": "change-that-contradicts-an-accepted-decision",
+      "prompt": "Change the settlement adapter so every partner receives fractional amounts. Our largest partner now requires it.",
+      "expected_output": "Finds the accepted decision the request contradicts, states plainly whether the new work follows, replaces, or invalidates it, leaves the original record intact, and writes the new decision where a later reader would find it.",
+      "files": [],
+      "expectations": [
+        "Finds the existing accepted decision that this request contradicts, and says what that decision was.",
+        "States plainly whether the new work follows, replaces, or invalidates that earlier decision.",
+        "Leaves the original decision record intact rather than editing it to match the new direction, and says why that matters.",
+        "Writes the new decision somewhere a later reader would find it when looking at the affected code."
       ]
     }
   ]

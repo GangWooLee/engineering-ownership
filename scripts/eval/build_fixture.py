@@ -70,9 +70,11 @@ def build(overlay: str, destination: Path) -> dict:
         raise SystemExit(f"unknown fixture overlay '{overlay}'; known: {known}")
 
     base = FIXTURES / "base"
+    if not base.is_dir():
+        raise SystemExit("fixture base directory is missing")
+    # An overlay directory is optional. A scenario that starts from a settled,
+    # clean repository has no uncommitted work to lay down.
     overlay_dir = FIXTURES / "overlays" / overlay
-    if not base.is_dir() or not overlay_dir.is_dir():
-        raise SystemExit("fixture base or overlay directory is missing")
 
     if destination.exists():
         shutil.rmtree(destination)
@@ -92,6 +94,18 @@ def build(overlay: str, destination: Path) -> dict:
     }
 
     copy_tree(base, destination)
+
+    # An overlay may need part of its state already committed rather than sitting
+    # as uncommitted work. A scenario about superseding an accepted decision, for
+    # instance, needs that decision already implemented and settled, so that the
+    # request contradicts working code rather than a plan.
+    settled = overlays[overlay].get("settled")
+    if settled:
+        settled_dir = FIXTURES / "settled" / settled
+        if not settled_dir.is_dir():
+            raise SystemExit(f"unknown settled state '{settled}'")
+        copy_tree(settled_dir, destination)
+
     git(destination, "init", "-q", f"--initial-branch={commit['branch']}", env=env)
     git(destination, "config", "commit.gpgsign", "false", env=env)
     git(destination, "add", "-A", env=env)
@@ -100,7 +114,8 @@ def build(overlay: str, destination: Path) -> dict:
 
     # The overlay lands after the commit, so the run starts with uncommitted
     # work exactly as a resumed session would find it.
-    copy_tree(overlay_dir, destination)
+    if overlay_dir.is_dir():
+        copy_tree(overlay_dir, destination)
     dirty = git(destination, "status", "--porcelain", env=env)
 
     return {

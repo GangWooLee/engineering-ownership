@@ -1,8 +1,37 @@
 # Changelog
 
-## Unreleased
+## 0.2.1 - 2026-07-25
 
 ### Changed
+
+- Rewrite the shipped evaluation manifest. An audit of its 32 expectations found
+  three that a competent engineer unfamiliar with this skill could pass on
+  merit; the rest required vocabulary only this skill supplies, were satisfied
+  by a response that said nothing, bundled independently observable things into
+  one verdict, or scored a response worse for having fixed the problem it was
+  asked about. Expectations duplicating what `tests/` already asserts
+  deterministically were removed. Prompts that named this project were made
+  product-neutral, since a baseline cannot answer for a product it has never
+  heard of.
+- Move to `0.2.1` because `evals.json` ships inside the release package and this
+  project publishes the claim that a rebuilt archive matches its published
+  digest. The `0.2.0` artifact is unchanged and its digest is now recorded in
+  `docs/releases/v0.2.0.md`, which previously existed only in the untracked
+  build directory.
+
+### Added
+
+- A ninth evaluation scenario covering a change that contradicts an accepted
+  decision. Recording whether work follows, replaces, or invalidates an earlier
+  decision - and never overwriting accepted rationale silently - is the most
+  maintenance-specific behaviour this skill asks for, and nothing tested it.
+- Fixtures can start from a settled state, so a scenario can present a decision
+  that is already implemented rather than only planned.
+- Guards in `tests/test_evals.py` that reject an expectation requiring a
+  risk-tier label or other private vocabulary, and one phrased as bare restraint
+  with no requirement that the response show it made the choice.
+
+### Also in this release
 
 - Withdraw the published skill evaluation result. The "16 / 16 versus 5 / 16"
   comparison is retracted: the two configurations differed in language as well

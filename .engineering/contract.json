@@ -31,7 +31,7 @@
     },
     {
       "id": "release-package",
-      "argv": ["python3", "scripts/build_release.py", "--version", "0.2.0"],
+      "argv": ["python3", "scripts/build_release.py", "--version", "0.2.1"],
       "env": {},
       "timeout_seconds": 60,
       "required_for": ["R2", "R3"]

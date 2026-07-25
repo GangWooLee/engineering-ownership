@@ -67,7 +67,7 @@ class DistributionCase(unittest.TestCase):
             check=False,
         )
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("0.2.0", result.stdout)
+        self.assertIn("0.2.1", result.stdout)
 
 
 if __name__ == "__main__":

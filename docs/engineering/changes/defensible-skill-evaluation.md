@@ -3,7 +3,7 @@
 Change ID: `defensible-skill-evaluation`
 Created: `2026-07-25T13:22:42+09:00`
 Risk: R1
-Status: In progress
+Status: Completed
 
 ## Problem and intended outcome
 
@@ -126,7 +126,8 @@ resulting clean state, while the baseline stopped and asked, leaving the
 staleness visible in its answer. As written, that expectation rewards not
 fixing the problem. The judge's own critique flagged the same expectation as
 conjunctive and weakly falsifiable, and flagged another as satisfiable by
-accident. Rewriting them is the next step and is a precondition for any number.
+accident. Rewriting them is the next step and is a precondition for any number. That
+rewrite landed in `rewrite-evaluation-expectations`.
 
 **No efficacy claim is supported by this pilot.** One run per configuration
 gives a standard deviation of zero by construction.
