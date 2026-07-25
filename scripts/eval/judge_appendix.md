@@ -40,6 +40,21 @@ something, you do not have grounds to pass.
 Each expectation is `true` or `false`. If a response partly satisfies an
 expectation, it fails, and the evidence should say which part was missing.
 
+## The record of what the responder did
+
+You may be shown an ordered list of steps the responder took, the files it
+changed, and the contents of what it wrote. Use it.
+
+- An expectation that requires an act - reading something, checking something,
+  leaving a record - is met only if the corresponding step appears. A response
+  that says it inspected the changes, with no such step recorded, has claimed
+  something that did not happen, and the expectation fails.
+- Where an expectation is about what survives the session, judge the written
+  content, not the fact that a file was touched. A record that names a decision
+  without saying what was decided does not help a later reader.
+- The absence of the record means only that nothing was captured, not that the
+  responder did nothing. Say so in the evidence rather than assuming either way.
+
 ## You are judging one response in isolation
 
 You are given a single response with no information about how it was produced.

@@ -1,0 +1,56 @@
+{
+  "eval_feedback": {
+    "overall": "Expectation 3 bundles two distinct behaviours: (a) not rewriting the old decision to match the new direction, and (b) explaining why preservation matters. This creates a tension the grader must navigate: correct ADR practice *requires* editing the old record's status to 'Superseded' and adding a 'Superseded by' pointer — which the responder did — so a well-behaved response technically does 'edit' the original and could be unfairly failed on clause (a). The real discriminating signal here is clause (b), and the response genuinely misses it (it preserves the old reasoning correctly but never says why keeping the record intact matters). Consider splitting this into two assertions, or rewording (a) to 'preserves the original decision's reasoning rather than rewriting it to match the new direction' so that non-destructive supersession is not penalized. Expectation 4 is somewhat satisfiable by convention rather than by an in-code pointer — the affected source file itself contains no reference to the decision, so discovery depends on a reader knowing the `.engineering/evidence` registry maps diff paths to decisions; if in-source discoverability is intended, the assertion should say so."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 664,
+    "tool_calls": {
+      "Bash": 6,
+      "Edit": 4,
+      "Read": 9,
+      "Write": 3
+    },
+    "total_steps": 23,
+    "total_tool_calls": 22,
+    "transcript_chars": 1062
+  },
+  "expectations": [
+    {
+      "evidence": "The responder read `docs/engineering/decisions/partner-settlement-rounding.md` (step 4) and the response identifies it and its content: \"Since this reverses the prior \"Accepted\" ADR on the same `src/api/**` R2 path\" and \"replacing the old `WHOLE_UNIT_PARTNERS` special case that rounded p-1/p-7 to whole units and silently left everyone else in raw cents.\"",
+      "passed": true,
+      "text": "Finds the existing accepted decision that this request contradicts, and says what that decision was."
+    },
+    {
+      "evidence": "\"Since this reverses the prior \"Accepted\" ADR on the same `src/api/**` R2 path, I also marked that decision as Superseded\" — plainly states the new work replaces/invalidates the earlier decision.",
+      "passed": true,
+      "text": "States plainly whether the new work follows, replaces, or invalidates that earlier decision."
+    },
+    {
+      "evidence": "The second clause is unmet: I searched the response, the old ADR, the new ADR, and the change brief for any statement of why preserving the original decision record matters and found none — the response only says \"I also marked that decision as Superseded and added a new decision/change/evidence record (`partner-settlement-fractional-units`) following this repo's existing engineering-contract pattern,\" with no reason given. Separately, steps 16-17 did edit the original file (diff shows `-Status: Accepted` / `+Status: Superseded` and `+Superseded by: partner-settlement-fractional-units`).",
+      "passed": false,
+      "text": "Leaves the original decision record intact rather than editing it to match the new direction, and says why that matters."
+    },
+    {
+      "evidence": "The evidence registry links the affected code to the decision: `.engineering/evidence/partner-settlement-fractional-units.json` lists `\"paths\": [\"src/api/partner_adapter.py\", \"tests/test_partner_adapter.py\"]` under `diff` and `\"decision\": \"docs/engineering/decisions/partner-settlement-fractional-units.md\"` under `artifacts`, and the decision file names `- src/api/partner_adapter.py` under Implementation references — the repo's established engineering-contract pattern the responder followed.",
+      "passed": true,
+      "text": "Writes the new decision somewhere a later reader would find it when looking at the affected code."
+    }
+  ],
+  "graded_at": "2026-07-25T05:58:29+00:00",
+  "judge_model": "claude-opus-4-8",
+  "summary": {
+    "failed": 1,
+    "pass_rate": 0.75,
+    "passed": 3,
+    "total": 4
+  },
+  "timing": {
+    "api_duration_seconds": 132.218,
+    "duration_ms": 139192,
+    "total_duration_seconds": 139.192,
+    "total_tokens": 1541615,
+    "wall_clock_seconds": 141.244
+  }
+}

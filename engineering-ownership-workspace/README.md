@@ -13,6 +13,7 @@ disagree.
 | --- | --- | --- |
 | `iteration-1` | Withdrawn | The evidence behind the retracted "16 / 16 versus 5 / 16" claim. Kept so the six defects listed in `docs/validation/skill-evaluation.md` can be checked rather than taken on faith. Its responses are in mixed languages, which is one of those defects. |
 | `iteration-2` | Pilot | A two-run harness shakedown on one maintenance scenario. **Not an evaluation result and not a published claim.** It exists to show the runner, the fixture, the blinded judge, and the aggregator working end to end, and to record the harness defects it exposed. |
+| `iteration-3` | Harness validation | One scenario, one run per configuration, exercising write-enabled runs and the action-log judge bundle. **Not an evaluation result.** Recorded because it is what showed the changed harness working, and because the judge's critique of an expectation here is why that expectation was split. |
 
 No quantitative efficacy claim is published from any iteration here. See
 `docs/validation/skill-evaluation.md`.

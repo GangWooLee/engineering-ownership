@@ -21,6 +21,15 @@
 
 ### Added
 
+- Evaluation runs may now write, with an identical capability set in both
+  configurations, because several expectations concern what survives the session
+  and that cannot be observed if the run cannot produce it.
+- The judge is shown an ordered record of what a run did and the content of what
+  it wrote, in place of the transcript. The transcript names this skill in one
+  configuration and never in the other, so handing it over would have ended the
+  blinding it was meant to support. A mechanical check refuses to grade if the
+  assembled evidence identifies the configuration.
+
 - A ninth evaluation scenario covering a change that contradicts an accepted
   decision. Recording whether work follows, replaces, or invalidates an earlier
   decision - and never overwriting accepted rationale silently - is the most

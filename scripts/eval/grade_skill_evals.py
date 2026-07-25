@@ -40,7 +40,69 @@ def write_json(path: Path, payload: dict) -> None:
     )
 
 
-def compose_prompt(task: str, expectations: list[str], response: str) -> str:
+def evidence_section(run_dir: Path) -> str:
+    """Assemble what the responder did, with nothing that identifies the run.
+
+    Several expectations concern acts of inspection or what was left behind, and
+    a response asserting "I checked the diff" is indistinguishable from having
+    checked it. The obvious fix - hand over the transcript - is the wrong one:
+    it is written by the model under test and names this skill in one
+    configuration and never in the other. The action log is derived from tool
+    calls instead, with entries the treatment alone can produce removed.
+    """
+    parts: list[str] = []
+
+    actions_path = run_dir / "outputs" / "actions.json"
+    if actions_path.is_file():
+        actions = json.loads(actions_path.read_text(encoding="utf-8")).get("actions", [])
+        if actions:
+            lines = "\n".join(
+                f"{index}. {item.get('action', '?')}: {item.get('target', '')}".rstrip()
+                for index, item in enumerate(actions, 1)
+            )
+            parts.append(
+                "## What the responder did, in order\n\n"
+                "Each line is one recorded step. If an act an expectation "
+                "requires does not appear here, it did not happen.\n\n"
+                f"{lines}"
+            )
+
+    delta_path = run_dir / "outputs" / "fixture_delta.json"
+    if delta_path.is_file():
+        delta = json.loads(delta_path.read_text(encoding="utf-8"))
+        changed = delta.get("paths_changed_by_run") or []
+        if changed:
+            body = "\n".join(f"- {path}" for path in changed)
+            parts.append(f"## Files the responder changed or created\n\n{body}")
+        contents = delta.get("file_contents") or {}
+        for path, text in list(contents.items())[:6]:
+            parts.append(f"### Contents of `{path}`\n\n```\n{text}\n```")
+        diff = (delta.get("tracked_diff") or "").strip()
+        if diff:
+            parts.append(f"### Changes to files that already existed\n\n```diff\n{diff}\n```")
+
+    if not parts:
+        return (
+            "## What the responder did\n\n"
+            "No steps were recorded. Treat any expectation that requires an act "
+            "as unmet."
+        )
+    return "\n\n".join(parts)
+
+
+# Anything that names this project identifies the configuration, because only one
+# of the two can produce it. The response itself is exempt: it is the artifact
+# under review and cannot be altered without changing what is being judged. That
+# residual leak is disclosed rather than silently tolerated.
+BLINDING_TELLS = ("engineering-ownership", "--plugin-dir", "plugin-dir", "skill-creator")
+
+
+def blinding_leaks(bundle: str) -> list[str]:
+    lowered = bundle.lower()
+    return sorted({tell for tell in BLINDING_TELLS if tell in lowered})
+
+
+def compose_prompt(task: str, expectations: list[str], response: str, run_dir: Path) -> str:
     instructions = (VENDOR / "grader.md").read_text(encoding="utf-8")
     appendix = (HERE / "judge_appendix.md").read_text(encoding="utf-8")
     listed = "\n".join(f"{index}. {text}" for index, text in enumerate(expectations, 1))
@@ -54,6 +116,7 @@ def compose_prompt(task: str, expectations: list[str], response: str) -> str:
         "<response>\n"
         f"{response}\n"
         "</response>\n\n"
+        f"{evidence_section(run_dir)}\n\n"
         "Return only the JSON object described above."
     )
 
@@ -74,8 +137,10 @@ def extract_json(text: str) -> dict | None:
         return None
 
 
-def judge(task: str, expectations: list[str], response: str, model: str, timeout: int) -> dict:
-    prompt = compose_prompt(task, expectations, response)
+def judge(
+    task: str, expectations: list[str], response: str, run_dir: Path, model: str, timeout: int
+) -> dict:
+    prompt = compose_prompt(task, expectations, response, run_dir)
     env = {**subprocess.os.environ, "CLAUDE_CODE_DISABLE_CLAUDE_MDS": "1"}
     env.pop("CLAUDECODE", None)
     started = time.monotonic()
@@ -169,7 +234,23 @@ def grade_run(run_dir: Path, task: str, expectations: list[str], model: str, tim
         )
         return {"invalid": invalid}
 
-    verdict = judge(task, expectations, response, model, timeout)
+    leaks = blinding_leaks(evidence_section(run_dir))
+    if leaks:
+        # Refuse rather than grade. A judge that can infer the configuration is
+        # not blinded, and a verdict from it would look exactly like a valid one.
+        write_json(
+            run_dir / "grading.json",
+            {
+                "expectations": [],
+                "summary": {"passed": 0, "failed": 0, "total": 0, "pass_rate": 0.0},
+                "status": "invalid",
+                "reason": f"evidence identifies the configuration: {', '.join(leaks)}",
+                "graded_at": now(),
+            },
+        )
+        return {"invalid": f"blinding leak: {', '.join(leaks)}"}
+
+    verdict = judge(task, expectations, response, run_dir, model, timeout)
     if "error" in verdict:
         return {"error": verdict["error"]}
 

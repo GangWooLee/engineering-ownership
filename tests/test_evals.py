@@ -188,6 +188,45 @@ class EvalGraderCase(unittest.TestCase):
             )
 
 
+class JudgeBlindingCase(unittest.TestCase):
+    """The judge must not be able to infer which configuration it is grading."""
+
+    def grader(self):
+        import importlib.util
+
+        path = ROOT / "scripts" / "eval" / "grade_skill_evals.py"
+        if not path.is_file():
+            self.skipTest("no grader is present")
+        spec = importlib.util.spec_from_file_location("_grader_under_test", path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+
+    def test_evidence_naming_this_project_is_treated_as_a_leak(self) -> None:
+        # The action log is derived from paths the run touched. If one of them
+        # names this project, the configuration is readable from the bundle.
+        grader = self.grader()
+        self.assertEqual(grader.blinding_leaks("1. read: src/api/adapter.py"), [])
+        self.assertIn(
+            "engineering-ownership",
+            grader.blinding_leaks("1. read: plugins/engineering-ownership/SKILL.md"),
+        )
+        self.assertIn("--plugin-dir", grader.blinding_leaks("run: claude --plugin-dir /x"))
+
+    def test_committed_action_logs_do_not_identify_the_configuration(self) -> None:
+        grader = self.grader()
+        logs = list(WORKSPACE.rglob("actions.json")) if WORKSPACE.is_dir() else []
+        if not logs:
+            self.skipTest("no action logs are committed yet")
+        for path in logs:
+            leaks = grader.blinding_leaks(path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                leaks,
+                [],
+                f"{path.relative_to(ROOT)} identifies the configuration: {leaks}",
+            )
+
+
 class FixtureCoverageCase(unittest.TestCase):
     """Fixtures decide which expectations are ever exercised."""
 

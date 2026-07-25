@@ -1,0 +1,132 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "grep -ril 2>/dev/null"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-settlement-rounding.md"
+    },
+    {
+      "action": "run",
+      "target": "grep -rn 2>/dev/null"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "grep -n 2>/dev/null"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/evidence/partner-settlement-rounding.json"
+    },
+    {
+      "action": "run",
+      "target": "cat .engineering/contract.json 2>/dev/null;"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "engineering status"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "grep -rn src"
+    },
+    {
+      "action": "search",
+      "target": "to_partner_payload|json.dumps|JSONEncoder"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "engineering change"
+    },
+    {
+      "action": "run",
+      "target": "cat \"docs/engineering/changes/partner-settlement-fractional-amounts.md\"; \"docs/engineering/decisions/partner-settlement-fractional-amounts.md\""
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/changes/partner-settlement-fractional-amounts.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/decisions/partner-settlement-fractional-amounts.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/decisions/partner-settlement-rounding.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/decisions/partner-settlement-rounding.md"
+    },
+    {
+      "action": "write",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "write",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m"
+    },
+    {
+      "action": "run",
+      "target": "engineering verify"
+    },
+    {
+      "action": "run",
+      "target": "engineering refs"
+    },
+    {
+      "action": "run",
+      "target": "git status src/api/partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "engineering status"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/changes/partner-settlement-fractional-amounts.md"
+    }
+  ]
+}

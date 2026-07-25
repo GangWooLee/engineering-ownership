@@ -34,20 +34,42 @@ WORKSPACE = ROOT / "engineering-ownership-workspace"
 
 USER_SETTINGS = Path.home() / ".claude" / "settings.json"
 
-# Read-only investigation. The evaluation measures how a change is approached,
-# not whether the agent can edit files. This is enforced with --tools, which
-# limits which tools exist; --allowedTools only pre-approves them, and a pilot
-# run that passed the allowlist alone still edited a file.
-AVAILABLE_TOOLS = ("Read", "Glob", "Grep", "Bash", "Skill")
+# Runs may write. Several expectations are about what survives the session - a
+# rationale a successor could act on, a decision recorded where a later reader
+# finds it - and none of that is observable if the run cannot produce it. The
+# earlier read-only attempt also did not hold: a pilot run edited a file anyway.
+#
+# The set is identical for both configurations. Giving the treatment a capability
+# the baseline lacks would destroy the comparison exactly as the language
+# confound destroyed the first one. Nothing here leaves the fixture: no network,
+# no push, no package installation.
+AVAILABLE_TOOLS = ("Read", "Glob", "Grep", "Write", "Edit", "Bash", "Skill")
 ALLOWED_TOOLS = (
     "Read",
     "Glob",
     "Grep",
+    "Write",
+    "Edit",
     "Bash(git status:*)",
     "Bash(git diff:*)",
     "Bash(git log:*)",
     "Bash(git show:*)",
+    "Bash(git add:*)",
+    "Bash(python3 -m unittest:*)",
 )
+
+# The judge is shown what a run did, but must not learn which configuration
+# produced it. Tool names are normalized to an action vocabulary so that the
+# presence of the Skill tool - which only one configuration can use - cannot be
+# read off the log.
+ACTION_NAMES = {
+    "Read": "read",
+    "Glob": "search",
+    "Grep": "search",
+    "Write": "write",
+    "Edit": "write",
+    "Bash": "run",
+}
 
 
 def disabled_plugins() -> dict[str, bool]:
@@ -142,10 +164,35 @@ def invoke(prompt: str, cwd: Path, model: str, with_skill: bool, timeout: int) -
             "detail": redact(completed.stderr[-400:]),
             "elapsed": elapsed,
         }
-    return parse_stream(completed.stdout, elapsed, argv)
+    return parse_stream(completed.stdout, elapsed, argv, cwd)
 
 
-def parse_stream(stdout: str, elapsed: float, argv: list[str]) -> dict:
+def action_target(name: str, tool_input: dict, cwd: Path) -> str:
+    """Describe what a tool call touched, in terms of the fixture."""
+
+    def relative(raw: str) -> str:
+        candidate = Path(raw)
+        try:
+            return candidate.resolve().relative_to(cwd.resolve()).as_posix()
+        except (ValueError, OSError):
+            return "(outside the repository)" if candidate.is_absolute() else raw
+
+    if name in {"Read", "Write", "Edit"}:
+        return relative(str(tool_input.get("file_path", "")))
+    if name in {"Glob", "Grep"}:
+        return str(tool_input.get("pattern", ""))[:120]
+    if name == "Bash":
+        command = str(tool_input.get("command", "")).strip()
+        # Keep the verb and the first argument that looks like a path. The full
+        # command line can carry absolute paths that name this repository.
+        parts = command.split()
+        head = " ".join(parts[:2])
+        tail = next((relative(p) for p in parts[2:] if "/" in p or p.endswith(".py")), "")
+        return f"{head} {tail}".strip()[:160]
+    return ""
+
+
+def parse_stream(stdout: str, elapsed: float, argv: list[str], cwd: Path) -> dict:
     events: list[dict] = []
     for line in stdout.splitlines():
         line = line.strip()
@@ -158,6 +205,7 @@ def parse_stream(stdout: str, elapsed: float, argv: list[str]) -> dict:
 
     tool_calls: dict[str, int] = {}
     transcript: list[str] = []
+    actions: list[dict] = []
     skill_loaded = False
     result: dict = {}
 
@@ -180,7 +228,17 @@ def parse_stream(stdout: str, elapsed: float, argv: list[str]) -> dict:
                 # directory carries the same name and appears in every absolute
                 # path the agent touches.
                 if name == "Skill":
+                    # Recorded for the run's own metadata, never for the judge:
+                    # only one configuration can produce this entry.
                     skill_loaded = True
+                    continue
+                if name in ACTION_NAMES:
+                    actions.append(
+                        {
+                            "action": ACTION_NAMES[name],
+                            "target": redact(action_target(name, block.get("input") or {}, cwd)),
+                        }
+                    )
 
     response = result.get("result") or (transcript[-1] if transcript else "")
     usage = result.get("usage") or {}
@@ -189,6 +247,7 @@ def parse_stream(stdout: str, elapsed: float, argv: list[str]) -> dict:
         "reason": "" if response else "empty response",
         "response": response,
         "transcript": "\n\n".join(transcript),
+        "actions": actions,
         "tool_calls": tool_calls,
         "skill_loaded": skill_loaded,
         "num_turns": result.get("num_turns", 0),
@@ -211,6 +270,48 @@ def total_tokens(usage: dict) -> int:
     return sum(int(usage.get(key) or 0) for key in keys)
 
 
+def capture_fixture_delta(cwd: Path, expected_dirty: list[str]) -> dict:
+    """Record what the run changed, with content, before the fixture is removed.
+
+    A path list says a record was written; it does not say whether the record is
+    usable. Expectations about what survives the session need the text.
+    """
+    status = subprocess.run(
+        ["git", "status", "--porcelain"],
+        cwd=cwd,
+        text=True,
+        stdout=subprocess.PIPE,
+        check=False,
+    ).stdout
+    present = sorted(line[2:].strip() for line in status.splitlines() if line.strip())
+    changed = sorted(set(present) - set(expected_dirty))
+
+    diff = subprocess.run(
+        ["git", "diff"],
+        cwd=cwd,
+        text=True,
+        stdout=subprocess.PIPE,
+        check=False,
+    ).stdout
+
+    created: dict[str, str] = {}
+    for relative_path in changed:
+        path = cwd / relative_path
+        if not path.is_file() or path.stat().st_size > 40_000:
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except (OSError, UnicodeDecodeError):
+            continue
+        created[relative_path] = redact(text[:8000])
+
+    return {
+        "paths_changed_by_run": changed,
+        "tracked_diff": redact(diff[:20_000]),
+        "file_contents": created,
+    }
+
+
 def record_run(run_dir: Path, item: dict, configuration: str, outcome: dict, fixture: dict) -> None:
     outputs = run_dir / "outputs"
     outputs.mkdir(parents=True, exist_ok=True)
@@ -220,8 +321,12 @@ def record_run(run_dir: Path, item: dict, configuration: str, outcome: dict, fix
         return
 
     # AGENTS.md forbids storing home paths, and these artifacts are committed.
+    # AGENTS.md forbids storing home paths, and these artifacts are committed.
     (outputs / "response.md").write_text(redact(outcome["response"]), encoding="utf-8")
     (outputs / "transcript.md").write_text(redact(outcome["transcript"]), encoding="utf-8")
+    # The ordered record of what the run did. This is what the judge sees in
+    # place of the transcript, which names the skill in one configuration only.
+    write_json(outputs / "actions.json", {"actions": outcome["actions"]})
 
     write_json(
         run_dir / "timing.json",
@@ -358,25 +463,10 @@ def main() -> int:
                     prompt, cwd, args.model, configuration == "with_skill", args.timeout
                 )
                 record_run(run_dir, item, configuration, outcome, fixture)
-                state = subprocess.run(
-                    ["git", "status", "--porcelain"],
-                    cwd=cwd,
-                    text=True,
-                    stdout=subprocess.PIPE,
-                    check=False,
-                ).stdout
-                dirty = sorted(line[2:].strip() for line in state.splitlines() if line.strip())
-                changed = sorted(set(dirty) - set(fixture["dirty_paths"]))
-                if changed:
-                    # Not a failure. Restricting the tool set did not reliably
-                    # prevent writes, and for a maintenance scenario the edits
-                    # are part of what is being observed. Record them as
-                    # evidence rather than discarding the run.
-                    print(f"  the run changed {len(changed)} path(s) in the fixture")
-                    write_json(
-                        run_dir / "outputs" / "fixture_delta.json",
-                        {"paths_changed_by_run": changed},
-                    )
+                delta = capture_fixture_delta(cwd, fixture["dirty_paths"])
+                write_json(run_dir / "outputs" / "fixture_delta.json", delta)
+                if delta["paths_changed_by_run"]:
+                    print(f"  the run changed {len(delta['paths_changed_by_run'])} path(s)")
                 print(f"  {outcome['status']} ({outcome.get('elapsed', 0)}s)")
                 completed += 1
                 shutil.rmtree(cwd, ignore_errors=True)

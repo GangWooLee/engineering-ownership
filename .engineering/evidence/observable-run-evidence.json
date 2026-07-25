@@ -1,0 +1,96 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/observable-run-evidence.md",
+    "decision": "docs/engineering/decisions/observable-run-evidence.md"
+  },
+  "change_id": "observable-run-evidence",
+  "competencies": [
+    "security-privacy",
+    "system-data-flow-design",
+    "testing-debugging"
+  ],
+  "created_at": "2026-07-25T15:00:43+09:00",
+  "diff": {
+    "digest": "2a8581e6ab759764a4c5b6517ac84beb57c4ae601c40c898ae3da7eb44b7697f",
+    "paths": [
+      "CHANGELOG.md",
+      "docs/engineering/changes/observable-run-evidence.md",
+      "docs/engineering/decisions/observable-run-evidence.md",
+      "engineering-ownership-workspace/README.md",
+      "engineering-ownership-workspace/iteration-3/PILOT.md",
+      "engineering-ownership-workspace/iteration-3/eval-9/eval_metadata.json",
+      "engineering-ownership-workspace/iteration-3/eval-9/prompt.txt",
+      "engineering-ownership-workspace/iteration-3/eval-9/with_skill/run-1/grading.json",
+      "engineering-ownership-workspace/iteration-3/eval-9/with_skill/run-1/judge_raw.json",
+      "engineering-ownership-workspace/iteration-3/eval-9/with_skill/run-1/outputs/actions.json",
+      "engineering-ownership-workspace/iteration-3/eval-9/with_skill/run-1/outputs/fixture_delta.json",
+      "engineering-ownership-workspace/iteration-3/eval-9/with_skill/run-1/outputs/metrics.json",
+      "engineering-ownership-workspace/iteration-3/eval-9/with_skill/run-1/outputs/response.md",
+      "engineering-ownership-workspace/iteration-3/eval-9/with_skill/run-1/outputs/run_meta.json",
+      "engineering-ownership-workspace/iteration-3/eval-9/with_skill/run-1/outputs/transcript.md",
+      "engineering-ownership-workspace/iteration-3/eval-9/with_skill/run-1/timing.json",
+      "engineering-ownership-workspace/iteration-3/eval-9/without_skill/run-1/grading.json",
+      "engineering-ownership-workspace/iteration-3/eval-9/without_skill/run-1/judge_raw.json",
+      "engineering-ownership-workspace/iteration-3/eval-9/without_skill/run-1/outputs/actions.json",
+      "engineering-ownership-workspace/iteration-3/eval-9/without_skill/run-1/outputs/fixture_delta.json",
+      "engineering-ownership-workspace/iteration-3/eval-9/without_skill/run-1/outputs/metrics.json",
+      "engineering-ownership-workspace/iteration-3/eval-9/without_skill/run-1/outputs/response.md",
+      "engineering-ownership-workspace/iteration-3/eval-9/without_skill/run-1/outputs/run_meta.json",
+      "engineering-ownership-workspace/iteration-3/eval-9/without_skill/run-1/outputs/transcript.md",
+      "engineering-ownership-workspace/iteration-3/eval-9/without_skill/run-1/timing.json",
+      "engineering-ownership-workspace/iteration-3/preflight.json",
+      "plugins/engineering-ownership/skills/engineering-ownership/evals/evals.json",
+      "scripts/eval/grade_skill_evals.py",
+      "scripts/eval/judge_appendix.md",
+      "scripts/eval/run_skill_evals.py",
+      "tests/test_evals.py"
+    ]
+  },
+  "risk": "R2",
+  "schema_version": 1,
+  "title": "Let runs write, and show the judge what they did",
+  "understanding": {
+    "gaps": [],
+    "revisit_after": "2026-08-01",
+    "status": "not-reviewed"
+  },
+  "updated_at": "2026-07-25T15:03:07+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "2a8581e6ab759764a4c5b6517ac84beb57c4ae601c40c898ae3da7eb44b7697f",
+      "duration_ms": 16595,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T15:03:06+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "2a8581e6ab759764a4c5b6517ac84beb57c4ae601c40c898ae3da7eb44b7697f",
+      "duration_ms": 51,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T15:03:06+09:00"
+    },
+    {
+      "command_id": "claude-plugin",
+      "diff_digest": "2a8581e6ab759764a4c5b6517ac84beb57c4ae601c40c898ae3da7eb44b7697f",
+      "duration_ms": 926,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T15:03:07+09:00"
+    },
+    {
+      "command_id": "release-package",
+      "diff_digest": "2a8581e6ab759764a4c5b6517ac84beb57c4ae601c40c898ae3da7eb44b7697f",
+      "duration_ms": 52,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T15:03:07+09:00"
+    }
+  ]
+}

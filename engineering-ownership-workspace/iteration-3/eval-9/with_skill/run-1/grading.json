@@ -1,0 +1,58 @@
+{
+  "eval_feedback": {
+    "overall": "Expectation 3 is compound ('leaves intact' AND 'says why that matters'), and the 'why' is the weaker half: the only supporting text is \"preserving the original rationale instead of rewriting it,\" which states the value (rationale is kept) but stops short of explaining why that matters to a later reader (e.g. keeping the history of why the decision changed legible). A response that did the supersession bookkeeping and offered this same one-clause justification passes, so the expectation does not strongly discriminate a genuinely-reasoned 'why' from a rote one — consider splitting it or requiring the reason to name the benefit to a future reader. Expectation 4 is well-targeted: it is satisfied here by an actual code-to-decision pointer, not merely by an ADR that lists the file path, which is the discriminating behaviour."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 992,
+    "tool_calls": {
+      "Bash": 13,
+      "Edit": 5,
+      "Grep": 1,
+      "Read": 11,
+      "Skill": 1,
+      "Write": 2
+    },
+    "total_steps": 35,
+    "total_tool_calls": 33,
+    "transcript_chars": 7006
+  },
+  "expectations": [
+    {
+      "evidence": "Step 3 records `read: docs/engineering/decisions/partner-settlement-rounding.md`, and the response names it and states its content: \"removed the `WHOLE_UNIT_PARTNERS` allowlist and its half-up rounding to whole units\" and \"Since this reverses the prior `partner-settlement-rounding` decision\". The written ADR restates it: \"The prior decision (`partner-settlement-rounding`) had the adapter round cents to whole units for an allowlist of partners (`WHOLE_UNIT_PARTNERS`) and pass `amount_cents` through unchanged for everyone else.\"",
+      "passed": true,
+      "text": "Finds the existing accepted decision that this request contradicts, and says what that decision was."
+    },
+    {
+      "evidence": "\"Since this reverses the prior `partner-settlement-rounding` decision rather than just extending it, I recorded it as a new tracked change (`partner-settlement-fractional-amounts`) with its own brief and ADR, and marked the old ADR `Superseded` with a link forward\" — it plainly states the new work replaces/supersedes the earlier decision rather than extending it.",
+      "passed": true,
+      "text": "States plainly whether the new work follows, replaces, or invalidates that earlier decision."
+    },
+    {
+      "evidence": "The diff to `partner-settlement-rounding.md` changes only two lines (`Status: Accepted`->`Superseded` and `Superseded by: None`->`partner-settlement-fractional-amounts`); the Context/Options/Decision/Consequences rationale is untouched. The response frames the choice: \"marked the old ADR `Superseded` with a link forward — preserving the original rationale instead of rewriting it.\"",
+      "passed": true,
+      "text": "Leaves the original decision record intact rather than editing it to match the new direction, and says why that matters."
+    },
+    {
+      "evidence": "`src/api/partner_adapter.py` carries an in-code back-reference at the changed function: \"# engineering-decision: partner-settlement-fractional-amounts | docs/engineering/decisions/partner-settlement-fractional-amounts.md\", so a reader in the adapter is pointed to the decision record.",
+      "passed": true,
+      "text": "Writes the new decision somewhere a later reader would find it when looking at the affected code."
+    }
+  ],
+  "graded_at": "2026-07-25T05:57:01+00:00",
+  "judge_model": "claude-opus-4-8",
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 4,
+    "total": 4
+  },
+  "timing": {
+    "api_duration_seconds": 244.268,
+    "duration_ms": 261929,
+    "total_duration_seconds": 261.929,
+    "total_tokens": 4244971,
+    "wall_clock_seconds": 263.636
+  }
+}
