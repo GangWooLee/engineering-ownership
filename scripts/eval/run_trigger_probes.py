@@ -20,6 +20,7 @@ import json
 import re
 import shutil
 import tempfile
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -98,6 +99,7 @@ def main() -> int:
     parser.add_argument("--split", choices=("train", "test", "all"), default="train")
     parser.add_argument("--runs", type=int, default=3)
     parser.add_argument("--timeout", type=int, default=600)
+    parser.add_argument("--pause", type=int, default=10, help="seconds between runs")
     parser.add_argument("--probe", action="append", default=[], help="restrict to probe ids")
     args = parser.parse_args()
 
@@ -150,10 +152,12 @@ def main() -> int:
                     mark = "engaged" if outcome["skill_loaded"] else "did not engage"
                 else:
                     record["reason"] = outcome.get("reason", "")
+                    record["detail"] = outcome.get("detail", "")
                     mark = f"unusable ({record['reason']})"
                 records.append(record)
                 print(f"  {probe['id']} run-{index} [{probe['expect']}]: {mark}")
                 shutil.rmtree(cwd, ignore_errors=True)
+                time.sleep(args.pause)
     finally:
         shutil.rmtree(scratch, ignore_errors=True)
 

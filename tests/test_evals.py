@@ -202,6 +202,35 @@ class TriggerProbeCase(unittest.TestCase):
                 f"'{label}' probes do not appear in both splits",
             )
 
+    def test_failed_probe_runs_keep_their_reason(self) -> None:
+        # Eight consecutive runs once failed with nothing recorded but an exit
+        # code, and diagnosing them meant reproducing the failures by hand. A
+        # recorded run that produced no result has to say why.
+        for path in WORKSPACE.rglob("runs-*.json"):
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            for record in payload.get("records", []):
+                if record.get("status") == "ok":
+                    continue
+                self.assertTrue(
+                    record.get("reason"),
+                    f"{path.name}: {record.get('probe')} run-{record.get('run')} "
+                    "failed without recording a reason",
+                )
+
+    def test_probe_runs_record_which_description_they_measured(self) -> None:
+        # A trigger rate is a property of a description. Without this, runs from
+        # either side of a rewrite pool silently.
+        for path in WORKSPACE.rglob("runs-*.json"):
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            digest = payload.get("description_sha")
+            self.assertTrue(digest, f"{path.name} does not say which description it measured")
+            for record in payload.get("records", []):
+                self.assertEqual(
+                    record.get("description_sha"),
+                    digest,
+                    f"{path.name} mixes runs from more than one description",
+                )
+
     def test_probe_queries_are_not_copied_from_the_capability_evals(self) -> None:
         # Reusing an eval prompt would measure the description against text the
         # expectations were already written around.

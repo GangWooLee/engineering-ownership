@@ -11,9 +11,13 @@
   ],
   "created_at": "2026-07-25T16:21:15+09:00",
   "diff": {
-    "digest": "558e27e1bb88a50b6fa3a44dccc4791c60e659344d64f79bf31edd1618bbaf89",
+    "digest": "c0a19e95b307dac5fefea4b6ce417ccdd7b1d4887f5b856d1d74edc4b3587bfc",
     "paths": [
-      "plugins/engineering-ownership/skills/engineering-ownership/evals/triggers.json",
+      "docs/engineering/changes/describe-when-to-invoke.md",
+      "engineering-ownership-workspace/iteration-6/PILOT.md",
+      "engineering-ownership-workspace/iteration-6/triggers/base/runs-002b98ce055a.json",
+      "engineering-ownership-workspace/iteration-6/triggers/unmanaged/runs-002b98ce055a.json",
+      "scripts/eval/run_trigger_probes.py",
       "tests/test_evals.py"
     ]
   },
@@ -25,6 +29,43 @@
     "revisit_after": "2026-08-01",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-07-25T16:21:15+09:00",
-  "verification": []
+  "updated_at": "2026-07-25T21:12:52+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "c0a19e95b307dac5fefea4b6ce417ccdd7b1d4887f5b856d1d74edc4b3587bfc",
+      "duration_ms": 17437,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T21:12:50+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "c0a19e95b307dac5fefea4b6ce417ccdd7b1d4887f5b856d1d74edc4b3587bfc",
+      "duration_ms": 56,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T21:12:50+09:00"
+    },
+    {
+      "command_id": "claude-plugin",
+      "diff_digest": "c0a19e95b307dac5fefea4b6ce417ccdd7b1d4887f5b856d1d74edc4b3587bfc",
+      "duration_ms": 1249,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T21:12:52+09:00"
+    },
+    {
+      "command_id": "release-package",
+      "diff_digest": "c0a19e95b307dac5fefea4b6ce417ccdd7b1d4887f5b856d1d74edc4b3587bfc",
+      "duration_ms": 59,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T21:12:52+09:00"
+    }
+  ]
 }
