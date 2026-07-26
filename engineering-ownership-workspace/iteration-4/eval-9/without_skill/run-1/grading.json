@@ -1,0 +1,61 @@
+{
+  "eval_feedback": {
+    "overall": "Expectation 5 is ambiguous: it could be read as satisfied merely by filing an ADR in the repo's existing `docs/decisions/` convention, or as requiring a discoverable link between the code and the decision. The response exposes the gap — the decision exists but the code doesn't point to it and the doc doesn't name the file — so the assertion should specify whether a code-to-decision pointer is required. Expectations 1 and 2 are both satisfiable by writing only the new doc; expectation 3 is the one that actually forces editing the old record, which is good separation, but note a response could earn 1 and 2 while leaving the superseded record silently stale (as happened here)."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 1114,
+    "tool_calls": {
+      "Bash": 5,
+      "Edit": 2,
+      "Read": 5,
+      "Write": 1
+    },
+    "total_steps": 14,
+    "total_tool_calls": 13,
+    "transcript_chars": 1368
+  },
+  "expectations": [
+    {
+      "evidence": "Step 3 records `read: docs/decisions/2026-02-settlement-amount-units.md`, and the response names it and states its content: \"Added `docs/decisions/2026-02-settlement-amount-units.md`'s successor note ... since that doc explicitly said it 'no longer describes what the code should do' once any partner needed fractional amounts.\" The new doc restates the decision: \"the whole-unit rule is no longer a rule every partner shares\" and \"the whole-unit conversion stopped being a property of the adapter.\"",
+      "passed": true,
+      "text": "Finds the existing accepted decision that this request contradicts, and says what that decision was."
+    },
+    {
+      "evidence": "The new doc's header states plainly: \"July 2026. Supersedes `2026-02-settlement-amount-units.md`.\"",
+      "passed": true,
+      "text": "States plainly whether the new work follows, replaces, or invalidates that earlier decision."
+    },
+    {
+      "evidence": "The earlier record `docs/decisions/2026-02-settlement-amount-units.md` does not appear in the files changed or created (only `2026-07-settlement-fractional-amounts.md`, `partner_adapter.py`, and `test_partner_adapter.py`), and no write step targets it. Its status was never changed to superseded and no pointer to the replacement was added — a reader opening the February doc would see no indication it has been replaced.",
+      "passed": false,
+      "text": "Preserves the reasoning in the earlier record, changing only its status and a pointer to what replaces it."
+    },
+    {
+      "evidence": "Searched the response and the new decision doc for any statement of why preserving the earlier reasoning matters to a future reader. The doc invokes the old reasoning (\"As the February note predicted...\") but never says why keeping that reasoning legible matters to someone reading it later; no such sentence is present.",
+      "passed": false,
+      "text": "Says why keeping the earlier reasoning legible matters to someone reading this later."
+    },
+    {
+      "evidence": "The decision lives in `docs/decisions/2026-07-settlement-fractional-amounts.md`, but the rewritten `src/api/partner_adapter.py` contains no comment or reference pointing to it, and the decision doc never names the affected file (`src/api/partner_adapter.py`). A reader looking at the affected code has no breadcrumb linking it to the decision.",
+      "passed": false,
+      "text": "Writes the new decision somewhere a later reader would find it when looking at the affected code."
+    }
+  ],
+  "graded_at": "2026-07-25T06:23:01+00:00",
+  "judge_model": "claude-opus-4-8",
+  "summary": {
+    "failed": 3,
+    "pass_rate": 0.4,
+    "passed": 2,
+    "total": 5
+  },
+  "timing": {
+    "api_duration_seconds": 116.219,
+    "duration_ms": 121531,
+    "total_duration_seconds": 121.531,
+    "total_tokens": 1575097,
+    "wall_clock_seconds": 123.535
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "expectations": [
+    {
+      "text": "Classifies the cross-layer database and external API change as at least R2.",
+      "passed": false,
+      "evidence": "The response explicitly names R2 or R3."
+    },
+    {
+      "text": "Rejects test-file existence and an earlier test run as current evidence.",
+      "passed": true,
+      "evidence": "Found: test file; earlier; not evidence"
+    },
+    {
+      "text": "Requires verification bound to the current diff and covers integration or runtime behavior.",
+      "passed": false,
+      "evidence": "Missing evidence for: integration or 통합 or runtime"
+    },
+    {
+      "text": "Requires rollback or recovery reasoning before completion.",
+      "passed": true,
+      "evidence": "Found: rollback"
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 2,
+    "total": 4,
+    "pass_rate": 0.5
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 1,
+    "errors_encountered": 0,
+    "output_chars": 818,
+    "transcript_chars": 0
+  },
+  "timing": {
+    "total_duration_seconds": 0.0,
+    "measurement_note": "Subagent timing and token metrics were not exposed by this orchestration surface."
+  },
+  "claims": [],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "Assertions test risk proportionality, current-diff evidence, recovery, and human ownership."
+  }
+}

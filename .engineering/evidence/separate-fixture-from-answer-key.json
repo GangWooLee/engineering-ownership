@@ -1,0 +1,88 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/separate-fixture-from-answer-key.md"
+  },
+  "change_id": "separate-fixture-from-answer-key",
+  "closed": {
+    "closed_at": "2026-07-26T10:41:41+09:00",
+    "revision": "2ec5d1d43a8afb429001ffdccbdf357f8ff4466a"
+  },
+  "competencies": [
+    "problem-framing-requirements",
+    "testing-debugging"
+  ],
+  "created_at": "2026-07-25T15:23:56+09:00",
+  "diff": {
+    "digest": "1b288d675e451a65a8485d1d649c7022cf2fc5e050ffee62c38fe41a94f3cb10",
+    "paths": [
+      "docs/engineering/changes/separate-fixture-from-answer-key.md",
+      "engineering-ownership-workspace/README.md",
+      "engineering-ownership-workspace/iteration-4/PILOT.md",
+      "engineering-ownership-workspace/iteration-4/eval-9/eval_metadata.json",
+      "engineering-ownership-workspace/iteration-4/eval-9/prompt.txt",
+      "engineering-ownership-workspace/iteration-4/eval-9/with_skill/run-1/grading.json",
+      "engineering-ownership-workspace/iteration-4/eval-9/with_skill/run-1/judge_raw.json",
+      "engineering-ownership-workspace/iteration-4/eval-9/with_skill/run-1/outputs/actions.json",
+      "engineering-ownership-workspace/iteration-4/eval-9/with_skill/run-1/outputs/fixture_delta.json",
+      "engineering-ownership-workspace/iteration-4/eval-9/with_skill/run-1/outputs/metrics.json",
+      "engineering-ownership-workspace/iteration-4/eval-9/with_skill/run-1/outputs/response.md",
+      "engineering-ownership-workspace/iteration-4/eval-9/with_skill/run-1/outputs/run_meta.json",
+      "engineering-ownership-workspace/iteration-4/eval-9/with_skill/run-1/outputs/transcript.md",
+      "engineering-ownership-workspace/iteration-4/eval-9/with_skill/run-1/timing.json",
+      "engineering-ownership-workspace/iteration-4/eval-9/without_skill/run-1/grading.json",
+      "engineering-ownership-workspace/iteration-4/eval-9/without_skill/run-1/judge_raw.json",
+      "engineering-ownership-workspace/iteration-4/eval-9/without_skill/run-1/outputs/actions.json",
+      "engineering-ownership-workspace/iteration-4/eval-9/without_skill/run-1/outputs/fixture_delta.json",
+      "engineering-ownership-workspace/iteration-4/eval-9/without_skill/run-1/outputs/metrics.json",
+      "engineering-ownership-workspace/iteration-4/eval-9/without_skill/run-1/outputs/response.md",
+      "engineering-ownership-workspace/iteration-4/eval-9/without_skill/run-1/outputs/run_meta.json",
+      "engineering-ownership-workspace/iteration-4/eval-9/without_skill/run-1/outputs/transcript.md",
+      "engineering-ownership-workspace/iteration-4/eval-9/without_skill/run-1/timing.json",
+      "engineering-ownership-workspace/iteration-4/preflight.json",
+      "scripts/eval/build_fixture.py",
+      "scripts/eval/fixtures/recipe.json",
+      "scripts/eval/fixtures/unmanaged/.gitignore",
+      "scripts/eval/fixtures/unmanaged/AGENTS.md",
+      "scripts/eval/fixtures/unmanaged/CONTRIBUTING.md",
+      "scripts/eval/fixtures/unmanaged/README.md",
+      "scripts/eval/fixtures/unmanaged/docs/decisions/2026-02-settlement-amount-units.md",
+      "scripts/eval/fixtures/unmanaged/src/__init__.py",
+      "scripts/eval/fixtures/unmanaged/src/api/__init__.py",
+      "scripts/eval/fixtures/unmanaged/src/api/partner_adapter.py",
+      "scripts/eval/fixtures/unmanaged/src/db/__init__.py",
+      "scripts/eval/fixtures/unmanaged/src/db/schema.py",
+      "scripts/eval/fixtures/unmanaged/tests/__init__.py",
+      "scripts/eval/fixtures/unmanaged/tests/test_partner_adapter.py",
+      "tests/test_evals.py"
+    ]
+  },
+  "risk": "R1",
+  "schema_version": 1,
+  "title": "Separate the fixture from the answer key",
+  "understanding": {
+    "gaps": [],
+    "revisit_after": "2026-08-01",
+    "status": "not-reviewed"
+  },
+  "updated_at": "2026-07-26T10:41:41+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "1b288d675e451a65a8485d1d649c7022cf2fc5e050ffee62c38fe41a94f3cb10",
+      "duration_ms": 16529,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T15:25:16+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "1b288d675e451a65a8485d1d649c7022cf2fc5e050ffee62c38fe41a94f3cb10",
+      "duration_ms": 50,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T15:25:16+09:00"
+    }
+  ]
+}

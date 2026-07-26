@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import re
 import shutil
 import subprocess
@@ -13,6 +14,7 @@ from typing import Any
 from . import __version__
 from .errors import EngineeringError
 from .evidence import (
+    ensure_open,
     list_evidence,
     new_evidence,
     now_iso,
@@ -22,7 +24,6 @@ from .evidence import (
 )
 from .io import json_text, minimal_subprocess_env, redact, safe_relative_path, write_repo_text
 from .model import (
-    COMPETENCIES,
     RISK_ORDER,
     contract_version,
     default_contract,
@@ -204,7 +205,6 @@ def command_change_start(args: argparse.Namespace) -> int:
         change_id,
         title,
         args.risk,
-        args.competency,
         digest,
         paths,
         artifacts,
@@ -221,7 +221,7 @@ def command_change_start(args: argparse.Namespace) -> int:
 def command_change_set_risk(args: argparse.Namespace) -> int:
     root = repo_root(args.repo)
     contract = read_contract(root)
-    record = read_evidence(root, contract, args.change_id)
+    record = ensure_open(read_evidence(root, contract, args.change_id))
     current = record["risk"]
     target = args.risk
     if RISK_ORDER[target] < RISK_ORDER[current]:
@@ -262,7 +262,7 @@ def command_verify(args: argparse.Namespace) -> int:
     contract = read_contract(root)
     if contract_version(contract) != 2:
         raise EngineeringError("Contract v1 cannot execute commands; migrate explicitly first")
-    record = read_evidence(root, contract, args.change_id)
+    record = ensure_open(read_evidence(root, contract, args.change_id))
     digest, paths = diff_digest(root)
     detected = effective_risk(contract, paths, recorded=record["risk"])
     if RISK_ORDER[detected] > RISK_ORDER[record["risk"]]:
@@ -428,6 +428,16 @@ def decision_is_superseded(text: str) -> bool:
     return bool(replacement and replacement.group(1).strip().lower() not in {"", "none"})
 
 
+def reference_scan_paths(root: Path, contract: dict[str, Any], paths: list[str]) -> list[str]:
+    # engineering-decision: exclude-illustrative-references | docs/engineering/decisions/exclude-illustrative-references.md
+    excluded = contract.get("refs", {}).get("exclude", [])
+    return [
+        relative_path
+        for relative_path in text_paths(root, paths)
+        if not any(fnmatch.fnmatch(relative_path, pattern) for pattern in excluded)
+    ]
+
+
 def reference_gaps(
     root: Path,
     contract: dict[str, Any],
@@ -438,7 +448,7 @@ def reference_gaps(
     gaps: list[str] = []
     records = {record["change_id"]: record for record in list_evidence(root, contract)}
     markers: list[tuple[str, str, str]] = []
-    for relative_path in text_paths(root, paths):
+    for relative_path in reference_scan_paths(root, contract, paths):
         path = safe_relative_path(root, relative_path)
         text = path.read_text(encoding="utf-8", errors="replace")
         for match in DECISION_REFERENCE.finditer(text):
@@ -512,7 +522,9 @@ def command_refs_check(args: argparse.Namespace) -> int:
         read_evidence(root, contract, args.change)
     paths = all_repository_paths(root) if args.all else changed_paths(root)
     gaps = reference_gaps(root, contract, paths, change_id=args.change)
-    print(f"Decision references checked: {len(text_paths(root, paths))} file(s)")
+    print(
+        f"Decision references checked: {len(reference_scan_paths(root, contract, paths))} file(s)"
+    )
     for gap in gaps:
         print(f"GAP: {gap}")
     print("RESULT: PASS" if not gaps else "RESULT: BLOCKED")
@@ -595,7 +607,7 @@ def command_explain(args: argparse.Namespace) -> int:
 def command_change_review(args: argparse.Namespace) -> int:
     root = repo_root(args.repo)
     contract = read_contract(root)
-    record = read_evidence(root, contract, args.change_id)
+    record = ensure_open(read_evidence(root, contract, args.change_id))
     gaps = [redact(item.strip()) for item in args.gap if item.strip()]
     status = args.status
     review_days = (
@@ -622,6 +634,27 @@ def command_change_review(args: argparse.Namespace) -> int:
     return 0
 
 
+def command_change_close(args: argparse.Namespace) -> int:
+    root = repo_root(args.repo)
+    contract = read_contract(root)
+    record = ensure_open(read_evidence(root, contract, args.change_id))
+    revision = head_revision(root)
+    if not re.fullmatch(r"[0-9a-f]{7,40}", revision):
+        raise EngineeringError("Cannot close before the repository has a commit")
+    record["closed"] = {"closed_at": now_iso(), "revision": revision}
+    record["updated_at"] = now_iso()
+    save_evidence(root, contract, record, overwrite=True)
+    print(f"Closed change: {record['change_id']} at {revision[:12]}")
+    digest, _ = diff_digest(root)
+    gaps = evidence_gaps(root, contract, record, digest)
+    if gaps:
+        print(
+            f"  note: closed with {len(gaps)} open gap(s); still visible via "
+            f"`engineering handoff --change {record['change_id']}`"
+        )
+    return 0
+
+
 def command_status(args: argparse.Namespace) -> int:
     root = repo_root(args.repo)
     contract = read_contract(root)
@@ -633,24 +666,30 @@ def command_status(args: argparse.Namespace) -> int:
     today = date.today().isoformat()
     shown = 0
     for record in records:
+        closed = record.get("closed")
+        if closed and not args.all:
+            continue
         understanding = record.get("understanding", {})
         due = understanding.get("revisit_after")
-        if args.due and (not due or due > today):
+        # Review obligations end at close: a closed record never matches --due.
+        if args.due and (closed is not None or not due or due > today):
             continue
         stale = record.get("diff", {}).get("digest") != digest
-        print(
+        line = (
             f"{record['change_id']}: {record['risk']} "
             f"understanding={understanding.get('status', 'not-reviewed')} "
             f"revisit_after={due or '-'} "
             f"current_diff={'no' if stale else 'yes'}"
         )
+        if closed:
+            line += f" closed={str(closed.get('closed_at', ''))[:10]}"
+        print(line)
         for kind, path in record.get("artifacts", {}).items():
             print(f"  {kind}: {path}")
-        if record.get("competencies"):
-            print(f"  competencies: {', '.join(record['competencies'])}")
-        current_gaps = evidence_gaps(root, contract, record, digest)
-        for gap in current_gaps:
-            print(f"  gap: {redact(str(gap))}")
+        if not closed:
+            current_gaps = evidence_gaps(root, contract, record, digest)
+            for gap in current_gaps:
+                print(f"  gap: {redact(str(gap))}")
         for gap in understanding.get("gaps", []):
             print(f"  understanding gap: {redact(str(gap))}")
         shown += 1
@@ -757,6 +796,10 @@ def handoff_text(root: Path, contract: dict[str, Any], change: str | None) -> st
     records = list_evidence(root, contract) if contract_version(contract) == 2 else []
     if change:
         records = [read_evidence(root, contract, change)]
+    else:
+        # The repo-wide handoff is the open-work view; a closed record is
+        # reachable for audit via --change, status --all, and explain.
+        records = [record for record in records if not record.get("closed")]
     lines = [
         "# Engineering handoff",
         "",
@@ -778,14 +821,16 @@ def handoff_text(root: Path, contract: dict[str, Any], change: str | None) -> st
             f"understanding {understanding.get('status', 'not-reviewed')}; "
             f"revisit after {understanding.get('revisit_after', '-')}"
         )
+        closed = record.get("closed")
+        if closed:
+            lines.append(
+                f"  - closed: {closed.get('closed_at')} at revision "
+                f"`{str(closed.get('revision', ''))[:12]}`"
+            )
         if record.get("artifacts"):
             lines.append("  - canonical records:")
             for kind, path in record["artifacts"].items():
                 lines.append(f"    - {kind}: `{path}`")
-        if record.get("competencies"):
-            lines.append(
-                "  - competencies: " + ", ".join(record["competencies"])
-            )
         if record.get("verification"):
             for result in record["verification"]:
                 current = result.get("diff_digest") == digest
@@ -889,12 +934,6 @@ def build_parser() -> argparse.ArgumentParser:
     start.add_argument("change_id")
     start.add_argument("--risk", choices=tuple(RISK_ORDER), required=True)
     start.add_argument("--title")
-    start.add_argument(
-        "--competency",
-        action="append",
-        default=[],
-        choices=sorted(COMPETENCIES),
-    )
     start.set_defaults(func=command_change_start)
     set_risk = change_sub.add_parser("set-risk")
     set_risk.add_argument("change_id")
@@ -906,6 +945,9 @@ def build_parser() -> argparse.ArgumentParser:
     review.add_argument("--gap", action="append", default=[])
     review.add_argument("--revisit-days", type=int, dest="review_days")
     review.set_defaults(func=command_change_review)
+    close = change_sub.add_parser("close")
+    close.add_argument("change_id")
+    close.set_defaults(func=command_change_close)
 
     verify = sub.add_parser("verify", help="Execute argv verification and bind results to the diff")
     verify.add_argument("change_id")
@@ -933,6 +975,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     status = sub.add_parser("status", help="Show open evidence and review obligations")
     status.add_argument("--due", action="store_true")
+    status.add_argument("--all", action="store_true")
     status.set_defaults(func=command_status)
 
     handoff = sub.add_parser("handoff", help="Create a conversation-independent handoff")

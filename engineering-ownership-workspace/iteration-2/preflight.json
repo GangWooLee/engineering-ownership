@@ -1,0 +1,15 @@
+{
+  "baseline_clean": true,
+  "checked_at": "2026-07-25T04:09:11+00:00",
+  "fixture_commit": "7bbcfe89c179b9e2cd349bf02ba624a3be84609b",
+  "model": "claude-sonnet-5",
+  "treatment_has_skill": true,
+  "with_skill": {
+    "answer": "engineering-ownership",
+    "status": "ok"
+  },
+  "without_skill": {
+    "answer": "NONE",
+    "status": "ok"
+  }
+}

@@ -28,10 +28,6 @@ def main() -> int:
     claude = load("plugins/engineering-ownership/.claude-plugin/plugin.json")
     codex_market = load(".agents/plugins/marketplace.json")
     claude_market = load(".claude-plugin/marketplace.json")
-    catalog = load(
-        "plugins/engineering-ownership/src/engineering_ownership/"
-        "resources/competencies/catalog.json"
-    )
     schemas = [
         load(
             "plugins/engineering-ownership/src/engineering_ownership/"
@@ -55,8 +51,6 @@ def main() -> int:
     body = skill.read_text(encoding="utf-8")
     if not re.search(r"^name: engineering-ownership$", body, re.MULTILINE):
         raise SystemExit("SKILL.md name is invalid")
-    if len(catalog["competencies"]) != 8:
-        raise SystemExit("competency catalog must contain exactly eight entries")
     if any(schema.get("$schema") != "https://json-schema.org/draft/2020-12/schema" for schema in schemas):
         raise SystemExit("schemas must use draft 2020-12")
     hooks = load("plugins/engineering-ownership/hooks/hooks.json")

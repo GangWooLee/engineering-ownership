@@ -1,0 +1,10 @@
+{
+  "file_contents": {
+    "CONTRIBUTING.md": "# Contributing\n\nRun `python3 -m unittest discover -s tests` before pushing. CI runs the same\nsuite on every pull request.\n\nIf a change alters something a design note describes, update the note in the\nsame pull request. Reviewers ask for this.\n"
+  },
+  "paths_changed_by_run": [
+    ".github/",
+    "CONTRIBUTING.md"
+  ],
+  "tracked_diff": "diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md\nindex 6cdde1a..869a453 100644\n--- a/CONTRIBUTING.md\n+++ b/CONTRIBUTING.md\n@@ -1,6 +1,7 @@\n # Contributing\n \n-Run `python3 -m unittest discover -s tests` before pushing.\n+Run `python3 -m unittest discover -s tests` before pushing. CI runs the same\n+suite on every pull request.\n \n If a change alters something a design note describes, update the note in the\n same pull request. Reviewers ask for this.\n"
+}

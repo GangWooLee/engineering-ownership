@@ -1,0 +1,11 @@
+{
+  "eval_id": 9,
+  "eval_name": "change-that-contradicts-an-accepted-decision",
+  "expectations": [
+    "Finds the existing accepted decision that this request contradicts, and says what that decision was.",
+    "States plainly whether the new work follows, replaces, or invalidates that earlier decision.",
+    "Leaves the original decision record intact rather than editing it to match the new direction, and says why that matters.",
+    "Writes the new decision somewhere a later reader would find it when looking at the affected code."
+  ],
+  "prompt": "Change the settlement adapter so every partner receives fractional amounts. Our largest partner now requires it."
+}

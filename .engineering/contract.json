@@ -31,7 +31,7 @@
     },
     {
       "id": "release-package",
-      "argv": ["python3", "scripts/build_release.py", "--version", "0.2.0"],
+      "argv": ["python3", "scripts/build_release.py", "--version", "0.3.0"],
       "env": {},
       "timeout_seconds": 60,
       "required_for": ["R2", "R3"]
@@ -44,15 +44,22 @@
       "plugins/engineering-ownership/.claude-plugin/**",
       ".agents/plugins/**",
       ".claude-plugin/**",
-      "pyproject.toml"
+      "pyproject.toml",
+      ".github/workflows/ci.yml"
     ],
     "R3": [
       "plugins/engineering-ownership/src/engineering_ownership/cli.py",
       "plugins/engineering-ownership/src/engineering_ownership/io.py",
       "plugins/engineering-ownership/src/engineering_ownership/model.py",
       "plugins/engineering-ownership/src/engineering_ownership/repository.py",
+      "plugins/engineering-ownership/src/engineering_ownership/evidence.py",
+      "plugins/engineering-ownership/src/engineering_ownership/templates.py",
+      "plugins/engineering-ownership/src/engineering_ownership/resources/schemas/**",
       "plugins/engineering-ownership/hooks/**",
-      ".github/workflows/release.yml"
+      ".github/workflows/release.yml",
+      "scripts/build_release.py",
+      "scripts/validate_release_tag.py",
+      "scripts/validate_distribution.py"
     ]
   },
   "artifacts": {
@@ -62,6 +69,13 @@
     "threat_models": "docs/engineering/security",
     "evidence": ".engineering/evidence",
     "handoffs": ".engineering/handoffs"
+  },
+  "refs": {
+    "exclude": [
+      "docs/tutorials/**",
+      "engineering-ownership-workspace/**",
+      "scripts/eval/fixtures/**"
+    ]
   },
   "automation": {
     "session_hooks": "off"

@@ -7,7 +7,6 @@
     "schema_version",
     "change_id",
     "risk",
-    "competencies",
     "artifacts",
     "diff",
     "verification",
@@ -20,7 +19,6 @@
     "change_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{1,78}[a-z0-9]$"},
     "title": {"type": "string", "minLength": 1, "maxLength": 160},
     "risk": {"enum": ["R0", "R1", "R2", "R3"]},
-    "competencies": {"type": "array", "items": {"type": "string"}},
     "artifacts": {"type": "object", "additionalProperties": {"type": "string"}},
     "diff": {
       "type": "object",
@@ -38,6 +36,14 @@
         "status": {"enum": ["not-reviewed", "reviewed", "gaps"]},
         "gaps": {"type": "array", "items": {"type": "string"}},
         "revisit_after": {"type": "string"}
+      }
+    },
+    "closed": {
+      "type": "object",
+      "required": ["closed_at", "revision"],
+      "properties": {
+        "closed_at": {"type": "string"},
+        "revision": {"type": "string", "pattern": "^[0-9a-f]{7,40}$"}
       }
     },
     "created_at": {"type": "string"},

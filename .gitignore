@@ -6,6 +6,7 @@ __pycache__/
 build/
 dist/
 *.egg-info/
-engineering-ownership-workspace/
+engineering-ownership-workspace/**/review.html
+engineering-ownership-workspace/**/feedback.json
 .DS_Store
 

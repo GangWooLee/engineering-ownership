@@ -1,0 +1,95 @@
+{
+  "purpose": "Whether the skill is consulted at all, which is separate from whether it helps once consulted. Measured because the treatment engaged in none of seven runs on a repository that does not already carry this skill's artifacts, while engaging in both runs on one that does.",
+  "scoring": {
+    "trigger": "The skill should be consulted. Scored as recall.",
+    "no-trigger": "The skill should not be consulted. Scored as precision. These are near misses that share vocabulary with the skill's domain but ask for no change to this repository; an obviously unrelated query is a free pass and measures nothing.",
+    "unscored": "Recorded but not scored, because the project has not decided the case. The router says not to create a change record 'merely because this skill was invoked', which presumes invocation may happen and asks for restraint afterwards. Counting an undecided case as a failure would be scoring an ambiguity."
+  },
+  "split": "Stratified by label, assigned here rather than computed, so that it cannot drift between runs. The description is revised against train only; test is measured once at the end and its score is optimistically biased by that selection.",
+  "probes": [
+    {
+      "id": "adopt-on-an-inherited-service",
+      "intent": "setup",
+      "expect": "trigger",
+      "split": "train",
+      "query": "I have just inherited this service and nobody who worked on it is still here. Before I start changing things, what should I put in place so that the next person is not in my position?"
+    },
+    {
+      "id": "begin-a-consequential-change",
+      "intent": "start",
+      "expect": "trigger",
+      "split": "train",
+      "query": "We need to add rate limiting to the partner API before the next release. Take me through doing it properly rather than quickly."
+    },
+    {
+      "id": "carry-on-someone-elses-work",
+      "intent": "resume",
+      "expect": "trigger",
+      "split": "train",
+      "query": "Pick up the billing work that was left half finished and take it to a state I can review."
+    },
+    {
+      "id": "decide-whether-it-is-ready",
+      "intent": "check",
+      "expect": "trigger",
+      "split": "train",
+      "query": "I think this branch is ready. Go through it and tell me what I would regret not having done before merging."
+    },
+    {
+      "id": "hand-over-before-leave",
+      "intent": "handoff",
+      "expect": "trigger",
+      "split": "test",
+      "query": "I am away for two weeks from Friday. Get this into a state where somebody else can carry it without having to ask me anything."
+    },
+    {
+      "id": "recover-the-reasoning-before-changing",
+      "intent": "study",
+      "expect": "trigger",
+      "split": "test",
+      "query": "I need to understand why the settlement code converts amounts the way it does before I touch it. Work out the reasoning and explain it to me."
+    },
+    {
+      "id": "explain-a-general-concept",
+      "intent": "none",
+      "expect": "no-trigger",
+      "split": "train",
+      "query": "Explain the difference between optimistic and pessimistic locking."
+    },
+    {
+      "id": "write-a-standalone-query",
+      "intent": "none",
+      "expect": "no-trigger",
+      "split": "train",
+      "query": "Write me a SQL query that counts orders per partner for last month."
+    },
+    {
+      "id": "ask-for-general-advice",
+      "intent": "none",
+      "expect": "no-trigger",
+      "split": "test",
+      "query": "What is a reasonable retry policy for a payments API in general?"
+    },
+    {
+      "id": "summarise-for-a-team-channel",
+      "intent": "none",
+      "expect": "no-trigger",
+      "split": "test",
+      "query": "Summarise these release notes into three bullets I can post in the team channel."
+    },
+    {
+      "id": "fix-a-documentation-typo",
+      "intent": "r0",
+      "expect": "unscored",
+      "split": "train",
+      "query": "Fix the typo in the README heading."
+    },
+    {
+      "id": "add-a-docstring",
+      "intent": "r0",
+      "expect": "unscored",
+      "split": "train",
+      "query": "Add a docstring to to_partner_payload describing what it returns."
+    }
+  ]
+}

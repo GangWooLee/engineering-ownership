@@ -12,16 +12,6 @@ from .io import read_json
 
 
 RISK_ORDER = {"R0": 0, "R1": 1, "R2": 2, "R3": 3}
-COMPETENCIES = {
-    "problem-framing-requirements",
-    "system-data-flow-design",
-    "responsibility-reuse-code-design",
-    "testing-debugging",
-    "security-privacy",
-    "reliability-observability-recovery",
-    "git-delivery-change-management",
-    "explanation-review-handoff",
-}
 SECRET_ENV = re.compile(r"(?i)(token|secret|password|passwd|credential|api.?key)")
 ENV_KEY = re.compile(r"^[A-Z_][A-Z0-9_]{0,63}$")
 FORBIDDEN_COMMANDS = {
@@ -156,6 +146,20 @@ def validate_contract(data: dict[str, Any], *, allow_v1: bool = True) -> dict[st
         or ".." in Path(handoffs).parts
     ):
         raise EngineeringError("Contract v2 artifact path 'handoffs' must be repository-relative")
+    refs = data.get("refs", {})
+    if not isinstance(refs, dict):
+        raise EngineeringError("Contract 'refs' must be an object")
+    exclude = refs.get("exclude", [])
+    if not isinstance(exclude, list):
+        raise EngineeringError("refs.exclude must be an array of glob patterns")
+    for pattern in exclude:
+        if (
+            not isinstance(pattern, str)
+            or not pattern
+            or Path(pattern).is_absolute()
+            or ".." in Path(pattern).parts
+        ):
+            raise EngineeringError("refs.exclude patterns must be repository-relative globs")
     automation = data.get("automation", {"session_hooks": "off"})
     if (
         not isinstance(automation, dict)

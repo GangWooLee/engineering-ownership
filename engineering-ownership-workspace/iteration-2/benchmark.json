@@ -1,0 +1,142 @@
+{
+  "metadata": {
+    "skill_name": "engineering-ownership",
+    "skill_path": "plugins/engineering-ownership/skills/engineering-ownership",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-07-25T04:21:23Z",
+    "evals_run": [
+      6
+    ],
+    "runs_per_configuration": 1,
+    "corrected": "tokens from timing.json; runs counted, not assumed"
+  },
+  "runs": [
+    {
+      "eval_id": 6,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 311.658,
+        "tokens": 3254669,
+        "tool_calls": 35,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "The response grounds itself in the working tree and repo files rather than recalled chat: \"Everything currently sits as uncommitted working-tree changes (`src/api/partner_adapter.py`, `src/db/schema.py`, `tests/test_partner_adapter.py`, the change/ADR docs, and the evidence file).\" and \"Per `AGENTS.md`'s \"keep schema and adapter changes in separate commits\" convention\" \u2014 both cite concrete files and repo conventions read from the diff, plus specifics like the ADR that \"warned about\" the failure mode.",
+          "passed": true,
+          "text": "Reads repository evidence and current diff rather than guessing from chat."
+        },
+        {
+          "evidence": "The response asserts the opposite of stale verification: \"All verification passes and the evidence record is current.\" I searched for any statement that prior verification or the evidence record was out of date, predated the uncommitted changes, or needed re-running, and found none \u2014 the response presents verification as a clean, current status. While it does surface one open risk (\"they get raw `amount_cents` passed through unchanged, which is an assumption, not a confirmed contract\"), the conjunctive expectation also requires identifying stale verification, which is absent; no partial credit.",
+          "passed": false,
+          "text": "Identifies stale verification and any risk increase."
+        },
+        {
+          "evidence": "Problem: \"the adapter was truncating (floor-dividing) cents to whole units ... which silently under-reports money whenever the fractional part is \u226550\u00a2\". Current state: \"Everything currently sits as uncommitted working-tree changes (`src/api/partner_adapter.py`, `src/db/schema.py`, ...)\". Next safe action: \"I'd split this into two commits (schema, then adapter+tests+docs+evidence) \u2014 let me know if you'd like me to go ahead and commit.\"",
+          "passed": true,
+          "text": "States the restored problem, current state, and next safe action."
+        },
+        {
+          "evidence": "The response shows deliberate restraint against duplicating the existing decision: \"an ADR addendum documenting the round-half-up decision, without rewriting the original accepted decision.\" It appended rather than re-created the accepted decision, and left the work as a single set of uncommitted changes rather than reproducing them.",
+          "passed": true,
+          "text": "Does not create a duplicate change when the intended outcome is unchanged."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 6,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 103.565,
+        "tokens": 725974,
+        "tool_calls": 10,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"I picked up the in-progress work on `partner-settlement-rounding` (docs/engineering/decisions & changes docs, `.engineering/contract.json`). Current uncommitted diff adds `WHOLE_UNIT_PARTNERS` truncation and a new `settlementCurrency` field/schema column.\" \u2014 cites concrete files, the ADR at `docs/engineering/decisions/partner-settlement-rounding.md`, the `# TODO` in the code, and `src/db/schema.py`, rather than inferring from chat.",
+          "passed": true,
+          "text": "Reads repository evidence and current diff rather than guessing from chat."
+        },
+        {
+          "evidence": "\"Tests still pass (1 test), but that test only checks `orderId` \u2014 it doesn't cover the new conversion logic at all.\" identifies the passing test as stale/inadequate, and \"`amount // 100` ... silently drops the remainder whenever `amount_cents` isn't a multiple of 100 (e.g. 555 cents \u2192 5, losing 55 cents)\" identifies the money-loss risk introduced by the diff.",
+          "passed": true,
+          "text": "Identifies stale verification and any risk increase."
+        },
+        {
+          "evidence": "Restored problem and current state: \"Truncation bug ... The `# TODO` in the code admits this\" and \"the accepted ADR ... explicitly lists 'changing how amounts are stored' as not in scope. The current diff adds a `settlement_currency` column\". Next safe action: \"Once you confirm the rounding rule, I'll implement it, add test coverage for both the whole-unit and default paths, and update the change/decision docs to reflect the resolved gap.\"",
+          "passed": true,
+          "text": "States the restored problem, current state, and next safe action."
+        },
+        {
+          "evidence": "The response works within the existing uncommitted diff and existing TODO rather than starting a parallel implementation \u2014 \"Once you confirm the rounding rule, I'll implement it\" resolves the in-code TODO, and it honors the ADR that \"conversion should happen 'once inside the adapter boundary'\", even questioning the extra `settlement_currency` column as possible unintended new scope rather than adding more.",
+          "passed": true,
+          "text": "Does not create a duplicate change when the intended outcome is unchanged."
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 0.75,
+        "stddev": 0.0,
+        "min": 0.75,
+        "max": 0.75
+      },
+      "time_seconds": {
+        "mean": 311.658,
+        "stddev": 0.0,
+        "min": 311.658,
+        "max": 311.658
+      },
+      "tokens": {
+        "mean": 3254669.0,
+        "stddev": 0.0,
+        "min": 3254669,
+        "max": 3254669
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 103.565,
+        "stddev": 0.0,
+        "min": 103.565,
+        "max": 103.565
+      },
+      "tokens": {
+        "mean": 725974.0,
+        "stddev": 0.0,
+        "min": 725974,
+        "max": 725974
+      }
+    },
+    "delta": {
+      "pass_rate": "-0.25",
+      "time_seconds": "+208.1",
+      "tokens": "+2528695"
+    }
+  },
+  "notes": [
+    "Pilot data. Not an evaluation result and not a published claim; see PILOT.md."
+  ]
+}

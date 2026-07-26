@@ -6,11 +6,12 @@ environment values. The CLI never invokes a shell.
 
 `.engineering/evidence/<change-id>.json` binds:
 
-- risk and competency tags;
+- risk;
 - repository-relative artifact paths;
 - verification command IDs and outcomes;
 - the exact current diff digest;
-- optional understanding state, learning gaps, and revisit date.
+- optional understanding state, learning gaps, and revisit date;
+- optional terminal close state (`closed_at` and the closing `revision`).
 
 `docs/engineering/changes/<change-id>.md` remains the human-readable reasoning
 record. Significant decisions live in append-only ADRs and operational recovery

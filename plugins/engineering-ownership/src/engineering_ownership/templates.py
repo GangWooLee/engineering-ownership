@@ -3,7 +3,6 @@ BRIEF = """# {date} · {title}
 Change ID: `{change_id}`
 Created: `{created_at}`
 Risk: {risk}
-Status: In progress
 
 ## Problem and intended outcome
 

@@ -1,0 +1,14 @@
+{
+  "file_contents": {
+    "AGENTS.md": "# Repository instructions\n\nRun `python3 -m unittest discover -s tests` before pushing. CI runs the same\ncommand on every push and pull request against `main`.\nKeep schema changes and adapter changes in separate commits when practical.\nNew design note in `docs/decisions/`? Start from `docs/decisions/TEMPLATE.md`.\n",
+    "CONTRIBUTING.md": "# Contributing\n\nRun `python3 -m unittest discover -s tests` before pushing. CI runs the same\ncommand on every push and pull request against `main`.\n\nIf a change alters something a design note describes, update the note in the\nsame pull request. Reviewers ask for this. Starting a new one? Copy\n`docs/decisions/TEMPLATE.md`.\n\nOpen PRs fill in the checklist in `.github/pull_request_template.md`.\n",
+    "docs/decisions/TEMPLATE.md": "# <Short name of the decision>\n\n<Month year>, <where it was agreed, e.g. \"agreed in the platform sync\">.\n\n<What was breaking or costly. The problem that forced a decision.>\n\n<Options that were considered and why each was rejected.>\n\n<The decision that was made and why it beat the rejected options.>\n\n<The boundary of this decision: what has to stay true for it to hold, and\nwhat would make this note stop describing what the code should do.>\n"
+  },
+  "paths_changed_by_run": [
+    ".github/",
+    "AGENTS.md",
+    "CONTRIBUTING.md",
+    "docs/decisions/TEMPLATE.md"
+  ],
+  "tracked_diff": "diff --git a/AGENTS.md b/AGENTS.md\nindex d22a828..e50c09c 100644\n--- a/AGENTS.md\n+++ b/AGENTS.md\n@@ -1,4 +1,6 @@\n # Repository instructions\n \n-Run `python3 -m unittest discover -s tests` before pushing.\n+Run `python3 -m unittest discover -s tests` before pushing. CI runs the same\n+command on every push and pull request against `main`.\n Keep schema changes and adapter changes in separate commits when practical.\n+New design note in `docs/decisions/`? Start from `docs/decisions/TEMPLATE.md`.\ndiff --git a/CONTRIBUTING.md b/CONTRIBUTING.md\nindex 6cdde1a..49d1615 100644\n--- a/CONTRIBUTING.md\n+++ b/CONTRIBUTING.md\n@@ -1,6 +1,10 @@\n # Contributing\n \n-Run `python3 -m unittest discover -s tests` before pushing.\n+Run `python3 -m unittest discover -s tests` before pushing. CI runs the same\n+command on every push and pull request against `main`.\n \n If a change alters something a design note describes, update the note in the\n-same pull request. Reviewers ask for this.\n+same pull request. Reviewers ask for this. Starting a new one? Copy\n+`docs/decisions/TEMPLATE.md`.\n+\n+Open PRs fill in the checklist in `.github/pull_request_template.md`.\n"
+}

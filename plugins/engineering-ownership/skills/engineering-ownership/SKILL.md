@@ -1,11 +1,11 @@
 ---
 name: engineering-ownership
-description: Route AI-assisted software work through durable engineering decisions, current-diff verification, operational safety, and resumable handoff. Use for R1+ implementation, debugging, refactoring, API, database, security, infrastructure, AI-agent, release, or production work; when asked to continue or resume code work; and before merge or handoff. Keep R0 documentation-only edits lightweight.
+description: Use when someone is changing software they will have to live with, and the reasoning would otherwise survive only in this conversation. Covers setting up an engineering process in a repository that has none, starting work whose design is expensive to reverse, picking up work another person left unfinished, deciding whether a change is ready to merge, handing work over, and recovering why an existing decision was made before overturning it. Trigger on phrasings like 'set this repo up properly', 'take this over', 'continue the previous work', 'is this ready to merge', 'hand this off', 'why was it built this way' - and on the situation itself even when the user does not ask for process: a repository with no engineering setup, an unfinished diff, an .engineering/contract.json, or a decision record the requested change would contradict. Consult it before writing the code, not after. For diagnosing a single failure, a debugging skill fits better.
 license: MIT
 compatibility: Python 3.11+ and Git. The bundled engineering CLI needs no separate installation when this plugin is installed.
 metadata:
   author: GangWooLee
-  version: "0.2.0"
+  version: "0.3.0"
 ---
 
 # Engineering Ownership
@@ -92,9 +92,9 @@ Do not add this marker to every file. Existing markers must pass
 
 ## Preserve knowledge without grading the person
 
-Artifacts and competency tags show what happened; they are not maturity,
-competence, readiness, or person scores. Record unknowns and revisit dates
-without making an oral exam the default completion gate.
+Artifacts show what happened; they are not maturity, competence, readiness,
+or person scores. Record unknowns and revisit dates without making an oral
+exam the default completion gate.
 
 Load only what is needed:
 
@@ -107,4 +107,3 @@ Load only what is needed:
 - [Evidence model](references/evidence-model.md)
 - [Decision recording](references/recording-decisions.md)
 - [CLI reference](references/cli.md)
-- [Competency tags](references/competencies.md)

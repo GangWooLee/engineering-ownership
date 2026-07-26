@@ -24,6 +24,12 @@ def git(root: Path, *args: str) -> subprocess.CompletedProcess[str]:
     )
 
 
+def decision_marker(change_id: str, adr_path: str) -> str:
+    # Composed at runtime so this source file itself does not add dangling
+    # references to the repository-wide `refs check --all` scan.
+    return "# engineering-" + f"decision: {change_id} | {adr_path}\n"
+
+
 class CliCase(unittest.TestCase):
     def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory()
@@ -147,15 +153,7 @@ class CliCase(unittest.TestCase):
         self.init()
         self.commit_contract()
         (self.root / "app.py").write_text("VALUE = 1\n", encoding="utf-8")
-        started = self.invoke(
-            "change",
-            "start",
-            "app-value",
-            "--risk",
-            "R2",
-            "--competency",
-            "testing-debugging",
-        )
+        started = self.invoke("change", "start", "app-value", "--risk", "R2")
         self.assertEqual(started.returncode, 0, started.stderr)
         self.fill_artifacts("app-value")
         verified = self.invoke("verify", "app-value")
@@ -172,15 +170,7 @@ class CliCase(unittest.TestCase):
         self.init()
         self.commit_contract()
         (self.root / "app.py").write_text("VALUE = 1\n", encoding="utf-8")
-        self.invoke(
-            "change",
-            "start",
-            "review-later",
-            "--risk",
-            "R2",
-            "--competency",
-            "explanation-review-handoff",
-        )
+        self.invoke("change", "start", "review-later", "--risk", "R2")
         self.fill_artifacts("review-later")
         verified = self.invoke("verify", "review-later")
         self.assertEqual(verified.returncode, 0, verified.stderr)
@@ -332,25 +322,32 @@ class CliCase(unittest.TestCase):
         self.assertNotIn(str(Path.home()), result.stdout)
         self.assertIn("Resume safely", result.stdout)
 
-    def test_status_reports_competencies_gaps_and_revisit_date_without_score(self) -> None:
+    def test_status_reports_gaps_and_revisit_date_without_score(self) -> None:
         self.init()
         self.commit_contract()
         (self.root / "app.py").write_text("VALUE = 1\n")
-        self.invoke(
-            "change",
-            "start",
-            "status-check",
-            "--risk",
-            "R1",
-            "--competency",
-            "testing-debugging",
-        )
+        self.invoke("change", "start", "status-check", "--risk", "R1")
         result = self.invoke("status")
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("testing-debugging", result.stdout)
         self.assertIn("verification 'unit'", result.stdout)
         self.assertIn("revisit_after=", result.stdout)
         self.assertNotIn("score", result.stdout.lower())
+
+    def test_evidence_with_legacy_competencies_field_stays_readable(self) -> None:
+        # Records written before the tag subsystem was removed carry a
+        # competencies array; readers must ignore it, not reject it.
+        self.init()
+        self.commit_contract()
+        (self.root / "app.py").write_text("VALUE = 1\n")
+        self.invoke("change", "start", "legacy-tags", "--risk", "R1")
+        evidence = self.root / ".engineering/evidence/legacy-tags.json"
+        record = json.loads(evidence.read_text())
+        record["competencies"] = ["testing-debugging"]
+        evidence.write_text(json.dumps(record))
+        result = self.invoke("status")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("legacy-tags", result.stdout)
+        self.assertEqual(self.invoke("explain", "legacy-tags").returncode, 0)
 
     def test_evidence_stores_no_command_output_or_home_path(self) -> None:
         contract = self.init()
@@ -538,8 +535,8 @@ class CliCase(unittest.TestCase):
         self.invoke("change", "start", "cache-policy", "--risk", "R2")
         app = self.root / "app.py"
         app.write_text(
-            "# engineering-decision: cache-policy | "
-            "docs/engineering/decisions/cache-policy.md\nVALUE = 1\n"
+            decision_marker("cache-policy", "docs/engineering/decisions/cache-policy.md")
+            + "VALUE = 1\n"
         )
         adr = self.root / "docs/engineering/decisions/cache-policy.md"
         adr.write_text(
@@ -551,9 +548,7 @@ class CliCase(unittest.TestCase):
         valid = self.invoke("refs", "check", "--all")
         self.assertEqual(valid.returncode, 0, valid.stdout + valid.stderr)
 
-        app.write_text(
-            "# engineering-decision: cache-policy | docs/wrong.md\nVALUE = 1\n"
-        )
+        app.write_text(decision_marker("cache-policy", "docs/wrong.md") + "VALUE = 1\n")
         wrong = self.invoke("refs", "check", "--all")
         self.assertEqual(wrong.returncode, 1)
         self.assertIn("canonical ADR", wrong.stdout)
@@ -564,16 +559,14 @@ class CliCase(unittest.TestCase):
         self.invoke("change", "start", "old-policy", "--risk", "R2")
         app = self.root / "app.py"
         app.write_text(
-            "# engineering-decision: missing-policy | "
-            "docs/engineering/decisions/missing-policy.md\n"
+            decision_marker("missing-policy", "docs/engineering/decisions/missing-policy.md")
         )
         missing = self.invoke("refs", "check", "--all")
         self.assertEqual(missing.returncode, 1)
         self.assertIn("has no evidence", missing.stdout)
 
         app.write_text(
-            "# engineering-decision: old-policy | "
-            "docs/engineering/decisions/old-policy.md\n"
+            decision_marker("old-policy", "docs/engineering/decisions/old-policy.md")
         )
         adr = self.root / "docs/engineering/decisions/old-policy.md"
         adr.write_text(adr.read_text().replace("Superseded by: None", "Superseded by: new-policy"))
@@ -591,8 +584,7 @@ class CliCase(unittest.TestCase):
             (self.root / "linked.py").symlink_to(target)
             app = self.root / "app.py"
             app.write_text(
-                "# engineering-decision: linked-policy | "
-                "docs/engineering/decisions/linked-policy.md\n"
+                decision_marker("linked-policy", "docs/engineering/decisions/linked-policy.md")
             )
             adr = self.root / "docs/engineering/decisions/linked-policy.md"
             adr.write_text(
@@ -633,6 +625,142 @@ class CliCase(unittest.TestCase):
         self.assertNotIn(str(Path.home()), result.stdout)
         self.assertNotIn("private-value", result.stdout)
         self.assertNotIn("argv", result.stdout)
+
+    def test_change_close_records_terminal_state_and_hides_from_status(self) -> None:
+        self.init()
+        self.commit_contract()
+        (self.root / "app.py").write_text("VALUE = 1\n")
+        self.invoke("change", "start", "done-work", "--risk", "R1")
+        closed = self.invoke("change", "close", "done-work")
+        self.assertEqual(closed.returncode, 0, closed.stderr)
+        record = json.loads(
+            (self.root / ".engineering/evidence/done-work.json").read_text()
+        )
+        self.assertIn("closed_at", record["closed"])
+        self.assertRegex(record["closed"]["revision"], r"^[0-9a-f]{7,40}$")
+        plain = self.invoke("status")
+        self.assertEqual(plain.returncode, 0, plain.stderr)
+        self.assertIn("No matching change records.", plain.stdout)
+        everything = self.invoke("status", "--all")
+        self.assertIn("done-work", everything.stdout)
+        self.assertIn("closed=", everything.stdout)
+
+    def test_change_close_rejects_unknown_id_and_double_close(self) -> None:
+        self.init()
+        self.commit_contract()
+        missing = self.invoke("change", "close", "no-such-change")
+        self.assertEqual(missing.returncode, 2)
+        (self.root / "app.py").write_text("VALUE = 1\n")
+        self.invoke("change", "start", "twice-closed", "--risk", "R1")
+        first = self.invoke("change", "close", "twice-closed")
+        self.assertEqual(first.returncode, 0, first.stderr)
+        second = self.invoke("change", "close", "twice-closed")
+        self.assertEqual(second.returncode, 2)
+        self.assertIn("was closed at", second.stderr)
+
+    def test_closed_change_rejects_mutation_but_stays_readable(self) -> None:
+        self.init()
+        self.commit_contract()
+        (self.root / "app.py").write_text("VALUE = 1\n")
+        self.invoke("change", "start", "settled-work", "--risk", "R1")
+        self.invoke("change", "close", "settled-work")
+        for mutating in (
+            ("verify", "settled-work"),
+            ("change", "review", "settled-work", "--status", "reviewed"),
+            ("change", "set-risk", "settled-work", "--risk", "R2"),
+        ):
+            result = self.invoke(*mutating)
+            self.assertEqual(result.returncode, 2, mutating)
+            self.assertIn("start a new change", result.stderr)
+        self.assertEqual(self.invoke("explain", "settled-work").returncode, 0)
+        readable = self.invoke("check", "--mode", "advise", "--change", "settled-work")
+        self.assertEqual(readable.returncode, 0, readable.stderr)
+
+    def test_bare_handoff_omits_closed_records_but_change_handoff_reports_them(self) -> None:
+        self.init()
+        self.commit_contract()
+        (self.root / "app.py").write_text("VALUE = 1\n")
+        self.invoke("change", "start", "open-work", "--risk", "R1")
+        self.invoke("change", "start", "shipped-work", "--risk", "R1")
+        self.invoke("change", "close", "shipped-work")
+        bare = self.invoke("handoff")
+        self.assertEqual(bare.returncode, 0, bare.stderr)
+        # The dirty Brief file legitimately appears under "Changed paths";
+        # the record listing is the open-work view under test.
+        records_section = bare.stdout.split("## Change records", 1)[1]
+        self.assertIn("`open-work`", records_section)
+        self.assertNotIn("`shipped-work`", records_section)
+        audit = self.invoke("handoff", "--change", "shipped-work")
+        self.assertEqual(audit.returncode, 0, audit.stderr)
+        self.assertIn("closed:", audit.stdout)
+
+    def test_status_due_treats_closed_records_as_settled(self) -> None:
+        self.init()
+        self.commit_contract()
+        (self.root / "app.py").write_text("VALUE = 1\n")
+        self.invoke("change", "start", "overdue-work", "--risk", "R1")
+        evidence = self.root / ".engineering/evidence/overdue-work.json"
+        record = json.loads(evidence.read_text())
+        record["understanding"]["revisit_after"] = "2000-01-01"
+        evidence.write_text(json.dumps(record))
+        due_open = self.invoke("status", "--due")
+        self.assertIn("overdue-work", due_open.stdout)
+        self.invoke("change", "close", "overdue-work")
+        due_closed = self.invoke("status", "--due")
+        self.assertIn("No matching change records.", due_closed.stdout)
+        everything = self.invoke("status", "--all")
+        self.assertIn("overdue-work", everything.stdout)
+
+    def test_refs_check_passes_when_referenced_change_is_closed(self) -> None:
+        self.init()
+        self.commit_contract()
+        self.invoke("change", "start", "closed-policy", "--risk", "R2")
+        app = self.root / "app.py"
+        app.write_text(
+            decision_marker("closed-policy", "docs/engineering/decisions/closed-policy.md")
+            + "VALUE = 1\n"
+        )
+        adr = self.root / "docs/engineering/decisions/closed-policy.md"
+        adr.write_text(
+            adr.read_text().replace(
+                "Leave this section empty when the decision is not enforced in code.",
+                "- `app.py`",
+            )
+        )
+        self.invoke("change", "close", "closed-policy")
+        valid = self.invoke("refs", "check", "--all")
+        self.assertEqual(valid.returncode, 0, valid.stdout + valid.stderr)
+
+    def test_refs_check_skips_contract_excluded_paths(self) -> None:
+        contract = self.init()
+        examples = self.root / "docs" / "examples"
+        examples.mkdir(parents=True)
+        (examples / "tutorial.md").write_text(
+            decision_marker(
+                "imaginary-policy", "docs/engineering/decisions/imaginary-policy.md"
+            )
+        )
+        blocked = self.invoke("refs", "check", "--all")
+        self.assertEqual(blocked.returncode, 1)
+        self.assertIn("imaginary-policy", blocked.stdout)
+
+        contract["refs"] = {"exclude": ["docs/examples/**"]}
+        (self.root / ".engineering" / "contract.json").write_text(
+            json.dumps(contract, indent=2) + "\n", encoding="utf-8"
+        )
+        passed = self.invoke("refs", "check", "--all")
+        self.assertEqual(passed.returncode, 0, passed.stdout + passed.stderr)
+        self.assertNotIn("imaginary-policy", passed.stdout)
+
+    def test_contract_rejects_escaping_refs_exclude_pattern(self) -> None:
+        contract = self.init()
+        contract["refs"] = {"exclude": ["../outside/**"]}
+        (self.root / ".engineering" / "contract.json").write_text(
+            json.dumps(contract, indent=2) + "\n", encoding="utf-8"
+        )
+        result = self.invoke("refs", "check", "--all")
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("repository-relative", result.stderr)
 
 
 if __name__ == "__main__":

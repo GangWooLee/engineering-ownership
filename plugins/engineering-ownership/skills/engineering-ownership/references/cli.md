@@ -4,14 +4,15 @@
 engineering init [--agent-pointers]
 engineering audit [--format text|json]
 engineering doctor [--format text|json]
-engineering change start <id> --risk R1|R2|R3 [--title <title>] [--competency <tag>]
+engineering change start <id> --risk R1|R2|R3 [--title <title>]
 engineering change set-risk <id> --risk R2|R3
 engineering verify <id> [--id <command-id>]
 engineering check [--mode advise|enforce] [--change <id>]
 engineering refs check [--change <id>] [--all]
 engineering explain <id>
 engineering change review <id> --status reviewed|gaps [--gap <text>] [--revisit-days <days>]
-engineering status [--due]
+engineering change close <id>
+engineering status [--due] [--all]
 engineering handoff [--change <id>] [--save|--output <repo-relative-path>]
 engineering contract migrate [--write]
 ```

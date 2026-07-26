@@ -1,5 +1,12 @@
 # Contract v1 read-only compatibility
 
+Status: Current
+Checked: 2026-07-23
+
+Scope limit: this was checked with the v0.1 CLI. The v0.2 release notes assert
+that contract v2 and evidence v1 remain readable without migration, but no v0.2
+run against these three repositories is recorded here.
+
 Checked on 2026-07-23 with the v0.1 CLI. Each repository's complete
 `git status --porcelain=v1 -z --untracked-files=all` digest was captured before
 and after `audit` plus local `check --mode advise`; all three were unchanged.

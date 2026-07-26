@@ -105,10 +105,7 @@ The full interface is in the
 
 ## Evidence, not scores
 
-Eight tags describe exercised work: requirements, system/data flow, code
-responsibility and reuse, testing/debugging, security/privacy,
-reliability/recovery, delivery/change management, and explanation/handoff.
-They are not a maturity or competence score.
+Artifacts record what happened; they are not a maturity or competence score.
 
 Canonical knowledge remains separated:
 

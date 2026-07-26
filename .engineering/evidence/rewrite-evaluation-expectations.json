@@ -1,0 +1,89 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/rewrite-evaluation-expectations.md",
+    "decision": "docs/engineering/decisions/rewrite-evaluation-expectations.md"
+  },
+  "change_id": "rewrite-evaluation-expectations",
+  "closed": {
+    "closed_at": "2026-07-26T10:41:41+09:00",
+    "revision": "2ec5d1d43a8afb429001ffdccbdf357f8ff4466a"
+  },
+  "competencies": [
+    "explanation-review-handoff",
+    "problem-framing-requirements",
+    "testing-debugging"
+  ],
+  "created_at": "2026-07-25T14:28:50+09:00",
+  "diff": {
+    "digest": "3aabc2e9fe24d25c6074277a37a393abb1db5b4521db738e24431676c835a330",
+    "paths": [
+      ".claude-plugin/marketplace.json",
+      ".engineering/contract.json",
+      "CHANGELOG.md",
+      "docs/engineering/changes/rewrite-evaluation-expectations.md",
+      "docs/engineering/decisions/rewrite-evaluation-expectations.md",
+      "docs/releases/v0.2.0.md",
+      "docs/releases/v0.2.1.md",
+      "plugins/engineering-ownership/.claude-plugin/plugin.json",
+      "plugins/engineering-ownership/.codex-plugin/plugin.json",
+      "plugins/engineering-ownership/skills/engineering-ownership/SKILL.md",
+      "plugins/engineering-ownership/skills/engineering-ownership/evals/evals.json",
+      "plugins/engineering-ownership/src/engineering_ownership/__init__.py",
+      "pyproject.toml",
+      "scripts/eval/build_fixture.py",
+      "scripts/eval/fixtures/recipe.json",
+      "scripts/eval/fixtures/settled/whole-unit-conversion/src/api/partner_adapter.py",
+      "scripts/eval/fixtures/settled/whole-unit-conversion/tests/test_partner_adapter.py",
+      "tests/test_distribution.py",
+      "tests/test_evals.py",
+      "tests/test_release.py"
+    ]
+  },
+  "risk": "R2",
+  "schema_version": 1,
+  "title": "Rewrite the evaluation expectations to be passable on merit",
+  "understanding": {
+    "gaps": [],
+    "revisit_after": "2026-08-01",
+    "status": "not-reviewed"
+  },
+  "updated_at": "2026-07-26T10:41:41+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "3aabc2e9fe24d25c6074277a37a393abb1db5b4521db738e24431676c835a330",
+      "duration_ms": 17645,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T14:30:47+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "3aabc2e9fe24d25c6074277a37a393abb1db5b4521db738e24431676c835a330",
+      "duration_ms": 59,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T14:30:47+09:00"
+    },
+    {
+      "command_id": "claude-plugin",
+      "diff_digest": "3aabc2e9fe24d25c6074277a37a393abb1db5b4521db738e24431676c835a330",
+      "duration_ms": 1069,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T14:30:48+09:00"
+    },
+    {
+      "command_id": "release-package",
+      "diff_digest": "3aabc2e9fe24d25c6074277a37a393abb1db5b4521db738e24431676c835a330",
+      "duration_ms": 61,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T14:30:48+09:00"
+    }
+  ]
+}

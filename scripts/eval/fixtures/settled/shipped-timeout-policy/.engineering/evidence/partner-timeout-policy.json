@@ -1,0 +1,40 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/partner-timeout-policy.md",
+    "decision": "docs/engineering/decisions/partner-timeout-policy.md"
+  },
+  "change_id": "partner-timeout-policy",
+  "competencies": [
+    "reliability-observability-recovery",
+    "system-data-flow-design"
+  ],
+  "created_at": "2026-07-16T10:04:00+00:00",
+  "diff": {
+    "digest": "c4f1e8a2b9d70653a1c8e4f2b6d09a7351fe8c24b0d7a916e3f5c8b2d4a06179",
+    "paths": [
+      "src/api/partner_client.py"
+    ]
+  },
+  "risk": "R2",
+  "schema_version": 1,
+  "title": "Partner request timeout policy",
+  "understanding": {
+    "gaps": [
+      "Whether the partner deduplicates on order id is unconfirmed, so resubmission after a timeout stays a manual decision."
+    ],
+    "revisit_after": "2026-07-30",
+    "status": "gaps"
+  },
+  "updated_at": "2026-07-16T11:02:10+00:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "c4f1e8a2b9d70653a1c8e4f2b6d09a7351fe8c24b0d7a916e3f5c8b2d4a06179",
+      "duration_ms": 640,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-16T11:02:10+00:00"
+    }
+  ]
+}

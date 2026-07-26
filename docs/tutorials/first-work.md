@@ -43,6 +43,9 @@ Ownership records the selected ownership decision and verification pointer.
 The agent searches existing responsibility before adding code. Only a
 non-obvious enforcement point gets a marker:
 
+<!-- Worked example, not a real decision reference. docs/tutorials/** is
+     excluded from `refs check` by the contract; see
+     docs/engineering/decisions/exclude-illustrative-references.md. -->
 ```text
 engineering-decision: cache-ai-analysis | docs/engineering/decisions/cache-ai-analysis.md
 ```

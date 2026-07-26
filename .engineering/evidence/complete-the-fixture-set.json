@@ -1,0 +1,68 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/complete-the-fixture-set.md"
+  },
+  "change_id": "complete-the-fixture-set",
+  "closed": {
+    "closed_at": "2026-07-26T10:41:40+09:00",
+    "revision": "2ec5d1d43a8afb429001ffdccbdf357f8ff4466a"
+  },
+  "competencies": [
+    "system-data-flow-design",
+    "testing-debugging"
+  ],
+  "created_at": "2026-07-25T21:32:19+09:00",
+  "diff": {
+    "digest": "90cfd6044173428d9351276b0767767ced15f7ab29b5b0aaef6f709bdfcbb8ce",
+    "paths": [
+      "docs/engineering/changes/complete-the-fixture-set.md",
+      "scripts/eval/build_fixture.py",
+      "scripts/eval/fixtures/base/README.md",
+      "scripts/eval/fixtures/overlays/eval-1/README.md",
+      "scripts/eval/fixtures/overlays/eval-7/src/db/schema.py",
+      "scripts/eval/fixtures/overlays/eval-8/src/api/partner_adapter.py",
+      "scripts/eval/fixtures/overlays/eval-8/src/api/rate_limit.py",
+      "scripts/eval/fixtures/overlays/eval-8/tests/test_rate_limit.py",
+      "scripts/eval/fixtures/recipe.json",
+      "scripts/eval/fixtures/settled/currency-proposal/docs/proposals/settlement-currency.md",
+      "scripts/eval/fixtures/settled/currency-proposal/plans/settlement-currency.md",
+      "scripts/eval/fixtures/settled/long-lived-tokens/src/auth/__init__.py",
+      "scripts/eval/fixtures/settled/long-lived-tokens/src/auth/session.py",
+      "scripts/eval/fixtures/settled/long-lived-tokens/tests/test_session.py",
+      "scripts/eval/fixtures/settled/shipped-timeout-policy/.engineering/evidence/partner-timeout-policy.json",
+      "scripts/eval/fixtures/settled/shipped-timeout-policy/docs/engineering/changes/partner-timeout-policy.md",
+      "scripts/eval/fixtures/settled/shipped-timeout-policy/docs/engineering/decisions/partner-timeout-policy.md",
+      "scripts/eval/fixtures/settled/shipped-timeout-policy/src/api/partner_client.py",
+      "tests/test_evals.py"
+    ]
+  },
+  "risk": "R1",
+  "schema_version": 1,
+  "title": "Give every scenario a repository to run in",
+  "understanding": {
+    "gaps": [],
+    "revisit_after": "2026-08-01",
+    "status": "not-reviewed"
+  },
+  "updated_at": "2026-07-26T10:41:40+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "90cfd6044173428d9351276b0767767ced15f7ab29b5b0aaef6f709bdfcbb8ce",
+      "duration_ms": 18012,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T21:33:58+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "90cfd6044173428d9351276b0767767ced15f7ab29b5b0aaef6f709bdfcbb8ce",
+      "duration_ms": 46,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-25T21:33:58+09:00"
+    }
+  ]
+}

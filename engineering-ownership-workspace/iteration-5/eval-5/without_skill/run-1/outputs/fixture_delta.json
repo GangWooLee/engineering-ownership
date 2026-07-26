@@ -1,0 +1,10 @@
+{
+  "file_contents": {
+    "CONTRIBUTING.md": "# Contributing\n\nRun `python3 -m unittest discover -s tests` before pushing. CI runs the same\ncommand on every pull request.\n\nIf a change alters something a design note describes, update the note in the\nsame pull request. Reviewers ask for this.\n\nKeep schema changes (`src/db/`) and adapter changes (`src/api/`) in separate\ncommits when practical.\n"
+  },
+  "paths_changed_by_run": [
+    ".github/",
+    "CONTRIBUTING.md"
+  ],
+  "tracked_diff": "diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md\nindex 6cdde1a..df34edb 100644\n--- a/CONTRIBUTING.md\n+++ b/CONTRIBUTING.md\n@@ -1,6 +1,10 @@\n # Contributing\n \n-Run `python3 -m unittest discover -s tests` before pushing.\n+Run `python3 -m unittest discover -s tests` before pushing. CI runs the same\n+command on every pull request.\n \n If a change alters something a design note describes, update the note in the\n same pull request. Reviewers ask for this.\n+\n+Keep schema changes (`src/db/`) and adapter changes (`src/api/`) in separate\n+commits when practical.\n"
+}

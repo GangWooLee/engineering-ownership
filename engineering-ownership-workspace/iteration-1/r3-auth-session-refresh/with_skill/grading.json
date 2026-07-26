@@ -1,0 +1,52 @@
+{
+  "expectations": [
+    {
+      "text": "Classifies authentication and refresh-token behavior as R3.",
+      "passed": true,
+      "evidence": "Found: R3"
+    },
+    {
+      "text": "Requires a brief or preserved user reasoning plus threat model and runbook evidence.",
+      "passed": true,
+      "evidence": "Found: brief; 위협; runbook"
+    },
+    {
+      "text": "Calls for security, failure, recovery, and current-diff verification rather than code generation alone.",
+      "passed": true,
+      "evidence": "Found: replay; 실패; 롤백; 현재 diff"
+    },
+    {
+      "text": "Requires a no-AI human teach-back and does not mark that gate as passed on the user's behalf.",
+      "passed": true,
+      "evidence": "Found: teach-back; 대신 통과"
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 1,
+    "errors_encountered": 0,
+    "output_chars": 841,
+    "transcript_chars": 0
+  },
+  "timing": {
+    "total_duration_seconds": 0.0,
+    "measurement_note": "Subagent timing and token metrics were not exposed by this orchestration surface."
+  },
+  "claims": [],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "Assertions test risk proportionality, current-diff evidence, recovery, and human ownership."
+  }
+}

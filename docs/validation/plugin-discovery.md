@@ -1,6 +1,12 @@
 # Plugin and skill discovery
 
-Checked on 2026-07-23.
+Status: Superseded
+Checked: 2026-07-23
+Superseded by: docs/validation/v0.2-host-and-skill.md
+
+This document records v0.1 discovery. Its statement that Claude model invocation
+"remains explicitly unverified" was later resolved: live Claude routing passed
+and is recorded in the superseding document.
 
 ## Agent Skills
 

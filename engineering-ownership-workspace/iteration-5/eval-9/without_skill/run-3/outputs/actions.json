@@ -1,0 +1,32 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "grep -ril 2>/dev/null"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "docs/decisions/2026-02-settlement-amount-units.md"
+    },
+    {
+      "action": "run",
+      "target": "grep -rn ."
+    },
+    {
+      "action": "run",
+      "target": "find /private/var/folders/p1/j0wyrz8117sg39nkjhwx2k_00000gn/T/engo-eval-lmatzpyf/eval-9-without_skill-3 '*/node_modules'"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "git log src/api/partner_adapter.py"
+    }
+  ]
+}

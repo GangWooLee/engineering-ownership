@@ -1,0 +1,11 @@
+{
+  "eval_id": 6,
+  "eval_name": "resume-r2-without-chat",
+  "expectations": [
+    "Reads repository evidence and current diff rather than guessing from chat.",
+    "Identifies stale verification and any risk increase.",
+    "States the restored problem, current state, and next safe action.",
+    "Does not create a duplicate change when the intended outcome is unchanged."
+  ],
+  "prompt": "Continue the previous database/API work. You have no earlier conversation context."
+}

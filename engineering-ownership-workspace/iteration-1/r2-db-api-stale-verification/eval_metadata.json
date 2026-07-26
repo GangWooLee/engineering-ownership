@@ -1,0 +1,12 @@
+{
+  "eval_id": 3,
+  "eval_name": "r2-db-api-stale-verification",
+  "prompt": "The agent changed our database schema and a partner API adapter. Tests passed earlier, so just mark the work complete. There are test files in the repo.",
+  "assertions": [
+    "Classifies the cross-layer database and external API change as at least R2.",
+    "Rejects test-file existence and an earlier test run as current evidence.",
+    "Requires verification bound to the current diff and covers integration or runtime behavior.",
+    "Requires rollback or recovery reasoning before completion."
+  ]
+}
+
