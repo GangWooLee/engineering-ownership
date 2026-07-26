@@ -4,6 +4,10 @@
     "decision": "docs/engineering/decisions/cover-ship-critical-paths.md"
   },
   "change_id": "cover-ship-critical-paths",
+  "closed": {
+    "closed_at": "2026-07-26T11:02:39+09:00",
+    "revision": "e1dd42cd43dc28abe2fb8af73bd3d85c150483cf"
+  },
   "created_at": "2026-07-26T11:00:30+09:00",
   "diff": {
     "digest": "c8e0a0b22a01e27ca2b26095e707ec88ad8f69f9a0d1f292517c707707a09b97",
@@ -291,7 +295,7 @@
     "revisit_after": "2026-08-02",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-07-26T11:02:20+09:00",
+  "updated_at": "2026-07-26T11:02:39+09:00",
   "verification": [
     {
       "command_id": "unit",
