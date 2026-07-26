@@ -17,6 +17,14 @@ Resume from repository evidence, not conversation memory alone.
    enough to deserve a new change. A closed record never reopens; continuation
    is a new change that references it.
 
+If the handoff's revision does not resolve (`git cat-file -t <rev>` fails or
+the commit is not an ancestor of the default branch), do not guess: the
+history was likely rewritten or the ref pruned. Fall back to the evidence
+record itself — its diff digest, verification entries, and linked Brief/ADR
+are revision-independent — state that the handoff's revision is dead, and
+record which commit now corresponds to it before continuing. Never resume
+work against an unreachable revision.
+
 A planning-with-files state file may explain task progress. Engineering
 Ownership records remain canonical for decisions, verification pointers, and
 operational risk.
