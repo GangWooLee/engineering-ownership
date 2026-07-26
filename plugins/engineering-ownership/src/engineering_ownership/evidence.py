@@ -118,7 +118,25 @@ def validate_evidence(
         raise EngineeringError(
             f"Evidence record '{change_id}' has invalid understanding state"
         )
+    closed = data.get("closed")
+    if closed is not None and (
+        not isinstance(closed, dict)
+        or not isinstance(closed.get("closed_at"), str)
+        or not isinstance(closed.get("revision"), str)
+        or not re.fullmatch(r"[0-9a-f]{7,40}", closed["revision"])
+    ):
+        raise EngineeringError(f"Evidence record '{change_id}' has invalid closed state")
     return data
+
+
+def ensure_open(record: dict[str, Any]) -> dict[str, Any]:
+    closed = record.get("closed")
+    if closed is not None:
+        raise EngineeringError(
+            f"Change '{record['change_id']}' was closed at {closed.get('closed_at')}; "
+            "start a new change to continue"
+        )
+    return record
 
 
 def list_evidence(root: Path, contract: dict[str, Any]) -> list[dict[str, Any]]:

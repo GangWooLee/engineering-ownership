@@ -101,6 +101,41 @@ class HookCase(unittest.TestCase):
         self.assertIn("Risk:", stop.stdout)
         self.assertFalse((self.root / ".engineering" / "evidence").exists())
 
+    def test_stale_counter_excludes_closed_records(self) -> None:
+        contract_path = self.root / ".engineering" / "contract.json"
+        contract = json.loads(contract_path.read_text())
+        contract["automation"]["session_hooks"] = "remind"
+        contract_path.write_text(json.dumps(contract))
+        (self.root / "tests").mkdir()
+        (self.root / "tests" / "test_ok.py").write_text(
+            "import unittest\n\n"
+            "class Ok(unittest.TestCase):\n"
+            "    def test_ok(self):\n"
+            "        self.assertTrue(True)\n"
+        )
+        (self.root / "app.py").write_text("VALUE = 1\n")
+
+        def engineering(*args: str) -> None:
+            env = os.environ.copy()
+            env["PYTHONPATH"] = str(SOURCE)
+            subprocess.run(
+                [sys.executable, "-m", "engineering_ownership", *args],
+                cwd=self.root,
+                env=env,
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+
+        engineering("change", "start", "stale-check", "--risk", "R1")
+        engineering("verify", "stale-check", "--id", "unit")
+        (self.root / "app.py").write_text("VALUE = 2\n")
+        before = self.invoke("session-start")
+        self.assertIn("Stale passing verification records: 1", before.stdout)
+        engineering("change", "close", "stale-check")
+        after = self.invoke("session-start")
+        self.assertIn("Stale passing verification records: 0", after.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

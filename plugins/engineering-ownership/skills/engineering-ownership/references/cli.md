@@ -11,7 +11,8 @@ engineering check [--mode advise|enforce] [--change <id>]
 engineering refs check [--change <id>] [--all]
 engineering explain <id>
 engineering change review <id> --status reviewed|gaps [--gap <text>] [--revisit-days <days>]
-engineering status [--due]
+engineering change close <id>
+engineering status [--due] [--all]
 engineering handoff [--change <id>] [--save|--output <repo-relative-path>]
 engineering contract migrate [--write]
 ```

@@ -40,6 +40,14 @@
         "revisit_after": {"type": "string"}
       }
     },
+    "closed": {
+      "type": "object",
+      "required": ["closed_at", "revision"],
+      "properties": {
+        "closed_at": {"type": "string"},
+        "revision": {"type": "string", "pattern": "^[0-9a-f]{7,40}$"}
+      }
+    },
     "created_at": {"type": "string"},
     "updated_at": {"type": "string"}
   }

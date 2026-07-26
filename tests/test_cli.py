@@ -634,6 +634,113 @@ class CliCase(unittest.TestCase):
         self.assertNotIn("private-value", result.stdout)
         self.assertNotIn("argv", result.stdout)
 
+    def test_change_close_records_terminal_state_and_hides_from_status(self) -> None:
+        self.init()
+        self.commit_contract()
+        (self.root / "app.py").write_text("VALUE = 1\n")
+        self.invoke("change", "start", "done-work", "--risk", "R1")
+        closed = self.invoke("change", "close", "done-work")
+        self.assertEqual(closed.returncode, 0, closed.stderr)
+        record = json.loads(
+            (self.root / ".engineering/evidence/done-work.json").read_text()
+        )
+        self.assertIn("closed_at", record["closed"])
+        self.assertRegex(record["closed"]["revision"], r"^[0-9a-f]{7,40}$")
+        plain = self.invoke("status")
+        self.assertEqual(plain.returncode, 0, plain.stderr)
+        self.assertIn("No matching change records.", plain.stdout)
+        everything = self.invoke("status", "--all")
+        self.assertIn("done-work", everything.stdout)
+        self.assertIn("closed=", everything.stdout)
+
+    def test_change_close_rejects_unknown_id_and_double_close(self) -> None:
+        self.init()
+        self.commit_contract()
+        missing = self.invoke("change", "close", "no-such-change")
+        self.assertEqual(missing.returncode, 2)
+        (self.root / "app.py").write_text("VALUE = 1\n")
+        self.invoke("change", "start", "twice-closed", "--risk", "R1")
+        first = self.invoke("change", "close", "twice-closed")
+        self.assertEqual(first.returncode, 0, first.stderr)
+        second = self.invoke("change", "close", "twice-closed")
+        self.assertEqual(second.returncode, 2)
+        self.assertIn("was closed at", second.stderr)
+
+    def test_closed_change_rejects_mutation_but_stays_readable(self) -> None:
+        self.init()
+        self.commit_contract()
+        (self.root / "app.py").write_text("VALUE = 1\n")
+        self.invoke("change", "start", "settled-work", "--risk", "R1")
+        self.invoke("change", "close", "settled-work")
+        for mutating in (
+            ("verify", "settled-work"),
+            ("change", "review", "settled-work", "--status", "reviewed"),
+            ("change", "set-risk", "settled-work", "--risk", "R2"),
+        ):
+            result = self.invoke(*mutating)
+            self.assertEqual(result.returncode, 2, mutating)
+            self.assertIn("start a new change", result.stderr)
+        self.assertEqual(self.invoke("explain", "settled-work").returncode, 0)
+        readable = self.invoke("check", "--mode", "advise", "--change", "settled-work")
+        self.assertEqual(readable.returncode, 0, readable.stderr)
+
+    def test_bare_handoff_omits_closed_records_but_change_handoff_reports_them(self) -> None:
+        self.init()
+        self.commit_contract()
+        (self.root / "app.py").write_text("VALUE = 1\n")
+        self.invoke("change", "start", "open-work", "--risk", "R1")
+        self.invoke("change", "start", "shipped-work", "--risk", "R1")
+        self.invoke("change", "close", "shipped-work")
+        bare = self.invoke("handoff")
+        self.assertEqual(bare.returncode, 0, bare.stderr)
+        # The dirty Brief file legitimately appears under "Changed paths";
+        # the record listing is the open-work view under test.
+        records_section = bare.stdout.split("## Change records", 1)[1]
+        self.assertIn("`open-work`", records_section)
+        self.assertNotIn("`shipped-work`", records_section)
+        audit = self.invoke("handoff", "--change", "shipped-work")
+        self.assertEqual(audit.returncode, 0, audit.stderr)
+        self.assertIn("closed:", audit.stdout)
+
+    def test_status_due_treats_closed_records_as_settled(self) -> None:
+        self.init()
+        self.commit_contract()
+        (self.root / "app.py").write_text("VALUE = 1\n")
+        self.invoke("change", "start", "overdue-work", "--risk", "R1")
+        evidence = self.root / ".engineering/evidence/overdue-work.json"
+        record = json.loads(evidence.read_text())
+        record["understanding"]["revisit_after"] = "2000-01-01"
+        evidence.write_text(json.dumps(record))
+        due_open = self.invoke("status", "--due")
+        self.assertIn("overdue-work", due_open.stdout)
+        self.invoke("change", "close", "overdue-work")
+        due_closed = self.invoke("status", "--due")
+        self.assertIn("No matching change records.", due_closed.stdout)
+        everything = self.invoke("status", "--all")
+        self.assertIn("overdue-work", everything.stdout)
+
+    def test_refs_check_passes_when_referenced_change_is_closed(self) -> None:
+        self.init()
+        self.commit_contract()
+        self.invoke("change", "start", "closed-policy", "--risk", "R2")
+        app = self.root / "app.py"
+        # Composed at runtime so this source file itself does not add a
+        # dangling reference to the repository-wide `refs check --all` scan.
+        marker = "engineering-" + "decision: closed-policy | "
+        app.write_text(
+            f"# {marker}docs/engineering/decisions/closed-policy.md\nVALUE = 1\n"
+        )
+        adr = self.root / "docs/engineering/decisions/closed-policy.md"
+        adr.write_text(
+            adr.read_text().replace(
+                "Leave this section empty when the decision is not enforced in code.",
+                "- `app.py`",
+            )
+        )
+        self.invoke("change", "close", "closed-policy")
+        valid = self.invoke("refs", "check", "--all")
+        self.assertEqual(valid.returncode, 0, valid.stdout + valid.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()

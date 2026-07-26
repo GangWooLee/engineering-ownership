@@ -28,3 +28,12 @@ The handoff points to canonical records and reports:
 
 Do not duplicate the full Brief/ADR, include secrets, or turn the handoff into
 a second design document.
+
+## Close
+
+When the change has landed and no further work is expected, run
+`engineering change close <id>`. Close records the closing timestamp and HEAD
+revision. A closed record leaves plain `status`, the repo-wide `handoff`, and
+the session reminder, but stays on disk: `status --all`,
+`handoff --change <id>`, `explain`, and `refs check` still read it. Closing is
+terminal — continuing the work means starting a new change record.

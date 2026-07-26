@@ -47,7 +47,12 @@ def enabled(root: Path) -> tuple[bool, dict]:
 
 def session_start(root: Path, contract: dict) -> None:
     digest, paths = diff_digest(root)
-    records = list_evidence(root, contract)
+    # Closed records are settled history: advertising one as the current
+    # change would misdirect a resume, and counting its verification as stale
+    # would grow the reminder monotonically with completed work.
+    records = [
+        record for record in list_evidence(root, contract) if not record.get("closed")
+    ]
     current = [
         record for record in records if record.get("diff", {}).get("digest") == digest
     ]
