@@ -82,4 +82,11 @@ not code — stop the sweep before changing the runner, restart with `--resume`.
 
 - `scripts/eval/run_skill_evals.py` — `action_target`
 - `tests/test_evals.py` — `JudgeBlindingCase.test_action_targets_never_carry_the_runner_location`
-- Quarantine: `/tmp/eo-quarantine/` (8 runs, re-queued for the next sweep by removal)
+- Quarantine: 8 runs moved out of `iteration-7` to a temporary directory
+  outside the repository. (Corrected 2026-07-26: this line originally said
+  they were "re-queued for the next sweep by removal". They are not —
+  `iteration-7` was abandoned the same day because the plugin changed
+  mid-sweep, so the replacement iteration starts from scratch and these runs
+  are not preserved. The claim that replaying their commands through the
+  fixed normalization yields zero leaks was executed and recorded above; it
+  does not depend on the files still existing.)
