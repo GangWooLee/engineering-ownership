@@ -1,8 +1,39 @@
 # Changelog
 
-## 0.2.1 - 2026-07-25
+## 0.2.1 - unreleased
 
 ### Changed
+
+- **Breaking:** remove the write-only competency tag subsystem — the
+  `--competency` flag, the eight-tag set, the catalog resource, both echo
+  sites, the schema requirement, and the reference doc. The tags were written
+  once and read by nothing. Evidence records carrying a legacy `competencies`
+  array remain fully readable.
+- Rewrite the skill's frontmatter description to describe the situation the
+  skill is for rather than what it produces. Measured against frozen trigger
+  probes with pre-registered bars: implicit engagement moved from zero of
+  seven runs on an unmanaged repository to sixteen of seventeen should-trigger
+  probes, with zero of twelve should-not probes engaging.
+- Plain `status`, the repo-wide `handoff`, and the session reminder now show
+  open work only; closed records stay readable via `status --all`,
+  `handoff --change <id>`, `explain`, and `refs check`.
+
+### Added
+
+- `engineering change close <id>` — a terminal state recording the closing
+  timestamp and HEAD revision. Replaces the hand-written `Status:` line
+  convention in Briefs; there is no reopen and no gate on closing.
+- `triggers.json` ships in the package as documentation of intended
+  triggering, with a frozen train/test probe split.
+- The release tag validator now refuses a tag whose release notes predate the
+  last change to shipped content, and refuses a tag with no notes file — the
+  two ways a stale or missing document could be published verbatim.
+- Eval-harness hardening (repository tooling, not shipped in the package): the
+  judge-visible action log scrubs every shell-quoting form of the runner's own
+  location; a post-pass corrects the vendored aggregator's mislabeled token
+  and run-count figures before a benchmark is read.
+
+### Changed (evaluation manifest)
 
 - Rewrite the shipped evaluation manifest. An audit of its 32 expectations found
   three that a competent engineer unfamiliar with this skill could pass on
