@@ -133,7 +133,7 @@ level rather than patched:
   a response;
 - at least three runs per configuration, reported as mean with standard
   deviation;
-- all eight evals, with the denominator computed by the harness rather than
+- all nine evals, with the denominator computed by the harness rather than
   written down by hand;
 - real duration and token measurements taken from the runner;
 - the full evaluation workspace committed to this repository so that a third

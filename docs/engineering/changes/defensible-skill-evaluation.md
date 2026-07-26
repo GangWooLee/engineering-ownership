@@ -98,8 +98,10 @@ Real-runtime evidence, recorded separately from the tests:
   engineering-ownership skills were available, and the treatment named the
   skill. This is the control the withdrawn evaluation never had.
 - Runs now carry real measurements where the withdrawn evaluation carried
-  hardcoded zeros: 22 and 6 tool calls, 37 and 11 turns, 312s and 104s,
-  3,254,669 and 725,974 tokens.
+  hardcoded zeros: 35 and 10 tool calls, 37 and 11 turns, 312s and 104s,
+  3,254,669 and 725,974 tokens. (Corrected 2026-07-26: this line originally
+  said "22 and 6 tool calls", contradicting the committed `metrics.json`
+  values of 35 and 10.)
 - Four new guards were each deliberately broken, observed failing with a
   specific message, and restored - including the home-path scan, which was
   written after a real leak was found in a transcript.

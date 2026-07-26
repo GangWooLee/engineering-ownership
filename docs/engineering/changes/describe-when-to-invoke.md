@@ -136,7 +136,9 @@ convenience reintroduced it. The fix was not a better pattern but removing the
 waiter: the runner is backgrounded directly and the harness reports its exit, so
 there is nothing left to match against.
 
-**Eight runs were lost to rate limiting, and the harness could not say so.**
+**Six runs produced no result — five lost to rate limiting, one to a
+timeout — and the harness could not say so.** (Corrected 2026-07-26: this
+heading originally said "eight runs", contradicting `iteration-6/PILOT.md`.)
 They failed three seconds apart while successful runs were fifteen to twenty
 seconds apart, and the same probes succeeded on retry. The runner had been
 discarding the failure detail, so diagnosing it meant reproducing the failures by
