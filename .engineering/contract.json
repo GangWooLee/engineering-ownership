@@ -44,15 +44,22 @@
       "plugins/engineering-ownership/.claude-plugin/**",
       ".agents/plugins/**",
       ".claude-plugin/**",
-      "pyproject.toml"
+      "pyproject.toml",
+      ".github/workflows/ci.yml"
     ],
     "R3": [
       "plugins/engineering-ownership/src/engineering_ownership/cli.py",
       "plugins/engineering-ownership/src/engineering_ownership/io.py",
       "plugins/engineering-ownership/src/engineering_ownership/model.py",
       "plugins/engineering-ownership/src/engineering_ownership/repository.py",
+      "plugins/engineering-ownership/src/engineering_ownership/evidence.py",
+      "plugins/engineering-ownership/src/engineering_ownership/templates.py",
+      "plugins/engineering-ownership/src/engineering_ownership/resources/schemas/**",
       "plugins/engineering-ownership/hooks/**",
-      ".github/workflows/release.yml"
+      ".github/workflows/release.yml",
+      "scripts/build_release.py",
+      "scripts/validate_release_tag.py",
+      "scripts/validate_distribution.py"
     ]
   },
   "artifacts": {
