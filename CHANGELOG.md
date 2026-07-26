@@ -25,6 +25,11 @@
   convention in Briefs; there is no reopen and no gate on closing.
 - `triggers.json` ships in the package as documentation of intended
   triggering, with a frozen train/test probe split.
+- Optional `refs.exclude` globs in the contract, so a repository can declare
+  which paths hold illustrative decision markers (worked examples, evaluation
+  fixtures) rather than real references. `refs check` and the `check` gate
+  filter scanned paths through them; the patterns are validated as
+  repository-relative like every other contract path.
 - The release tag validator now refuses a tag whose release notes predate the
   last change to shipped content, and refuses a tag with no notes file — the
   two ways a stale or missing document could be published verbatim.
