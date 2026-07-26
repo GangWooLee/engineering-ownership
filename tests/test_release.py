@@ -9,20 +9,20 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).parents[1]
-ARCHIVE = ROOT / "dist" / "engineering-ownership-v0.2.1.zip"
+ARCHIVE = ROOT / "dist" / "engineering-ownership-v0.3.0.zip"
 
 
 class ReleaseCase(unittest.TestCase):
     def build(self) -> str:
         result = subprocess.run(
-            [sys.executable, "scripts/build_release.py", "--version", "0.2.1"],
+            [sys.executable, "scripts/build_release.py", "--version", "0.3.0"],
             cwd=ROOT,
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             check=True,
         )
-        self.assertIn("engineering-ownership-v0.2.1.zip", result.stdout)
+        self.assertIn("engineering-ownership-v0.3.0.zip", result.stdout)
         return hashlib.sha256(ARCHIVE.read_bytes()).hexdigest()
 
     def test_release_archive_is_deterministic_and_clean(self) -> None:
@@ -42,7 +42,7 @@ class ReleaseCase(unittest.TestCase):
 
     def test_release_tag_validation_has_no_shell_quoting_dependency(self) -> None:
         valid = subprocess.run(
-            [sys.executable, "scripts/validate_release_tag.py", "v0.2.1"],
+            [sys.executable, "scripts/validate_release_tag.py", "v0.3.0"],
             cwd=ROOT,
             text=True,
             stdout=subprocess.PIPE,

@@ -5,7 +5,7 @@ license: MIT
 compatibility: Python 3.11+ and Git. The bundled engineering CLI needs no separate installation when this plugin is installed.
 metadata:
   author: GangWooLee
-  version: "0.2.1"
+  version: "0.3.0"
 ---
 
 # Engineering Ownership

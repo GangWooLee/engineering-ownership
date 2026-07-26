@@ -31,7 +31,7 @@
     },
     {
       "id": "release-package",
-      "argv": ["python3", "scripts/build_release.py", "--version", "0.2.1"],
+      "argv": ["python3", "scripts/build_release.py", "--version", "0.3.0"],
       "env": {},
       "timeout_seconds": 60,
       "required_for": ["R2", "R3"]
@@ -69,6 +69,13 @@
     "threat_models": "docs/engineering/security",
     "evidence": ".engineering/evidence",
     "handoffs": ".engineering/handoffs"
+  },
+  "refs": {
+    "exclude": [
+      "docs/tutorials/**",
+      "engineering-ownership-workspace/**",
+      "scripts/eval/fixtures/**"
+    ]
   },
   "automation": {
     "session_hooks": "off"

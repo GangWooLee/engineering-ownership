@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.1 - unreleased
+## 0.3.0 - unreleased
 
 ### Changed
 
@@ -44,7 +44,7 @@
   deterministically were removed. Prompts that named this project were made
   product-neutral, since a baseline cannot answer for a product it has never
   heard of.
-- Move to `0.2.1` because `evals.json` ships inside the release package and this
+- Move off `0.2.0` because `evals.json` ships inside the release package and this
   project publishes the claim that a rebuilt archive matches its published
   digest. The `0.2.0` artifact is unchanged and its digest is now recorded in
   `docs/releases/v0.2.0.md`, which previously existed only in the untracked
