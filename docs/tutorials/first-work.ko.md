@@ -42,6 +42,9 @@ gstack·Superpowers 계획이나 테스트 결과는 다시 작성하지 않고 
 기존 책임을 먼저 검색한 뒤 구현합니다. 비자명한 설계 결정을 실제로
 강제하는 코드에만 아래 주석을 둡니다.
 
+<!-- 실제 결정 참조가 아닌 예시입니다. docs/tutorials/** 는 contract의
+     refs.exclude로 refs check 대상에서 제외됩니다. 근거:
+     docs/engineering/decisions/exclude-illustrative-references.md -->
 ```text
 engineering-decision: cache-ai-analysis | docs/engineering/decisions/cache-ai-analysis.md
 ```

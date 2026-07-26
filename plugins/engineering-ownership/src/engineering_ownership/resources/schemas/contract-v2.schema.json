@@ -49,6 +49,15 @@
       "required": ["changes", "decisions", "runbooks", "threat_models", "evidence"],
       "additionalProperties": {"type": "string"}
     },
+    "refs": {
+      "type": "object",
+      "properties": {
+        "exclude": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
     "automation": {
       "type": "object",
       "properties": {

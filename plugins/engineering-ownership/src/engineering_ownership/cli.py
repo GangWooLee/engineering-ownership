@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import re
 import shutil
 import subprocess
@@ -427,6 +428,16 @@ def decision_is_superseded(text: str) -> bool:
     return bool(replacement and replacement.group(1).strip().lower() not in {"", "none"})
 
 
+def reference_scan_paths(root: Path, contract: dict[str, Any], paths: list[str]) -> list[str]:
+    # engineering-decision: exclude-illustrative-references | docs/engineering/decisions/exclude-illustrative-references.md
+    excluded = contract.get("refs", {}).get("exclude", [])
+    return [
+        relative_path
+        for relative_path in text_paths(root, paths)
+        if not any(fnmatch.fnmatch(relative_path, pattern) for pattern in excluded)
+    ]
+
+
 def reference_gaps(
     root: Path,
     contract: dict[str, Any],
@@ -437,7 +448,7 @@ def reference_gaps(
     gaps: list[str] = []
     records = {record["change_id"]: record for record in list_evidence(root, contract)}
     markers: list[tuple[str, str, str]] = []
-    for relative_path in text_paths(root, paths):
+    for relative_path in reference_scan_paths(root, contract, paths):
         path = safe_relative_path(root, relative_path)
         text = path.read_text(encoding="utf-8", errors="replace")
         for match in DECISION_REFERENCE.finditer(text):
@@ -511,7 +522,9 @@ def command_refs_check(args: argparse.Namespace) -> int:
         read_evidence(root, contract, args.change)
     paths = all_repository_paths(root) if args.all else changed_paths(root)
     gaps = reference_gaps(root, contract, paths, change_id=args.change)
-    print(f"Decision references checked: {len(text_paths(root, paths))} file(s)")
+    print(
+        f"Decision references checked: {len(reference_scan_paths(root, contract, paths))} file(s)"
+    )
     for gap in gaps:
         print(f"GAP: {gap}")
     print("RESULT: PASS" if not gaps else "RESULT: BLOCKED")

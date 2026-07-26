@@ -24,6 +24,12 @@ def git(root: Path, *args: str) -> subprocess.CompletedProcess[str]:
     )
 
 
+def decision_marker(change_id: str, adr_path: str) -> str:
+    # Composed at runtime so this source file itself does not add dangling
+    # references to the repository-wide `refs check --all` scan.
+    return "# engineering-" + f"decision: {change_id} | {adr_path}\n"
+
+
 class CliCase(unittest.TestCase):
     def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory()
@@ -529,8 +535,8 @@ class CliCase(unittest.TestCase):
         self.invoke("change", "start", "cache-policy", "--risk", "R2")
         app = self.root / "app.py"
         app.write_text(
-            "# engineering-decision: cache-policy | "
-            "docs/engineering/decisions/cache-policy.md\nVALUE = 1\n"
+            decision_marker("cache-policy", "docs/engineering/decisions/cache-policy.md")
+            + "VALUE = 1\n"
         )
         adr = self.root / "docs/engineering/decisions/cache-policy.md"
         adr.write_text(
@@ -542,9 +548,7 @@ class CliCase(unittest.TestCase):
         valid = self.invoke("refs", "check", "--all")
         self.assertEqual(valid.returncode, 0, valid.stdout + valid.stderr)
 
-        app.write_text(
-            "# engineering-decision: cache-policy | docs/wrong.md\nVALUE = 1\n"
-        )
+        app.write_text(decision_marker("cache-policy", "docs/wrong.md") + "VALUE = 1\n")
         wrong = self.invoke("refs", "check", "--all")
         self.assertEqual(wrong.returncode, 1)
         self.assertIn("canonical ADR", wrong.stdout)
@@ -555,16 +559,14 @@ class CliCase(unittest.TestCase):
         self.invoke("change", "start", "old-policy", "--risk", "R2")
         app = self.root / "app.py"
         app.write_text(
-            "# engineering-decision: missing-policy | "
-            "docs/engineering/decisions/missing-policy.md\n"
+            decision_marker("missing-policy", "docs/engineering/decisions/missing-policy.md")
         )
         missing = self.invoke("refs", "check", "--all")
         self.assertEqual(missing.returncode, 1)
         self.assertIn("has no evidence", missing.stdout)
 
         app.write_text(
-            "# engineering-decision: old-policy | "
-            "docs/engineering/decisions/old-policy.md\n"
+            decision_marker("old-policy", "docs/engineering/decisions/old-policy.md")
         )
         adr = self.root / "docs/engineering/decisions/old-policy.md"
         adr.write_text(adr.read_text().replace("Superseded by: None", "Superseded by: new-policy"))
@@ -582,8 +584,7 @@ class CliCase(unittest.TestCase):
             (self.root / "linked.py").symlink_to(target)
             app = self.root / "app.py"
             app.write_text(
-                "# engineering-decision: linked-policy | "
-                "docs/engineering/decisions/linked-policy.md\n"
+                decision_marker("linked-policy", "docs/engineering/decisions/linked-policy.md")
             )
             adr = self.root / "docs/engineering/decisions/linked-policy.md"
             adr.write_text(
@@ -715,11 +716,9 @@ class CliCase(unittest.TestCase):
         self.commit_contract()
         self.invoke("change", "start", "closed-policy", "--risk", "R2")
         app = self.root / "app.py"
-        # Composed at runtime so this source file itself does not add a
-        # dangling reference to the repository-wide `refs check --all` scan.
-        marker = "engineering-" + "decision: closed-policy | "
         app.write_text(
-            f"# {marker}docs/engineering/decisions/closed-policy.md\nVALUE = 1\n"
+            decision_marker("closed-policy", "docs/engineering/decisions/closed-policy.md")
+            + "VALUE = 1\n"
         )
         adr = self.root / "docs/engineering/decisions/closed-policy.md"
         adr.write_text(
@@ -731,6 +730,37 @@ class CliCase(unittest.TestCase):
         self.invoke("change", "close", "closed-policy")
         valid = self.invoke("refs", "check", "--all")
         self.assertEqual(valid.returncode, 0, valid.stdout + valid.stderr)
+
+    def test_refs_check_skips_contract_excluded_paths(self) -> None:
+        contract = self.init()
+        examples = self.root / "docs" / "examples"
+        examples.mkdir(parents=True)
+        (examples / "tutorial.md").write_text(
+            decision_marker(
+                "imaginary-policy", "docs/engineering/decisions/imaginary-policy.md"
+            )
+        )
+        blocked = self.invoke("refs", "check", "--all")
+        self.assertEqual(blocked.returncode, 1)
+        self.assertIn("imaginary-policy", blocked.stdout)
+
+        contract["refs"] = {"exclude": ["docs/examples/**"]}
+        (self.root / ".engineering" / "contract.json").write_text(
+            json.dumps(contract, indent=2) + "\n", encoding="utf-8"
+        )
+        passed = self.invoke("refs", "check", "--all")
+        self.assertEqual(passed.returncode, 0, passed.stdout + passed.stderr)
+        self.assertNotIn("imaginary-policy", passed.stdout)
+
+    def test_contract_rejects_escaping_refs_exclude_pattern(self) -> None:
+        contract = self.init()
+        contract["refs"] = {"exclude": ["../outside/**"]}
+        (self.root / ".engineering" / "contract.json").write_text(
+            json.dumps(contract, indent=2) + "\n", encoding="utf-8"
+        )
+        result = self.invoke("refs", "check", "--all")
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("repository-relative", result.stderr)
 
 
 if __name__ == "__main__":
