@@ -3,6 +3,10 @@
     "brief": "docs/engineering/changes/withdraw-unsupported-evaluation-claim.md"
   },
   "change_id": "withdraw-unsupported-evaluation-claim",
+  "closed": {
+    "closed_at": "2026-07-26T12:38:57+09:00",
+    "revision": "e3d67d676516e2830e89adc234c1c033b9e2c254"
+  },
   "competencies": [
     "explanation-review-handoff",
     "problem-framing-requirements",
@@ -31,7 +35,7 @@
     "revisit_after": "2026-08-01",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-07-25T12:43:35+09:00",
+  "updated_at": "2026-07-26T12:38:57+09:00",
   "verification": [
     {
       "command_id": "unit",
