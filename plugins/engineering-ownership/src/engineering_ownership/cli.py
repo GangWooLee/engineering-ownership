@@ -23,7 +23,6 @@ from .evidence import (
 )
 from .io import json_text, minimal_subprocess_env, redact, safe_relative_path, write_repo_text
 from .model import (
-    COMPETENCIES,
     RISK_ORDER,
     contract_version,
     default_contract,
@@ -205,7 +204,6 @@ def command_change_start(args: argparse.Namespace) -> int:
         change_id,
         title,
         args.risk,
-        args.competency,
         digest,
         paths,
         artifacts,
@@ -675,8 +673,6 @@ def command_status(args: argparse.Namespace) -> int:
         print(line)
         for kind, path in record.get("artifacts", {}).items():
             print(f"  {kind}: {path}")
-        if record.get("competencies"):
-            print(f"  competencies: {', '.join(record['competencies'])}")
         if not closed:
             current_gaps = evidence_gaps(root, contract, record, digest)
             for gap in current_gaps:
@@ -822,10 +818,6 @@ def handoff_text(root: Path, contract: dict[str, Any], change: str | None) -> st
             lines.append("  - canonical records:")
             for kind, path in record["artifacts"].items():
                 lines.append(f"    - {kind}: `{path}`")
-        if record.get("competencies"):
-            lines.append(
-                "  - competencies: " + ", ".join(record["competencies"])
-            )
         if record.get("verification"):
             for result in record["verification"]:
                 current = result.get("diff_digest") == digest
@@ -929,12 +921,6 @@ def build_parser() -> argparse.ArgumentParser:
     start.add_argument("change_id")
     start.add_argument("--risk", choices=tuple(RISK_ORDER), required=True)
     start.add_argument("--title")
-    start.add_argument(
-        "--competency",
-        action="append",
-        default=[],
-        choices=sorted(COMPETENCIES),
-    )
     start.set_defaults(func=command_change_start)
     set_risk = change_sub.add_parser("set-risk")
     set_risk.add_argument("change_id")

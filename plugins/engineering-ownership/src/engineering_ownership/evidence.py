@@ -7,7 +7,7 @@ from typing import Any
 
 from .errors import EngineeringError
 from .io import json_text, read_json, safe_relative_path, write_repo_text
-from .model import COMPETENCIES, RISK_ORDER
+from .model import RISK_ORDER
 
 
 def now_iso() -> str:
@@ -49,12 +49,6 @@ def validate_evidence(
         not isinstance(title, str) or not title.strip() or len(title) > 160
     ):
         raise EngineeringError(f"Evidence record '{change_id}' has invalid title")
-    competencies = data.get("competencies")
-    if (
-        not isinstance(competencies, list)
-        or any(not isinstance(item, str) or item not in COMPETENCIES for item in competencies)
-    ):
-        raise EngineeringError(f"Evidence record '{change_id}' has invalid competencies")
     artifacts = data.get("artifacts")
     if not isinstance(artifacts, dict) or any(
         not isinstance(value, str)
@@ -161,7 +155,6 @@ def new_evidence(
     change_id: str,
     title: str,
     risk: str,
-    competencies: list[str],
     digest: str,
     paths: list[str],
     artifacts: dict[str, str],
@@ -169,16 +162,12 @@ def new_evidence(
 ) -> dict[str, Any]:
     if risk not in RISK_ORDER:
         raise EngineeringError(f"Unknown risk: {risk}")
-    unknown = sorted(set(competencies) - COMPETENCIES)
-    if unknown:
-        raise EngineeringError(f"Unknown competencies: {', '.join(unknown)}")
     created = now_iso()
     return {
         "schema_version": 1,
         "change_id": validate_change_id(change_id),
         "title": title,
         "risk": risk,
-        "competencies": sorted(set(competencies)),
         "artifacts": artifacts,
         "diff": {"digest": digest, "paths": paths},
         "verification": [],

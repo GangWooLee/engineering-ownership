@@ -6,7 +6,7 @@ environment values. The CLI never invokes a shell.
 
 `.engineering/evidence/<change-id>.json` binds:
 
-- risk and competency tags;
+- risk;
 - repository-relative artifact paths;
 - verification command IDs and outcomes;
 - the exact current diff digest;

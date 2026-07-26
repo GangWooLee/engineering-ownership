@@ -147,15 +147,7 @@ class CliCase(unittest.TestCase):
         self.init()
         self.commit_contract()
         (self.root / "app.py").write_text("VALUE = 1\n", encoding="utf-8")
-        started = self.invoke(
-            "change",
-            "start",
-            "app-value",
-            "--risk",
-            "R2",
-            "--competency",
-            "testing-debugging",
-        )
+        started = self.invoke("change", "start", "app-value", "--risk", "R2")
         self.assertEqual(started.returncode, 0, started.stderr)
         self.fill_artifacts("app-value")
         verified = self.invoke("verify", "app-value")
@@ -172,15 +164,7 @@ class CliCase(unittest.TestCase):
         self.init()
         self.commit_contract()
         (self.root / "app.py").write_text("VALUE = 1\n", encoding="utf-8")
-        self.invoke(
-            "change",
-            "start",
-            "review-later",
-            "--risk",
-            "R2",
-            "--competency",
-            "explanation-review-handoff",
-        )
+        self.invoke("change", "start", "review-later", "--risk", "R2")
         self.fill_artifacts("review-later")
         verified = self.invoke("verify", "review-later")
         self.assertEqual(verified.returncode, 0, verified.stderr)
@@ -332,25 +316,32 @@ class CliCase(unittest.TestCase):
         self.assertNotIn(str(Path.home()), result.stdout)
         self.assertIn("Resume safely", result.stdout)
 
-    def test_status_reports_competencies_gaps_and_revisit_date_without_score(self) -> None:
+    def test_status_reports_gaps_and_revisit_date_without_score(self) -> None:
         self.init()
         self.commit_contract()
         (self.root / "app.py").write_text("VALUE = 1\n")
-        self.invoke(
-            "change",
-            "start",
-            "status-check",
-            "--risk",
-            "R1",
-            "--competency",
-            "testing-debugging",
-        )
+        self.invoke("change", "start", "status-check", "--risk", "R1")
         result = self.invoke("status")
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("testing-debugging", result.stdout)
         self.assertIn("verification 'unit'", result.stdout)
         self.assertIn("revisit_after=", result.stdout)
         self.assertNotIn("score", result.stdout.lower())
+
+    def test_evidence_with_legacy_competencies_field_stays_readable(self) -> None:
+        # Records written before the tag subsystem was removed carry a
+        # competencies array; readers must ignore it, not reject it.
+        self.init()
+        self.commit_contract()
+        (self.root / "app.py").write_text("VALUE = 1\n")
+        self.invoke("change", "start", "legacy-tags", "--risk", "R1")
+        evidence = self.root / ".engineering/evidence/legacy-tags.json"
+        record = json.loads(evidence.read_text())
+        record["competencies"] = ["testing-debugging"]
+        evidence.write_text(json.dumps(record))
+        result = self.invoke("status")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("legacy-tags", result.stdout)
+        self.assertEqual(self.invoke("explain", "legacy-tags").returncode, 0)
 
     def test_evidence_stores_no_command_output_or_home_path(self) -> None:
         contract = self.init()

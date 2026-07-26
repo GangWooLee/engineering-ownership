@@ -92,9 +92,9 @@ Do not add this marker to every file. Existing markers must pass
 
 ## Preserve knowledge without grading the person
 
-Artifacts and competency tags show what happened; they are not maturity,
-competence, readiness, or person scores. Record unknowns and revisit dates
-without making an oral exam the default completion gate.
+Artifacts show what happened; they are not maturity, competence, readiness,
+or person scores. Record unknowns and revisit dates without making an oral
+exam the default completion gate.
 
 Load only what is needed:
 
@@ -107,4 +107,3 @@ Load only what is needed:
 - [Evidence model](references/evidence-model.md)
 - [Decision recording](references/recording-decisions.md)
 - [CLI reference](references/cli.md)
-- [Competency tags](references/competencies.md)

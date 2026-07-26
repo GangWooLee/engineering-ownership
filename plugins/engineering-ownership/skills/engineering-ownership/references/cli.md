@@ -4,7 +4,7 @@
 engineering init [--agent-pointers]
 engineering audit [--format text|json]
 engineering doctor [--format text|json]
-engineering change start <id> --risk R1|R2|R3 [--title <title>] [--competency <tag>]
+engineering change start <id> --risk R1|R2|R3 [--title <title>]
 engineering change set-risk <id> --risk R2|R3
 engineering verify <id> [--id <command-id>]
 engineering check [--mode advise|enforce] [--change <id>]
