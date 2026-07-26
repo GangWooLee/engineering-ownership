@@ -4,6 +4,10 @@
     "decision": "docs/engineering/decisions/rename-pending-release-030.md"
   },
   "change_id": "rename-pending-release-030",
+  "closed": {
+    "closed_at": "2026-07-26T11:56:42+09:00",
+    "revision": "19299a353039abcef4de7823fabf91516f9dbda4"
+  },
   "created_at": "2026-07-26T11:26:58+09:00",
   "diff": {
     "digest": "ff4914e572c6c180ea4ed5dc424110584628a9fdcd59d29865067a874c1e2618",
@@ -288,6 +292,43 @@
     "revisit_after": "2026-08-02",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-07-26T11:26:58+09:00",
-  "verification": []
+  "updated_at": "2026-07-26T11:56:42+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "ff4914e572c6c180ea4ed5dc424110584628a9fdcd59d29865067a874c1e2618",
+      "duration_ms": 34080,
+      "exit_code": 1,
+      "status": "failed",
+      "timed_out": false,
+      "verified_at": "2026-07-26T11:52:00+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "ff4914e572c6c180ea4ed5dc424110584628a9fdcd59d29865067a874c1e2618",
+      "duration_ms": 52,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-26T11:52:01+09:00"
+    },
+    {
+      "command_id": "claude-plugin",
+      "diff_digest": "ff4914e572c6c180ea4ed5dc424110584628a9fdcd59d29865067a874c1e2618",
+      "duration_ms": 1586,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-26T11:52:02+09:00"
+    },
+    {
+      "command_id": "release-package",
+      "diff_digest": "ff4914e572c6c180ea4ed5dc424110584628a9fdcd59d29865067a874c1e2618",
+      "duration_ms": 133,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-26T11:52:02+09:00"
+    }
+  ]
 }
