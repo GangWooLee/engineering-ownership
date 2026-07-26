@@ -38,6 +38,11 @@ SHOWS_ITS_REASONING = re.compile(
 )
 
 RESULTS_BLOCK = re.compile(r"```json\s*(\{[^`]*?\"with_skill_mean\"[^`]*?\})\s*```", re.DOTALL)
+# The withdrawn claim's original form was a markdown table, not a JSON block.
+# Any surface that pairs a with/without-skill comparison with score-shaped
+# numbers is treated as a published result and held to the same contract.
+SKILL_COMPARISON = re.compile(r"(?i)\bwith(?:out)?[ _-]skill")
+EFFICACY_SHAPE = re.compile(r"\b\d+\s*/\s*\d+\b|\b\d+(?:\.\d+)?\s*%")
 STATUS_LINE = re.compile(r"^Status:\s*(\S+)", re.MULTILINE)
 CHECKED_LINE = re.compile(r"^Checked:\s*\d{4}-\d{2}-\d{2}", re.MULTILINE)
 SUPERSEDED_LINE = re.compile(r"^Superseded by:\s*\S+", re.MULTILINE)
@@ -596,6 +601,25 @@ class PublishedResultCase(unittest.TestCase):
             published["evals"] * published["assertions_per_eval"] * published["n_runs"],
             "published denominator is not the product of its own factors",
         )
+
+    def test_efficacy_shaped_numbers_need_a_results_contract_or_retired_status(self) -> None:
+        # The gate above matches only the machine-readable JSON block; the
+        # withdrawn claim's original form was a markdown table, which would
+        # have slipped past it if republished.
+        surfaces = [ROOT / "README.md", ROOT / "README.ko.md"]
+        surfaces.extend(sorted(VALIDATION.glob("*.md")))
+        for path in surfaces:
+            if not path.is_file():
+                continue
+            text = path.read_text(encoding="utf-8")
+            if not (SKILL_COMPARISON.search(text) and EFFICACY_SHAPE.search(text)):
+                continue
+            self.assertTrue(
+                RESULTS_BLOCK.search(text) or RETIRED_STATUS.search(text),
+                f"{path.relative_to(ROOT)} pairs a with/without-skill comparison "
+                "with score-shaped numbers but carries neither a machine-readable "
+                "results block nor a Withdrawn/Superseded status",
+            )
 
     def test_committed_benchmarks_report_tokens_from_timing_records(self) -> None:
         # The vendored aggregator falls back to output_chars where tokens
