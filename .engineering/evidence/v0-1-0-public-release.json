@@ -6,6 +6,10 @@
     "threat_model": "docs/engineering/security/v0-1-0-public-release.md"
   },
   "change_id": "v0-1-0-public-release",
+  "closed": {
+    "closed_at": "2026-07-26T10:41:41+09:00",
+    "revision": "2ec5d1d43a8afb429001ffdccbdf357f8ff4466a"
+  },
   "competencies": [
     "explanation-review-handoff",
     "git-delivery-change-management",
@@ -38,7 +42,7 @@
     "self_attested": true,
     "status": "gaps"
   },
-  "updated_at": "2026-07-23T10:50:53+00:00",
+  "updated_at": "2026-07-26T10:41:41+09:00",
   "verification": [
     {
       "command_id": "unit",

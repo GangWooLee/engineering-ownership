@@ -4,6 +4,10 @@
     "decision": "docs/engineering/decisions/observable-run-evidence.md"
   },
   "change_id": "observable-run-evidence",
+  "closed": {
+    "closed_at": "2026-07-26T10:41:40+09:00",
+    "revision": "2ec5d1d43a8afb429001ffdccbdf357f8ff4466a"
+  },
   "competencies": [
     "security-privacy",
     "system-data-flow-design",
@@ -54,7 +58,7 @@
     "revisit_after": "2026-08-01",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-07-25T15:03:07+09:00",
+  "updated_at": "2026-07-26T10:41:40+09:00",
   "verification": [
     {
       "command_id": "unit",

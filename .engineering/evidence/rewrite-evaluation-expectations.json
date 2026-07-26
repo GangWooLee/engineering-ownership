@@ -4,6 +4,10 @@
     "decision": "docs/engineering/decisions/rewrite-evaluation-expectations.md"
   },
   "change_id": "rewrite-evaluation-expectations",
+  "closed": {
+    "closed_at": "2026-07-26T10:41:41+09:00",
+    "revision": "2ec5d1d43a8afb429001ffdccbdf357f8ff4466a"
+  },
   "competencies": [
     "explanation-review-handoff",
     "problem-framing-requirements",
@@ -43,7 +47,7 @@
     "revisit_after": "2026-08-01",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-07-25T14:30:48+09:00",
+  "updated_at": "2026-07-26T10:41:41+09:00",
   "verification": [
     {
       "command_id": "unit",

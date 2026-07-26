@@ -4,6 +4,10 @@
     "decision": "docs/engineering/decisions/describe-when-to-invoke.md"
   },
   "change_id": "describe-when-to-invoke",
+  "closed": {
+    "closed_at": "2026-07-26T10:41:40+09:00",
+    "revision": "2ec5d1d43a8afb429001ffdccbdf357f8ff4466a"
+  },
   "competencies": [
     "explanation-review-handoff",
     "problem-framing-requirements",
@@ -29,7 +33,7 @@
     "revisit_after": "2026-08-01",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-07-25T21:12:52+09:00",
+  "updated_at": "2026-07-26T10:41:40+09:00",
   "verification": [
     {
       "command_id": "unit",

@@ -3,6 +3,10 @@
     "brief": "docs/engineering/changes/complete-the-fixture-set.md"
   },
   "change_id": "complete-the-fixture-set",
+  "closed": {
+    "closed_at": "2026-07-26T10:41:40+09:00",
+    "revision": "2ec5d1d43a8afb429001ffdccbdf357f8ff4466a"
+  },
   "competencies": [
     "system-data-flow-design",
     "testing-debugging"
@@ -40,7 +44,7 @@
     "revisit_after": "2026-08-01",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-07-25T21:33:58+09:00",
+  "updated_at": "2026-07-26T10:41:40+09:00",
   "verification": [
     {
       "command_id": "unit",

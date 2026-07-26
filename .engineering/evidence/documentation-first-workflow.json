@@ -6,6 +6,10 @@
     "threat_model": "docs/engineering/security/documentation-first-workflow.md"
   },
   "change_id": "documentation-first-workflow",
+  "closed": {
+    "closed_at": "2026-07-26T10:41:40+09:00",
+    "revision": "2ec5d1d43a8afb429001ffdccbdf357f8ff4466a"
+  },
   "competencies": [
     "explanation-review-handoff",
     "git-delivery-change-management",
@@ -51,7 +55,7 @@
     "revisit_after": "2026-07-30",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-07-23T10:46:52+00:00",
+  "updated_at": "2026-07-26T10:41:40+09:00",
   "verification": [
     {
       "command_id": "unit",
