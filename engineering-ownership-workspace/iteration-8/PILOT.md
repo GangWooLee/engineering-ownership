@@ -121,3 +121,60 @@ What a reader may take from this directory today: on nine scenarios with three
 runs each, against a baseline that never loaded the skill, the skill scored
 higher overall, engaged in 20 of 27 runs, and was neutral or worse on the two
 scenarios closest to its stated differentiator.
+
+---
+
+## Correction, 2026-07-27 — two readings above are wrong
+
+A follow-up investigation into the eval-3 and eval-9 engagement misses
+overturned two claims made earlier in this note. They are corrected here rather
+than edited away.
+
+**Wrong: "Eval 9 went the wrong way."** The gap is not a scenario-level effect.
+Exact two-sided permutation over the six runs gives **p = 0.600** — with
+`{0.2, 0.4, 0.4}` against `{0.2, 0.6, 0.6}`, twelve of twenty splits are at
+least as extreme. The entire −0.133 decomposes into **two boolean judge cells**
+(5 of 15 expectation-cells passed against 7 of 15). Three further facts make
+attribution to the skill untenable: expectation E4 (*"says why keeping the
+earlier reasoning legible matters to someone reading this later"*) has passed
+**0 of 8 times across every eval-9 run ever recorded, in both arms and two
+rubric generations** — 20% of the denominator is a constant that cannot
+discriminate; all six judges independently flagged E3 and E5 as unreachable for
+a run that correctly pauses to ask; and the fixture is self-contradictory — its
+decision note asserts every partner settles in whole units while the settled
+code restricts conversion to `{p-1, p-7}`, so "our largest partner" has no
+referent. Finally, dropping the one consulting run makes the treatment arm
+*worse* (0.300), because that run was the arm's joint best — and it invoked the
+skill as its **terminal** tool call, after deciding to stop, having read no
+reference file. Consulting cannot cause a deficit it sits above. Eval-9 is a
+**measurement** problem, not an efficacy one.
+
+**Wrong: "The skill never consulted itself on stale evidence, so it changed
+nothing."** The first clause is right and now stronger; the second does not
+follow. Eval-3's engagement is **0 of 6 pooled across iterations 7 and 8** — the
+`description` is byte-identical between them, and selection is a function of the
+description alone, so the abandoned iteration's engagement data is still valid.
+Against this arm's 20/27 rate that is p ≈ 3×10⁻⁴: not noise. But the expectation
+eval-3 fails (E3, *"addresses how this change would be undone or repaired"*) has
+**no owner anywhere on the routed path** — `resume.md`, `finish.md`, and
+`start.md` contain zero rollback, revert, undo, or repair guidance (`resume.md`'s
+only near-match is "the recovered problem", meaning context, not reversal).
+Eval-6 runs on a byte-identical working tree, engaged **3/3**, scored **1.000**,
+and still produced zero reversibility language. **The skill would have changed
+nothing here even if it had fired.** That is a content gap wearing a triggering
+gap's clothes, and it is worse than the original reading.
+
+**New, and it qualifies the headline:** `skill_loaded` records that the Skill
+tool was invoked — that the 109-line router page entered context — not that any
+route was followed. **Nine of the twenty "consulting" runs read no reference
+file at all**, including eval-9's only consulting run and two eval-6 runs that
+scored 1.000. The +0.1512 is therefore substantially an effect of the router
+page; the reference layer that carries the actual guidance is largely
+**unmeasured**, not validated.
+
+**Also corrected:** eval-1's 1/3 was described above as possibly "obedience
+rather than failure". Its single consulting run is the only eval-1 run in either
+arm to fail E1 — it spent its one action on a read outside the repository
+instead of the diff — while its two non-consulting arm-mates scored 1.000 and
+0.667. Whatever eval-1's misses are, principled restraint being rewarded is not
+supported by this data.
