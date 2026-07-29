@@ -3,6 +3,10 @@
     "brief": "docs/engineering/changes/declare-english-canonical.md"
   },
   "change_id": "declare-english-canonical",
+  "closed": {
+    "closed_at": "2026-07-29T16:23:33+09:00",
+    "revision": "be5f39d3b31c53bf1c2fecada806391a3da96b47"
+  },
   "created_at": "2026-07-29T16:00:15+09:00",
   "diff": {
     "digest": "dd377475b20d562487261c0277a5ba7faac9ae3aa1becb8e4e95a6b7284e233c",
@@ -806,7 +810,7 @@
     "revisit_after": "2026-08-05",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-07-29T16:02:43+09:00",
+  "updated_at": "2026-07-29T16:23:33+09:00",
   "verification": [
     {
       "command_id": "unit",

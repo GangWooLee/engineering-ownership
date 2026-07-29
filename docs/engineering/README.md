@@ -6,13 +6,13 @@ records themselves.
 
 | Change | Risk | State | Records |
 | --- | --- | --- | --- |
-| **Give the engineering records an entry point**<br>`add-record-index` | R3 | open | [brief](changes/add-record-index.md), [decision](decisions/add-record-index.md), [runbook](runbooks/add-record-index.md), [threat_model](security/add-record-index.md) |
+| **Give the engineering records an entry point**<br>`add-record-index` | R3 | closed 2026-07-29 at `be5f39d3b31c` | [brief](changes/add-record-index.md), [decision](decisions/add-record-index.md), [runbook](runbooks/add-record-index.md), [threat_model](security/add-record-index.md) |
 | **Add a terminal close state to change records**<br>`add-terminal-close-state` | R3 | closed 2026-07-26 at `e1dd42cd43dc` | [brief](changes/add-terminal-close-state.md), [decision](decisions/add-terminal-close-state.md), [runbook](runbooks/add-terminal-close-state.md), [threat_model](security/add-terminal-close-state.md) |
 | **Fail a tag whose release notes predate shipped content**<br>`arm-release-currency-gate` | R3 | closed 2026-07-26 at `e1dd42cd43dc` | [brief](changes/arm-release-currency-gate.md), [decision](decisions/arm-release-currency-gate.md), [runbook](runbooks/arm-release-currency-gate.md), [threat_model](security/arm-release-currency-gate.md) |
 | **Give every scenario a repository to run in**<br>`complete-the-fixture-set` | R1 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/complete-the-fixture-set.md) |
 | **Correct public Git attribution and release refs**<br>`correct-git-attribution` | R3 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/correct-git-attribution.md), [decision](decisions/correct-git-attribution.md), [runbook](runbooks/correct-git-attribution.md), [threat_model](security/correct-git-attribution.md) |
 | **Cover ship-critical paths in the risk contract**<br>`cover-ship-critical-paths` | R2 | closed 2026-07-26 at `e1dd42cd43dc` | [brief](changes/cover-ship-critical-paths.md), [decision](decisions/cover-ship-critical-paths.md) |
-| **Declare English canonical for records, Korean as summary**<br>`declare-english-canonical` | R1 | open | [brief](changes/declare-english-canonical.md) |
+| **Declare English canonical for records, Korean as summary**<br>`declare-english-canonical` | R1 | closed 2026-07-29 at `be5f39d3b31c` | [brief](changes/declare-english-canonical.md) |
 | **Build a defensible skill evaluation harness**<br>`defensible-skill-evaluation` | R1 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/defensible-skill-evaluation.md) |
 | **Describe when to invoke the skill, and measure whether it does**<br>`describe-when-to-invoke` | R2 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/describe-when-to-invoke.md), [decision](decisions/describe-when-to-invoke.md) |
 | **Documentation-first engineering workflow**<br>`documentation-first-workflow` | R3 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/documentation-first-workflow.md), [decision](decisions/documentation-first-workflow.md), [runbook](runbooks/documentation-first-workflow.md), [threat_model](security/documentation-first-workflow.md) |

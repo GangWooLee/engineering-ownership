@@ -6,6 +6,10 @@
     "threat_model": "docs/engineering/security/add-record-index.md"
   },
   "change_id": "add-record-index",
+  "closed": {
+    "closed_at": "2026-07-29T16:23:33+09:00",
+    "revision": "be5f39d3b31c53bf1c2fecada806391a3da96b47"
+  },
   "created_at": "2026-07-29T16:11:56+09:00",
   "diff": {
     "digest": "32adfe9138f5190ce35bf7cc2a81fc5db329f9587908faa0b3bca8ebf4c9c232",
@@ -29,7 +33,7 @@
     "revisit_after": "2026-08-05",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-07-29T16:22:39+09:00",
+  "updated_at": "2026-07-29T16:23:33+09:00",
   "verification": [
     {
       "command_id": "unit",
