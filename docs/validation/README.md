@@ -31,6 +31,12 @@ mirrors the supersession rule already used for decision records in
 | [plugin-discovery.md](plugin-discovery.md) | Superseded | 2026-07-23 | v0.1 plugin and skill discovery |
 | [legacy-project-read-only.md](legacy-project-read-only.md) | Current | 2026-07-23 | Contract v1 read-only compatibility on three external repositories |
 
+`fixtures/` holds artifacts used to validate the instruments in this
+directory rather than the project. `negative-control-record.md` is a change
+record written deliberately to fail the record-quality rubric; it documents no
+real work and is graded blind among real records to locate what the rubric
+lets through.
+
 There is currently **no published quantitative efficacy claim** for the skill.
 See [skill-evaluation.md](skill-evaluation.md) for why the previous one was
 withdrawn and what replaces it.

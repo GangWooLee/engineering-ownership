@@ -1,0 +1,47 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/tighten-rubric-with-control.md"
+  },
+  "change_id": "tighten-rubric-with-control",
+  "created_at": "2026-07-29T21:29:00+09:00",
+  "diff": {
+    "digest": "f2faf5dcdaee94a147a86103d373bc8fd1dd492c2d69e938472f956f9807245f",
+    "paths": [
+      "docs/engineering/README.md",
+      "docs/engineering/changes/tighten-rubric-with-control.md",
+      "docs/validation/README.md",
+      "docs/validation/fixtures/negative-control-record.md",
+      "docs/validation/record-quality-rubric.md",
+      "scripts/eval/redact_action_logs.py"
+    ]
+  },
+  "risk": "R1",
+  "schema_version": 1,
+  "title": "Tighten the rubric using a negative control",
+  "understanding": {
+    "gaps": [],
+    "revisit_after": "2026-08-05",
+    "status": "not-reviewed"
+  },
+  "updated_at": "2026-07-29T21:31:45+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "f2faf5dcdaee94a147a86103d373bc8fd1dd492c2d69e938472f956f9807245f",
+      "duration_ms": 32473,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-29T21:31:45+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "f2faf5dcdaee94a147a86103d373bc8fd1dd492c2d69e938472f956f9807245f",
+      "duration_ms": 56,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-29T21:31:45+09:00"
+    }
+  ]
+}

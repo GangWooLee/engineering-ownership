@@ -123,10 +123,10 @@ omitted it, and both graders reported they had to invent one.
 
 | Dimension | Expectation |
 | --- | --- |
-| **D1 Calibration** | Read only the opening section. State what it tells you about *how much to trust* what follows — the result's strength, its limits, or what it does not claim. FAIL if the opening is contentless: if a reader who stopped there would make the same decision regardless of what the record found. |
-| **D2 Stated verification** | State what the record says was checked, and by what. FAIL if the record names no check, or names one without saying what it produced. Judge the record's account, **not** whether the subject matter happens to be deterministically repeatable — a blinded judge run reported honestly passes, a script with fixed integers does not automatically. |
+| **D1 Calibration** | Read only the opening section. State what it tells you about *how much to trust* what follows. FAIL if a reader who stopped there would make the same decision regardless of what the record found. **A list of deferred or excluded features does not satisfy this**, and neither does a set of success criteria that are all properties the change was built to have: at least one must state a proposition that could plausibly have resolved the other way. |
+| **D2 Stated verification** | State what the record says was checked, and what that check produced. FAIL if it names no check, or names one without saying what came out of it. **A check identified only by pointing at another document — "exercised by tests", "see the threat model" — counts as naming no check.** Judge the record's account, **not** whether the subject matter is deterministically repeatable: a blinded judge run reported honestly passes; a script whose output is never stated does not. |
 | **D3 Load-bearing jargon** | List the undefined terms the record's central argument *rests on* — terms a new engineer must resolve elsewhere before they can judge the claim. Exempt in-repo identifiers whose role is stated in the sentence that uses them (`save_evidence` used as "…calls `save_evidence`, which writes the record" is defined in place). FAIL if the list is non-empty; the list is the evidence. |
-| **D4 Bounded takeaway** | State what someone facing a similar decision could take from this record. FAIL unless the transferable claim carries either the evidence that produced it or the condition under which it stops applying. A stated preference with neither is not transferable. |
+| **D4 Bounded takeaway** | State what someone facing a similar decision could take from this record. FAIL unless the transferable claim carries either the specific observation from *this* change that produced it, or the condition under which it stops applying. **A scope disclaimer of the form "X does not cover Y" is not a stopping condition** — the condition must name an observation a reader could make that would overturn the claim. A general property of a third-party tool, restated without saying how this change encountered it, is neither. |
 
 Scoring is boolean per dimension with a quoted justification, following the
 existing judge output contract: evidence must be a quotation or a specific
@@ -270,6 +270,64 @@ never been shown one.
 
 **Decision: the revised dimensions may be used for a full pass**, with the
 two-band limitation reported alongside any result rather than discovered later.
+
+## Third dry run, 2026-07-29 — with a negative control
+
+The previous run could not distinguish a lenient rubric from a uniform corpus,
+because no bad record existed to try. One was written:
+`fixtures/negative-control-record.md`, built to game the three leniencies the
+judges had named — a non-goals list made only of features not built, a
+verification claim phrased as a success criterion never run, and preferences
+with a bare `because` clause. It deliberately does **not** game D3; every
+identifier is glossed in place, so a D3 pass isolates the other three.
+
+Prediction, fixed before the run: the control should fail D1, D2 and D4 and pass
+D3. Seven documents, the control unlabelled among six real records, two blind
+judges.
+
+| | Verdict |
+| --- | --- |
+| Control | **6 of 8 cells failed** — D1, D2, D4 by both judges; D3 passed by both |
+| Agreement | 26 / 28 (93%) |
+| Prediction | met exactly |
+
+**The rubric catches a record built to beat it.** The leniencies the previous
+run could only speculate about are narrower than feared.
+
+**But the run found something the control was not designed to test.** Asked —
+separately from the rubric — which document they would least want to inherit,
+both judges named the same one, and it was **not** the control. It was a real
+record that scores *better* than the control on the rubric. One judge:
+
+> "The rubric over-penalizes legible thinness and under-penalizes abstraction
+> with no referent."
+
+The control is thin but concrete: every identifier is glossed, and a reader
+could reconstruct the change from the diff in an afternoon. The record both
+judges rejected covers an entire release, names no file it touched, no command
+it ran, no number, and delegates its whole assurance story to "exercised by
+tests" — and it passed D1 and D4. Its opacity scales with its subject; the
+control's does not.
+
+**Three tightenings applied**, each proposed independently by a judge who then
+checked it against all seven documents and named which would still pass:
+
+- **D1** — a deferred-feature list no longer satisfies calibration, and success
+  criteria that are all properties the change was built to have fail. Verified
+  safe against the strong records, which keep passing on "publishing any
+  number", pre-registered numeric thresholds, per-path classifications, and
+  byte-identical behaviour that could have broken.
+- **D2** — a check identified only by pointing at another document counts as
+  naming no check. This is the tightening that catches verification-by-reference,
+  the rejected record's defining flaw.
+- **D4** — a scope disclaimer ("X does not cover Y") is not a stopping
+  condition, and a general property of a third-party tool restated without
+  saying how this change met it is neither evidence nor boundary.
+
+These tightenings carry **predicted verdicts** rather than measured ones: each
+judge stated which records their edit would newly fail. The full pass is what
+tests those predictions, and any that miss is a finding about the rubric rather
+than about the record.
 
 ## What this rubric does not do
 

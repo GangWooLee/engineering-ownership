@@ -28,6 +28,7 @@ records themselves.
 | **Rewrite the evaluation expectations to be passable on merit**<br>`rewrite-evaluation-expectations` | R2 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/rewrite-evaluation-expectations.md), [decision](decisions/rewrite-evaluation-expectations.md) |
 | **Assert the tag validator's quoting concern without coupling it to notes currency**<br>`scope-currency-gate-to-tag-time` | R1 | closed 2026-07-26 at `19299a353039` | [brief](changes/scope-currency-gate-to-tag-time.md) |
 | **Separate the fixture from the answer key**<br>`separate-fixture-from-answer-key` | R1 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/separate-fixture-from-answer-key.md) |
+| **Tighten the rubric using a negative control**<br>`tighten-rubric-with-control` | R1 | open | [brief](changes/tighten-rubric-with-control.md) |
 | **v0.1.0 public release**<br>`v0-1-0-public-release` | R3 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/v0-1-0-public-release.md), [decision](decisions/v0-1-0-public-release.md), [runbook](runbooks/v0-1-0-public-release.md), [threat_model](security/v0-1-0-public-release.md) |
 | **Engineering Ownership v0.2 immediate workflow**<br>`v0-2-immediate-workflow` | R3 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/v0-2-immediate-workflow.md), [decision](decisions/v0-2-immediate-workflow.md), [runbook](runbooks/v0-2-immediate-workflow.md), [threat_model](security/v0-2-immediate-workflow.md) |
 | **Validate the revised rubric on identical inputs**<br>`validate-revised-rubric` | R1 | closed 2026-07-29 at `96a8a40869ab` | [brief](changes/validate-revised-rubric.md) |
@@ -35,4 +36,4 @@ records themselves.
 | **Declare english canonical**<br>`declare-english-canonical` | - | decision only — no evidence record claims this document | [decision](decisions/declare-english-canonical.md) |
 | **Define record quality rubric**<br>`define-record-quality-rubric` | - | decision only — no evidence record claims this document | [decision](decisions/define-record-quality-rubric.md) |
 
-28 entries. Risk tiers R0-R3 are defined in the skill's [operating model](../../plugins/engineering-ownership/skills/engineering-ownership/references/operating-model.md); what each evidence record holds is described in the [evidence model](../../plugins/engineering-ownership/skills/engineering-ownership/references/evidence-model.md).
+29 entries. Risk tiers R0-R3 are defined in the skill's [operating model](../../plugins/engineering-ownership/skills/engineering-ownership/references/operating-model.md); what each evidence record holds is described in the [evidence model](../../plugins/engineering-ownership/skills/engineering-ownership/references/evidence-model.md).
