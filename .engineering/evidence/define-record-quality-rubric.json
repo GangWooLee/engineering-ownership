@@ -1,0 +1,47 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/define-record-quality-rubric.md"
+  },
+  "change_id": "define-record-quality-rubric",
+  "created_at": "2026-07-29T17:04:23+09:00",
+  "diff": {
+    "digest": "4f4838a1ee8aa6f794b6bc2d11492a40fa9fa98412333ef2b843729df6347c0f",
+    "paths": [
+      "docs/engineering/README.md",
+      "docs/engineering/changes/define-record-quality-rubric.md",
+      "docs/engineering/decisions/define-record-quality-rubric.md",
+      "docs/validation/README.md",
+      "docs/validation/record-quality-rubric.md",
+      "scripts/eval/redact_action_logs.py"
+    ]
+  },
+  "risk": "R1",
+  "schema_version": 1,
+  "title": "Define how record quality is measured",
+  "understanding": {
+    "gaps": [],
+    "revisit_after": "2026-08-05",
+    "status": "not-reviewed"
+  },
+  "updated_at": "2026-07-29T17:08:16+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "4f4838a1ee8aa6f794b6bc2d11492a40fa9fa98412333ef2b843729df6347c0f",
+      "duration_ms": 23959,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-29T17:08:16+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "4f4838a1ee8aa6f794b6bc2d11492a40fa9fa98412333ef2b843729df6347c0f",
+      "duration_ms": 50,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-29T17:08:16+09:00"
+    }
+  ]
+}
