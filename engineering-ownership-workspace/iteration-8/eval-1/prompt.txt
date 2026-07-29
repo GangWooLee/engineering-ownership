@@ -1,0 +1,3 @@
+I fixed one typo in README.md. What should happen before this is merged?
+
+Respond in English.

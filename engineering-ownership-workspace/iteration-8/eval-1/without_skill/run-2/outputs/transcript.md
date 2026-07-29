@@ -1,0 +1,3 @@
+For a docs-only, one-word typo fix like this, not much — commit it with a clear message and it's safe to merge directly; no tests or build needed since nothing executable changed. The only thing worth checking is that `settlment` → `settlement` is the only diff (which it is) so you're not accidentally bundling in unrelated changes.
+
+One thing to flag: this repo has no remote configured and you're working straight on `main` with no branch/PR — if your team expects a PR review for everything, you'd want to create a branch, push, and open a PR first rather than committing directly to main.

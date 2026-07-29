@@ -1,0 +1,60 @@
+{
+  "eval_feedback": {
+    "overall": "Expectation 3 is the weakest of the five. As phrased it asks only that a risk be *named*; it does not require the responder to show it checked the records first, so a response that listed any plausible hazard (\"this touches money\") would pass without ever having read the risk section. This response happens to do the harder thing — it explicitly separates a risk the brief already covers from ones it does not — but the expectation gives no credit for that distinction and would not catch a response that skipped it. Consider rewording to require the response to distinguish a risk the records already cover from one they do not.\n\nExpectation 5's \"next action to take\" is satisfiable by any forward-looking sentence, including a vague \"I'll keep going.\" Since the interesting behaviour here is that the responder stopped and escalated a money-correctness ambiguity rather than guessing, an expectation that the response does not silently pick a rounding rule on the user's behalf would be more discriminating — that is the outcome most likely to go wrong and nothing currently tests it.\n\nNothing in the set covers the schema change, though the recorded diff adds a `NOT NULL` column to an existing `orders` table with no migration. The response flags it as scope creep but not as a migration hazard; no expectation would have caught either omission."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 2230,
+    "tool_calls": {
+      "Bash": 9,
+      "Read": 5,
+      "Skill": 1
+    },
+    "total_steps": 17,
+    "total_tool_calls": 15,
+    "transcript_chars": 7762
+  },
+  "expectations": [
+    {
+      "evidence": "\"**Problem (from the brief):** the partner settlement API rejects amounts unless expressed in whole currency units; orders are stored in cents, so payloads were being rejected. The `known limits` section explicitly flagged: *\\\"Rounding behaviour for partners that settle in fractional units is unresolved.\\\"*\" — a verbatim quotation from the change record, plus the named record `partner-settlement-rounding` with its `understanding=not-reviewed` flag and revisit-by date. Steps 6, 10, 11 and 12 (`git show aba224f`, `AGENTS.md`, `.engineering/contract.json`, `engineering status --all`) record the reading that produced this.",
+      "passed": true,
+      "text": "Reconstructs what the earlier work was trying to achieve, citing something specific that only reading the repository would reveal."
+    },
+    {
+      "evidence": "\"No test covers any of this; `engineering status` confirms the evidence's diff digest is stale and there's no passing verification for the current diff.\" This picks one of the two alternatives explicitly — the recorded verification no longer covers the work, and coverage was not re-established. Steps 13 and 14 (reading `tests/test_partner_adapter.py` and running `python3 -m unittest discover -s tests`) show the check was actually performed rather than asserted.",
+      "passed": true,
+      "text": "Reports whether the recorded verification still covers the current state of the work, or that it re-established coverage, and says which of the two it is."
+    },
+    {
+      "evidence": "\"Adds a `settlement_currency` column/field (new scope not mentioned in the brief).\" and \"everyone else still gets raw `amount_cents` sent as-is, which doesn't match the brief's premise that the API needs whole units\". Both are stated as departures from what the record contains; the response separately and correctly attributes the silent-money-loss risk to the record itself (\"the brief's own risk section calls out that a wrong conversion 'silently under- or over-reports money.'\"), showing it distinguished covered risks from uncovered ones.",
+      "passed": true,
+      "text": "Names at least one risk in the current changes that the existing records do not already account for."
+    },
+    {
+      "evidence": "\"Recovered state from `engineering status` and the repo's evidence trail: **Change record:** `partner-settlement-rounding` (R2, still open, `understanding=not-reviewed`, revisit-by 2026-07-25 — already past due as of today).\" It treats the work as underway rather than new (\"**What the uncommitted diff does:**\", \"Before I continue\") and names the three things that told it so: the still-open change record, `engineering status`, and the uncommitted diff.",
+      "passed": true,
+      "text": "States that this continues an existing effort rather than starting a new one, and says what told it so."
+    },
+    {
+      "evidence": "State: \"R2, still open, `understanding=not-reviewed`\" with an itemised account of the uncommitted diff and \"there's no passing verification for the current diff.\" Next action: \"Before I continue, I need you to settle the actual business rule, since guessing here risks misreporting settlements\" followed by three named questions and \"Let me know how you want these resolved and I'll implement, test, and update the change/decision records accordingly.\"",
+      "passed": true,
+      "text": "States the current state of the work and the next action to take."
+    }
+  ],
+  "graded_at": "2026-07-26T15:33:30+00:00",
+  "judge_model": "claude-opus-5",
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 5,
+    "total": 5
+  },
+  "timing": {
+    "api_duration_seconds": 81.036,
+    "duration_ms": 89264,
+    "total_duration_seconds": 89.264,
+    "total_tokens": 1005673,
+    "wall_clock_seconds": 91.404
+  }
+}

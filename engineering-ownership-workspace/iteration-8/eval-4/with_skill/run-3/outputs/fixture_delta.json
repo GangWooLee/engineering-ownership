@@ -1,0 +1,9 @@
+{
+  "file_contents": {
+    ".gitignore": "__pycache__/\n*.py[cod]\n.engineering/handoffs/\n"
+  },
+  "paths_changed_by_run": [
+    ".gitignore"
+  ],
+  "tracked_diff": "diff --git a/.gitignore b/.gitignore\nindex 43ae0e2..207e003 100644\n--- a/.gitignore\n+++ b/.gitignore\n@@ -1,2 +1,3 @@\n __pycache__/\n *.py[cod]\n+.engineering/handoffs/\n"
+}

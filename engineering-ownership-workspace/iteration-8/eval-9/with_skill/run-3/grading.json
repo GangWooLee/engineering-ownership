@@ -1,0 +1,60 @@
+{
+  "eval_feedback": {
+    "overall": "Two problems worth raising.\n\nFirst, expectations 3 and 5 are unreachable for a response that correctly stops to ask a clarifying question. This response found the conflict, identified that the global change would break a partner, and discovered that the request is under-specified (which of p-1/p-7 is the largest partner materially changes the edit). Refusing to write a decision record before knowing what the decision is looks like good judgment, yet the rubric scores it identically to a response that blundered ahead and recorded nothing. The eval currently cannot distinguish 'failed to keep a record' from 'correctly deferred the record pending an answer.' Either the prompt should supply the partner ID so no clarification is warranted, or the expectations should admit a branch: a response that defers must say what it will record once answered.\n\nSecond, expectation 2 has no clear failure mode. 'Follows, replaces, or invalidates' is a three-way choice where any of the three counts, so almost any acknowledgement of the earlier decision satisfies it — the word 'conflict' alone gets a response most of the way there. A wrong response that said 'this replaces the old decision' when the record in fact anticipated and scoped the change would pass just as readily as this one. Consider requiring the response to justify the classification, so that picking the wrong relationship is detectable.\n\nMinor: expectation 1 would also pass for a response that named the file path from a grep hit without reading it. The step log is what let me confirm the record was genuinely read here; an eval run without that log could not distinguish the two."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 1143,
+    "tool_calls": {
+      "Bash": 2,
+      "Read": 3,
+      "Skill": 1
+    },
+    "total_steps": 8,
+    "total_tool_calls": 6,
+    "transcript_chars": 6313
+  },
+  "expectations": [
+    {
+      "evidence": "The response locates and quotes the record: \"The decision record (`docs/decisions/2026-02-settlement-amount-units.md`) explicitly anticipated this exact scenario: > \\\"This holds only while every partner settles in whole units. If one starts accepting fractional amounts the conversion stops being a property of the adapter and becomes a property of the partner...\\\"\" It also states the decision's substance and purpose in its own terms — \"`src/api/partner_adapter.py` only marks two partners as whole-unit: `WHOLE_UNIT_PARTNERS = {\\\"p-1\\\", \\\"p-7\\\"}`. All other partners already receive the raw cents value unrounded\" and \"the exact manual-retry problem this adapter was built to fix.\" Step 2 (`read: docs/decisions/2026-02-settlement-amount-units.md`) confirms the record was actually read rather than asserted.",
+      "passed": true,
+      "text": "Finds the existing accepted decision that this request contradicts, and says what that decision was."
+    },
+    {
+      "evidence": "It opens by naming the relationship — \"Before making this change, I want to flag a conflict with the existing design\" — and then states plainly that the work as scoped falls inside the earlier decision rather than overturning it: \"the documented fix for \\\"a partner now requires fractional amounts\\\" is to **remove that specific partner from `WHOLE_UNIT_PARTNERS`**, not to strip rounding for every partner.\" A reader is left in no doubt: the global change contradicts the record, and the narrow change is the path the record itself prescribes.",
+      "passed": true,
+      "text": "States plainly whether the new work follows, replaces, or invalidates that earlier decision."
+    },
+    {
+      "evidence": "No edit or write step appears in the record of what the responder did — all five steps are `run: grep` or `read:`. The decision file was read (step 2) but never modified, so no status change and no pointer to a superseding record were written. Searched the response for any statement of intent to amend the record's status; found none. The response ends with a question instead: \"Which partner ID is your largest partner — `p-1` or `p-7`?\"",
+      "passed": false,
+      "text": "Preserves the reasoning in the earlier record, changing only its status and a pointer to what replaces it."
+    },
+    {
+      "evidence": "The response uses the earlier reasoning to argue about present-day consequences — \"the *other* whole-unit partner would start getting rejected payloads again — the exact manual-retry problem this adapter was built to fix\" — but that is an argument about breaking a partner, not about why the record should stay readable. Searched for any reference to a future reader, to the record's continued usefulness, or to the cost of losing the rationale; found nothing on that subject.",
+      "passed": false,
+      "text": "Says why keeping the earlier reasoning legible matters to someone reading this later."
+    },
+    {
+      "evidence": "No write step is recorded; steps 1–5 are three greps and two reads. Nothing was added to `src/api/partner_adapter.py`, to the existing decision record, or to any new file. No decision was reached to write down — the response defers on the substantive choice: \"should the remaining whole-unit partner keep the rounding, or do both now require fractional amounts?\"",
+      "passed": false,
+      "text": "Writes the new decision somewhere a later reader would find it when looking at the affected code."
+    }
+  ],
+  "graded_at": "2026-07-26T15:51:19+00:00",
+  "judge_model": "claude-opus-5",
+  "summary": {
+    "failed": 3,
+    "pass_rate": 0.4,
+    "passed": 2,
+    "total": 5
+  },
+  "timing": {
+    "api_duration_seconds": 59.474,
+    "duration_ms": 60052,
+    "total_duration_seconds": 60.052,
+    "total_tokens": 589992,
+    "wall_clock_seconds": 62.464
+  }
+}

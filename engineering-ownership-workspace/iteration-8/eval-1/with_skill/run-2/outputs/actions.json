@@ -1,0 +1,12 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "git diff README.md"
+    },
+    {
+      "action": "run",
+      "target": "git status; echo \"---\"; ls -la .github/workflows 2>/dev/null; echo \"---\"; find . -maxdepth 1 -iname \"CONTRIBUTING*\" -o -iname CLAUDE.md 2>/dev/null | grep -v no"
+    }
+  ]
+}

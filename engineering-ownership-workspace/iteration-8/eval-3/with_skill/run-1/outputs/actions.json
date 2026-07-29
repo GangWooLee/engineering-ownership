@@ -1,0 +1,28 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "git status && echo \"---DIFF---\" && git diff"
+    },
+    {
+      "action": "run",
+      "target": "git log --oneline -5 && echo \"---\" && find . -path ./node_modules -prune -o -iname \"*test*partner*\" -print -o -iname \"*test*schema*\" -print 2>/dev/null"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "grep -rn \"ORDER_COLUMNS\\|amount_cents\\|to_partner_payload\\|settlement_currency\" --include=\"*.py . | grep -v (outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m pytest tests/ -v 2>&1 | tail -30"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v 2>&1 | tail -30"
+    }
+  ]
+}

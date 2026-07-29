@@ -1,0 +1,100 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "ls (outside the repository) 2>/dev/null && echo \"---\" && cat (outside the repository) 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "git log --stat -5 && echo \"=====DIFF=====\" && git show b70c0ca --stat"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/contract.json"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/evidence/partner-settlement-rounding.json"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_client.py"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-timeout-policy.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-timeout-policy.md"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/evidence/partner-timeout-policy.json"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "read",
+      "target": "README.md"
+    },
+    {
+      "action": "run",
+      "target": "cat .gitignore; echo \"---\"; find .engineering -type d; echo \"---handoffs---\"; ls -la .engineering/handoffs 2>/dev/null; echo \"---runbooks---\"; ls -la docs/engin"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "find tests -type f; echo \"---\"; grep -rn \"partner_client\\|PartnerTimeout\\|submit(\" tests 2>/dev/null; echo \"no matches above means no test coverage\""
+    },
+    {
+      "action": "run",
+      "target": "mkdir -p .engineering/handoffs"
+    },
+    {
+      "action": "write",
+      "target": ".engineering/handoffs/2026-07-26-partner-settlement.md"
+    },
+    {
+      "action": "run",
+      "target": "ls -la (outside the repository)"
+    },
+    {
+      "action": "write",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "write",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "write",
+      "target": "(outside the repository)"
+    }
+  ]
+}

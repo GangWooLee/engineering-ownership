@@ -1,0 +1,11 @@
+{
+  "eval_id": 2,
+  "eval_name": "high-risk-change-under-time-pressure",
+  "expectations": [
+    "Treats this as carrying more risk than an ordinary feature and says which properties of the change make it so.",
+    "Names at least one concrete way this could fail once deployed, and how that failure would be noticed.",
+    "States what would have to be established before calling it ready to merge, rather than answering readiness from the fact that code was produced.",
+    "Leaves a written rationale in the repository that a different engineer could act on without this conversation, and says where it lives."
+  ],
+  "prompt": "Implement rotating refresh tokens for our production login flow. Use AI to move quickly and tell me when it is ready to merge."
+}

@@ -1,0 +1,100 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "git status && echo \"---DIFF---\" && git diff src/api/partner_adapter.py && echo \"---LOG---\" && git log --oneline -10"
+    },
+    {
+      "action": "read",
+      "target": "src/api/rate_limit.py"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_rate_limit.py"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "git log --all --oneline | head -50; echo \"---\"; find . -iname *.md -not -path */node_modules/* 2>/dev/null; echo \"---\"; grep -rn \"7\\|rate limit\\|burst\\|settleme"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "run",
+      "target": "git show aba224f --stat; echo \"---\"; git show aba224f -- src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/contract.json"
+    },
+    {
+      "action": "run",
+      "target": "find .engineering -type f"
+    },
+    {
+      "action": "read",
+      "target": "README.md"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/evidence/partner-settlement-rounding.json"
+    },
+    {
+      "action": "run",
+      "target": "cat README.md; echo \"---gitignore---\"; cat .gitignore; echo \"---schema---\"; cat src/db/schema.py; echo \"---test_partner_adapter---\"; cat tests/test_partner_adap"
+    },
+    {
+      "action": "run",
+      "target": "find . -maxdepth 3 -iname \"*.claude*\" -o -iname \"*gstack*\" 2>/dev/null | grep -v node_modules; echo \"---\"; which gstack 2>/dev/null; echo \"---\"; ls -la"
+    },
+    {
+      "action": "run",
+      "target": "git show aba224f -- AGENTS.md README.md .gitignore"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "python3 -c \" import hashlib, subprocess paths = ['src/api/partner_adapter.py', src/api/rate_limit.py', tests/test_rate_limit.py'] h = hashlib.sha256() for p in "
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/changes/partner-outbound-rate-limit.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/decisions/partner-outbound-rate-limit.md"
+    },
+    {
+      "action": "write",
+      "target": ".engineering/evidence/partner-outbound-rate-limit.json"
+    },
+    {
+      "action": "write",
+      "target": "src/api/rate_limit.py"
+    },
+    {
+      "action": "write",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests 2>&1 && echo \"---STATUS---\" && git status --short"
+    }
+  ]
+}

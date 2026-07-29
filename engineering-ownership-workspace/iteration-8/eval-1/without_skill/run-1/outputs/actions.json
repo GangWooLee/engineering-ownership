@@ -1,0 +1,20 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "git diff README.md && echo \"---LOG---\" && git log --oneline -5 && echo \"---STATUS---\" && git status"
+    },
+    {
+      "action": "run",
+      "target": "git show --stat aba224f && echo \"---\" && git log --all --oneline -10 && echo \"---BRANCH---\" && git branch -a && echo \"---REMOTE---\" && git remote -v"
+    },
+    {
+      "action": "run",
+      "target": "cat AGENTS.md 2>/dev/null; echo \"---contract---\"; cat .engineering/contract.json 2>/dev/null; echo \"---changes---\"; find .engineering -type f 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests 2>&1"
+    }
+  ]
+}

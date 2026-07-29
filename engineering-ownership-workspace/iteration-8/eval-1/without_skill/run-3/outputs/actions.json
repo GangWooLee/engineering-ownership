@@ -1,0 +1,16 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "git diff README.md; echo \"---STATUS---\"; git status"
+    },
+    {
+      "action": "run",
+      "target": "cat (outside the repository) 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "git remote -v; echo \"---\"; git log --oneline -5; echo \"---branches---\"; git branch -a; echo \"---ci---\"; ls -la .github/workflows 2>/dev/null; find . -maxdepth 1"
+    }
+  ]
+}

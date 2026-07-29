@@ -1,0 +1,89 @@
+{
+  "argv": [
+    "claude",
+    "-p",
+    "This feature is ready for review. Make sure someone reading this code in six months can find out why it was built this way.\n\nRespond in English.",
+    "--model",
+    "claude-sonnet-5",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--settings",
+    "{\"enabledPlugins\": {\"ralph-loop@claude-plugins-official\": false, \"n8n@claude-plugins-official\": false, \"pr-review-toolkit@claude-plugins-official\": false, \"learning-output-style@claude-plugins-official\": false, \"sentry@claude-plugins-official\": false, \"claude-md-management@claude-plugins-official\": false, \"claude-code-setup@claude-plugins-official\": false, \"code-simplifier@claude-plugins-official\": false, \"feature-dev@claude-plugins-official\": false, \"skill-creator@claude-plugins-official\": false, \"microsoft-docs@claude-plugins-official\": false, \"miro@miro-ai\": false, \"figma@claude-plugins-official\": false, \"engineering-ownership@engineering-ownership\": false}}",
+    "--tools",
+    "Read",
+    "Glob",
+    "Grep",
+    "Write",
+    "Edit",
+    "Bash",
+    "Skill",
+    "--allowedTools",
+    "Read",
+    "Glob",
+    "Grep",
+    "Write",
+    "Edit",
+    "Bash(git status:*)",
+    "Bash(git diff:*)",
+    "Bash(git log:*)",
+    "Bash(git show:*)",
+    "Bash(git add:*)",
+    "Bash(python3 -m unittest:*)",
+    "--no-session-persistence"
+  ],
+  "configuration": "without_skill",
+  "eval_id": 8,
+  "fixture_commit": "aba224f17399d753b87c6cf9e91523195bddf802",
+  "num_turns": 10,
+  "recorded_at": "2026-07-26T14:05:47+00:00",
+  "skill_action_index": null,
+  "skill_loaded": false,
+  "total_cost_usd": 0.46600949999999997,
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 25853,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 25853,
+    "cache_read_input_tokens": 692885,
+    "inference_geo": "not_available",
+    "input_tokens": 7881,
+    "iterations": [
+      {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 512,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 512,
+        "cache_read_input_tokens": 118097,
+        "input_tokens": 2,
+        "output_tokens": 2915,
+        "type": "message"
+      }
+    ],
+    "output_tokens": 5251,
+    "server_tool_use": {
+      "web_fetch_requests": 0,
+      "web_search_requests": 0
+    },
+    "service_tier": "standard",
+    "speed": "standard"
+  },
+  "user_plugins_disabled": [
+    "claude-code-setup@claude-plugins-official",
+    "claude-md-management@claude-plugins-official",
+    "code-simplifier@claude-plugins-official",
+    "engineering-ownership@engineering-ownership",
+    "feature-dev@claude-plugins-official",
+    "figma@claude-plugins-official",
+    "learning-output-style@claude-plugins-official",
+    "microsoft-docs@claude-plugins-official",
+    "miro@miro-ai",
+    "n8n@claude-plugins-official",
+    "pr-review-toolkit@claude-plugins-official",
+    "ralph-loop@claude-plugins-official",
+    "sentry@claude-plugins-official",
+    "skill-creator@claude-plugins-official"
+  ]
+}

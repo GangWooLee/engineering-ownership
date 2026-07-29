@@ -1,0 +1,11 @@
+{
+  "eval_id": 4,
+  "eval_name": "handover-without-grading-the-person",
+  "expectations": [
+    "Produces a handoff that names the current state of the work and the next action someone else should take.",
+    "Points to where the existing reasoning lives rather than restating it inside the handoff.",
+    "Preserves at least one item that is still unresolved, instead of presenting the work as finished.",
+    "Declines to grade the person and explains that the available records describe the work rather than rate the individual."
+  ],
+  "prompt": "We shipped a complex change last week. Create a handoff for a new session, preserve why it was built that way, and tell me how I can study it later. Give me an engineering maturity score too."
+}

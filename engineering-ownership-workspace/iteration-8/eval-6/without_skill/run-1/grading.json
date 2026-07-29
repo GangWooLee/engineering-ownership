@@ -1,0 +1,61 @@
+{
+  "eval_feedback": {
+    "overall": "Two expectations are weaker than they look.\n\nExpectation 1 asks for a citation \"that only reading the repository would reveal,\" but a grader with no repository access cannot check whether `p-1`/`p-7` or `amount_cents // 100` are real. A confident fabrication of the same shape would pass identically. The step list is what rescued it here — I could see reads of the named files precede the claim. If that ordered record were absent, the expectation would be unfalsifiable. Consider phrasing it as a detail that must match a known fixture value, so the verdict rests on something checkable.\n\nExpectation 2's disjunction is broad enough to admit almost any mention of the evidence file. \"Updated the evidence record\" satisfies \"says which of the two it is\" on a generous reading, even from a response that never checked whether the recorded verification had gone stale and simply overwrote it. The discriminating behaviour is noticing that the recorded hash no longer describes the working tree and saying so; as written, a response that silently regenerated the record without ever comparing would pass. Tightening it to require a statement about the prior record's status — matched, or superseded, and why — would separate those cases.\n\nExpectation 3 has the inverse problem: \"the existing records do not already account for\" is a claim about the pre-existing file contents, which are not in evidence. I passed it on the response's own assertion that it added the flag, which is close to taking the response's word for the thing being tested."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 1242,
+    "tool_calls": {
+      "Bash": 17,
+      "Edit": 4,
+      "Read": 9,
+      "Write": 2
+    },
+    "total_steps": 33,
+    "total_tool_calls": 32,
+    "transcript_chars": 2825
+  },
+  "expectations": [
+    {
+      "evidence": "\"the whole-unit conversion for partners `p-1`/`p-7` used integer floor division (`amount_cents // 100`), which truncated rather than rounded — silently shorting the settled amount by up to 99 cents on any order with a remainder.\" This names the aim of the in-flight work (correct rounding on the partner settlement path, plus letting `settlement_currency` travel with the order row) and anchors it to particulars — the two partner IDs and the exact expression — that are not inferable from the task sentence. The step list corroborates that these came from reading: step 12 `git show HEAD:src/api/partner_adapter.py`, step 15 read of `./src/api/partner_adapter.py`, steps 7–9 reads of the evidence record, change doc and decision doc.",
+      "passed": true,
+      "text": "Reconstructs what the earlier work was trying to achieve, citing something specific that only reading the repository would reveal."
+    },
+    {
+      "evidence": "\"Updated the change doc and evidence record to reflect the fix and re-verification.\" This picks the second branch explicitly — coverage was re-established, not merely inherited. The recorded steps back it: step 13 ran the suite before any edit, steps 19 and 25 re-ran it after, steps 20–21 recomputed `git diff -- src/api/partner_adapter.py src/db/schema.py | shasum -a 256` (i.e. a fresh hash of the changed surface rather than reuse of the recorded one), and step 23 rewrote `./.engineering/evidence/partner-settlement-rounding.json`.",
+      "passed": true,
+      "text": "Reports whether the recorded verification still covers the current state of the work, or that it re-established coverage, and says which of the two it is."
+    },
+    {
+      "evidence": "\"`settlement_currency` now travels through the payload, but the adapter doesn't yet vary rounding precision by currency (e.g. 0-decimal JPY, 3-decimal KWD) — it assumes 2 decimals for all whole-unit partners.\" This is a hazard created by the change itself — the new column advertises a currency the rounding path ignores — and the response treats it as newly captured rather than pre-existing: \"It's flagged in the change doc and evidence file with `revisit_after: 2026-08-09`\", written at steps 22 and 23 after it had read those same files at steps 7 and 8.",
+      "passed": true,
+      "text": "Names at least one risk in the current changes that the existing records do not already account for."
+    },
+    {
+      "evidence": "The first half holds — \"Continued and closed out the two open items in `orders-service`\" — but I searched the response for any statement attributing that judgment to a source and found none. There is no sentence of the form \"the change doc listed these as open\" or \"the evidence record's hash no longer matched the working tree.\" The only repository artifact cited as having informed the responder is `AGENTS.md`, and it is cited for something else: \"Committed in two commits per `AGENTS.md`'s convention\" — a commit-splitting rule, not a signal that work was already under way. That the change doc and evidence record pre-existed is left to be inferred from \"Updated the change doc and evidence record\"; the response never says they are what told it this was a continuation.",
+      "passed": false,
+      "text": "States that this continues an existing effort rather than starting a new one, and says what told it so."
+    },
+    {
+      "evidence": "State: \"**Committed in two commits** per `AGENTS.md`'s convention: schema change (`settlement_currency` column) separate from the adapter fix + tests + doc updates\", with the residue named — \"**Open item, left as-is rather than guessing**\". Next action, with the reason for stopping short of it: \"That's a business decision, not something I should invent silently for a money-handling path... let me know if you want to define that rule now.\" Steps 26–30 confirm the two commits and a closing `git log --oneline -5 && echo \"---\" && git status`.",
+      "passed": true,
+      "text": "States the current state of the work and the next action to take."
+    }
+  ],
+  "graded_at": "2026-07-26T15:35:41+00:00",
+  "judge_model": "claude-opus-5",
+  "summary": {
+    "failed": 1,
+    "pass_rate": 0.8,
+    "passed": 4,
+    "total": 5
+  },
+  "timing": {
+    "api_duration_seconds": 259.253,
+    "duration_ms": 281004,
+    "total_duration_seconds": 281.004,
+    "total_tokens": 2813684,
+    "wall_clock_seconds": 283.611
+  }
+}

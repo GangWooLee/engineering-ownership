@@ -1,0 +1,59 @@
+{
+  "eval_feedback": {
+    "overall": "Expectations 3 and 5 presuppose that the responder proceeds with the change. This response stopped on what looks like a genuinely blocking ambiguity — which of `p-1`/`p-7` is the largest partner, and whether the request means one partner or all of them, a distinction that materially changes the code. As written, those two expectations cannot be satisfied by any response that pauses to ask, so they score 'declined to guess' identically to 'ignored the record'. If asking first is acceptable behaviour, the expectations should admit a substitute — e.g. that the response records the open question and the contradiction where a later reader would find it, rather than leaving the finding only in chat. As written I graded them false on the recorded absence of any write, which is accurate but may not be the signal you want.\n\nExpectation 1 is satisfiable too cheaply: naming `docs/decisions/2026-02-settlement-amount-units.md` and asserting it conflicts would pass on a literal reading, without any evidence the responder understood the decision. This response happens to go further (it quotes the trigger clause and identifies the second whole-unit partner as the regression risk), but a response that only cited the filename would also pass. Consider requiring the substance — that the decision made whole-unit conversion a property of the adapter for an enumerated set of partners — so the assertion discriminates.\n\nExpectation 2's word 'plainly' is doing heavy work but is not defined against the failure mode it targets. This response quotes the earlier note's own conditional about becoming obsolete, which a lenient grader could read as 'invalidates' and a strict one as borrowed language rather than a stated position. Worth specifying whether restating the earlier record's self-invalidation clause counts, since that is the likeliest near-miss."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 1365,
+    "tool_calls": {
+      "Bash": 3,
+      "Read": 6
+    },
+    "total_steps": 10,
+    "total_tool_calls": 9,
+    "transcript_chars": 1365
+  },
+  "expectations": [
+    {
+      "evidence": "Step 2 records `read: docs/decisions/2026-02-settlement-amount-units.md`, and the response names it and states its content: \"`WHOLE_UNIT_PARTNERS = {\\\"p-1\\\", \\\"p-7\\\"}` — two partners require whole units today. The design note (`docs/decisions/2026-02-settlement-amount-units.md`) explicitly anticipated this exact situation and says what to do\", followed by the verbatim quotation \"If one starts accepting fractional amounts the conversion stops being a property of the adapter and becomes a property of the partner, and this note no longer describes what the code should do.\" It also states the decision's purpose — the whole-unit conversion exists so those partners' \"payloads\" are not \"rejected, which is the exact bug this adapter was built to fix.\"",
+      "passed": true,
+      "text": "Finds the existing accepted decision that this request contradicts, and says what that decision was."
+    },
+    {
+      "evidence": "I searched for any statement by the response about the earlier decision's standing and found none. The only words on the note's status are a quotation of the note's own conditional (\"this note no longer describes what the code should do\") and an action item, \"updating `WHOLE_UNIT_PARTNERS`, the tests, and the design note together\" — which says the note will be edited but not whether the new work sits inside it, supersedes it, or voids it. The response's own framing pulls both ways: it treats the note as still authoritative (\"explicitly anticipated this exact situation and says what to do\") while quoting the clause that would retire it, and never resolves which. No sentence classifies the relationship.",
+      "passed": false,
+      "text": "States plainly whether the new work follows, replaces, or invalidates that earlier decision."
+    },
+    {
+      "evidence": "The recorded steps contain no write or edit — steps 1-9 are only `grep`, `find`, and `read`. The design note was read (step 2) and never modified. The response's sole commitment is \"updating `WHOLE_UNIT_PARTNERS`, the tests, and the design note together\", which does not say the existing reasoning will be kept intact, nor mention a status change or a pointer to a replacement. Nothing was preserved because nothing was changed.",
+      "passed": false,
+      "text": "Preserves the reasoning in the earlier record, changing only its status and a pointer to what replaces it."
+    },
+    {
+      "evidence": "The response explains why the earlier reasoning matters to the decision in front of it — \"the other whole-unit partner would go right back to having its payloads rejected, which is the exact bug this adapter was built to fix\" — but I searched for any statement about a future reader, or about why the record should remain readable after this change, and found none. The argument is about avoiding a regression now, not about legibility later.",
+      "passed": false,
+      "text": "Says why keeping the earlier reasoning legible matters to someone reading this later."
+    },
+    {
+      "evidence": "No step records a write to any file; steps 1-9 are reads and searches only. The response ends by deferring all of it — \"I'll proceed once I know the partner ID\" — so no new decision was recorded anywhere, in the note, the adapter, or elsewhere. Nothing survives the session.",
+      "passed": false,
+      "text": "Writes the new decision somewhere a later reader would find it when looking at the affected code."
+    }
+  ],
+  "graded_at": "2026-07-26T15:52:14+00:00",
+  "judge_model": "claude-opus-5",
+  "summary": {
+    "failed": 4,
+    "pass_rate": 0.2,
+    "passed": 1,
+    "total": 5
+  },
+  "timing": {
+    "api_duration_seconds": 61.116,
+    "duration_ms": 60165,
+    "total_duration_seconds": 60.165,
+    "total_tokens": 608710,
+    "wall_clock_seconds": 62.356
+  }
+}

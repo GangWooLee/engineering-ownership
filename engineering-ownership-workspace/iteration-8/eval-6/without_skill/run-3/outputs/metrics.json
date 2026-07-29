@@ -1,0 +1,13 @@
+{
+  "errors_encountered": 0,
+  "files_created": [],
+  "output_chars": 2060,
+  "tool_calls": {
+    "Bash": 5,
+    "Grep": 1,
+    "Read": 10
+  },
+  "total_steps": 17,
+  "total_tool_calls": 16,
+  "transcript_chars": 2060
+}

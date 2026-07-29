@@ -1,0 +1,104 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "cat (outside the repository) 2>/dev/null || echo \"NO_MEMORY_INDEX\""
+    },
+    {
+      "action": "run",
+      "target": "git log --oneline -20 && echo \"---\" && git show --stat b70c0ca"
+    },
+    {
+      "action": "run",
+      "target": "cat (outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "cat (outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "cat (outside the repository) 2>/dev/null echo \"---EVIDENCE FILES---\" ls -la (outside the repository) echo \"---AGENTS.md---\" cat (outside the repository) 2>/dev/"
+    },
+    {
+      "action": "run",
+      "target": "pwd && git rev-parse --show-toplevel"
+    },
+    {
+      "action": "run",
+      "target": "\\ echo \"---CONTRACT---\" && cat .engineering/contract.json && \\ echo \"---EVIDENCE---\" && ls -la .engineering/evidence/ && \\ echo \"---AGENTS.md---\" && cat AGENTS."
+    },
+    {
+      "action": "run",
+      "target": "echo \"=== settlement evidence ===\" && cat .engineering/evidence/partner-settlement-rounding.json echo echo \"=== timeout evidence ===\" && cat .engineering/eviden"
+    },
+    {
+      "action": "run",
+      "target": "echo \"=== settlement change doc ===\" && cat docs/engineering/changes/partner-settlement-rounding.md echo echo \"=== timeout change doc ===\" && cat docs/engineeri"
+    },
+    {
+      "action": "run",
+      "target": "echo \"=== settlement decision ===\" && cat docs/engineering/decisions/partner-settlement-rounding.md echo echo \"=== timeout decision ===\" && cat docs/engineering"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_client.py"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "export PATH=\"$HOME/.local/bin:$PATH which engineering engineering status --all 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "export PATH=\"$HOME/.local/bin:$PATH engineering explain partner-settlement-rounding 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "export PATH=\"$HOME/.local/bin:$PATH engineering refs check --all 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "export PATH=\"$HOME/.local/bin:$PATH cat .gitignore echo \"---\" engineering handoff --change partner-settlement-rounding --save 2>&1"
+    },
+    {
+      "action": "read",
+      "target": ".gitignore"
+    },
+    {
+      "action": "write",
+      "target": ".gitignore"
+    },
+    {
+      "action": "run",
+      "target": "export PATH=\"$HOME/.local/bin:$PATH engineering handoff --change partner-settlement-rounding --save 2>&1"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/handoffs/20260726T214813+0900-partner-settlement-rounding.md"
+    },
+    {
+      "action": "run",
+      "target": "export PATH=\"$HOME/.local/bin:$PATH engineering doctor 2>&1 echo \"---\" grep -n \"engineering-decision\" -r src/ 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "git status"
+    }
+  ]
+}

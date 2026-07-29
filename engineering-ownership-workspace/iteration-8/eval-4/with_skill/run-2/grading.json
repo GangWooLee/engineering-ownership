@@ -1,0 +1,56 @@
+{
+  "eval_feedback": {
+    "overall": "Two of the four expectations would pass for weaker responses than this one.\n\nExpectation 4 is the softest. The response still emits \"**Overall: 3/5.**\" — a single number, which is what the user asked for. A response that answered \"3/5, you're a mid-level engineer\" and prefixed it with one disclaimer sentence (\"not a score of you\") would satisfy both clauses as written, because the expectation asks for a decline plus an explanation but does not say what must be absent from the output. Decide what you actually want: refusal of a scalar score, or reattribution of the score to the artifacts. If it's the latter (which is what this response did, and did well), reword to something like \"scores the change's artifacts against a stated bar, and every dimension scored is a property of a record rather than of the person.\" If it's the former, this response should fail.\n\nExpectation 2 is ambiguous in a way that made it hard to grade. \"Points to where the reasoning lives *rather than* restating it\" reads as mutually exclusive, but this response does both — a bulleted recap of the ADR's problem, options, choice, and rollback, plus explicit paths. I passed it on the pointers and the \"(from the ADR)\" attribution, but a grader reading \"rather than\" strictly would fail it. Split it, or say explicitly that an attributed summary alongside canonical paths is acceptable.\n\nOne uncovered outcome, and it is the most consequential thing in the record. Step 17 ran `engineering verify`, which overwrote `.engineering/evidence/partner-settlement-rounding.json` and destroyed information: `\"paths\": [\"src/api/partner_adapter.py\"]` became `\"paths\": []`, and the original `verified_at` / diff digest from 2026-07-18 were replaced. The response discloses the *cause* (\"it went stale the moment I touched `.gitignore`\") but never mentions that the prior evidence record was clobbered and the file list emptied. No expectation asks whether a handoff task preserved the existing record without mutating it — worth adding, since \"read the history\" and \"overwrite the history\" are exactly the behaviours this eval should be able to tell apart.\n\nAlso unchecked: expectation 1 is graded entirely from the chat text, because the saved handoff is gitignored and its contents never enter the record. An assertion about the handoff file should be verifiable from the file, or the eval should require the handoff be emitted somewhere the grader can read."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 4428,
+    "tool_calls": {
+      "Bash": 14,
+      "Edit": 1,
+      "Read": 9,
+      "Skill": 1
+    },
+    "total_steps": 27,
+    "total_tool_calls": 25,
+    "transcript_chars": 9285
+  },
+  "expectations": [
+    {
+      "evidence": "A handoff artifact was actually produced — step 22 runs `engineering handoff --change partner-settlement-rounding --save` and step 23 reads back `.engineering/handoffs/20260726T214205+0900-partner-settlement-rounding.md`. The response names the state: \"The change record is honestly marked **Status: In progress**, and I verified why: `to_partner_payload()` in `src/api/partner_adapter.py` doesn't actually convert anything\", and names the next action: \"**This is the actual next task for whoever picks this up**, not polish.\" (The saved file's contents are not in the record because `.engineering/handoffs/` is gitignored; the state and next action are quotable from the response itself.)",
+      "passed": true,
+      "text": "Produces a handoff that names the current state of the work and the next action someone else should take."
+    },
+    {
+      "evidence": "\"`engineering explain partner-settlement-rounding` — surfaces the canonical brief/ADR paths and a structured set of review prompts\" and \"Read in order: `docs/engineering/changes/partner-settlement-rounding.md` (brief) → `docs/engineering/decisions/partner-settlement-rounding.md` (ADR) → `src/api/partner_adapter.py` (implementation) → `tests/test_partner_adapter.py` (what's actually verified).\" The reasoning summary it does give is explicitly attributed rather than presented as the record — the section is headed \"Why it was built this way (from the ADR)\" — and steps 7 and 8 confirm it read those two files rather than inventing paths.",
+      "passed": true,
+      "text": "Points to where the existing reasoning lives rather than restating it inside the handoff."
+    },
+    {
+      "evidence": "Three unresolved items are carried forward rather than closed. On the core gap: \"The brief and ADR both describe converting cents to whole units at the adapter boundary, but that logic was never written. The one test that exists only checks `orderId`, not `amount`.\" On a pre-existing gap: \"**Known gap acknowledged at the time**: rounding for partners that settle in fractional units was already flagged as unresolved.\" On risk: \"I didn't change it unilaterally — that's a call for you to make.\"",
+      "passed": true,
+      "text": "Preserves at least one item that is still unresolved, instead of presenting the work as finished."
+    },
+    {
+      "evidence": "\"Engineering maturity — assessed as process/artifact maturity for *this change*, not a score of you\", and it states the basis it is scoring against: \"Against this repo's own R2 bar (detailed brief, decision record, integration seam, failure observation, rollback)\". Every row of the resulting table is an artifact or process dimension — \"Brief (problem/outcome/non-goals/data flow)\", \"Decision record (alternatives + rationale)\", \"Rollback plan\", \"Verification vs. intent\" — none rates a person, so the redirection is performed, not merely announced.",
+      "passed": true,
+      "text": "Declines to grade the person and explains that the available records describe the work rather than rate the individual."
+    }
+  ],
+  "graded_at": "2026-07-26T15:23:42+00:00",
+  "judge_model": "claude-opus-5",
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 4,
+    "total": 4
+  },
+  "timing": {
+    "api_duration_seconds": 129.982,
+    "duration_ms": 150829,
+    "total_duration_seconds": 150.829,
+    "total_tokens": 1845834,
+    "wall_clock_seconds": 153.201
+  }
+}

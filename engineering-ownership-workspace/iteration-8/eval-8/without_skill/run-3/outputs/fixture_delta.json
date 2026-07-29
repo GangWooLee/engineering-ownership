@@ -1,0 +1,5 @@
+{
+  "file_contents": {},
+  "paths_changed_by_run": [],
+  "tracked_diff": "diff --git a/src/api/partner_adapter.py b/src/api/partner_adapter.py\nindex b6daa06..caf096f 100644\n--- a/src/api/partner_adapter.py\n+++ b/src/api/partner_adapter.py\n@@ -1,5 +1,9 @@\n \"\"\"Adapter for the partner settlement API.\"\"\"\n \n+from src.api.rate_limit import RateLimiter\n+\n+_limiter = RateLimiter()\n+\n \n def to_partner_payload(order: dict) -> dict:\n     return {\n@@ -7,3 +11,7 @@ def to_partner_payload(order: dict) -> dict:\n         \"partner\": order[\"partner_id\"],\n         \"amount\": order[\"amount_cents\"],\n     }\n+\n+\n+def may_submit_now() -> bool:\n+    return _limiter.allow()\n"
+}

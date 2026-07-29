@@ -1,0 +1,104 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "cat (outside the repository) 2>/dev/null || echo \"NO_MEMORY_FILE\""
+    },
+    {
+      "action": "run",
+      "target": "git -C . log --oneline -20 && echo \"---STATUS---\" && git -C . status"
+    },
+    {
+      "action": "run",
+      "target": "cd . && find . -maxdepth 3 -not -path */node_modules* -not -path */.git* | sort"
+    },
+    {
+      "action": "read",
+      "target": "src/auth/session.py"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "read",
+      "target": "README.md"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_session.py"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/contract.json"
+    },
+    {
+      "action": "run",
+      "target": "cd . && find docs -type f | xargs -I{} sh -c 'echo \"=== {} ===\"; cat {}'"
+    },
+    {
+      "action": "run",
+      "target": "cd . && echo \"=== evidence ===\" && cat .engineering/evidence/partner-settlement-rounding.json && echo && echo \"=== dirs ===\" && find docs .engineering -type d &"
+    },
+    {
+      "action": "search",
+      "target": "issue_refresh_token|is_refresh_valid|refresh_expires_at|revoke\\(|session\\.py|from src.auth|import session"
+    },
+    {
+      "action": "write",
+      "target": "src/auth/session.py"
+    },
+    {
+      "action": "write",
+      "target": "tests/test_session.py"
+    },
+    {
+      "action": "run",
+      "target": "cd . && python3 -m unittest discover -s tests -v"
+    },
+    {
+      "action": "run",
+      "target": "cd . && git diff -- src/auth/session.py tests/test_session.py | shasum -a 256"
+    },
+    {
+      "action": "run",
+      "target": "cd . && git diff -- src/auth/session.py tests/test_session.py | shasum -a 256 | awk '{print $1}' | tr -d '\\n' | wc -c && git diff -- src/auth/session.py tests/t"
+    },
+    {
+      "action": "run",
+      "target": "mkdir -p docs/engineering/security"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/changes/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/decisions/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/security/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "run",
+      "target": "cd . && python3 - <<'EOF' import subprocess, time start = time.time() result = subprocess.run([\"python3\", \"-m\", \"unittest\", \"discover\", \"-s\", \"tests\"], capture_"
+    },
+    {
+      "action": "write",
+      "target": ".engineering/evidence/rotating-refresh-tokens.json"
+    },
+    {
+      "action": "run",
+      "target": "cd . && git status && echo \"---\" && python3 -m unittest discover -s tests"
+    },
+    {
+      "action": "run",
+      "target": "cd . && cat src/auth/__init__.py 2>/dev/null; echo \"(empty if nothing above)\""
+    }
+  ]
+}

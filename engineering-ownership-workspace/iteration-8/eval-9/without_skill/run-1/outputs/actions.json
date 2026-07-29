@@ -1,0 +1,40 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "grep -ril \"settlement\" --include=\"*.*\" . 2>/dev/null | grep -v node_modules | grep -v .git"
+    },
+    {
+      "action": "read",
+      "target": "docs/decisions/2026-02-settlement-amount-units.md"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "grep -rn \"p-1\\|p-7\\|partner\" --include=\"*.py --include=\"*.md --include=\"*.json --include=\"*.yaml\" --include=\"*.yml\" . 2>/dev/null | grep -v node_modules | grep "
+    },
+    {
+      "action": "run",
+      "target": "find . -path ./node_modules -prune -o -path ./.git -prune -o -type f -print | grep -v node_modules"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "README.md"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "read",
+      "target": "CONTRIBUTING.md"
+    }
+  ]
+}

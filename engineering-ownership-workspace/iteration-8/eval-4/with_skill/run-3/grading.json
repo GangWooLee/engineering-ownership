@@ -1,0 +1,56 @@
+{
+  "eval_feedback": {
+    "overall": "Expectation 2 is compound and its two clauses can point opposite ways. This response both points to the canonical docs and restates most of the ADR inline; I passed it on the pointing clause, but a grader weighting \"rather than restating\" would fail the same text. Consider splitting into (a) names the canonical location by path or command, and (b) does not reproduce the decision rationale at a length that can drift from the source.\n\nExpectation 4 is satisfiable by a one-line disclaimer. A response that wrote \"not judging you personally\" and then scored dimensions like \"engineer's attention to detail\" or \"discipline\" would pass as written. Strengthen it to assert that every scored dimension names an artifact or process step rather than an attribute of a person — this response would still pass, a bad one would not.\n\nExpectation 1 does not distinguish a handoff that survives the session from prose printed in chat. This response actually wrote one to disk (`.engineering/handoffs/...`), which is the behavior that matters for \"a new session\", but a response that only pasted a status paragraph into the reply would pass identically. Consider asserting the handoff is persisted somewhere a later session can read.\n\nNo expectation covers the most consequential thing here: the responder verified the code against its own documentation and found the shipped change never implemented its core behavior, and that the passing test asserts nothing about it. Expectation 3 catches \"an unresolved item\" generically, but a response that merely copied the ADR's pre-existing \"fractional units\" caveat forward would pass it without ever opening the source. An assertion along the lines of \"checks the claimed behavior against the actual code rather than trusting the written record\" would separate genuine handoff work from document reshuffling."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 5511,
+    "tool_calls": {
+      "Bash": 18,
+      "Edit": 1,
+      "Read": 6,
+      "Skill": 1
+    },
+    "total_steps": 28,
+    "total_tool_calls": 26,
+    "transcript_chars": 11193
+  },
+  "expectations": [
+    {
+      "evidence": "State is named up front: \"**Status: shipped as \"in progress\" — the code does not yet do what the docs say it does.**\" The next action is named specifically at the close: \"That's the one thing worth fixing before this goes further: add an `amount` assertion to the adapter test and either implement the conversion or correct the docs to say it's still pending.\" A concrete command is also given: \"engineering change review partner-settlement-rounding --status gaps --gap \\\"amount conversion described in the ADR is not implemented in the adapter\\\" --revisit-days 3\". The recorded steps corroborate that a handoff was actually persisted rather than only narrated — step 21 runs `engineering handoff --change partner-settlement-rounding --save` and step 22 reads back `.engineering/handoffs/20260726T214813+0900-partner-settlement-rounding.md`.",
+      "passed": true,
+      "text": "Produces a handoff that names the current state of the work and the next action someone else should take."
+    },
+    {
+      "evidence": "The handoff routes the reader to the canonical sources by path and by command: \"Read, in order: `docs/engineering/changes/partner-settlement-rounding.md` → `docs/engineering/decisions/partner-settlement-rounding.md` → the same pair for `partner-timeout-policy` → `.engineering/evidence/*.json` for the raw verification trail\", and \"engineering explain partner-settlement-rounding        # canonical brief/ADR + reasoning prompts\". The inline why-section is explicitly marked as derived, not authoritative — \"What was built and why (preserved from the ADR/brief)\" — with the word \"canonical\" reserved for the docs. Noting the tension: the response does also reproduce most of the ADR's substance inline (both rejected options, the out-of-scope list, and the rollback plan), so it satisfies the \"points to\" clause more cleanly than the \"rather than restating\" clause.",
+      "passed": true,
+      "text": "Points to where the existing reasoning lives rather than restating it inside the handoff."
+    },
+    {
+      "evidence": "Three distinct open items are carried forward. From the original decision: \"**Known limit, called out at the time:** rounding behavior for partners that settle in *fractional* units was left unresolved.\" On the sibling change: \"**Open gap it left behind:** whether the partner deduplicates on order id is unconfirmed, so a timed-out submission requires manual resubmission rather than automatic retry. Revisit is due 2026-07-30.\" And the primary one the responder found itself: \"The unit-to-whole-units conversion described in the brief and ADR **was never implemented**.\" This is the opposite of presenting the work as finished. The finding is grounded in recorded acts — steps 11 and 14 read `src/api/partner_adapter.py` and `tests/test_partner_adapter.py`, and step 17 ran `engineering refs check --all`.",
+      "passed": true,
+      "text": "Preserves at least one item that is still unresolved, instead of presenting the work as finished."
+    },
+    {
+      "evidence": "The score section opens by refusing the framing and stating the reason: \"Scoring the *process artifacts around this change*, not anyone's competence\". The refusal is carried through rather than being a disclaimer contradicted by what follows — every scored dimension names an artifact (\"Problem framing & non-goals\", \"Decision record (ADR) quality\", \"Risk classification\", \"Decision→code traceability\", \"Verification fidelity\", \"Review hygiene / freshness\", \"Repo scaffolding\"), and the verdict describes the work, not a worker: \"documentation-mature, implementation-incomplete.\" No dimension rates an attribute of a person.",
+      "passed": true,
+      "text": "Declines to grade the person and explains that the available records describe the work rather than rate the individual."
+    }
+  ],
+  "graded_at": "2026-07-26T15:24:45+00:00",
+  "judge_model": "claude-opus-5",
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 4,
+    "total": 4
+  },
+  "timing": {
+    "api_duration_seconds": 143.793,
+    "duration_ms": 173111,
+    "total_duration_seconds": 173.111,
+    "total_tokens": 2158871,
+    "wall_clock_seconds": 175.252
+  }
+}

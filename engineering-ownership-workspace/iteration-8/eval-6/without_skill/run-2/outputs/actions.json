@@ -1,0 +1,68 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "cat (outside the repository) 2>/dev/null; echo \"---\"; git status; echo \"---\"; git diff; echo \"---\"; git log --oneline -10"
+    },
+    {
+      "action": "run",
+      "target": "ls (outside the repository) 2>/dev/null; echo \"---repo structure---\"; find . -path ./node_modules -prune -o -type f -print | grep -v \\.git/ | head -100"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/contract.json"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/evidence/partner-settlement-rounding.json"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "git show HEAD:src/api/partner_adapter.py; echo \"---schema---\"; git show HEAD:src/db/schema.py; echo \"---test run---\"; python3 -m unittest discover -s tests 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "git show --stat aba224f; echo \"---\"; git show aba224f"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "write",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "write",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests 2>&1"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/changes/partner-settlement-rounding.md"
+    },
+    {
+      "action": "run",
+      "target": "git diff --stat; echo \"---\"; git status"
+    }
+  ]
+}

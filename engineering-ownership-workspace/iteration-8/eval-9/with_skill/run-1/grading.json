@@ -1,0 +1,59 @@
+{
+  "eval_feedback": {
+    "overall": "Two concerns. (1) Expectation 1 is weaker than it reads: a response that said only \"there's a decision doc about settlement units, let me check it\" would arguably satisfy \"finds ... and says what that decision was.\" This response passes on stronger evidence (a verbatim quote of the governing condition), but the wording would also admit a response that merely locates the file. Consider requiring the response to state the decision's substantive holding in its own terms — e.g. that whole-unit conversion was deliberately placed in the adapter and was scoped to the all-whole-units assumption.\n\n(2) Expectations 3 and 5 both presuppose the responder proceeds to make a change. This response instead stopped to ask which partner is meant, on the well-founded ground that the request as phrased ('every partner') would silently break the other whole-unit partner — a discrepancy between the request and the code that is genuinely worth surfacing. Under these expectations that restraint is scored identically to ignoring the decision record entirely. If the eval intends to reward catching the discrepancy, it needs an expectation covering it; if it intends to require the record be updated even when the change is deferred (e.g. noting the open question in the decision doc), the expectations should say so, since the current phrasing 'a pointer to what replaces it' cannot be satisfied while the replacement is still unknown."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 1192,
+    "tool_calls": {
+      "Bash": 2,
+      "Read": 2
+    },
+    "total_steps": 5,
+    "total_tool_calls": 4,
+    "transcript_chars": 1409
+  },
+  "expectations": [
+    {
+      "evidence": "Step 2 records `read: docs/decisions/2026-02-settlement-amount-units.md`, and the response reports its substance: \"I found the adapter and the decision doc that explains why this rounding exists\" and quotes it directly — \"This holds only while every partner settles in whole units. If one starts accepting fractional amounts, the conversion stops being a property of the adapter and becomes a property of the partner...\" That quotation conveys the content of the earlier decision (whole-unit conversion lives in the adapter, conditional on all partners settling in whole units), not merely that a document exists.",
+      "passed": true,
+      "text": "Finds the existing accepted decision that this request contradicts, and says what that decision was."
+    },
+    {
+      "evidence": "I searched the response for any statement of the earlier decision's status and found none. The nearest sentences are \"There's a mismatch worth flagging before I change anything\" and \"The decision doc explicitly anticipated this exact change and warns\" — both describe the doc's foresight, not whether the requested work supersedes, invalidates, or operates within that decision. The response ends by deferring entirely: \"Could you confirm: which partner ID is the 'largest partner'...\" without ever saying what becomes of the decision.",
+      "passed": false,
+      "text": "States plainly whether the new work follows, replaces, or invalidates that earlier decision."
+    },
+    {
+      "evidence": "The recorded steps contain no write or edit to `docs/decisions/2026-02-settlement-amount-units.md` — only `read` at step 2. The four steps are two shell commands and two reads. The earlier record was not amended at all, so neither its status nor a pointer to a replacement was added; the response states only \"before I change anything.\"",
+      "passed": false,
+      "text": "Preserves the reasoning in the earlier record, changing only its status and a pointer to what replaces it."
+    },
+    {
+      "evidence": "I searched for any statement about future readers or about why the recorded reasoning should remain legible, and found none. The response explains why the constraint itself matters operationally — \"silently breaking their integration again (rejected payloads), which is the exact failure this code was built to prevent\" — which is an argument about breakage risk today, not about preserving the reasoning for a later reader.",
+      "passed": false,
+      "text": "Says why keeping the earlier reasoning legible matters to someone reading this later."
+    },
+    {
+      "evidence": "No step records writing to any file. Steps 1 and 3 are shell commands (`git status`, `find`, `grep`), steps 2 and 4 are reads of the decision doc and `src/api/partner_adapter.py`. Nothing was captured in the codebase or docs; the reasoning exists only in the response text, which a later reader looking at `partner_adapter.py` would not encounter.",
+      "passed": false,
+      "text": "Writes the new decision somewhere a later reader would find it when looking at the affected code."
+    }
+  ],
+  "graded_at": "2026-07-26T15:49:26+00:00",
+  "judge_model": "claude-opus-5",
+  "summary": {
+    "failed": 4,
+    "pass_rate": 0.2,
+    "passed": 1,
+    "total": 5
+  },
+  "timing": {
+    "api_duration_seconds": 47.603,
+    "duration_ms": 48107,
+    "total_duration_seconds": 48.107,
+    "total_tokens": 373620,
+    "wall_clock_seconds": 50.105
+  }
+}

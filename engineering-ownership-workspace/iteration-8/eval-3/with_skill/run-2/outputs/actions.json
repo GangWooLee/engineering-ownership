@@ -1,0 +1,28 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "git status && echo --- && git diff && echo --- && git log --oneline -10"
+    },
+    {
+      "action": "search",
+      "target": "**/test*partner*"
+    },
+    {
+      "action": "search",
+      "target": "**/test*schema*"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m pytest tests/ -q 2>&1 | tail -20"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v 2>&1 | tail -30"
+    }
+  ]
+}

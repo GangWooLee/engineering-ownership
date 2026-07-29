@@ -1,0 +1,10 @@
+{
+  "file_contents": {
+    "CONTRIBUTING.md": "# Contributing\n\nRun `python3 -m unittest discover -s tests` before pushing. CI runs the same\ncommand on every push and pull request.\n\nIf a change alters something a design note describes, update the note in the\nsame pull request. Reviewers ask for this. The PR template checklist covers\nthis and the commit-splitting rule below.\n"
+  },
+  "paths_changed_by_run": [
+    ".github/",
+    "CONTRIBUTING.md"
+  ],
+  "tracked_diff": "diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md\nindex 6cdde1a..b4159b5 100644\n--- a/CONTRIBUTING.md\n+++ b/CONTRIBUTING.md\n@@ -1,6 +1,8 @@\n # Contributing\n \n-Run `python3 -m unittest discover -s tests` before pushing.\n+Run `python3 -m unittest discover -s tests` before pushing. CI runs the same\n+command on every push and pull request.\n \n If a change alters something a design note describes, update the note in the\n-same pull request. Reviewers ask for this.\n+same pull request. Reviewers ask for this. The PR template checklist covers\n+this and the commit-splitting rule below.\n"
+}

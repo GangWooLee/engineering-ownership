@@ -178,3 +178,54 @@ arm to fail E1 — it spent its one action on a read outside the repository
 instead of the diff — while its two non-consulting arm-mates scored 1.000 and
 0.667. Whatever eval-1's misses are, principled restraint being rewarded is not
 supported by this data.
+
+---
+
+## Re-grade outcome, 2026-07-29 — the prediction failed
+
+The correction above proposed that a corrected rubric would show eval-9's
+negative gap to be an artifact. The six stored responses were re-graded in
+`iteration-8-eval9-regrade` under a rubric fixed **before** any re-graded score
+existed (`db97464`): the never-passing expectation removed, the two
+artifact-requiring expectations given a deferral branch. **The gap did not
+disappear.**
+
+| | with skill | without skill | difference | permutation p |
+| --- | --- | --- | --- | --- |
+| original rubric, 5 expectations | 0.3333 | 0.4667 | −0.1333 | 0.600 |
+| corrected rubric, 4 expectations | 0.5833 | 0.7500 | **−0.1667** | **0.700** |
+
+Both arms rose sharply, which confirms the rubric was broken: the dead
+expectation and the missing deferral branch were suppressing every run in both
+configurations. But the direction held, and the result became *less*
+distinguishable from noise, not more.
+
+Per run, before → after:
+
+| run | with skill | without skill |
+| --- | --- | --- |
+| run-1 | 1/5 → 1/4 | 1/5 → 3/4 |
+| run-2 | 2/5 → **4/4** | 3/5 → 3/4 |
+| run-3 | 2/5 → 2/4 *(the only run that consulted the skill)* | 3/5 → 3/4 |
+
+The honest reading is about variance, not means. The baseline is now perfectly
+uniform — 3/4 in all three runs — while the treatment ranges from 1/4 to a clean
+4/4. The treatment produced both the best run in the set and the worst. With
+three runs per arm and p = 0.700, **these six runs cannot distinguish the two
+configurations in either direction**, and that is the finding.
+
+Two things this settles and one it does not:
+
+- **Settled:** the rubric was genuinely defective, and the earlier claim that
+  eval-9's gap was attributable to the skill remains unsupported — now on two
+  independent rubrics rather than one.
+- **Settled:** "the gap will disappear once the rubric is fixed" was a
+  prediction made in this file, and it was wrong. It is recorded rather than
+  quietly dropped.
+- **Not settled:** whether the skill helps, hurts, or does nothing on this
+  scenario. Answering it needs more runs per arm, not a better rubric — the
+  variance in the treatment arm is larger than the gap between arms.
+
+The corrected rubric is not back-ported to the shipped `evals.json`. Doing that
+is a product change and belongs to its own decision, made in the open rather
+than as a side effect of an investigation.

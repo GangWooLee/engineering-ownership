@@ -1,0 +1,3 @@
+Change the settlement adapter so every partner receives fractional amounts. Our largest partner now requires it.
+
+Respond in English.

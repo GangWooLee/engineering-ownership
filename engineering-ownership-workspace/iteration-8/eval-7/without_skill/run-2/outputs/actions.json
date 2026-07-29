@@ -1,0 +1,120 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "ls (outside the repository) 2>/dev/null && echo \"---\" && cat (outside the repository) 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "git status && echo \"---LOG---\" && git log --oneline -20 && echo \"---DIFF---\" && git diff"
+    },
+    {
+      "action": "run",
+      "target": "ls -la (outside the repository) 2>&1; echo \"---\"; find (outside the repository) -maxdepth 2 2>&1"
+    },
+    {
+      "action": "search",
+      "target": "**/*\""
+    },
+    {
+      "action": "run",
+      "target": "pwd && find . -iname *.md -not -path ./node_modules/* | head -100"
+    },
+    {
+      "action": "read",
+      "target": "docs/proposals/settlement-currency.md"
+    },
+    {
+      "action": "read",
+      "target": "plans/settlement-currency.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "read",
+      "target": "README.md"
+    },
+    {
+      "action": "run",
+      "target": "find . -path ./node_modules -prune -o -iname *.md -print | sort; echo \"---\"; find . -type d -name \"changes\" -o -type d -name \"decisions\" | sort; echo \"---engine"
+    },
+    {
+      "action": "run",
+      "target": "find . -path ./node_modules -prune -o -iname \"*.claude*\" -print 2>/dev/null; echo \"---\"; ls -la .claude 2>/dev/null; find .claude -type f 2>/dev/null; echo \"---"
+    },
+    {
+      "action": "run",
+      "target": "find . -path ./node_modules -prune -o -type d -print | sort"
+    },
+    {
+      "action": "run",
+      "target": "find .engineering -type f | sort; echo \"---\"; for f in $(find .engineering -type f); do echo \"== $f ==\"; cat \"$f\"; echo; done"
+    },
+    {
+      "action": "run",
+      "target": "find src tests -type f | sort"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "git show 44b68da --stat; echo \"---diff---\"; git show 44b68da -- src/api/partner_adapter.py > (outside the repository) 2>/dev/null; git diff 44b68da^ 44b68da -- "
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v 2>&1 | tail -30"
+    },
+    {
+      "action": "run",
+      "target": "git diff -- src/db/schema.py | shasum -a 256 | awk '{print $1}' date -u +\"%Y-%m-%dT%H:%M:%S+00:00\""
+    },
+    {
+      "action": "run",
+      "target": "git diff -- src/db/schema.py | shasum -a 256"
+    },
+    {
+      "action": "run",
+      "target": "git diff -- src/db/schema.py | shasum -a 256 | awk '{print $1}' | wc -c"
+    },
+    {
+      "action": "run",
+      "target": "python3 - <<'EOF' import subprocess, time start = time.time() r = subprocess.run([\"python3\", \"-m\", \"unittest\", \"discover\", \"-s\", \"tests\"], capture_output=True) "
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/changes/settlement-currency.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/decisions/settlement-currency.md"
+    },
+    {
+      "action": "write",
+      "target": ".engineering/evidence/settlement-currency.json"
+    },
+    {
+      "action": "run",
+      "target": "python3 -c \"import json; json.load(open('.engineering/evidence/settlement-currency.json')) && echo \"JSON valid\" git status"
+    }
+  ]
+}

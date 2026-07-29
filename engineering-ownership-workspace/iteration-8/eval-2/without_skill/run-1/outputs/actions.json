@@ -1,0 +1,124 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "cat memory/MEMORY.md 2>/dev/null || echo \"NO_MEMORY_FILE\""
+    },
+    {
+      "action": "run",
+      "target": "git log --oneline -20 && echo \"---\" && git show --stat HEAD"
+    },
+    {
+      "action": "run",
+      "target": "find . -maxdepth 3 -not -path */node_modules/* -not -path */.git/* | sort"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "read",
+      "target": "README.md"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/contract.json"
+    },
+    {
+      "action": "read",
+      "target": "src/auth/session.py"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/evidence/partner-settlement-rounding.json"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_session.py"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "cat .gitignore; echo \"---\"; find . -maxdepth 4 -iname *.md -not -path ./node_modules/*\"; echo \"---\"; find . -maxdepth 2 -name \".*\" -not -path ./.git\"; echo \"---"
+    },
+    {
+      "action": "run",
+      "target": "echo \"=== skill txt ===\"; cat (outside the repository) 2>/dev/null | head -200; echo \"=== dir listing ===\"; ls -la (outside the repository) 2>/dev/null; find (o"
+    },
+    {
+      "action": "run",
+      "target": "which engineering 2>/dev/null; echo \"exit:$?\"; find (outside the repository) -maxdepth 6 -iname \"bin\" -path \"*engineering*\" 2>/dev/null; find (outside the repos"
+    },
+    {
+      "action": "run",
+      "target": "wc -l (outside the repository)"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "grep -rn \"session\" --include=\"*.py -l . | grep -v __pycache__; echo \"---\"; grep -rn \"issue_refresh_token\\|is_refresh_valid\\|revoke(\" --include=\"*.py ."
+    },
+    {
+      "action": "write",
+      "target": "src/auth/session.py"
+    },
+    {
+      "action": "write",
+      "target": "tests/test_session.py"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "git diff -- src/auth/session.py tests/test_session.py | shasum -a 256 | awk '{print $1}'"
+    },
+    {
+      "action": "run",
+      "target": "date -u +%Y-%m-%dT%H:%M:%S+00:00"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/changes/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/decisions/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/security/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "run",
+      "target": "python3 -c \" import time start = time.time() import subprocess result = subprocess.run(['python3', '-m', 'unittest', 'discover', '-s', 'tests'], capture_output="
+    },
+    {
+      "action": "write",
+      "target": ".engineering/evidence/rotating-refresh-tokens.json"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v 2>&1; echo \"---STATUS---\"; git status"
+    }
+  ]
+}

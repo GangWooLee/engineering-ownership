@@ -1,0 +1,80 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "ls -la .engineering 2>/dev/null; echo \"---\"; git status; echo \"---\"; git log --oneline -10; echo \"---\"; find . -iname \"*proposal*\" -o -iname \"*implementation*pl"
+    },
+    {
+      "action": "run",
+      "target": "cat .engineering/contract.json; echo \"---EVIDENCE---\"; find .engineering/evidence -type f; echo \"---PROPOSALS---\"; find docs/proposals -type f; echo \"---GIT DIF"
+    },
+    {
+      "action": "read",
+      "target": "docs/proposals/settlement-currency.md"
+    },
+    {
+      "action": "run",
+      "target": "cat .engineering/evidence/partner-settlement-rounding.json; echo \"---CHANGES DIR---\"; find docs/engineering -type f 2>/dev/null; echo \"---HANDOFFS---\"; find .en"
+    },
+    {
+      "action": "run",
+      "target": "find . -path ./node_modules -prune -o -iname \"*plan*\" -print 2>/dev/null | grep -v \\.git/\"; echo \"---AGENTS.md---\"; cat AGENTS.md"
+    },
+    {
+      "action": "run",
+      "target": "find ./plans -type f; echo \"---\"; for f in ./plans/*; do echo \"=== $f ===\"; cat \"$f\"; done"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "which engineering 2>/dev/null; echo \"exit:$?\"; find (outside the repository) -maxdepth 3 -iname \"engineering\" -type f 2>/dev/null; ls (outside the repository) 2"
+    },
+    {
+      "action": "run",
+      "target": "engineering status --all 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "engineering change start settlement-currency --risk R2 --title \"Carry settlement currency on the order\" 2>&1"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/settlement-currency.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/settlement-currency.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/changes/settlement-currency.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/decisions/settlement-currency.md"
+    },
+    {
+      "action": "run",
+      "target": "engineering status --all 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "engineering verify settlement-currency 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "engineering status --all 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "git status --short"
+    }
+  ]
+}

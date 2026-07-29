@@ -1,0 +1,40 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "git status && echo \"---DIFF---\" && git diff -- src/api/partner_adapter.py && echo \"---LOG---\" && git log --oneline -10"
+    },
+    {
+      "action": "read",
+      "target": "src/api/rate_limit.py"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_rate_limit.py"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "grep -rn \"rate limit\\|BURST\\|partner\" --include=\"*.md --include=\"*.py --include=\"*.txt\" -i . 2>/dev/null | grep -v .git/ | grep -v test_rate_limit.py:\\|rate_lim"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-settlement-rounding.md"
+    },
+    {
+      "action": "run",
+      "target": "find docs -type f | sort; echo \"---\"; find . -iname \"*template*\" -not -path ./.git/* 2>/dev/null; echo \"---README---\"; cat README.md 2>/dev/null; echo \"---CLAUD"
+    },
+    {
+      "action": "run",
+      "target": "git stash list; git branch -a; git log --all --oneline; echo \"---\"; grep -rn \"429\\|requests per second\\|rps\\|throttl\" -i . --include=\"*.py --include=\"*.md 2>/de"
+    }
+  ]
+}

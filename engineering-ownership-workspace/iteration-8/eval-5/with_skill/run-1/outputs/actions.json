@@ -1,0 +1,100 @@
+{
+  "actions": [
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "ls -la && echo \"---\" && cat AGENTS.md 2>/dev/null; cat CLAUDE.md 2>/dev/null; echo \"---\" && ls .engineering 2>/dev/null && echo \"---\" && git log --oneline -20 &"
+    },
+    {
+      "action": "run",
+      "target": "echo \"=== CLAUDE.md ===\"; test -f CLAUDE.md && cat CLAUDE.md || echo \"none\" echo \"=== README.md ===\"; cat README.md echo \"=== CONTRIBUTING.md ===\"; cat CONTRIBU"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "docs/decisions/2026-02-settlement-amount-units.md"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "git log --oneline --all -- src/api/partner_adapter.py docs/decisions/2026-02-settlement-amount-units.md echo \"---full log---\" git log -p -3 -- src/api/partner_a"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "engineering --help 2>&1 | head -50 echo \"=== init help ===\" engineering init --help 2>&1 echo \"=== audit ===\" engineering audit --format text 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "file (outside the repository) head -5 (outside the repository) python3 -c \"import engineering_ownership\" 2>&1 | head -5 || true pip3 show (outside the repository) "
+    },
+    {
+      "action": "run",
+      "target": "SITE=~/.local/share/uv/tools/(outside the repository)/lib/python*/site-packages ls -d $SITE 2>/dev/null find (outside the repository) -iname *.py -path"
+    },
+    {
+      "action": "run",
+      "target": "find (outside the repository) -maxdepth 4 -type d 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "cat (outside the repository) 2>/dev/null | head -30 find (outside the repository) -iname \"*init*\" -o -iname \"*contract*\" 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "cat (outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "find (outside the repository) -iname *.py -path \"*src*\" | grep -iv test | grep -i -E \"init|contract|cli\" | head -30"
+    },
+    {
+      "action": "run",
+      "target": "grep -n \"agent_pointers\\|def cmd_init\\|AGENTS.md\\|CLAUDE.md\\|agent-pointers\" -A 15 (outside the repository) | head -150"
+    },
+    {
+      "action": "run",
+      "target": "grep -n \"def ensure_pointer\\|def command_init\\|def default_contract\\|POINTER\\|def contract_template\\|start>\\|(outside the repository):start\" -A 25 (outside the rep"
+    },
+    {
+      "action": "run",
+      "target": "grep -n \"def default_contract\" -A 60 (outside the repository) | head -100"
+    },
+    {
+      "action": "run",
+      "target": "grep -n \"risk_paths\\|fnmatch\\|def.*risk\\|def matches_pattern\\|def path_matches\" -A 10 (outside the repository) | head -100"
+    },
+    {
+      "action": "run",
+      "target": "grep -n \"POINTER\" -A 20 (outside the repository) | head -40"
+    },
+    {
+      "action": "run",
+      "target": "grep -n \"add_argument(\\\"--kind\\\"\\|add_argument(\\\"--status\\\"\" -A 3 (outside the repository)"
+    }
+  ]
+}

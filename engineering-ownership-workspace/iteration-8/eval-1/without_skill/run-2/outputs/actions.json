@@ -1,0 +1,12 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "git diff README.md; echo \"---STATUS---\"; git status; echo \"---LOG---\"; git log --oneline -5"
+    },
+    {
+      "action": "run",
+      "target": "git remote -v; echo \"---\"; git log --all --oneline -10; echo \"---branches---\"; git branch -a"
+    }
+  ]
+}

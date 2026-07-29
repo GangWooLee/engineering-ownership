@@ -1,0 +1,52 @@
+{
+  "eval_feedback": {
+    "overall": "Expectation 1 is the weakest of the three: it is satisfied by any response that appends a References list with two paths, including one that otherwise reproduces both documents wholesale — which is close to what happened here. Consider splitting it into (a) the documents are located at their actual paths and (b) the new record cites them at the point where their content would otherwise have been repeated, so that a duplicate-and-link response fails. Expectations 2 and 3 are closely coupled — 3 is essentially the articulation half of 2 — so a response can only fail 2 while passing 3 in narrow cases; if the intent is to test restraint separately from articulation, 2 could be narrowed to the recorded content alone. Also worth noting: no expectation covers accuracy of the record against the work actually done, and there is a live contradiction here that went uncaught — the Brief states \"Verification evidence: None yet for this change. `python3 -m unittest discover -s tests` has not been run against the current diff\" while `.engineering/evidence/settlement-currency.json` records a passing `unit` run bound to the same diff digest (step 27 ran `engineering verify`, step 26 ran the tests). An expectation that the written record does not contradict the machine-readable state would have caught it."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 1053,
+    "tool_calls": {
+      "Bash": 11,
+      "Glob": 1,
+      "Read": 14,
+      "Skill": 1,
+      "Write": 2
+    },
+    "total_steps": 31,
+    "total_tool_calls": 29,
+    "transcript_chars": 6860
+  },
+  "expectations": [
+    {
+      "evidence": "The responder read both documents (steps 5 and 6: `docs/proposals/settlement-currency.md`, `plans/settlement-currency.md`) and cited them by path in the Brief's References section: \"- Proposal: `docs/proposals/settlement-currency.md`\" and \"- Plan: `plans/settlement-currency.md`\". The response also defers to the plan rather than reproducing it: \"Per the plan, steps 1 (schema) and 3 (adapter payload) are in progress, and steps 2 (backfill), 4 (reporting read), 5 (remove hard-code) are not started\" — it names the steps by reference instead of copying the plan's contents.",
+      "passed": true,
+      "text": "Locates the existing planning documents and refers to them by where they are, rather than producing its own version of them."
+    },
+    {
+      "evidence": "The response states outright that it duplicated settled content: \"**ADR**: `docs/engineering/decisions/settlement-currency.md` — records the \\\"store on order, not a per-partner table\\\" decision already agreed in the proposal.\" The written ADR reproduces that reasoning in full (\"Choose option 1: store `settlement_currency` on the order. Currency is a property of the agreement in force when the order was placed...\"), and the Brief re-states the proposal's framing under \"Problem and intended outcome\" (\"Two partners onboarding this quarter settle in currencies other than USD...\") and \"Success and non-goals\". The genuinely new material — the \"Existing responsibilities searched\" section and the flagged unknown (\"One gap worth flagging: I couldn't find a reporting module in `src/` yet\") — is real, but it is recorded alongside, not instead of, what the proposal already covers. The response never states which parts of its record are the delta over the existing documents.",
+      "passed": false,
+      "text": "Records only what the existing documents do not already cover, and says what that gap is."
+    },
+    {
+      "evidence": "I searched the response and both written documents for any statement that some content was deliberately left in the proposal or plan rather than copied, with a reason. Nothing of the kind appears. The nearest candidates are about code and scope, not about the existing documents: \"Not in scope: a per-partner currency table (see Decisions below), and anything about how amounts are rounded or converted for the partner settlement API — that is owned by `partner-settlement-rounding`\", and \"`src/db/schema.py` already owns the stored order representation, so the new `settlement_currency` column belongs there rather than a new table.\" Neither says what the responder declined to restate from the proposal or plan, or why. The response is silent on the question.",
+      "passed": false,
+      "text": "Says what it chose to leave in place rather than restate, and why."
+    }
+  ],
+  "graded_at": "2026-07-26T15:39:52+00:00",
+  "judge_model": "claude-opus-5",
+  "summary": {
+    "failed": 2,
+    "pass_rate": 0.3333,
+    "passed": 1,
+    "total": 3
+  },
+  "timing": {
+    "api_duration_seconds": 109.264,
+    "duration_ms": 152564,
+    "total_duration_seconds": 152.564,
+    "total_tokens": 1896212,
+    "wall_clock_seconds": 154.597
+  }
+}

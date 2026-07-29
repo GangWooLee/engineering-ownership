@@ -1,0 +1,11 @@
+{
+  "errors_encountered": 0,
+  "files_created": [],
+  "output_chars": 593,
+  "tool_calls": {
+    "Bash": 2
+  },
+  "total_steps": 3,
+  "total_tool_calls": 2,
+  "transcript_chars": 593
+}

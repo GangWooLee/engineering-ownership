@@ -1,0 +1,116 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "ls (outside the repository) 2>/dev/null && echo \"---\" && cat (outside the repository) 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "git -C . log --oneline -20"
+    },
+    {
+      "action": "run",
+      "target": "ls -la ."
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "read",
+      "target": "README.md"
+    },
+    {
+      "action": "run",
+      "target": "find . -type f -not -path */.git/* | sort"
+    },
+    {
+      "action": "read",
+      "target": "src/auth/session.py"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_session.py"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/contract.json"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/evidence/partner-settlement-rounding.json"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "grep -rn \"session\" --include=\"*.py src tests | grep -v \"\\.pyc\""
+    },
+    {
+      "action": "run",
+      "target": "ls docs/engineering && find docs -type d && cat .gitignore"
+    },
+    {
+      "action": "write",
+      "target": "src/auth/session.py"
+    },
+    {
+      "action": "write",
+      "target": "tests/test_session.py"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v"
+    },
+    {
+      "action": "run",
+      "target": "grep -rn \"evidence\\|contract.json\\|digest\" --include=\"*.py --include=\"*.sh\" --include=\"*.md . 2>/dev/null | grep -v \\.engineering/evidence\\|docs/engineering"
+    },
+    {
+      "action": "run",
+      "target": "git show --stat 9214b78 && echo --- && git show 9214b78 -- src/api/partner_adapter.py | head -50"
+    },
+    {
+      "action": "run",
+      "target": "git diff -- src/auth/session.py tests/test_session.py | sha256sum"
+    },
+    {
+      "action": "run",
+      "target": "date -u +%Y-%m-%dT%H:%M:%S+00:00"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/changes/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/decisions/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/security/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "write",
+      "target": ".engineering/evidence/rotating-refresh-tokens.json"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v 2>&1 | tail -15 && echo \"---STATUS---\" && git status --porcelain"
+    }
+  ]
+}

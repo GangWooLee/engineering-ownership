@@ -1,0 +1,49 @@
+{
+  "eval_feedback": {
+    "overall": "Expectation 1 is satisfiable by a response that does no work. This response passes it while leaving nothing behind, which is the right outcome per assertion but shows the assertion is upstream of the one that matters: identifying the gap is cheap, and 1 will pass for any response that reads the code carefully and then stops. If the intent is that selection and durability travel together, consider phrasing 1 as requiring the selected places to be where the rationale was recorded, so a diagnosis-only response cannot collect it.\n\nExpectation 3 is ambiguous between two readings: a located judgment (\"the sliding window needs no note because X\") and a blanket residual claim (\"everything else is inferable\"). This response gives only the latter, and graders will split on it. If the target behaviour is restraint that has been reasoned about and stated, say the response must name at least one specific part it chose not to document; that also guards against the failure mode the third assertion is presumably aimed at, which is documenting everything indiscriminately.\n\nOne artifact of the record: the diff under \"Changes to files that already existed\" is the uncommitted feature under review, not the responder's edit, and nothing in the record marks that distinction. A grader could read it as the responder having added an undocumented `may_submit_now()` and penalise accordingly, or conversely credit a code comment that the responder never wrote. Labelling pre-existing working-tree state separately from responder-authored changes would remove the guesswork.\n\nNo assertion covers the response's most consequential move: it declined to write the ADR rather than inventing a justification for `BURST_LIMIT = 7` (\"I don't want to write an ADR that invents a plausible-sounding justification ... since that would defeat the point of leaving a trustworthy trail\"). Whether that restraint is the wanted behaviour or an evasion of the task is exactly what this eval should decide, and as written it decides neither — 2 fails it, 1 passes it, and nothing addresses the trade-off directly. An assertion about what the response does when the rationale is unavailable would be discriminating: a response that fabricates a partner rate limit should fail it, and one that either asks or records the gap as unknown should pass."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 1465,
+    "tool_calls": {
+      "Bash": 8,
+      "Read": 9
+    },
+    "total_steps": 18,
+    "total_tool_calls": 17,
+    "transcript_chars": 1564
+  },
+  "expectations": [
+    {
+      "evidence": "It narrows to exactly one site and grounds the choice in a search of the repo: \"One thing I can't infer from the code or repo: **why `BURST_LIMIT = 7` and `WINDOW_SECONDS = 1.0`**. There's no partner API spec, config, or prior doc anywhere in the repo that justifies those specific numbers — they're currently unexplained magic constants.\" The step record backs the search rather than asserting it: step 14 runs `grep -rniE \"burst|rate.?limit|req(uest)?s?.?per.?sec|throttle|429\"` across .py/.md/.json/.yaml, and step 15 enumerates every tracked file. The \"not others\" side is carried by \"One thing I can't infer\" — a claim that the remainder of the change is derivable, which is why this one site was picked out.",
+      "passed": true,
+      "text": "Selects a small number of specific places where the rationale is not evident from the code, and says why those places and not others."
+    },
+    {
+      "evidence": "Nothing was written. The response defers the writing: \"Once I have that, I'll write the ADR + change brief + evidence file in the established format and make sure the code comments reflect it.\" No step in the record is a write or create — steps 1–17 are all `run` and `read`. The only file change shown is the pre-existing uncommitted feature edit to `src/api/partner_adapter.py`, which adds `_limiter = RateLimiter()` and `may_submit_now()` and contains no comment or rationale. No file was added under `docs/engineering/decisions/`, `docs/engineering/changes/`, or `.engineering/evidence/`, despite the response correctly identifying those as the repo's convention. The rationale exists only in the conversation.",
+      "passed": false,
+      "text": "Leaves the rationale itself somewhere durable in the repository rather than only in this conversation."
+    },
+    {
+      "evidence": "I searched for any statement naming a part of this change as self-explanatory — the sliding-window logic in `rate_limit.py`, the module-level `_limiter` singleton, the `may_submit_now()` wrapper, the test file — and found none. The closest is \"One thing I can't infer from the code or repo\", which asserts a residual by implication but does not locate anything as accounting for itself, nor say why. No part of the code is named as needing no note.",
+      "passed": false,
+      "text": "Says where it judged an explanation unnecessary because the code already accounts for itself."
+    }
+  ],
+  "graded_at": "2026-07-26T15:48:04+00:00",
+  "judge_model": "claude-opus-5",
+  "summary": {
+    "failed": 2,
+    "pass_rate": 0.3333,
+    "passed": 1,
+    "total": 3
+  },
+  "timing": {
+    "api_duration_seconds": 96.829,
+    "duration_ms": 101170,
+    "total_duration_seconds": 101.17,
+    "total_tokens": 1225186,
+    "wall_clock_seconds": 103.512
+  }
+}

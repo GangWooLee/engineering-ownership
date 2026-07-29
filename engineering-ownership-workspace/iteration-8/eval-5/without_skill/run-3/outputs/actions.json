@@ -1,0 +1,72 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "ls -la (outside the repository) 2>/dev/null && echo \"---MEMORY.md---\" && cat (outside the repository) 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "pwd && ls -la"
+    },
+    {
+      "action": "read",
+      "target": "README.md"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "read",
+      "target": "CONTRIBUTING.md"
+    },
+    {
+      "action": "run",
+      "target": "find . -path ./.git -prune -o -type f -print | sort"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "docs/decisions/2026-02-settlement-amount-units.md"
+    },
+    {
+      "action": "run",
+      "target": "cat .gitignore; echo \"---\"; git log --all --oneline -20; echo \"---branches---\"; git branch -a"
+    },
+    {
+      "action": "run",
+      "target": "find . -maxdepth 2 -name \".*\" -not -path ./.git* ; echo \"---\"; find . -iname \"*.cfg\" -o -iname \"*.toml\" -o -iname \"Makefile\" -o -iname \"*.ini\" 2>/dev/null | gre"
+    },
+    {
+      "action": "run",
+      "target": "git remote -v; echo \"---\"; ls -la .github 2>/dev/null || echo \"no .github dir\""
+    },
+    {
+      "action": "run",
+      "target": "mkdir -p .github/workflows"
+    },
+    {
+      "action": "write",
+      "target": ".github/workflows/tests.yml"
+    },
+    {
+      "action": "write",
+      "target": ".github/pull_request_template.md"
+    },
+    {
+      "action": "run",
+      "target": "git status"
+    }
+  ]
+}

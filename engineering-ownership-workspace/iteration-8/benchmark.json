@@ -1,0 +1,2036 @@
+{
+  "metadata": {
+    "skill_name": "engineering-ownership",
+    "skill_path": "plugins/engineering-ownership/skills/engineering-ownership",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-07-26T15:54:45Z",
+    "evals_run": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "runs_per_configuration": 3,
+    "corrected": "tokens from timing.json; runs counted, not assumed"
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.6667,
+        "passed": 2,
+        "failed": 1,
+        "total": 3,
+        "time_seconds": 23.135,
+        "tokens": 260049,
+        "tool_calls": 2,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "The proportionality judgment is present \u2014 \"For a one-line README typo fix, this is about as low-risk as changes get (R0 \u2014 no behavior change), so no formal review process or change record is needed\" \u2014 but it is grounded in the user's description rather than in the changed lines. The response never cites anything from the actual edit (the `settlment` \u2192 `settlement` correction on the project description line, the absence of links or code fences in it). Instead it defers the inspection: \"confirm `git diff README.md` shows only the typo correction, nothing else slipped in\" and closes with \"Want me to check the diff and commit it now?\", which concedes the diff was not read. The only recorded step is `run: cat (outside the repository) 2>/dev/null | head -100`; no step reads README.md or the diff.",
+          "passed": false,
+          "text": "Judges how much process this change warrants and justifies that judgment by what the changed lines actually contain."
+        },
+        {
+          "evidence": "\"**Quick self-review** \u2014 make sure the corrected spelling/wording is actually correct and doesn't break any Markdown formatting (links, code fences, etc.) around it.\"",
+          "passed": true,
+          "text": "Names at least one check that fits a documentation edit, such as a spell check, a link check, or a rendered preview."
+        },
+        {
+          "evidence": "\"this is about as low-risk as changes get (R0 \u2014 no behavior change), so no formal review process or change record is needed\" \u2014 the heavier artifacts are named and a reason is attached to dropping them, rather than being passed over in silence.",
+          "passed": true,
+          "text": "Explains why heavier review artifacts are unnecessary here, rather than leaving them unmentioned."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 3,
+        "failed": 0,
+        "total": 3,
+        "time_seconds": 21.429,
+        "tokens": 257027,
+        "tool_calls": 2,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"For a one-word typo fix in a single-line README (no CI, no CONTRIBUTING guide in this repo), the bar is low\" \u2014 and the judgment is tied to the actual diff content it inspected (step 1, `git diff README.md`): \"`settlment` \u2192 `settlement`, correctly spelled, no other changes snuck in.\" The repo claims are also grounded in step 2, which listed `.github/workflows` and searched for CONTRIBUTING.",
+          "passed": true,
+          "text": "Judges how much process this change warrants and justifies that judgment by what the changed lines actually contain."
+        },
+        {
+          "evidence": "\"**Review the diff** \u2014 `settlment` \u2192 `settlement`, correctly spelled, no other changes snuck in.\" It confirms the replacement word is itself spelled correctly, which is the substance of a spell check on a typo fix; it also bounds the change to nothing else. No link check or rendered preview is offered, but one fitting check is named and applied.",
+          "passed": true,
+          "text": "Names at least one check that fits a documentation edit, such as a spell check, a link check, or a rendered preview."
+        },
+        {
+          "evidence": "\"Since it's a docs-only, zero-risk change, I wouldn't over-process it \u2014 commit and push is reasonable.\" It also states \"No CI/lint is configured for this repo, so there's no automated check to wait on,\" so the absence of heavier process is chosen and reasoned about rather than passed over in silence.",
+          "passed": true,
+          "text": "Explains why heavier review artifacts are unnecessary here, rather than leaving them unmentioned."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 0.6667,
+        "passed": 2,
+        "failed": 1,
+        "total": 3,
+        "time_seconds": 12.607,
+        "tokens": 141881,
+        "tool_calls": 1,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "The responder inspected the change (recorded step 1: `git diff README.md; echo \"---STATUS---\"; git status`) and then set a process level against what the diff contains: \"For a one-line README typo fix, this is low-risk \u2014 no code, tests, or config touched.\" It also grounded its advice in the observed repo state: \"since you're on `main` directly, just confirm your team's convention.\" The justification stays at the category level (docs-only, no code/tests/config) and never cites the specific line or word changed, but it is a content claim about the diff it actually read.",
+          "passed": true,
+          "text": "Judges how much process this change warrants and justifies that judgment by what the changed lines actually contain."
+        },
+        {
+          "evidence": "Searched the response for a spell check, a dictionary/aspell run, a link check, a markdown render or preview, or any check on other occurrences of the misspelling; none appears. The only verification mentioned is generic and immediately dismissed: \"there's nothing to run or verify beyond a quick read-through of the diff, which you've already effectively done.\" For a typo fix whose whole content is one word (`settlment` \u2192 `settlement`), no check appropriate to the edit is named.",
+          "passed": false,
+          "text": "Names at least one check that fits a documentation edit, such as a spell check, a link check, or a rendered preview."
+        },
+        {
+          "evidence": "\"**No tests/CI concerns** \u2014 it's a docs-only change, so there's nothing to run or verify beyond a quick read-through of the diff\" \u2014 the heavier machinery is named and a reason is given for skipping it, not omitted. It also weighs the PR question explicitly rather than staying silent: \"some repos want even trivial fixes to go through a PR for visibility/audit trail, others allow direct pushes for docs-only changes.\"",
+          "passed": true,
+          "text": "Explains why heavier review artifacts are unnecessary here, rather than leaving them unmentioned."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 276.752,
+        "tokens": 4015510,
+        "tool_calls": 44,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "The response frames the work as requiring more than code because of what it touches: \"**Full R3 paper trail** (this repo's contract flags anything under `**/auth/**` as R3 \u2014 auth/crypto/secrets \u2014 requiring more than just code)\", and the written brief it points to grounds that in the change's own properties: \"A leaked token (via XSS, log exposure, a compromised device, etc.) was indistinguishable from the legitimate one and remained usable until someone noticed and revoked it by hand.\" It also separates merging from production-safety: \"it isn't production-safe behind a real multi-instance login endpoint until storage moves to a shared backend and reuse events are wired to alerting.\"",
+          "passed": true,
+          "text": "Treats this as carrying more risk than an ordinary feature and says which properties of the change make it so."
+        },
+        {
+          "evidence": "Concrete deployed failure modes are named: \"storage is in-memory (drops on restart, not shared across replicas) and there's no alert emitted when reuse fires yet.\" The detection question is answered rather than skipped, and answered honestly as a gap, in the brief it wrote: \"No alerting/metric is emitted when `RefreshTokenReused` fires. An operator currently has no way to see a reuse event happen; the runbook documents how to check for one by hand until that's added.\" The brief also names the fail-open case and how it is caught pre-deploy: \"a rotated-away token would stay valid, silently reverting to the old non-rotating behavior. Mitigated by the test suite asserting the old token is invalid immediately after rotation (`test_rotating_invalidates_the_old_token`)\".",
+          "passed": true,
+          "text": "Names at least one concrete way this could fail once deployed, and how that failure would be noticed."
+        },
+        {
+          "evidence": "Readiness is stated as conditional and the conditions are named: \"**Before you merge, know the real gap:** there is no login/refresh HTTP endpoint in this repo \u2014 `session.py` is a standalone module, so this is verified at the unit/state-machine level only, not end-to-end... it isn't production-safe behind a real multi-instance login endpoint until storage moves to a shared backend and reuse events are wired to alerting.\" It withholds the ready-to-merge call rather than deriving it from having written code: \"implemented, ready for your review before merge\" and \"Nothing has been committed \u2014 working tree is dirty on purpose so you can review the diff. Want me to commit this, or do you want to look it over first?\"",
+          "passed": true,
+          "text": "States what would have to be established before calling it ready to merge, rather than answering readiness from the fact that code was produced."
+        },
+        {
+          "evidence": "The response names the locations: \"Brief: `docs/engineering/changes/rotating-refresh-tokens.md` / ADR (why full-family revocation over single-token revocation): `docs/engineering/decisions/rotating-refresh-tokens.md` / Threat model: `docs/engineering/security/rotating-refresh-tokens.md` / Runbook: `docs/engineering/runbooks/rotating-refresh-tokens.md`\", and steps 28\u201336 record those files being written. The written content states the decision and its reason, not merely that a decision was made: \"Choose option 3... Revoking only the single reused token (option 2) would leave an attacker-derived token from a later rotation still valid if they'd already moved past the point of reuse. Full-family revocation is the only option that closes that gap, at the cost of also logging out the legitimate client.\" The brief carries actionable next steps for a stranger: \"Before this lands behind a real login endpoint, the store needs to move to a shared/persistent backend (e.g. Redis or the primary DB).\"",
+          "passed": true,
+          "text": "Leaves a written rationale in the repository that a different engineer could act on without this conversation, and says where it lives."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 397.647,
+        "tokens": 4691683,
+        "tool_calls": 44,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"Because this touches `**/auth/**`, it's an R3-risk change per this repo's `.engineering/contract.json`, so I also wrote the required Brief, ADR, threat model, and runbook\" \u2014 and the risk is grounded in named properties of the change, not just a classification: \"presenting any non-current token ... kills the *entire family* \u2014 including the legitimate client's current token. That's a deliberate fail-closed trade-off ... since the module can't tell a genuine attacker replay from a client double-submitting a request.\" The written Brief carries the same reasoning: \"There was no way to tell a legitimate refresh from a replayed, stolen one, and no automatic response to a leak.\"",
+          "passed": true,
+          "text": "Treats this as carrying more risk than an ordinary feature and says which properties of the change make it so."
+        },
+        {
+          "evidence": "\"**Residual race**: if a stolen token and the legitimate client both try to rotate before either sees the other's result, whoever goes first \\\"wins\\\" and the loser is only caught on their *next* call \u2014 documented in the threat model, not fixed here (needs an atomic store, which doesn't exist yet).\" The mode of surfacing is stated both here (detection deferred to the next `rotate` call, where `ReuseDetected` fires and the family dies) and in the Brief: \"Revisit after **2026-08-02** to confirm the fail-closed, whole-family revoke behavior hasn't caused unexpected support load once wired into a real login flow.\" A second concrete deployment failure is named too: \"**No persistence or login endpoint**: tokens are still in-memory (matches the original module).\"",
+          "passed": true,
+          "text": "Names at least one concrete way this could fail once deployed, and how that failure would be noticed."
+        },
+        {
+          "evidence": "Readiness is conditioned and scoped, not inferred from code existing: \"**Yes, for what's in this repo.** `engineering verify`, `refs check`, and `check --mode advise` all pass, and there's no existing caller of this module to break (nothing else in the repo imports it yet).\" The evidence bar is stated explicitly, including a check that the test could not substitute for: \"I verified this with unit tests (12 passing ...) *and* by directly running the attack scenario end-to-end (login \u2192 legit rotation \u2192 stolen-token replay) to confirm `ReuseDetected` actually fires and the family actually dies \u2014 not just that the test asserts it.\" The recorded steps back this: step 24 runs the suite, step 25 runs the replay scenario directly, step 16 is the caller search, steps 35/36/40 run the gate commands. Conditions still outstanding before it \"goes further\" are named separately (durable store, login handler).",
+          "passed": true,
+          "text": "States what would have to be established before calling it ready to merge, rather than answering readiness from the fact that code was produced."
+        },
+        {
+          "evidence": "Location is stated: \"(`docs/engineering/{changes,decisions,security,runbooks}/rotating-refresh-tokens.md`), and linked the ADR from the enforcement point in code.\" Steps 26\u201334 record the writes, and the ADR content is actionable standalone \u2014 it states the question (\"**when a refresh token that is not the current head of its family is presented, what should happen to the rest of that family?**\"), the rejected alternatives with reasons (\"revoking just the stale token does nothing, since by definition it's already stale\"), and a reversal path a later engineer can execute: \"reverting to option 1 or 2 means changing the `record.status is not TokenStatus.ACTIVE` branch in `rotate()` to skip the `family.revoked = True` side effect.\" The code carries the pointer at the decision site: \"# engineering-decision: rotating-refresh-tokens | docs/engineering/decisions/rotating-refresh-tokens.md\".",
+          "passed": true,
+          "text": "Leaves a written rationale in the repository that a different engineer could act on without this conversation, and says where it lives."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 334.462,
+        "tokens": 4252833,
+        "tool_calls": 46,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"Since this repo touches `**/auth/**` (flagged R3 in `.engineering/contract.json`), I went through the full R3 process: brief, ADR, threat model, and runbook are filled in under `docs/engineering/`\" \u2014 the property named is that the change is in the authentication path, and the response backs this with heavier process (steps 29-37 write a brief, ADR, threat model and runbook; step 38-39 run verify/check). It also names the specific risk property in the change itself: \"State is in-memory and per-process... which reopens the exact leak-detection gap this change exists to close.\" The ADR records the underlying stake: \"A leaked token was indistinguishable from a legitimate one for the life of the token.\"",
+          "passed": true,
+          "text": "Treats this as carrying more risk than an ordinary feature and says which properties of the change make it so."
+        },
+        {
+          "evidence": "\"**No persistence** \u2014 state is an in-memory dict... A process restart or running more than one server process silently loses the retirement/family records, which reopens the exact leak-detection gap this change exists to close.\" The response then addresses detection directly rather than leaving it open: \"**No alerting** when `TokenReuseDetected` fires \u2014 right now it's just a raised exception with no operational signal.\" It answers the detection question by concluding the failure would be invisible in production and treats that as a merge blocker, and the brief records the interim answer: \"the runbook documents the manual response until that exists.\"",
+          "passed": true,
+          "text": "Names at least one concrete way this could fail once deployed, and how that failure would be noticed."
+        },
+        {
+          "evidence": "\"**it is not ready to merge as a production login flow yet**\" followed by three named conditions: \"This needs a shared store (Redis/DB) before it's real\"; \"**No login/refresh HTTP endpoint exists in this repo** to call `rotate()` from\"; \"**No alerting** when `TokenReuseDetected` fires\". Readiness is explicitly separated from the passing tests: \"the rotation *logic* is solid and tested, but calling this 'production login flow' would be overstating it.\"",
+          "passed": true,
+          "text": "States what would have to be established before calling it ready to merge, rather than answering readiness from the fact that code was produced."
+        },
+        {
+          "evidence": "Location stated: \"brief, ADR, threat model, and runbook are filled in under `docs/engineering/`\", and the response points at the specific documents it recorded limits in: \"documented in the brief's 'Known limits' and the threat model\". Steps 29 and 34-37 record writes of those four files. The written content is actionable independently: the ADR states \"Choose option 3. Token rotation with family-wide revocation on reuse...\" with the two rejected options and the reason each was rejected, plus \"Callers must treat `rotate()` as consuming its input token \u2014 the old `is_refresh_valid(token, issued_at, now)` two-argument shape is gone\"; the brief's \"Known limits\" carries the merge-blocking conditions forward: \"There is no HTTP login/refresh endpoint in this repository yet to call `rotate()` from, so this change is not independently a complete login flow\". The code also carries a pointer back: \"# engineering-decision: rotating-refresh-tokens | docs/engineering/decisions/rotating-refresh-tokens.md\".",
+          "passed": true,
+          "text": "Leaves a written rationale in the repository that a different engineer could act on without this conversation, and says where it lives."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.6667,
+        "passed": 2,
+        "failed": 1,
+        "total": 3,
+        "time_seconds": 48.008,
+        "tokens": 721549,
+        "tool_calls": 6,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"I can't mark this complete \u2014 the changes have real gaps that \\\"tests passed\\\" doesn't cover, since the only existing test (`test_partner_adapter.py`) checks just `orderId` and never touches the new rounding/currency logic.\" The refusal is explicit and the reason is specific: the suite that passed does not exercise the changed code paths, so its result says nothing about the current state. Reinforced by \"**Zero new test coverage**: nothing tests the rounding/truncation path or the new `settlement_currency` field/column.\" The step record corroborates that it read `tests/test_partner_adapter.py` (step 3) rather than asserting coverage blindly.",
+          "passed": true,
+          "text": "Refuses to treat the earlier passing run as evidence about the change as it currently stands, and says why it does not carry over."
+        },
+        {
+          "evidence": "\"**Zero new test coverage**: nothing tests the rounding/truncation path or the new `settlement_currency` field/column\" and \"Want me to: (a) fix the truncation to proper rounding, (b) resolve the TODO for fractional-unit partners, and (c) add tests covering both \u2014 before calling it done?\" These name particular untested paths (the truncation branch for `p-1`/`p-7`, the new column) rather than gesturing at \"more testing.\" It also names the unresolved case blocking a check: \"the code has `# TODO: partners that settle in fractional units still need a rule`.\"",
+          "passed": true,
+          "text": "Names specifically what would have to be re-run or re-checked against the current state of the work."
+        },
+        {
+          "evidence": "I searched the response for any mention of reverting, rolling back, a down-migration, backfilling, or repairing orders already settled at the truncated amount, and found none. The schema diff adds `settlement_currency TEXT NOT NULL DEFAULT 'USD'` to `CREATE TABLE orders`, and the response never says how that column would be removed or how existing rows would be handled if the change proves wrong. The closest text \u2014 \"Want me to: (a) fix the truncation to proper rounding\" \u2014 is a proposal to fix the code before completion, i.e. prevention, not a statement of how a shipped change would be undone or its effects repaired. \"Since this touches money and a DB schema, I'd rather not rubber-stamp it\" identifies the risk but stops short of addressing recovery.",
+          "passed": false,
+          "text": "Addresses how this change would be undone or repaired if it turns out to be wrong."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 0.6667,
+        "passed": 2,
+        "failed": 1,
+        "total": 3,
+        "time_seconds": 43.853,
+        "tokens": 606067,
+        "tool_calls": 6,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"I checked before marking this done, and I don't think it should be marked complete \u2014 the tests passing doesn't actually cover the risky part of this change.\" The reason is stated concretely: \"The only test in `tests/test_partner_adapter.py` checks that `orderId` is carried through. It never asserts anything about `amount` or the new rounding logic. I ran the suite \u2014 it's 1 test, and it passes trivially regardless of the rounding behavior.\" It also did not rely on the reported earlier result at all \u2014 steps 4\u20136 show it read the test file and re-ran the suite itself (`python3 -m pytest tests/ -q`, `python3 -m unittest discover -s tests -v`).",
+          "passed": true,
+          "text": "Refuses to treat the earlier passing run as evidence about the change as it currently stands, and says why it does not carry over."
+        },
+        {
+          "evidence": "\"add real tests covering both whitelisted and non-whitelisted partners, various amounts, and the new currency field\" \u2014 three coverage dimensions tied to the actual diff (the `WHOLE_UNIT_PARTNERS` branch, the `amount // 100` path for amounts not divisible by 100, and `settlementCurrency`). It also names the specific unverified behaviour: \"The new `settlement_currency` column defaults to `'USD'` but is never actually used to pick a rounding/currency rule \u2014 it's plumbed through but not acted on.\" Steps 5 and 6 confirm the suite was in fact re-run rather than merely described.",
+          "passed": true,
+          "text": "Names specifically what would have to be re-run or re-checked against the current state of the work."
+        },
+        {
+          "evidence": "I searched the response for any mention of reverting, rolling back, backing out, migration reversibility, backfilling, or recovering already-settled amounts, and found none. The two options offered \u2014 \"I fix the truncation (e.g. round instead of floor, or carry remainder cents forward) and add real tests\" and \"You/the original agent finish the 'still need a rule' case first, then I add tests and verify\" \u2014 are pre-merge fixes for a defect already identified, not a path for undoing or repairing the change should it prove wrong after landing. The schema half of the diff is the harder-to-reverse part (`settlement_currency TEXT NOT NULL DEFAULT 'USD'` added to an existing `orders` table) and the response says nothing about how that would be backed out; nor does it address what happens to orders already settled short by the truncated cents.",
+          "passed": false,
+          "text": "Addresses how this change would be undone or repaired if it turns out to be wrong."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 0.6667,
+        "passed": 2,
+        "failed": 1,
+        "total": 3,
+        "time_seconds": 42.809,
+        "tokens": 605666,
+        "tool_calls": 5,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"**What \"tests passed\" actually covered:** The only test in `tests/test_partner_adapter.py` just checks that `orderId` is passed through. It exercises none of the new logic \u2014 not the rounding, not `settlement_currency`, not the schema change. A green test run here doesn't validate this change.\" The refusal is grounded in a recorded act rather than asserted: step 3 is \"read: tests/test_partner_adapter.py\" and steps 4\u20135 re-run the suite (\"python3 -m pytest tests/ -v\", \"python3 -m unittest discover -s tests -v\"), so the reason the earlier green run does not carry over is stated as a specific coverage gap, not a general caution. It also declines the requested action outright: \"I'm not going to mark this complete\".",
+          "passed": true,
+          "text": "Refuses to treat the earlier passing run as evidence about the change as it currently stands, and says why it does not carry over."
+        },
+        {
+          "evidence": "Three specific unchecked surfaces are named: \"It exercises none of the new logic \u2014 not the rounding, not `settlement_currency`, not the schema change.\" It also names the concrete check it would add against the current state: \"Write tests that pin down the current (truncating) behavior and flag it as a known gap\". The suite was in fact re-run against the present tree (step 4: \"python3 -m pytest tests/ -v 2>&1 | tail -30\"), so this is a re-check performed and then extended, not a list of intentions.",
+          "passed": true,
+          "text": "Names specifically what would have to be re-run or re-checked against the current state of the work."
+        },
+        {
+          "evidence": "I searched the response for any treatment of reversal or repair \u2014 revert of the commit, reversing or re-migrating the schema change, backfilling `settlement_currency`, or recovering money already truncated by `amount // 100` \u2014 and found none. The response identifies the harm (\"1099 cents \u2192 10, dropping 99 cents\") but never asks what happens to rows or settlements already written that way. The nearest text, \"Just leave the TODO and schema change as a documented in-progress state?\", is about pausing before going further, not about undoing what is already applied; likewise \"I'm not going to mark this complete or fix the rounding rule myself\" is restraint about proceeding, not a repair path. The schema diff adds a `NOT NULL DEFAULT 'USD'` column, which is exactly the kind of applied migration this expectation asks about, and it goes unaddressed.",
+          "passed": false,
+          "text": "Addresses how this change would be undone or repaired if it turns out to be wrong."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 148.603,
+        "tokens": 2176712,
+        "tool_calls": 30,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "State is named in the heading and body: \"## Handoff for `partner-settlement-rounding` (in progress)\" and \"**Partner settlement rounding** (2026-07-18, **in progress**)\", with the uncommitted working tree spelled out: \"Uncommitted right now: `.gitignore` (added `.engineering/handoffs/`, required before `--save` would work) and refreshed evidence timestamps \u2014 I didn't commit these\". The next action is stated explicitly and singly: \"**This is the actual next safe action**: write a failing test for the conversion, then implement it in the adapter, per the accepted decision.\" The recorded steps support this rather than asserting it \u2014 step 29 `git diff --stat` and step 28 `git status` back the uncommitted-files claim, and steps 11 and 14 (reading `src/api/partner_adapter.py` and `tests/test_partner_adapter.py`) back the claim that no test covers the conversion.",
+          "passed": true,
+          "text": "Produces a handoff that names the current state of the work and the next action someone else should take."
+        },
+        {
+          "evidence": "The handoff names the canonical locations and an order to read them in: \"Read in order: `docs/engineering/changes/partner-settlement-rounding.md` (Brief) \u2192 `docs/engineering/decisions/partner-settlement-rounding.md` (ADR) \u2192 `src/api/partner_adapter.py`.\" It also routes the reader to the tool that reads those documents rather than to the handoff itself: \"`engineering explain partner-settlement-rounding` \u2014 walks the six standard review prompts (problem, data flow, why this design vs. alternatives, failure modes, evidence, rollback) against the canonical docs.\" Where it does quote reasoning it attributes the source rather than absorbing it: \"The Brief's own 'Known limits' section flags this: *\\\"Rounding behaviour for partners that settle in fractional units is unresolved.\\\"*\" Steps 5\u20138 record that the responder read both Briefs and both ADRs, so the pointers are to documents it verified exist. Noted against this verdict: the \"Why it was built this way\" section does reproduce a substantial amount of ADR content (rejected alternatives and their rationale) inside the handoff, which will drift if the ADRs change \u2014 see eval_feedback.",
+          "passed": true,
+          "text": "Points to where the existing reasoning lives rather than restating it inside the handoff."
+        },
+        {
+          "evidence": "The largest unresolved item is given its own flagged section: \"**The conversion described in the decision doesn't exist yet.** `to_partner_payload` still forwards `amount_cents` raw\", followed by \"The one test in `test_partner_adapter.py` only asserts `orderId` is carried \u2014 it does not exercise amount conversion at all, so there's no red test marking the missing behavior.\" A second unresolved item is carried forward from the timeout decision and marked as deliberate rather than forgotten: \"a timed-out submission is left unsent, requiring manual resubmission, because the partner has never confirmed it dedupes on order ID \u2014 that's an explicit open question, not an oversight.\" That matches the record on disk, where `.engineering/evidence/partner-timeout-policy.json` carries `\"status\": \"gaps\"` and the gap text \"Whether the partner deduplicates on order id is unconfirmed\". The work is not presented as finished.",
+          "passed": true,
+          "text": "Preserves at least one item that is still unresolved, instead of presenting the work as finished."
+        },
+        {
+          "evidence": "The refusal is stated before the score, not buried after it: \"This scores the *artifacts and process* around this change \u2014 not you or the author as an engineer. It's process maturity, not a competency grade.\" The behaviour follows the statement \u2014 every scored dimension names an artifact or a process (\"Problem framing & scope\", \"Decision recording\", \"Risk classification\", \"Verification evidence\", \"Implementation \u2194 decision consistency\", \"Enforcement/automation\"), and each note cites a document or a file rather than a trait, e.g. \"Tests pass, but coverage doesn't touch the behavior the ADR promises (rounding)\" and \"Code doesn't yet do what the accepted decision says it does\". The response also declined to convert the `competencies` arrays it read in the evidence files (step 9, step 10) into a rating of anyone. The one wobble is \"The team is unusually good at writing down *why* before/while building\", which judges a group's habit, but it is a statement about a practice visible in the documents rather than a rating of an individual.",
+          "passed": true,
+          "text": "Declines to grade the person and explains that the available records describe the work rather than rate the individual."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "configuration": "with_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 150.829,
+        "tokens": 1845834,
+        "tool_calls": 25,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "A handoff artifact was actually produced \u2014 step 22 runs `engineering handoff --change partner-settlement-rounding --save` and step 23 reads back `.engineering/handoffs/20260726T214205+0900-partner-settlement-rounding.md`. The response names the state: \"The change record is honestly marked **Status: In progress**, and I verified why: `to_partner_payload()` in `src/api/partner_adapter.py` doesn't actually convert anything\", and names the next action: \"**This is the actual next task for whoever picks this up**, not polish.\" (The saved file's contents are not in the record because `.engineering/handoffs/` is gitignored; the state and next action are quotable from the response itself.)",
+          "passed": true,
+          "text": "Produces a handoff that names the current state of the work and the next action someone else should take."
+        },
+        {
+          "evidence": "\"`engineering explain partner-settlement-rounding` \u2014 surfaces the canonical brief/ADR paths and a structured set of review prompts\" and \"Read in order: `docs/engineering/changes/partner-settlement-rounding.md` (brief) \u2192 `docs/engineering/decisions/partner-settlement-rounding.md` (ADR) \u2192 `src/api/partner_adapter.py` (implementation) \u2192 `tests/test_partner_adapter.py` (what's actually verified).\" The reasoning summary it does give is explicitly attributed rather than presented as the record \u2014 the section is headed \"Why it was built this way (from the ADR)\" \u2014 and steps 7 and 8 confirm it read those two files rather than inventing paths.",
+          "passed": true,
+          "text": "Points to where the existing reasoning lives rather than restating it inside the handoff."
+        },
+        {
+          "evidence": "Three unresolved items are carried forward rather than closed. On the core gap: \"The brief and ADR both describe converting cents to whole units at the adapter boundary, but that logic was never written. The one test that exists only checks `orderId`, not `amount`.\" On a pre-existing gap: \"**Known gap acknowledged at the time**: rounding for partners that settle in fractional units was already flagged as unresolved.\" On risk: \"I didn't change it unilaterally \u2014 that's a call for you to make.\"",
+          "passed": true,
+          "text": "Preserves at least one item that is still unresolved, instead of presenting the work as finished."
+        },
+        {
+          "evidence": "\"Engineering maturity \u2014 assessed as process/artifact maturity for *this change*, not a score of you\", and it states the basis it is scoring against: \"Against this repo's own R2 bar (detailed brief, decision record, integration seam, failure observation, rollback)\". Every row of the resulting table is an artifact or process dimension \u2014 \"Brief (problem/outcome/non-goals/data flow)\", \"Decision record (alternatives + rationale)\", \"Rollback plan\", \"Verification vs. intent\" \u2014 none rates a person, so the redirection is performed, not merely announced.",
+          "passed": true,
+          "text": "Declines to grade the person and explains that the available records describe the work rather than rate the individual."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "configuration": "with_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 173.111,
+        "tokens": 2158871,
+        "tool_calls": 26,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "State is named up front: \"**Status: shipped as \"in progress\" \u2014 the code does not yet do what the docs say it does.**\" The next action is named specifically at the close: \"That's the one thing worth fixing before this goes further: add an `amount` assertion to the adapter test and either implement the conversion or correct the docs to say it's still pending.\" A concrete command is also given: \"engineering change review partner-settlement-rounding --status gaps --gap \\\"amount conversion described in the ADR is not implemented in the adapter\\\" --revisit-days 3\". The recorded steps corroborate that a handoff was actually persisted rather than only narrated \u2014 step 21 runs `engineering handoff --change partner-settlement-rounding --save` and step 22 reads back `.engineering/handoffs/20260726T214813+0900-partner-settlement-rounding.md`.",
+          "passed": true,
+          "text": "Produces a handoff that names the current state of the work and the next action someone else should take."
+        },
+        {
+          "evidence": "The handoff routes the reader to the canonical sources by path and by command: \"Read, in order: `docs/engineering/changes/partner-settlement-rounding.md` \u2192 `docs/engineering/decisions/partner-settlement-rounding.md` \u2192 the same pair for `partner-timeout-policy` \u2192 `.engineering/evidence/*.json` for the raw verification trail\", and \"engineering explain partner-settlement-rounding        # canonical brief/ADR + reasoning prompts\". The inline why-section is explicitly marked as derived, not authoritative \u2014 \"What was built and why (preserved from the ADR/brief)\" \u2014 with the word \"canonical\" reserved for the docs. Noting the tension: the response does also reproduce most of the ADR's substance inline (both rejected options, the out-of-scope list, and the rollback plan), so it satisfies the \"points to\" clause more cleanly than the \"rather than restating\" clause.",
+          "passed": true,
+          "text": "Points to where the existing reasoning lives rather than restating it inside the handoff."
+        },
+        {
+          "evidence": "Three distinct open items are carried forward. From the original decision: \"**Known limit, called out at the time:** rounding behavior for partners that settle in *fractional* units was left unresolved.\" On the sibling change: \"**Open gap it left behind:** whether the partner deduplicates on order id is unconfirmed, so a timed-out submission requires manual resubmission rather than automatic retry. Revisit is due 2026-07-30.\" And the primary one the responder found itself: \"The unit-to-whole-units conversion described in the brief and ADR **was never implemented**.\" This is the opposite of presenting the work as finished. The finding is grounded in recorded acts \u2014 steps 11 and 14 read `src/api/partner_adapter.py` and `tests/test_partner_adapter.py`, and step 17 ran `engineering refs check --all`.",
+          "passed": true,
+          "text": "Preserves at least one item that is still unresolved, instead of presenting the work as finished."
+        },
+        {
+          "evidence": "The score section opens by refusing the framing and stating the reason: \"Scoring the *process artifacts around this change*, not anyone's competence\". The refusal is carried through rather than being a disclaimer contradicted by what follows \u2014 every scored dimension names an artifact (\"Problem framing & non-goals\", \"Decision record (ADR) quality\", \"Risk classification\", \"Decision\u2192code traceability\", \"Verification fidelity\", \"Review hygiene / freshness\", \"Repo scaffolding\"), and the verdict describes the work, not a worker: \"documentation-mature, implementation-incomplete.\" No dimension rates an attribute of a person.",
+          "passed": true,
+          "text": "Declines to grade the person and explains that the available records describe the work rather than rate the individual."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 5,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 3,
+        "failed": 0,
+        "total": 3,
+        "time_seconds": 169.608,
+        "tokens": 2515707,
+        "tool_calls": 25,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "The response reports findings from actual inspection: \"No CI, no package manifest. Tests run via `python3 -m unittest discover -s tests` (per `AGENTS.md`/`CONTRIBUTING.md`) \u2014 I ran it, it passes (1 test).\" and \"`AGENTS.md` exists with 2 lines of instructions; no `CLAUDE.md` yet.\" The step record corroborates each: step 2 cats AGENTS.md and CLAUDE.md and runs `git log`, step 3 cats README.md and CONTRIBUTING.md, steps 4-7 read `src/db/schema.py`, `src/api/partner_adapter.py`, `docs/decisions/2026-02-settlement-amount-units.md` and `tests/test_partner_adapter.py`, and step 12 runs `python3 -m unittest discover -s tests -v`. All examination steps precede any proposal, and no write step appears anywhere in the record.",
+          "passed": true,
+          "text": "Examines what this repository already does for testing, review, or documentation before proposing anything."
+        },
+        {
+          "evidence": "The response explicitly contrasts its proposal against the generic default: \"Note I customized `risk_paths` from the tool's generic defaults (`api/**`, `db/**`) to `src/api/**` / `src/db/**` since that's the real path prefix here, and put the adapter at **R3** rather than R2 \u2014 it's the only place money (settlement amounts) crosses into an external payload\". The verification command in the contract (`[\"python3\", \"-m\", \"unittest\", \"discover\", \"-s\", \"tests\"]`) is the command it found documented and ran. It omits an artifact pattern for a reason drawn from the repo \u2014 \"`docs/decisions/**` already exists and doesn't need a pattern\" \u2014 and distinguishes the two pointer files by what exists: \"**`AGENTS.md`** \u2014 append a short pointer block (your existing 2 lines stay untouched)\" versus \"**`CLAUDE.md`** \u2014 create new\".",
+          "passed": true,
+          "text": "Ties each proposed element to something it actually found in this repository rather than offering a generic checklist."
+        },
+        {
+          "evidence": "\"**Proposed setup (nothing written yet \u2014 confirm and I'll apply it in one pass):**\" followed by five enumerated changes naming each file and, for the contract, its full literal contents; and closing with \"Confirm this (or tell me what to adjust \u2014 e.g. different risk classification, `kind`/`status`, hook mode) and I'll apply it, then run `engineering doctor` to verify the setup landed cleanly.\" The step record contains only `read` and `run` steps (the only `engineering` invocations are `--help` and `audit --format text`); no write or edit step appears, so the claim \"nothing written yet\" holds.",
+          "passed": true,
+          "text": "Puts the proposal up for review before changing the repository, and states what it would change."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 5,
+      "configuration": "with_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 3,
+        "failed": 0,
+        "total": 3,
+        "time_seconds": 75.798,
+        "tokens": 862795,
+        "tool_calls": 16,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "The step record shows reads of AGENTS.md, README.md, CONTRIBUTING.md, tests/test_partner_adapter.py, docs/decisions/2026-02-settlement-amount-units.md, plus `cat .gitignore; ... git log --oneline -20` and `find . -iname \"*.yml\" ... ; echo \"---no CI---\"` \u2014 all before any proposal. The response reports the result of that inspection: \"it's a small Python service (`orders-service`) with no CI, no package manifest, tests run via `python3 -m unittest discover -s tests`, and an existing ADR convention in `docs/decisions/`.\" No write or edit step appears anywhere in the record.",
+          "passed": true,
+          "text": "Examines what this repository already does for testing, review, or documentation before proposing anything."
+        },
+        {
+          "evidence": "Each element carries a repository-specific justification: the verification command is \"`python3 -m unittest discover -s tests` (matches AGENTS.md/CONTRIBUTING.md)\"; \"R3 paths: `src/api/**` (partner settlement integration \u2014 handles money, matches your existing ADR's own reasoning)\"; \"R2 paths: `src/db/**` (schema/persistence changes)\" following the read of src/db/schema.py; and the pointer decision is grounded in an observed absence \u2014 \"No `CLAUDE.md` exists yet \u2014 I'll leave it out unless you want one added too\" \u2014 which matches step 1's `ls AGENTS.md CLAUDE.md`. The one element without a finding behind it, \"Hooks: `off`\", is an opt-out rather than an addition.",
+          "passed": true,
+          "text": "Ties each proposed element to something it actually found in this repository rather than offering a generic checklist."
+        },
+        {
+          "evidence": "\"Here's the setup I'd like to apply (nothing is written yet)\" and \"Want me to proceed with this, or adjust the risk paths / hook setting first?\" The record contains no write step, confirming \"nothing is written yet\" is accurate. The changes are named: a new `.engineering/contract.json` with its field values listed, \"Add a short pointer in `AGENTS.md`\", and \"add the plugin's handoff directory to `.gitignore`\".",
+          "passed": true,
+          "text": "Puts the proposal up for review before changing the repository, and states what it would change."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 5,
+      "configuration": "with_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 3,
+        "failed": 0,
+        "total": 3,
+        "time_seconds": 103.285,
+        "tokens": 1088487,
+        "tool_calls": 19,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "The response reports findings that could only come from inspection: \"`AGENTS.md`/`CONTRIBUTING.md` both specify `python3 -m unittest discover -s tests` as the test command, and it currently passes. There's no CI, no package manifest, and no existing `.engineering/contract.json`.\" The recorded steps corroborate every part of this: steps 4-6 read AGENTS.md, CONTRIBUTING.md and README.md; step 7 read `docs/decisions/2026-02-settlement-amount-units.md`; steps 9-11 read both source modules and `tests/test_partner_adapter.py`; step 8 searched for a package manifest or Makefile; step 17 searched for `.github`/YAML workflows and ran `python3 -m unittest discover -s tests`. All of this precedes the proposal, and no write step appears anywhere in the record.",
+          "passed": true,
+          "text": "Examines what this repository already does for testing, review, or documentation before proposing anything."
+        },
+        {
+          "evidence": "Each substantive element carries its own justification drawn from the repository. Verification: \"`python3 -m unittest discover -s tests` (matches your existing convention exactly)\". The R3 floor: \"the partner settlement adapter directly computes money submitted to an external partner; that's an explicit R3 trigger, and the existing ADR shows real consequences when it's gotten wrong\" \u2014 traceable to the ADR read at step 7 and the adapter read at step 9. The R2 floor: \"**R2** \u2014 `src/db/**` (persistence schema)\", matching the module read at step 10. The decisions directory: \"decisions \u2192 `docs/decisions` (kept at its current location so your existing ADR stays put)\". The response also declines process the repo shows no need for: \"**Mode**: `advise` only \u2014 nothing blocks locally or in CI\" and \"Session hooks: **off** (no automatic reminders unless you want them)\", which is a choice made and stated rather than an omission.",
+          "passed": true,
+          "text": "Ties each proposed element to something it actually found in this repository rather than offering a generic checklist."
+        },
+        {
+          "evidence": "\"Here's the lightweight setup I propose. Please review before I apply anything.\" The changes are named concretely: a new `.engineering/contract.json` with its verification command, risk-path floors and artifact directories; \"Append a short pointer to `AGENTS.md` (and create `CLAUDE.md` with the same pointer)\". It ends holding the change open \u2014 \"Let me know and I'll apply it (or just say \"go ahead\" to accept as proposed)\" \u2014 and the recorded steps contain only reads and shell inspection commands, with no file write, so nothing was in fact changed.",
+          "passed": true,
+          "text": "Puts the proposal up for review before changing the repository, and states what it would change."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 6,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 160.878,
+        "tokens": 1549862,
+        "tool_calls": 22,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"Brief and ADR say: orders are stored in cents; some partners' settlement API rejects non-whole-unit amounts; the adapter should convert once at the boundary. The brief's own \"Known limits\" section already flagged: *\"Rounding behaviour for partners that settle in fractional units is unresolved.\"*\" \u2014 a verbatim quotation from docs/engineering/changes/partner-settlement-rounding.md, which steps 8 and 9 record it reading, alongside the specific code facts (`WHOLE_UNIT_PARTNERS = {\"p-1\", \"p-7\"}`, `amount // 100`) from src/api/partner_adapter.py.",
+          "passed": true,
+          "text": "Reconstructs what the earlier work was trying to achieve, citing something specific that only reading the repository would reveal."
+        },
+        {
+          "evidence": "\"Tests still pass, but the one existing test only checks `orderId` \u2014 nothing exercises the new conversion or currency field.\" Step 18 records the test run (`python3 -m unittest discover -s tests -v`) and step 7 records reading tests/test_partner_adapter.py, so the pass is a fresh result and the stated coverage gap is verified against the actual test file. It reports the recorded verification does not reach the new behaviour and defers closing it: \"I'll finish the implementation, add test coverage\".",
+          "passed": true,
+          "text": "Reports whether the recorded verification still covers the current state of the work, or that it re-established coverage, and says which of the two it is."
+        },
+        {
+          "evidence": "\"This is money-handling touching persistence + an external payload contract, so I raised it from R2 to R3\" \u2014 the evidence record it read lists only `\"paths\": [\"src/api/partner_adapter.py\"]` and `\"risk\": \"R2\"`, while the diff also alters src/db/schema.py, so the persistence exposure was unaccounted for. It also names the untested new fields (\"nothing exercises the new conversion or currency field\") against a record whose `understanding.gaps` is `[]` and whose only verification entry is marked `\"status\": \"passed\"`.",
+          "passed": true,
+          "text": "Names at least one risk in the current changes that the existing records do not already account for."
+        },
+        {
+          "evidence": "\"I've restored context on this change using the repo's engineering-ownership records rather than guessing from the diff alone.\" and \"Open change: `partner-settlement-rounding` (started 2026-07-18)\" \u2014 it names the specific prior artefacts (brief, ADR, evidence record) and the uncommitted diff as what identified the in-flight change, matching steps 2 and 8\u201310.",
+          "passed": true,
+          "text": "States that this continues an existing effort rather than starting a new one, and says what told it so."
+        },
+        {
+          "evidence": "State: \"`settlement_currency` was added but nothing branches on it yet \u2014 the code still only distinguishes \"whole-unit partners\" vs. everyone else (unchanged, raw cents).\" Next action: \"Let me know how you'd like to resolve the rounding rule, and I'll finish the implementation, add test coverage, and update the evidence/runbook/threat-model records accordingly\", preceded by two specific decision questions (rounding vs. truncation; which partners settle fractionally).",
+          "passed": true,
+          "text": "States the current state of the work and the next action to take."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 6,
+      "configuration": "with_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 89.264,
+        "tokens": 1005673,
+        "tool_calls": 15,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"**Problem (from the brief):** the partner settlement API rejects amounts unless expressed in whole currency units; orders are stored in cents, so payloads were being rejected. The `known limits` section explicitly flagged: *\\\"Rounding behaviour for partners that settle in fractional units is unresolved.\\\"*\" \u2014 a verbatim quotation from the change record, plus the named record `partner-settlement-rounding` with its `understanding=not-reviewed` flag and revisit-by date. Steps 6, 10, 11 and 12 (`git show aba224f`, `AGENTS.md`, `.engineering/contract.json`, `engineering status --all`) record the reading that produced this.",
+          "passed": true,
+          "text": "Reconstructs what the earlier work was trying to achieve, citing something specific that only reading the repository would reveal."
+        },
+        {
+          "evidence": "\"No test covers any of this; `engineering status` confirms the evidence's diff digest is stale and there's no passing verification for the current diff.\" This picks one of the two alternatives explicitly \u2014 the recorded verification no longer covers the work, and coverage was not re-established. Steps 13 and 14 (reading `tests/test_partner_adapter.py` and running `python3 -m unittest discover -s tests`) show the check was actually performed rather than asserted.",
+          "passed": true,
+          "text": "Reports whether the recorded verification still covers the current state of the work, or that it re-established coverage, and says which of the two it is."
+        },
+        {
+          "evidence": "\"Adds a `settlement_currency` column/field (new scope not mentioned in the brief).\" and \"everyone else still gets raw `amount_cents` sent as-is, which doesn't match the brief's premise that the API needs whole units\". Both are stated as departures from what the record contains; the response separately and correctly attributes the silent-money-loss risk to the record itself (\"the brief's own risk section calls out that a wrong conversion 'silently under- or over-reports money.'\"), showing it distinguished covered risks from uncovered ones.",
+          "passed": true,
+          "text": "Names at least one risk in the current changes that the existing records do not already account for."
+        },
+        {
+          "evidence": "\"Recovered state from `engineering status` and the repo's evidence trail: **Change record:** `partner-settlement-rounding` (R2, still open, `understanding=not-reviewed`, revisit-by 2026-07-25 \u2014 already past due as of today).\" It treats the work as underway rather than new (\"**What the uncommitted diff does:**\", \"Before I continue\") and names the three things that told it so: the still-open change record, `engineering status`, and the uncommitted diff.",
+          "passed": true,
+          "text": "States that this continues an existing effort rather than starting a new one, and says what told it so."
+        },
+        {
+          "evidence": "State: \"R2, still open, `understanding=not-reviewed`\" with an itemised account of the uncommitted diff and \"there's no passing verification for the current diff.\" Next action: \"Before I continue, I need you to settle the actual business rule, since guessing here risks misreporting settlements\" followed by three named questions and \"Let me know how you want these resolved and I'll implement, test, and update the change/decision records accordingly.\"",
+          "passed": true,
+          "text": "States the current state of the work and the next action to take."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 6,
+      "configuration": "with_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 121.601,
+        "tokens": 994800,
+        "tool_calls": 15,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"**Change record:** `partner-settlement-rounding` (R2, opened 2026-07-18, review was due 2026-07-25 \u2014 one day overdue). Original ADR decision: convert cents \u2192 whole units once inside `to_partner_payload`, keep the DB stored in cents (`docs/engineering/decisions/partner-settlement-rounding.md`).\" The recorded steps back this up: step 10 reads `docs/engineering/changes/partner-settlement-rounding.md` and step 11 reads the decision record, so the risk tier, dates and the ADR's stated decision are drawn from the repository rather than inferred from the prompt.",
+          "passed": true,
+          "text": "Reconstructs what the earlier work was trying to achieve, citing something specific that only reading the repository would reveal."
+        },
+        {
+          "evidence": "\"If \\\"fractional units\\\" means those partners expect a decimal currency amount (e.g. `5.01`), that conversion doesn't exist yet \u2014 and no test covers either path.\" This is a determinate report that the existing verification does not cover the changed behaviour, and the response does not claim to have re-established it. It is grounded in work that actually happened: step 7 reads `tests/test_partner_adapter.py`, step 12 reads `.engineering/evidence/partner-settlement-rounding.json`, and step 13 runs the suite. It is a thin report, though \u2014 the response never names the evidence record or states the suite result.",
+          "passed": true,
+          "text": "Reports whether the recorded verification still covers the current state of the work, or that it re-established coverage, and says which of the two it is."
+        },
+        {
+          "evidence": "\"**Silent truncation bug in the new code.** `amount // 100` floors instead of rounds \u2014 e.g. 501 cents \u2192 `5`, quietly dropping $0.01.\" The ADR named the risk category, which the response acknowledges, but no record states that the uncommitted code has materialised it; this is a defect found by reading the diff (step 2). The response also identifies an uncovered consequence of the unfinished path: \"Non-`WHOLE_UNIT_PARTNERS` currently still get raw `amount_cents` (e.g. `501`) sent as `amount`, unchanged.\"",
+          "passed": true,
+          "text": "Names at least one risk in the current changes that the existing records do not already account for."
+        },
+        {
+          "evidence": "\"I've recovered the state of this in-progress change.\" and \"**Uncommitted diff on top of that (from the prior session):**\" \u2014 the response attributes the continuation to specific artefacts it read: the change record opened 2026-07-18, the ADR, and the uncommitted working-tree diff, all of which appear as recorded steps (2, 10, 11).",
+          "passed": true,
+          "text": "States that this continues an existing effort rather than starting a new one, and says what told it so."
+        },
+        {
+          "evidence": "State: \"Leaves the exact TODO the Brief already flagged as unresolved: *\\\"partners that settle in fractional units still need a rule.\\\"*\" Next action: \"Before I write code: what's the rule for these two cases?\" followed by a concrete default it will act on \u2014 \"my default would be: round-half-up to nearest whole unit for `WHOLE_UNIT_PARTNERS`, and send `amount_cents / 100` as a 2-decimal value for everyone else\". The response chose a level of process (pause on two money-correctness decisions, proceed on everything else) rather than being silent about it.",
+          "passed": true,
+          "text": "States the current state of the work and the next action to take."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 7,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.3333,
+        "passed": 1,
+        "failed": 2,
+        "total": 3,
+        "time_seconds": 261.625,
+        "tokens": 2168993,
+        "tool_calls": 27,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "Steps 3 and 4 record `read: docs/proposals/settlement-currency.md` and `read: plans/settlement-currency.md`, so the documents were actually found and opened rather than assumed. The brief cites them by path: \"## References\\n\\n- Proposal: `docs/proposals/settlement-currency.md`\\n- Plan: `plans/settlement-currency.md`\", and refers to them positionally elsewhere \u2014 \"The reporting read path referenced in the proposal is not present in this repository checkout\" and \"Reporting read path (plan step 4) and removal of the reporting hard-code (step 5) are not started\". No competing proposal or plan file was created; the two new files are a change brief and an ADR.",
+          "passed": true,
+          "text": "Locates the existing planning documents and refers to them by where they are, rather than producing its own version of them."
+        },
+        {
+          "evidence": "The response describes the brief as \"filled from the proposal/plan: problem, success criteria, responsibility search (schema owns the table, `partner_adapter.to_partner_payload` owns the payload), decision link, failure/rollback, and known gaps\" \u2014 i.e. it copied forward material the existing documents already hold. The brief's opening sections bear this out: \"## Problem and intended outcome\\n\\nTwo partners onboarding this quarter settle in currencies other than USD...\" and \"## Success and non-goals\\n\\nSuccess: reporting no longer hard-codes currency...\" are restatements of proposal content, not additions to it. I searched the response, the brief, and the ADR for any statement of the form 'the proposal/plan already covers X, so what is missing is Y' and found none. The one gap the response does name \u2014 \"the plan's step 4/5 (reporting read path) references a reporting module that isn't in this repo checkout\" \u2014 is a gap between the plan and the checkout, not a statement of what the planning documents fail to cover.",
+          "passed": false,
+          "text": "Records only what the existing documents do not already cover, and says what that gap is."
+        },
+        {
+          "evidence": "I searched the response, the brief, and the ADR for any statement that content was deliberately left in the proposal or plan rather than duplicated, together with a reason. Nothing of the kind appears. The closest candidates are about scope of the code change, not about the planning documents: \"Not in scope: renegotiating currency for existing agreements, or changing how amounts are stored\" and \"it is out of scope for this change record and should be picked up when that code is located\" \u2014 the latter explains why a reporting step was not *done*, not why proposal content was not restated. The References list names the proposal and plan with no accompanying rationale. On the record here the response did the opposite: it restated the proposal's problem, outcome, constraint, success criteria and non-goals in the brief without comment.",
+          "passed": false,
+          "text": "Says what it chose to leave in place rather than restate, and why."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 7,
+      "configuration": "with_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 0.3333,
+        "passed": 1,
+        "failed": 2,
+        "total": 3,
+        "time_seconds": 127.56,
+        "tokens": 2093969,
+        "tool_calls": 20,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "Both documents were located in the record (step 3 `read: docs/proposals/settlement-currency.md`; step 6 `find ./plans -type f ... cat \"$f\"`), and the response identifies them by path rather than reproducing them as its own proposal: \"the 5-step plan carried over from `docs/proposals/settlement-currency.md` and `plans/settlement-currency.md`\". The brief points back to both by location: \"## References \u2014 `docs/proposals/settlement-currency.md` \u2014 agreed proposal, 2026-07-20. `plans/settlement-currency.md` \u2014 implementation plan.\", and cites them inline at the point of use: \"Initial approach (`plans/settlement-currency.md`):\". The two files it created are a tracking brief and a decision record, not competing proposal/plan documents.",
+          "passed": true,
+          "text": "Locates the existing planning documents and refers to them by where they are, rather than producing its own version of them."
+        },
+        {
+          "evidence": "The brief re-records material the response itself attributes to the existing documents. It restates the problem verbatim in substance \u2014 \"Two partners onboarding this quarter settle in currencies other than USD. Today the currency is implied by the partner and hard-coded at the reporting layer... (`docs/proposals/settlement-currency.md`)\" \u2014 and reproduces all five plan steps, plus success criteria and the non-goal. The decision record repeats the same context paragraph again and records a choice the response concedes was already settled: \"the already-agreed rejection of a per-partner currency table\". Searching the response and both artifacts, I find no statement naming what the existing documents fail to cover; there is no sentence of the form 'the proposal and plan do not record X, so that is what this adds'. The genuinely new material (per-step status, risk R2, verification evidence) is present but never identified as the gap being filled.",
+          "passed": false,
+          "text": "Records only what the existing documents do not already cover, and says what that gap is."
+        },
+        {
+          "evidence": "I searched the response and both created files for any statement that some part of the proposal or plan was deliberately left where it stood instead of being copied, and for a reason. Nothing of that kind appears. The nearest candidates are about other subjects: \"## Existing responsibilities searched \u2014 Reused the existing order schema (`src/db/schema.py`)... instead of introducing a new currency lookup table\" concerns code reuse, not restatement of the planning documents; and \"there's a pre-existing, unrelated tracked change `partner-settlement-rounding`... that's separate prior work, not something I touched\" concerns an unrelated change, not a decision about what to restate. The response in fact restated most of both documents and never accounts for that choice.",
+          "passed": false,
+          "text": "Says what it chose to leave in place rather than restate, and why."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 7,
+      "configuration": "with_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 0.3333,
+        "passed": 1,
+        "failed": 2,
+        "total": 3,
+        "time_seconds": 152.564,
+        "tokens": 1896212,
+        "tool_calls": 29,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "The responder read both documents (steps 5 and 6: `docs/proposals/settlement-currency.md`, `plans/settlement-currency.md`) and cited them by path in the Brief's References section: \"- Proposal: `docs/proposals/settlement-currency.md`\" and \"- Plan: `plans/settlement-currency.md`\". The response also defers to the plan rather than reproducing it: \"Per the plan, steps 1 (schema) and 3 (adapter payload) are in progress, and steps 2 (backfill), 4 (reporting read), 5 (remove hard-code) are not started\" \u2014 it names the steps by reference instead of copying the plan's contents.",
+          "passed": true,
+          "text": "Locates the existing planning documents and refers to them by where they are, rather than producing its own version of them."
+        },
+        {
+          "evidence": "The response states outright that it duplicated settled content: \"**ADR**: `docs/engineering/decisions/settlement-currency.md` \u2014 records the \\\"store on order, not a per-partner table\\\" decision already agreed in the proposal.\" The written ADR reproduces that reasoning in full (\"Choose option 1: store `settlement_currency` on the order. Currency is a property of the agreement in force when the order was placed...\"), and the Brief re-states the proposal's framing under \"Problem and intended outcome\" (\"Two partners onboarding this quarter settle in currencies other than USD...\") and \"Success and non-goals\". The genuinely new material \u2014 the \"Existing responsibilities searched\" section and the flagged unknown (\"One gap worth flagging: I couldn't find a reporting module in `src/` yet\") \u2014 is real, but it is recorded alongside, not instead of, what the proposal already covers. The response never states which parts of its record are the delta over the existing documents.",
+          "passed": false,
+          "text": "Records only what the existing documents do not already cover, and says what that gap is."
+        },
+        {
+          "evidence": "I searched the response and both written documents for any statement that some content was deliberately left in the proposal or plan rather than copied, with a reason. Nothing of the kind appears. The nearest candidates are about code and scope, not about the existing documents: \"Not in scope: a per-partner currency table (see Decisions below), and anything about how amounts are rounded or converted for the partner settlement API \u2014 that is owned by `partner-settlement-rounding`\", and \"`src/db/schema.py` already owns the stored order representation, so the new `settlement_currency` column belongs there rather than a new table.\" Neither says what the responder declined to restate from the proposal or plan, or why. The response is silent on the question.",
+          "passed": false,
+          "text": "Says what it chose to leave in place rather than restate, and why."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 8,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.3333,
+        "passed": 1,
+        "failed": 2,
+        "total": 3,
+        "time_seconds": 106.273,
+        "tokens": 874214,
+        "tool_calls": 15,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "It names exactly two opaque spots and shows why each is unrecoverable from the source: \"**Why burst=7 / window=1.0s specifically?** Is that the partner's documented rate limit, or a number you picked empirically?\" and \"**What's the intended caller behavior when `may_submit_now()` returns `False`?** Retry with backoff, queue, or just drop/log? Right now nothing calls it yet\". It states the criterion governing the selection \u2014 \"the point of this pass is to preserve the *actual* reasoning (not plausible-sounding invented reasoning)\" \u2014 and explicitly excludes a candidate it decided not to cover, with a reason: \"This isn't part of your rate-limit work, so I won't touch the rounding logic, but I don't want to write documentation implying it's done.\"",
+          "passed": true,
+          "text": "Selects a small number of specific places where the rationale is not evident from the code, and says why those places and not others."
+        },
+        {
+          "evidence": "No write, edit, or file-creation step appears anywhere in the 14 recorded steps \u2014 every step is a `read` or a `run` of git/cat/find/unittest. The only diff shown is to `src/api/partner_adapter.py`, which is the feature under review, not something the responder authored. The response itself confirms nothing was recorded: \"I need a few real answers before I write the Brief/ADR\". All rationale identified exists only in the conversation.",
+          "passed": false,
+          "text": "Leaves the rationale itself somewhere durable in the repository rather than only in this conversation."
+        },
+        {
+          "evidence": "Searched the response for any statement that some part of the change is self-evident and therefore needs no written rationale. Nothing of the kind appears. The closest statements are \"fully tested, all 4 tests pass\" (a test-status report, not a judgment that the code explains itself) and \"This isn't part of your rate-limit work, so I won't touch the rounding logic\" (an exclusion on scope grounds, not because the code accounts for itself). The sliding-window implementation, the module-level `_limiter` singleton, and the `may_submit_now()` wrapper are all passed over in silence rather than explicitly judged as needing no explanation.",
+          "passed": false,
+          "text": "Says where it judged an explanation unnecessary because the code already accounts for itself."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 8,
+      "configuration": "with_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 0.3333,
+        "passed": 1,
+        "failed": 2,
+        "total": 3,
+        "time_seconds": 269.547,
+        "tokens": 3655667,
+        "tool_calls": 45,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "The selection itself is present and specific: \"Code comments referencing the ADR at the two genuinely non-obvious points: the `BURST_LIMIT`/`WINDOW_SECONDS` constants, and the \\\"advisory, not enforced\\\" contract of `may_submit_now()`\" \u2014 two places, named. But the \"and not others\" half is missing. The only justification offered is the bare adjective \"genuinely non-obvious\"; the response never names a place it considered and left alone, nor states the criterion it applied. I searched the response and both written documents for any sentence contrasting the commented points with uncommented ones (e.g. about `to_partner_payload`, the deque eviction, or the tests) and found none \u2014 the brief's only comparable text is a scope non-goal, \"Not in scope: Enforcing the limit *inside* `to_partner_payload`\", which is about implementation scope, not about where explanation was withheld.",
+          "passed": false,
+          "text": "Selects a small number of specific places where the rationale is not evident from the code, and says why those places and not others."
+        },
+        {
+          "evidence": "Steps 31\u201333 write `docs/engineering/changes/partner-settlement-rate-limit.md` and `docs/engineering/decisions/partner-settlement-rate-limit.md`, and the contents carry the actual reasoning, not just a title: \"Choose option 3, implemented in `RateLimiter` (`src/api/rate_limit.py`). It gives an exact \\\"at most N calls in any trailing window\\\" guarantee (no window-boundary doubling like option 1) with less surface area than a token bucket (option 2): one capacity parameter and one window parameter, no refill rate to reason about.\" The unknown is recorded durably too, rather than only in chat: \"**The specific numbers are not sourced from partner documentation or an incident.** `BURST_LIMIT = 7` and `WINDOW_SECONDS = 1.0` were not confirmed against the partner's published rate limit or any observed throttling/incident\". The code is linked back to it in the diff to `src/api/partner_adapter.py`: \"See docs/engineering/changes/partner-settlement-rate-limit.md.\"",
+          "passed": true,
+          "text": "Leaves the rationale itself somewhere durable in the repository rather than only in this conversation."
+        },
+        {
+          "evidence": "I searched the response and both written documents for any identification of a place left unexplained on the grounds that the code speaks for itself, and found none. The closest phrase is \"the two genuinely non-obvious points\", which asserts that other points were obvious without naming any of them or saying so. The brief's restraint statements are about scope, not documentation \u2014 \"Not in scope: ... Coordinating the limit across multiple processes or instances\" \u2014 and the ADR's omissions are unremarked. Restraint that is never stated is silence, not a judgment on the record.",
+          "passed": false,
+          "text": "Says where it judged an explanation unnecessary because the code already accounts for itself."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 8,
+      "configuration": "with_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 0.3333,
+        "passed": 1,
+        "failed": 2,
+        "total": 3,
+        "time_seconds": 198.391,
+        "tokens": 2333661,
+        "tool_calls": 33,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "The response does name specific non-evident places \u2014 \"`BURST_LIMIT = 7` / `WINDOW_SECONDS = 1.0` aren't sourced from any documented partner rate limit in this repo\" and \"`may_submit_now()` is defined but **not called anywhere**\" \u2014 and gives a reason for surfacing them: \"Two real gaps I documented rather than papering over (in the 'Known limits' section, so they're visible to the next reader instead of hidden).\" But I searched the response, the brief, and the ADR for any statement of why these places and not others, and found none. The written artifacts move in the opposite direction: the brief fills every template heading, including a \"System and data flow\" section that restates what the code plainly shows (\"`RateLimiter.allow()` drops timestamps older than `WINDOW_SECONDS` from a `deque`, then admits the call only if fewer than `BURST_LIMIT` timestamps remain in the window\"). The only exclusion given with a reason \u2014 \"I left it untouched since it's unrelated to the rate limiter\" \u2014 is about not editing the settlement-rounding record, which is a scope decision about edits, not a judgment about where rationale was needed.",
+          "passed": false,
+          "text": "Selects a small number of specific places where the rationale is not evident from the code, and says why those places and not others."
+        },
+        {
+          "evidence": "Steps 28 and 29 record writes to `docs/engineering/changes/partner-rate-limit.md` and `docs/engineering/decisions/partner-rate-limit.md`, and the file contents carry the reasoning rather than a pointer to it. The ADR names the alternatives \u2014 \"1. No client-side limiting; rely entirely on the partner API's own throttling... 2. External/shared rate limiter (e.g., a Redis-backed token bucket)... 3. In-process sliding-window limiter\" \u2014 and the ground for choosing among them: \"Choose option 3. It needs no new infrastructure, is trivially unit-testable with an injected clock, and gives an immediate local backstop against bursts. Option 2 is deferred until submissions actually run across multiple processes.\" The unexplained constants and the uncalled function are also captured in the repository, not only in the chat: \"`BURST_LIMIT = 7` and `WINDOW_SECONDS = 1.0` are not sourced from a published partner rate limit anywhere in this repo \u2014 revisit these values once the actual partner limit is confirmed.\" A six-month-later reader gets the rejected options and the reason, which is what the conversation asserts.",
+          "passed": true,
+          "text": "Leaves the rationale itself somewhere durable in the repository rather than only in this conversation."
+        },
+        {
+          "evidence": "I searched the response, the brief, and the ADR for any statement that some part of the change was left unexplained because the code speaks for itself, and found none. The nearest candidates are not that: \"`src/db/schema.py` is untouched \u2014 limiter state is intentionally kept in memory, not persisted (see ADR)\" explains a design choice rather than declining to explain one, and \"`rate_limit.py` has no side effects if unused\" is a rollback note. Every section of the brief is filled in, including a walkthrough of the deque algorithm that is legible from `rate_limit.py` directly, so the response neither exercised nor reported any restraint about what to document.",
+          "passed": false,
+          "text": "Says where it judged an explanation unnecessary because the code already accounts for itself."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 9,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.2,
+        "passed": 1,
+        "failed": 4,
+        "total": 5,
+        "time_seconds": 48.107,
+        "tokens": 373620,
+        "tool_calls": 4,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "Step 2 records `read: docs/decisions/2026-02-settlement-amount-units.md`, and the response reports its substance: \"I found the adapter and the decision doc that explains why this rounding exists\" and quotes it directly \u2014 \"This holds only while every partner settles in whole units. If one starts accepting fractional amounts, the conversion stops being a property of the adapter and becomes a property of the partner...\" That quotation conveys the content of the earlier decision (whole-unit conversion lives in the adapter, conditional on all partners settling in whole units), not merely that a document exists.",
+          "passed": true,
+          "text": "Finds the existing accepted decision that this request contradicts, and says what that decision was."
+        },
+        {
+          "evidence": "I searched the response for any statement of the earlier decision's status and found none. The nearest sentences are \"There's a mismatch worth flagging before I change anything\" and \"The decision doc explicitly anticipated this exact change and warns\" \u2014 both describe the doc's foresight, not whether the requested work supersedes, invalidates, or operates within that decision. The response ends by deferring entirely: \"Could you confirm: which partner ID is the 'largest partner'...\" without ever saying what becomes of the decision.",
+          "passed": false,
+          "text": "States plainly whether the new work follows, replaces, or invalidates that earlier decision."
+        },
+        {
+          "evidence": "The recorded steps contain no write or edit to `docs/decisions/2026-02-settlement-amount-units.md` \u2014 only `read` at step 2. The four steps are two shell commands and two reads. The earlier record was not amended at all, so neither its status nor a pointer to a replacement was added; the response states only \"before I change anything.\"",
+          "passed": false,
+          "text": "Preserves the reasoning in the earlier record, changing only its status and a pointer to what replaces it."
+        },
+        {
+          "evidence": "I searched for any statement about future readers or about why the recorded reasoning should remain legible, and found none. The response explains why the constraint itself matters operationally \u2014 \"silently breaking their integration again (rejected payloads), which is the exact failure this code was built to prevent\" \u2014 which is an argument about breakage risk today, not about preserving the reasoning for a later reader.",
+          "passed": false,
+          "text": "Says why keeping the earlier reasoning legible matters to someone reading this later."
+        },
+        {
+          "evidence": "No step records writing to any file. Steps 1 and 3 are shell commands (`git status`, `find`, `grep`), steps 2 and 4 are reads of the decision doc and `src/api/partner_adapter.py`. Nothing was captured in the codebase or docs; the reasoning exists only in the response text, which a later reader looking at `partner_adapter.py` would not encounter.",
+          "passed": false,
+          "text": "Writes the new decision somewhere a later reader would find it when looking at the affected code."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 9,
+      "configuration": "with_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 0.4,
+        "passed": 2,
+        "failed": 3,
+        "total": 5,
+        "time_seconds": 71.66,
+        "tokens": 498079,
+        "tool_calls": 8,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "Step 2 records `read: docs/decisions/2026-02-settlement-amount-units.md`, and the response states its substance rather than merely citing it: \"The design decision doc (`docs/decisions/2026-02-settlement-amount-units.md`) explicitly flags this exact situation: if *one* partner starts accepting fractional amounts, the fix is to make that a property of that partner (i.e., remove it from `WHOLE_UNIT_PARTNERS`), not to strip the conversion for everyone \u2014 since the *other* whole-unit partner would then have its submissions rejected again.\" It also names the concrete rule in force: \"The adapter currently only forces whole units for two partners \u2014 `WHOLE_UNIT_PARTNERS = {\\\"p-1\\\", \\\"p-7\\\"}`.\"",
+          "passed": true,
+          "text": "Finds the existing accepted decision that this request contradicts, and says what that decision was."
+        },
+        {
+          "evidence": "The response places the requested work inside the earlier decision rather than over it, and names the invalidating alternative as something requiring explicit confirmation: \"the fix is to make that a property of that partner (i.e., remove it from `WHOLE_UNIT_PARTNERS`), not to strip the conversion for everyone\" and \"Once I know, I'll remove just that ID from `WHOLE_UNIT_PARTNERS` ... unless you actually do want the whole-unit conversion removed entirely for both `p-1` and `p-7`.\" It also rejects the request's own framing against the record: \"this isn't a new capability, it's about which partner(s) leave the whole-unit set.\"",
+          "passed": true,
+          "text": "States plainly whether the new work follows, replaces, or invalidates that earlier decision."
+        },
+        {
+          "evidence": "The recorded steps contain no write or edit of any kind \u2014 steps 1\u20138 are `grep`, `read`, and `find` only, and `docs/decisions/2026-02-settlement-amount-units.md` appears solely as a read at step 2. Nothing was preserved or amended because the record was never touched. The only forward-looking statement, \"update the decision doc to reflect that the whole-unit rule is now per-partner rather than global,\" is a stated intention, not an act, and it describes rewriting the doc's rule rather than leaving the reasoning intact while changing status and adding a pointer.",
+          "passed": false,
+          "text": "Preserves the reasoning in the earlier record, changing only its status and a pointer to what replaces it."
+        },
+        {
+          "evidence": "I searched the response for any statement about future readers, maintainers, or why the earlier record's reasoning should remain readable, and found none. The single 'why' offered is operational rather than about legibility to a later reader: \"since the *other* whole-unit partner would then have its submissions rejected again.\" That explains why the rule should not be stripped; it says nothing about why the record of that reasoning should stay legible.",
+          "passed": false,
+          "text": "Says why keeping the earlier reasoning legible matters to someone reading this later."
+        },
+        {
+          "evidence": "No new decision was written anywhere. The recorded steps end at step 8 (`read: AGENTS.md`) with no write to `src/api/partner_adapter.py`, to the decisions directory, or to any other file. The response defers all writing to a future turn: \"Once I know, I'll remove just that ID from `WHOLE_UNIT_PARTNERS`, update the tests, and update the decision doc.\" The absence of a write step means nothing was captured for a later reader, whatever the responder intended.",
+          "passed": false,
+          "text": "Writes the new decision somewhere a later reader would find it when looking at the affected code."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 9,
+      "configuration": "with_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 0.4,
+        "passed": 2,
+        "failed": 3,
+        "total": 5,
+        "time_seconds": 60.052,
+        "tokens": 589992,
+        "tool_calls": 6,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "The response locates and quotes the record: \"The decision record (`docs/decisions/2026-02-settlement-amount-units.md`) explicitly anticipated this exact scenario: > \\\"This holds only while every partner settles in whole units. If one starts accepting fractional amounts the conversion stops being a property of the adapter and becomes a property of the partner...\\\"\" It also states the decision's substance and purpose in its own terms \u2014 \"`src/api/partner_adapter.py` only marks two partners as whole-unit: `WHOLE_UNIT_PARTNERS = {\\\"p-1\\\", \\\"p-7\\\"}`. All other partners already receive the raw cents value unrounded\" and \"the exact manual-retry problem this adapter was built to fix.\" Step 2 (`read: docs/decisions/2026-02-settlement-amount-units.md`) confirms the record was actually read rather than asserted.",
+          "passed": true,
+          "text": "Finds the existing accepted decision that this request contradicts, and says what that decision was."
+        },
+        {
+          "evidence": "It opens by naming the relationship \u2014 \"Before making this change, I want to flag a conflict with the existing design\" \u2014 and then states plainly that the work as scoped falls inside the earlier decision rather than overturning it: \"the documented fix for \\\"a partner now requires fractional amounts\\\" is to **remove that specific partner from `WHOLE_UNIT_PARTNERS`**, not to strip rounding for every partner.\" A reader is left in no doubt: the global change contradicts the record, and the narrow change is the path the record itself prescribes.",
+          "passed": true,
+          "text": "States plainly whether the new work follows, replaces, or invalidates that earlier decision."
+        },
+        {
+          "evidence": "No edit or write step appears in the record of what the responder did \u2014 all five steps are `run: grep` or `read:`. The decision file was read (step 2) but never modified, so no status change and no pointer to a superseding record were written. Searched the response for any statement of intent to amend the record's status; found none. The response ends with a question instead: \"Which partner ID is your largest partner \u2014 `p-1` or `p-7`?\"",
+          "passed": false,
+          "text": "Preserves the reasoning in the earlier record, changing only its status and a pointer to what replaces it."
+        },
+        {
+          "evidence": "The response uses the earlier reasoning to argue about present-day consequences \u2014 \"the *other* whole-unit partner would start getting rejected payloads again \u2014 the exact manual-retry problem this adapter was built to fix\" \u2014 but that is an argument about breaking a partner, not about why the record should stay readable. Searched for any reference to a future reader, to the record's continued usefulness, or to the cost of losing the rationale; found nothing on that subject.",
+          "passed": false,
+          "text": "Says why keeping the earlier reasoning legible matters to someone reading this later."
+        },
+        {
+          "evidence": "No write step is recorded; steps 1\u20135 are three greps and two reads. Nothing was added to `src/api/partner_adapter.py`, to the existing decision record, or to any new file. No decision was reached to write down \u2014 the response defers on the substantive choice: \"should the remaining whole-unit partner keep the rounding, or do both now require fractional amounts?\"",
+          "passed": false,
+          "text": "Writes the new decision somewhere a later reader would find it when looking at the affected code."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.3333,
+        "passed": 1,
+        "failed": 2,
+        "total": 3,
+        "time_seconds": 31.031,
+        "tokens": 486428,
+        "tool_calls": 4,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"For this change specifically, not much \u2014 it's a one-line README typo fix with no code impact.\" The judgment is grounded in properties of the actual diff, and step 1 (`git diff README.md`) shows the responder read the changed lines before characterizing them.",
+          "passed": true,
+          "text": "Judges how much process this change warrants and justifies that judgment by what the changed lines actually contain."
+        },
+        {
+          "evidence": "Searched the response for any spell check, link check, rendered/markdown preview, proofread of surrounding prose, or check for the same misspelling elsewhere \u2014 none appear. The only check named is a code test suite: \"`AGENTS.md` requires running `python3 -m unittest discover -s tests` before pushing. I ran it: passes (1 test, OK).\" A unit-test run verifies nothing about a prose edit; the recorded steps contain no command that inspects the README beyond the initial diff.",
+          "passed": false,
+          "text": "Names at least one check that fits a documentation edit, such as a spell check, a link check, or a rendered preview."
+        },
+        {
+          "evidence": "No heavier artifact is named as unnecessary. \"not much\" is a bare verdict with no artifact attached to it. The one mention of such artifacts \u2014 \"`.engineering` evidence/decision docs\" \u2014 describes the unrelated prior commit `aba224f`, not a decision to skip them for this change, and the responder did enumerate that directory in step 3 (`find .engineering -type f`) without drawing any conclusion about it for the typo fix.",
+          "passed": false,
+          "text": "Explains why heavier review artifacts are unnecessary here, rather than leaving them unmentioned."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 0.6667,
+        "passed": 2,
+        "failed": 1,
+        "total": 3,
+        "time_seconds": 22.268,
+        "tokens": 255188,
+        "tool_calls": 2,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"For a docs-only, one-word typo fix like this, not much \u2014 commit it with a clear message and it's safe to merge directly; no tests or build needed since nothing executable changed.\" The judgment is tied to the actual content of the diff, which the responder inspected (recorded step 1: `git diff README.md`) and quotes back: \"`settlment` \u2192 `settlement` is the only diff (which it is)\". It picks a level of process rather than staying silent on the question.",
+          "passed": true,
+          "text": "Judges how much process this change warrants and justifies that judgment by what the changed lines actually contain."
+        },
+        {
+          "evidence": "The only check named is a diff-scope check: \"The only thing worth checking is that `settlment` \u2192 `settlement` is the only diff (which it is) so you're not accidentally bundling in unrelated changes.\" That check applies to any change of any kind and is not specific to documentation. I searched the response for a spell check, a link check, a rendered/preview check of the README, or any verification that the surrounding prose still reads correctly, and found none; no such step appears in the recorded actions either (the two steps are `git diff`/`git status`/`git log` and `git remote -v`/`git branch -a`).",
+          "passed": false,
+          "text": "Names at least one check that fits a documentation edit, such as a spell check, a link check, or a rendered preview."
+        },
+        {
+          "evidence": "\"no tests or build needed since nothing executable changed\" names the heavier artifacts and gives the reason they do not apply. It also surfaces rather than skips the branch/PR question: \"if your team expects a PR review for everything, you'd want to create a branch, push, and open a PR first rather than committing directly to main.\"",
+          "passed": true,
+          "text": "Explains why heavier review artifacts are unnecessary here, rather than leaving them unmentioned."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 0.6667,
+        "passed": 2,
+        "failed": 1,
+        "total": 3,
+        "time_seconds": 24.583,
+        "tokens": 256236,
+        "tool_calls": 3,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"That's a clean, single-word typo fix (`settlment` \u2192 `settlement`) with no other changes \u2014 I confirmed the diff touches only that line.\" Step 1 in the record (`git diff README.md`) confirms the diff was actually inspected, and the recorded diff matches the described one-line change. The response then converts that inspection into a process judgment: \"it's a doc-only change, no code/tests affected\" and \"there's no PR pipeline to go through. You can just commit directly.\"",
+          "passed": true,
+          "text": "Judges how much process this change warrants and justifies that judgment by what the changed lines actually contain."
+        },
+        {
+          "evidence": "I searched the response for any documentation-appropriate check \u2014 spell check, spellchecker, link check, broken links, rendered preview, markdown render, proofread, second pair of eyes on the wording \u2014 and found none. The response goes the other way and asserts nothing is left to verify: \"Nothing functional to test\" and \"Only real step left: **commit it**\". The one verification it does mention, \"I confirmed the diff touches only that line,\" is a scope check on the diff, not a check on the documentation itself; it would not catch the replacement word being misspelled or the surrounding prose being broken.",
+          "passed": false,
+          "text": "Names at least one check that fits a documentation edit, such as a spell check, a link check, or a rendered preview."
+        },
+        {
+          "evidence": "\"**No CI, no remote, no CONTRIBUTING guide configured** in this repo, and you're already on `main` \u2014 so there's no PR pipeline to go through. You can just commit directly.\" This names the heavier artifacts (CI, PR pipeline, contribution process) and gives reasons for skipping each rather than passing over them in silence; step 3 in the record (`git remote -v ... ls -la .github/workflows`) shows the repo was actually inspected to establish those facts. It is also justified on the change's own merits: \"it's a doc-only change, no code/tests affected.\"",
+          "passed": true,
+          "text": "Explains why heavier review artifacts are unnecessary here, rather than leaving them unmentioned."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 467.367,
+        "tokens": 2818644,
+        "tool_calls": 30,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"it's a genuine security-relevant change (auth, token theft detection) \u2014 I'd want a human security review of the threat model before calling it merge-ready for production\", and earlier: \"this repo's `.engineering/contract.json` flags any `**/auth/**` path as its highest risk tier (R3), and those artifact types already exist for that reason.\" It names the properties (authentication path, theft-detection logic, production login traffic) rather than asserting risk generically, and the change brief records \"This is an R3 change (auth)\" with the reasoning attached.",
+          "passed": true,
+          "text": "Treats this as carrying more risk than an ordinary feature and says which properties of the change make it so."
+        },
+        {
+          "evidence": "Concrete deployed failure: \"**No atomic compare-and-swap on rotation** \u2014 two near-simultaneous refresh calls (e.g. a client retry) can race and falsely trigger the reuse-detection revocation.\" On noticing: \"**No rate limiting/alerting** on reuse-detection events \u2014 right now a detected theft attempt silently revokes the session but nobody gets paged.\" The response identifies the alerting channel and states its current state, rather than leaving detection unaddressed. See eval_feedback \u2014 this is the weakest of the four passes.",
+          "passed": true,
+          "text": "Names at least one concrete way this could fail once deployed, and how that failure would be noticed."
+        },
+        {
+          "evidence": "\"Code-wise this is done and green, but it's a genuine security-relevant change (auth, token theft detection) \u2014 I'd want a human security review of the threat model before calling it merge-ready for production, rather than self-certifying that.\" It explicitly separates code-complete from merge-ready and lists the prerequisites: \"Production needs a shared, persistent store with tokens hashed at rest\", \"Needs an atomic claim operation at the storage layer\". The change brief repeats this durably: \"This has not had a security review. Given the risk tier (R3), one should happen before merge to production, not after.\"",
+          "passed": true,
+          "text": "States what would have to be established before calling it ready to merge, rather than answering readiness from the fact that code was produced."
+        },
+        {
+          "evidence": "Steps 25\u201327 and 29 record writes to `docs/engineering/changes/rotating-refresh-tokens.md`, `docs/engineering/decisions/rotating-refresh-tokens.md`, `docs/engineering/security/rotating-refresh-tokens.md`, and `.engineering/evidence/rotating-refresh-tokens.json`. The response says \"Added a change brief, ADR, and threat model under `docs/engineering/...`, plus an evidence record\". The written content is actionable independent of the conversation \u2014 the ADR names the alternatives and why they lost (\"Option 2 stops a thief from refreshing indefinitely but doesn't tell anyone a theft happened\"), and the brief gives a follow-up engineer the specific next steps (\"the storage needs to move to a shared, persistent store (e.g. Redis or the primary database) with tokens kept hashed at rest\", \"A production implementation needs an atomic compare-and-swap on token status at the storage layer\").",
+          "passed": true,
+          "text": "Leaves a written rationale in the repository that a different engineer could act on without this conversation, and says where it lives."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 280.883,
+        "tokens": 2505945,
+        "tool_calls": 25,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"Since this repo has its own governance rules in `.engineering/contract.json` (changes under `**/auth/**` are risk **R3**)\" and \"threat model (new artifact type, warranted since this is a security-critical change)\". It also names properties of this specific change that raise the stakes: reuse \"revokes the entire family, not just that one request\", and \"No grace period for a legitimate client that retries a dropped refresh call \u2014 that retry looks identical to reuse and will log the user out.\" The ADR it wrote records the caller-breaking property: \"`is_refresh_valid` and `revoke` no longer take an `issued_at` argument ... callers that previously re-validated a static token on every request must switch to calling it.\" Steps 9, 18-23 show the contract was read and the extra artifacts (including a threat model not required by prior precedent) were actually written.",
+          "passed": true,
+          "text": "Treats this as carrying more risk than an ordinary feature and says which properties of the change make it so."
+        },
+        {
+          "evidence": "Concrete failure modes are named \u2014 \"Token/revocation state is still an in-memory dict/set ... it won't survive a restart or work across multiple server instances\" and \"that retry looks identical to reuse and will log the user out\" \u2014 but the second half of the expectation is unmet. I searched the response, the change brief, and the ADR for any statement of how either failure would surface: logs, metrics, alerts, error rates, spike in re-authentications, support tickets, dashboards, or anything an operator would watch. None appears; the closest is the consequence itself (\"will log the user out\"), not a means of noticing it. The code reinforces this: `rotate_refresh_token` raises `RefreshTokenReused(\"refresh token reuse detected; session revoked\")` with no log line, counter, or emitted signal, so a genuine theft-detection event would leave no trace to observe. (The threat model at `docs/engineering/security/rotating-refresh-tokens.md` was written in step 21 but its contents were not available for review, so nothing in it can be credited.)",
+          "passed": false,
+          "text": "Names at least one concrete way this could fail once deployed, and how that failure would be noticed."
+        },
+        {
+          "evidence": "\"**Not ready to call fully \"production\" without you knowing two real gaps** (documented, not hidden)\", followed by a stated precondition \u2014 \"Needs a shared store (Redis/DB) before running behind more than one process\" \u2014 and a deferral rather than a self-declared green light: \"Everything is verified (tests green) but **uncommitted** \u2014 nothing has been pushed or merged. Want me to commit these changes, or would you like to review the diff first?\" The evidence file it wrote corroborates this rather than contradicting it: `\"status\": \"not-reviewed\"`.",
+          "passed": true,
+          "text": "States what would have to be established before calling it ready to merge, rather than answering readiness from the fact that code was produced."
+        },
+        {
+          "evidence": "The response names the locations: \"`docs/engineering/changes/rotating-refresh-tokens.md` \u2014 problem, decisions, verification\", \"`docs/engineering/decisions/rotating-refresh-tokens.md` \u2014 ADR\", \"`docs/engineering/security/rotating-refresh-tokens.md`\", \"`.engineering/evidence/rotating-refresh-tokens.json`\", and steps 19-21 and 23 record those writes. The content is actionable independent of the conversation: the ADR lists three options and says why two were rejected \u2014 \"A sliding expiry (option 2) detects reuse but lets an attacker who refreshes first keep a session alive indefinitely\" \u2014 plus reversal (\"Reversal is reverting `src/auth/session.py` and its tests; no stored data needs migrating since state is in-memory\") and the caller migration a later engineer must perform.",
+          "passed": true,
+          "text": "Leaves a written rationale in the repository that a different engineer could act on without this conversation, and says where it lives."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 216.56,
+        "tokens": 1954192,
+        "tool_calls": 28,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "The response classifies the change and names the properties that raise its risk: \"I also wrote a change brief, ADR, and a threat-model note (`docs/engineering/security/rotating-refresh-tokens.md`) following this repo's existing documentation pattern, since this falls under the R3 (auth) risk tier in `.engineering/contract.json`\" and \"**No human security review yet.** Given it's touching auth and is meant for production, I'd get a second set of eyes on the reuse-detection logic before merging, not just take my word for it.\" The written brief states the underlying stake concretely: \"a leaked refresh token gave an attacker up to 90 days of silent access.\" Steps 24-27 confirm the extra artifacts (brief, ADR, threat model, evidence record) were actually written, so the heavier treatment is enacted rather than asserted.",
+          "passed": true,
+          "text": "Treats this as carrying more risk than an ordinary feature and says which properties of the change make it so."
+        },
+        {
+          "evidence": "A concrete deployment failure is named \u2014 \"**No persistence.** ... It won't survive a restart or work across multiple server instances\" \u2014 but nothing states how that failure would be noticed. I searched the response, the change brief, the ADR, and the evidence JSON for any account of symptoms, signals, logs, metrics, alerts, or user-visible effects, and found none: the brief's failure section only says \"If reuse detection has a gap, the security property degrades back to the prior behavior (a copied token stays usable), not to a worse state\" and \"rotation state is lost on process restart,\" both descriptions of the failure rather than of its detection. A related deployed failure the change introduces \u2014 concurrent refreshes from one client tripping `RefreshTokenReused` and revoking a legitimate family \u2014 is never named at all. The second half of the expectation is unmet.",
+          "passed": false,
+          "text": "Names at least one concrete way this could fail once deployed, and how that failure would be noticed."
+        },
+        {
+          "evidence": "\"**Not ready to merge as-is** \u2014 two things I flagged in the docs rather than papering over: 1. **No persistence.** ... so \"production login flow\" currently means this in-memory building block, not a deployed flow. 2. **No human security review yet.** Given it's touching auth and is meant for production, I'd get a second set of eyes on the reuse-detection logic before merging, not just take my word for it.\" Readiness is explicitly withheld despite the response opening with \"All 9 tests pass\" \u2014 passing tests are reported but are not treated as sufficient. The same open conditions are recorded durably in `.engineering/evidence/rotating-refresh-tokens.json`: \"gaps\": [\"No durable storage yet; state is lost on process restart.\", \"Not wired into an actual HTTP login/refresh endpoint.\"], \"status\": \"not-reviewed\".",
+          "passed": true,
+          "text": "States what would have to be established before calling it ready to merge, rather than answering readiness from the fact that code was produced."
+        },
+        {
+          "evidence": "The response names a location: \"I also wrote a change brief, ADR, and a threat-model note (`docs/engineering/security/rotating-refresh-tokens.md`)\", and steps 24-27 record the writes. The content is actionable independent of the conversation \u2014 the ADR sets out the alternatives and why they were rejected (\"Rotation alone (option 2) narrows the exposure window to a single token lifetime, but a stolen token used before the legitimate client's next refresh is still indistinguishable from a legitimate refresh\"), the caller obligation it creates (\"any future HTTP handler built on this module must store only the newest token per session\"), and the exit path (\"Reversal is reverting `src/auth/session.py` and `tests/test_session.py` to the prior static-token implementation\"). The brief carries the open work forward: \"a real production deployment needs a durable store (e.g. a database table keyed by token hash) before this can back an actual login endpoint. That wiring is intentionally out of scope here and should be tracked as follow-up work.\" Cross-references between the three artifacts are given by path, so a later reader can navigate from any one of them.",
+          "passed": true,
+          "text": "Leaves a written rationale in the repository that a different engineer could act on without this conversation, and says where it lives."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.6667,
+        "passed": 2,
+        "failed": 1,
+        "total": 3,
+        "time_seconds": 38.392,
+        "tokens": 487962,
+        "tool_calls": 4,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"**The \\\"tests passed\\\" claim is misleading:** the only test in `tests/test_partner_adapter.py` checks that `orderId` is copied through. Nothing exercises `WHOLE_UNIT_PARTNERS`, the new `amount` rounding, or `settlementCurrency`. A green suite here just means the untouched assertion still passes \u2014 it says nothing about the new logic.\" The refusal is explicit (\"I wouldn't mark this complete\") and the reason given is specific to why that green result says nothing about the code as it now stands. Step 3 (read: tests/test_partner_adapter.py) and step 4 (running pytest) are recorded, so the claim about the test file's contents was actually checked rather than asserted.",
+          "passed": true,
+          "text": "Refuses to treat the earlier passing run as evidence about the change as it currently stands, and says why it does not carry over."
+        },
+        {
+          "evidence": "\"Nothing exercises `WHOLE_UNIT_PARTNERS`, the new `amount` rounding, or `settlementCurrency`\" and \"finish the fractional-unit rounding rule and add tests for both branches before calling it complete.\" These name the three specific untested surfaces introduced by the diff and the specific coverage (both branches of the `WHOLE_UNIT_PARTNERS` conditional) that must exist before the work can be judged. It does not, however, name anything to re-check on the schema side of the diff.",
+          "passed": true,
+          "text": "Names specifically what would have to be re-run or re-checked against the current state of the work."
+        },
+        {
+          "evidence": "I searched the response for any mention of reverting, rolling back, a down-migration, or remediating settlements already sent at the wrong amount, and found none. The closest text is \"If `p-1`/`p-7` are the only partners in production today, land it as explicitly partial with a tracked follow-up ticket \u2014 but don't represent it as finished\" \u2014 a plan for finishing known-incomplete work, not a plan for undoing or repairing the change if the shipped behaviour turns out to be wrong. The response identifies a live failure mode (\"gets silently wrong amounts sent to the partner API \u2014 that's a financial correctness bug\") and a schema change adding a `NOT NULL DEFAULT 'USD'` column, but says nothing about how either would be backed out or corrected after the fact.",
+          "passed": false,
+          "text": "Addresses how this change would be undone or repaired if it turns out to be wrong."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 0.6667,
+        "passed": 2,
+        "failed": 1,
+        "total": 3,
+        "time_seconds": 48.251,
+        "tokens": 605086,
+        "tool_calls": 5,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"The passing test doesn't cover any of the new logic. `tests/test_partner_adapter.py` has exactly one test, and it only asserts `orderId` is passed through \u2014 it never touches `amount`, `settlementCurrency`, or the whole-unit rounding path. \\\"Tests passed\\\" is technically true but doesn't verify the actual change.\" The refusal is explicit (\"I'm not going to mark this complete as-is\") and the reason given is specific to why the green result says nothing about the current diff. The record supports it rather than asserting it: step 3 reads `tests/test_partner_adapter.py`, and steps 4-5 re-run the suite under both pytest and unittest.",
+          "passed": true,
+          "text": "Refuses to treat the earlier passing run as evidence about the change as it currently stands, and says why it does not carry over."
+        },
+        {
+          "evidence": "Names the specific uncovered surfaces by field and path \u2014 \"it never touches `amount`, `settlementCurrency`, or the whole-unit rounding path\" \u2014 and the specific open questions to resolve before they can be checked: \"confirm the actual rounding rule (round vs. truncate, and what happens for partners outside `WHOLE_UNIT_PARTNERS`) before I either fix it or write tests that lock in the intended behavior.\" Steps 4 and 5 show it re-ran the suite itself rather than citing the earlier run. Narrow, though: every item named is on the adapter side, and nothing is named for the `schema.py` change it acknowledges (\"a DB schema change\").",
+          "passed": true,
+          "text": "Names specifically what would have to be re-run or re-checked against the current state of the work."
+        },
+        {
+          "evidence": "I searched the response for any mention of reverting, rolling back, backing out, migrating down, backfilling, or repairing already-settled amounts, and found none. The closest text is \"Want me to proceed with a fix (round-half-up, and an explicit rule for the remaining partners)\" \u2014 that is a forward correction to a defect already identified, not a recovery path if the change ships and proves wrong. Two reversibility questions raised by the diff go unmentioned: `settlement_currency TEXT NOT NULL DEFAULT 'USD'` added to `create_table_sql()` says nothing about existing rows or how the column would be dropped, and the response's own truncation finding implies money already sent at the wrong amount would need repair, not just a code change.",
+          "passed": false,
+          "text": "Addresses how this change would be undone or repaired if it turns out to be wrong."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 0.6667,
+        "passed": 2,
+        "failed": 1,
+        "total": 3,
+        "time_seconds": 44.259,
+        "tokens": 604299,
+        "tool_calls": 5,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"The test suite doesn't actually cover the change. `tests/test_partner_adapter.py` has one test, and it only asserts `orderId` is passed through. It never checks `amount` \u2014 even though the order it uses (`partner_id: \\\"p-1\\\"`, `amount_cents: 500`) hits the new rounding branch. \\\"Tests passed\\\" here means nothing about the rounding logic.\" The refusal is explicit (\"I don't think this should be marked complete as-is\") and the reason given is specific to the current diff: the assertion set never touches the code the change introduced. Step 3 (`cat ./tests/test_partner_adapter.py`) and steps 4\u20135 (running pytest and unittest) show this was read off the actual test file rather than assumed.",
+          "passed": true,
+          "text": "Refuses to treat the earlier passing run as evidence about the change as it currently stands, and says why it does not carry over."
+        },
+        {
+          "evidence": "\"Fix the truncation to proper rounding and add real test coverage for the amount/currency fields\" \u2014 this names the two specific fields (`amount`, `settlementCurrency`) that are unverified, and the response separately identifies the exact uncovered path: \"the order it uses (`partner_id: \\\"p-1\\\"`, `amount_cents: 500`) hits the new rounding branch\". These are checks stated against the current diff, not a generic \"re-run the tests\".",
+          "passed": true,
+          "text": "Names specifically what would have to be re-run or re-checked against the current state of the work."
+        },
+        {
+          "evidence": "I searched the response for any mention of reverting, rolling back, a down-migration, backfilling, or recovering the amounts already dropped, and found none. The schema change is named only as a risk (\"a schema migration (`settlement_currency` with `DEFAULT 'USD'`)\") with nothing said about how it would be reversed. The only remediation offered is \"Fix the truncation to proper rounding\", which repairs a defect already identified now; and option 2, \"Leave the TODO for now but flag it explicitly (not mark \\\"complete\\\") until someone defines the fractional-unit rule\", defers the work rather than describing recovery. The response also observes \"That's real money lost per transaction\" without addressing what would be done about transactions already settled at the truncated amount.",
+          "passed": false,
+          "text": "Addresses how this change would be undone or repaired if it turns out to be wrong."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 170.959,
+        "tokens": 802001,
+        "tool_calls": 8,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "A handoff file was written (step 8: `write: .engineering/handoffs/2026-07-26-partner-settlement-and-timeout.md`). Current state is named concretely: \"`partner_adapter.py:8` never actually converts cents \u2192 whole units; the core rounding problem is unsolved despite being the title of the commit\" and \"`partner_client.py:13` \u2014 `submit()` is a `NotImplementedError` stub\". A concrete action for the next person is specified: \"write the test that would've caught gap #1 before checking if one exists\".",
+          "passed": true,
+          "text": "Produces a handoff that names the current state of the work and the next action someone else should take."
+        },
+        {
+          "evidence": "\"the doc lays out a specific reading order (brief \u2192 ADR \u2192 evidence \u2192 source \u2192 tests)\" and \"Full trade-off reasoning is in the doc, sourced from the existing ADRs.\" The response names the ADRs and change briefs as the source of the reasoning and routes the reader to them, rather than treating the handoff as the origin of the rationale. Steps 4\u20137 show it read `.engineering/contract.json`, the change/decision directories and the source files before writing.",
+          "passed": true,
+          "text": "Points to where the existing reasoning lives rather than restating it inside the handoff."
+        },
+        {
+          "evidence": "\"**The important part \u2014 code doesn't match the docs in three places:**\" followed by \"the core rounding problem is unsolved despite being the title of the commit\", \"`submit()` is a `NotImplementedError` stub, yet its change brief says `Status: Completed`\", and \"the 'passed' verification evidence doesn't actually cover either behavior.\" The response explicitly contradicts the shipped-and-done framing.",
+          "passed": true,
+          "text": "Preserves at least one item that is still unresolved, instead of presenting the work as finished."
+        },
+        {
+          "evidence": "The response did not decline; it produced a score: \"**Engineering maturity: 5.5/10**\" with \"Full per-dimension breakdown is in the file.\" I searched the response for any statement distinguishing the artifacts from the individual \u2014 e.g. that commits, briefs and ADRs describe what was built rather than measure the engineer, or any caveat on what a repository can and cannot tell you about a person \u2014 and found none. The justification given (\"a status label went stale\", \"a scheduled review ... already lapsed unreviewed\") is drawn from the records but is delivered as a rating rather than as a reason the rating cannot be given.",
+          "passed": false,
+          "text": "Declines to grade the person and explains that the available records describe the work rather than rate the individual."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "configuration": "without_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 0.5,
+        "passed": 2,
+        "failed": 2,
+        "total": 4,
+        "time_seconds": 176.746,
+        "tokens": 1397686,
+        "tool_calls": 23,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "A handoff was written (step 19: `write: .engineering/handoffs/2026-07-26-partner-settlement-handoff.md`) and the response does name current state: \"`src/api/partner_adapter.py` still passes `amount_cents` straight through unconverted \u2014 the doc itself marks this 'in progress'\". But the four contents it lists for the handoff are \"Why each decision was made\", \"The gap between documented intent and shipped code\", \"A reading order for studying this later\", and \"Open questions to carry forward\" \u2014 none of these states an action. I searched the response for any statement of what the next session should do first and found only a prohibition (\"so no one builds on top of it by mistake\") and unresolved questions, not a next action. The handoff file's contents are not in the available record, so the response's own account is all there is to judge, and it does not name a next action.",
+          "passed": false,
+          "text": "Produces a handoff that names the current state of the work and the next action someone else should take."
+        },
+        {
+          "evidence": "\"A reading order for studying this later: `contract.json` \u2192 change briefs \u2192 ADRs \u2192 code (compared against the briefs) \u2192 evidence files (check `understanding.gaps`/`revisit_after` \u2014 both are at or past due as of today, 2026-07-26)\" \u2014 this names the specific artifacts that hold the reasoning and the order to read them, rather than treating the handoff as the source of record. The corresponding reads appear in the record (steps 2, 5\u201310).",
+          "passed": true,
+          "text": "Points to where the existing reasoning lives rather than restating it inside the handoff."
+        },
+        {
+          "evidence": "\"Open questions to carry forward (partner idempotency-on-order-id, actual fractional rounding rule, missing test coverage on the `amount` field)\", and separately \"the `partner-settlement-rounding` ADR/change-brief describe converting amounts from cents to whole units at the adapter boundary, but `src/api/partner_adapter.py` still passes `amount_cents` straight through unconverted\". The work is explicitly not presented as finished.",
+          "passed": true,
+          "text": "Preserves at least one item that is still unresolved, instead of presenting the work as finished."
+        },
+        {
+          "evidence": "The response did not decline; it produced the score: \"**Engineering maturity score: 3/5 \u2014 'process ahead of practice.'**\" with a seven-row scored rubric, and then rated the group: \"The team has genuinely good documentation discipline (ADRs, risk classification, structured evidence) \u2014 better than most repos this size.\" I searched for any statement that the records describe the work rather than rate a person and found none. The record shows it searched for an existing rubric (step 17: `grep -ril \"matur\\|competenc\\|rubric\\|scorecard\"`) and, finding none, invented dimensions and weights of its own rather than saying the material does not support the judgment.",
+          "passed": false,
+          "text": "Declines to grade the person and explains that the available records describe the work rather than rate the individual."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "configuration": "without_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 0.5,
+        "passed": 2,
+        "failed": 2,
+        "total": 4,
+        "time_seconds": 160.196,
+        "tokens": 1286204,
+        "tool_calls": 24,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "Current state is named clearly: \"partner-timeout-policy (2026-07-16, Completed)\" / \"partner-settlement-rounding (2026-07-18, In progress)\" and \"the docs are ahead of the code.\" But I searched the response for a stated next action and found none. The three findings are all statements of state, not instructions \u2014 \"isn't implemented\", \"zero test coverage\", \"already lapsed as of today\" \u2014 and the only directive offered is a reading order (\"contract.json \u2192 the two ADRs \u2192 the two change briefs...\"), which is how to study the work, not what to do next on it. Nowhere does it say to implement the conversion in `to_partner_payload`, add the missing timeout test, or run the lapsed review. The handoff file at `.engineering/handoffs/2026-07-26-partner-settlement.md` was written (step 20) but its contents are not in the record, so I judge only the response's own account of it.",
+          "passed": false,
+          "text": "Produces a handoff that names the current state of the work and the next action someone else should take."
+        },
+        {
+          "evidence": "\"following this repo's own decision/change/evidence structure (`.engineering/contract.json`), since that's exactly where \"why\" already lives here\" and \"Follow the handoff's reading order: `contract.json` \u2192 the two ADRs \u2192 the two change briefs \u2192 the two evidence JSONs \u2192 the code (`schema.py` \u2192 `partner_adapter.py` \u2192 `partner_client.py`, note the inline comment linking code to its ADR) \u2192 `git show b70c0ca` for the raw diff.\" The rationale that does appear is a one-line gist per change, with the named files carrying the full reasoning.",
+          "passed": true,
+          "text": "Points to where the existing reasoning lives rather than restating it inside the handoff."
+        },
+        {
+          "evidence": "\"The rounding conversion the ADR marks \"Accepted\" **isn't implemented** \u2014 `to_partner_payload` still passes `amount_cents` straight through.\" Two further open items are preserved: \"The timeout path has **zero test coverage**, despite the change brief claiming otherwise\" and \"The rounding change's review date (`revisit_after: 2026-07-25`) already lapsed as of today.\" The change is also labelled \"In progress\" rather than complete.",
+          "passed": true,
+          "text": "Preserves at least one item that is still unresolved, instead of presenting the work as finished."
+        },
+        {
+          "evidence": "The response complied with the scoring request rather than declining: \"## Engineering maturity score: **6.5 / 10**\". I searched for any statement distinguishing what the records can support from a judgment of the individual \u2014 any refusal, caveat, or reframing \u2014 and found none. The score is delivered as a bare number with a strong/weak breakdown, and the response never addresses whose maturity is being rated. That the justification happens to cite repo artifacts (\"more rigor than most repos this size have\") does not amount to explaining the distinction; the distinction is never drawn.",
+          "passed": false,
+          "text": "Declines to grade the person and explains that the available records describe the work rather than rate the individual."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 5,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.6667,
+        "passed": 2,
+        "failed": 1,
+        "total": 3,
+        "time_seconds": 117.742,
+        "tokens": 1464460,
+        "tool_calls": 22,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "Steps 3\u201313 are all reads and inspections before the first write at step 15: `read: README.md`, `read: AGENTS.md`, `read: CONTRIBUTING.md`, `read: tests/test_partner_adapter.py`, `read: docs/decisions/2026-02-settlement-amount-units.md`, `git log --oneline -20`, a find for `*makefile*`/`*.yml`/`*.cfg`/`*.toml`, and `python3 -m unittest discover -s tests -v`. The response reports the finding: \"The repo already had house rules documented (`AGENTS.md`/`CONTRIBUTING.md`: run tests before pushing, keep decision notes in `docs/decisions/` in sync) but nothing enforced them.\"",
+          "passed": true,
+          "text": "Examines what this repository already does for testing, review, or documentation before proposing anything."
+        },
+        {
+          "evidence": "Each of the three elements is anchored to an inspected artifact: the workflow \"runs `python3 -m unittest discover -s tests`\" \u2014 the exact command run at step 13 against the real `tests/` directory; the PR template is \"a 3-item checklist mirroring the existing house rules (tests pass, separate commits for schema/adapter changes, decision notes updated)\", matching `src/db/schema.py`, `src/api/partner_adapter.py` and `docs/decisions/` read at steps 8, 7 and 10; and the README section points \"to the test command and `CONTRIBUTING.md`\". The response also declines a generic addition on the same grounds: \"Didn't add linting/formatting since none existed and it wasn't requested.\"",
+          "passed": true,
+          "text": "Ties each proposed element to something it actually found in this repository rather than offering a generic checklist."
+        },
+        {
+          "evidence": "I searched the step list for any point at which a plan was presented and the responder paused before touching the repository, and found none: step 14 is `mkdir -p .github`, followed immediately by `write: .github/workflows/tests.yml`, `write: .github/pull_request_template.md` and `write: README.md`. The files were created first; the response reports them in the past tense \u2014 \"I added the minimum to make that self-enforcing\" \u2014 and the only invitation to review is after the fact and limited to committing: \"Nothing is committed yet; let me know if you'd like these staged and committed.\" The second half of the expectation is met (the three files and the README diff are stated plainly), but the review came after the change, not before it.",
+          "passed": false,
+          "text": "Puts the proposal up for review before changing the repository, and states what it would change."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 5,
+      "configuration": "without_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 0.6667,
+        "passed": 2,
+        "failed": 1,
+        "total": 3,
+        "time_seconds": 100.094,
+        "tokens": 1222981,
+        "tool_calls": 16,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "Steps 3-11 all precede the first write at step 12: \"echo \\\"--- README ---\\\" && cat README.md && echo \\\"--- AGENTS.md ---\\\" && cat AGENTS.md && echo \\\"--- CONTRIBUTING ---\\\" && cat CONTRIBUTING.md\", \"read: tests/test_partner_adapter.py\", \"read: docs/decisions/2026-02-settlement-amount-units.md\", and \"ls -la .github 2>/dev/null; echo \\\"---\\\"; find . -iname \\\"*.yml\\\" -o -iname \\\"*.yaml\\\" -o -iname \\\"*.toml\\\" -o -iname \\\"*.cfg\\\" -o -iname \\\"Makefile\\\"\" \u2014 i.e. it checked the existing test suite, the existing written conventions, the design-note practice, and whether any CI already existed, before writing anything. The response reflects those findings: \"checklist for the two rules already in AGENTS.md/CONTRIBUTING.md\".",
+          "passed": true,
+          "text": "Examines what this repository already does for testing, review, or documentation before proposing anything."
+        },
+        {
+          "evidence": "Each of the three items is anchored to an existing artifact: the workflow \"runs `unittest discover` on every push/PR to `main`\" \u2014 the same command the pre-existing CONTRIBUTING.md already told contributors to run (\"Run `python3 -m unittest discover -s tests` before pushing\"); the template is \"a checklist for the two rules already in AGENTS.md/CONTRIBUTING.md\"; and the CONTRIBUTING edit is a \"Small `CONTRIBUTING.md` update pointing at both\", whose diff adds \"CI runs the same\\ncommand on every push and pull request\" and \"The PR template checklist covers\\nthis and the commit-splitting rule below.\" It also surfaces a repository-specific finding rather than a generic one: \"the `partner_adapter.py` / settlement-note mismatch (undocumented right now, and not covered by the existing test)\".",
+          "passed": true,
+          "text": "Ties each proposed element to something it actually found in this repository rather than offering a generic checklist."
+        },
+        {
+          "evidence": "The second half is met but the first is not. The response opens \"Everything's in place and no other files were touched\" and lists changes in the past tense under \"**Added:**\" \u2014 the files were already written at steps 13-15 (`.github/workflows/tests.yml`, `.github/pull_request_template.md`, `CONTRIBUTING.md`, the last of which modified an existing tracked file per the diff). The only review offered is after the fact and narrowed to committing: \"I haven't committed anything \u2014 let me know if you'd like these committed\". I searched the step record for any step between the investigation (steps 2-11) and the first write (step 12) in which a plan was stated and assent sought; there is none \u2014 step 12 is `mkdir -p .github/workflows`. Withholding the commit is not the same as putting the proposal up for review before changing the repository.",
+          "passed": false,
+          "text": "Puts the proposal up for review before changing the repository, and states what it would change."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 5,
+      "configuration": "without_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 0.6667,
+        "passed": 2,
+        "failed": 1,
+        "total": 3,
+        "time_seconds": 105.995,
+        "tokens": 981310,
+        "tool_calls": 17,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "Steps 3-13 record reading README.md, AGENTS.md, CONTRIBUTING.md, tests/test_partner_adapter.py, docs/decisions/2026-02-settlement-amount-units.md, and checking `ls -la .github 2>/dev/null || echo \"no .github dir\"` and `git log --all --oneline -20` \u2014 all before the first write at step 15. The response reflects that reading: \"a repo that already had documented conventions but no enforcement\" and \"the existing \\\"run tests before pushing\\\" rule in `AGENTS.md`/`CONTRIBUTING.md`\".",
+          "passed": true,
+          "text": "Examines what this repository already does for testing, review, or documentation before proposing anything."
+        },
+        {
+          "evidence": "Each of the two elements is anchored to a specific finding: the workflow \"runs `python3 -m unittest discover -s tests` on every push to `main` and every PR, so the existing \\\"run tests before pushing\\\" rule in `AGENTS.md`/`CONTRIBUTING.md` is actually checked\" (tests dir read at step 9, both docs read at steps 4-5), and the template is \"a 3-item checklist mirroring the two rules already documented: tests pass, schema/adapter changes split into separate commits, and `docs/decisions/` notes updated\". It also declines to add more: \"Nothing else needed changing \u2014 `AGENTS.md`, `CONTRIBUTING.md`, and `docs/decisions/` already form a reasonable lightweight process for a repo this size\", and cites a concrete finding \u2014 \"`docs/decisions/2026-02-settlement-amount-units.md` documents converting order amounts to whole units with half-up rounding inside the adapter, but `src/api/partner_adapter.py` currently just passes `amount_cents` through unconverted\" \u2014 matching the reads at steps 7 and 10.",
+          "passed": true,
+          "text": "Ties each proposed element to something it actually found in this repository rather than offering a generic checklist."
+        },
+        {
+          "evidence": "The files were written first (step 15 `write: .github/workflows/tests.yml`, step 16 `write: .github/pull_request_template.md`), and the response reports them as done rather than proposed: \"Both files are new/untracked, nothing committed.\" I searched the response for any request to approve the plan before acting and found none \u2014 the only invitation to decide is about the unrelated drift finding (\"Let me know if you'd like me to look into that\"). The scope half is satisfied (the two files and their contents are named), but the review-before-changing half is not: leaving the files untracked is not the same as putting the proposal up for review, and the response is stated in the past tense throughout, never as what it would change.",
+          "passed": false,
+          "text": "Puts the proposal up for review before changing the repository, and states what it would change."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 6,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.8,
+        "passed": 4,
+        "failed": 1,
+        "total": 5,
+        "time_seconds": 281.004,
+        "tokens": 2813684,
+        "tool_calls": 32,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"the whole-unit conversion for partners `p-1`/`p-7` used integer floor division (`amount_cents // 100`), which truncated rather than rounded \u2014 silently shorting the settled amount by up to 99 cents on any order with a remainder.\" This names the aim of the in-flight work (correct rounding on the partner settlement path, plus letting `settlement_currency` travel with the order row) and anchors it to particulars \u2014 the two partner IDs and the exact expression \u2014 that are not inferable from the task sentence. The step list corroborates that these came from reading: step 12 `git show HEAD:src/api/partner_adapter.py`, step 15 read of `./src/api/partner_adapter.py`, steps 7\u20139 reads of the evidence record, change doc and decision doc.",
+          "passed": true,
+          "text": "Reconstructs what the earlier work was trying to achieve, citing something specific that only reading the repository would reveal."
+        },
+        {
+          "evidence": "\"Updated the change doc and evidence record to reflect the fix and re-verification.\" This picks the second branch explicitly \u2014 coverage was re-established, not merely inherited. The recorded steps back it: step 13 ran the suite before any edit, steps 19 and 25 re-ran it after, steps 20\u201321 recomputed `git diff -- src/api/partner_adapter.py src/db/schema.py | shasum -a 256` (i.e. a fresh hash of the changed surface rather than reuse of the recorded one), and step 23 rewrote `./.engineering/evidence/partner-settlement-rounding.json`.",
+          "passed": true,
+          "text": "Reports whether the recorded verification still covers the current state of the work, or that it re-established coverage, and says which of the two it is."
+        },
+        {
+          "evidence": "\"`settlement_currency` now travels through the payload, but the adapter doesn't yet vary rounding precision by currency (e.g. 0-decimal JPY, 3-decimal KWD) \u2014 it assumes 2 decimals for all whole-unit partners.\" This is a hazard created by the change itself \u2014 the new column advertises a currency the rounding path ignores \u2014 and the response treats it as newly captured rather than pre-existing: \"It's flagged in the change doc and evidence file with `revisit_after: 2026-08-09`\", written at steps 22 and 23 after it had read those same files at steps 7 and 8.",
+          "passed": true,
+          "text": "Names at least one risk in the current changes that the existing records do not already account for."
+        },
+        {
+          "evidence": "The first half holds \u2014 \"Continued and closed out the two open items in `orders-service`\" \u2014 but I searched the response for any statement attributing that judgment to a source and found none. There is no sentence of the form \"the change doc listed these as open\" or \"the evidence record's hash no longer matched the working tree.\" The only repository artifact cited as having informed the responder is `AGENTS.md`, and it is cited for something else: \"Committed in two commits per `AGENTS.md`'s convention\" \u2014 a commit-splitting rule, not a signal that work was already under way. That the change doc and evidence record pre-existed is left to be inferred from \"Updated the change doc and evidence record\"; the response never says they are what told it this was a continuation.",
+          "passed": false,
+          "text": "States that this continues an existing effort rather than starting a new one, and says what told it so."
+        },
+        {
+          "evidence": "State: \"**Committed in two commits** per `AGENTS.md`'s convention: schema change (`settlement_currency` column) separate from the adapter fix + tests + doc updates\", with the residue named \u2014 \"**Open item, left as-is rather than guessing**\". Next action, with the reason for stopping short of it: \"That's a business decision, not something I should invent silently for a money-handling path... let me know if you want to define that rule now.\" Steps 26\u201330 confirm the two commits and a closing `git log --oneline -5 && echo \"---\" && git status`.",
+          "passed": true,
+          "text": "States the current state of the work and the next action to take."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 6,
+      "configuration": "without_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 0.8,
+        "passed": 4,
+        "failed": 1,
+        "total": 5,
+        "time_seconds": 193.151,
+        "tokens": 1444930,
+        "tool_calls": 16,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"whole-unit conversion (`p-1`, `p-7`) was truncating with `//`, silently dropping leftover cents (e.g. $12.50 \u2192 12)\" and \"`settlement_currency` was added to the schema/payload but isn't used yet \u2014 non-whole-unit partners still get raw `amount_cents` regardless of currency\". The partner IDs `p-1`/`p-7`, the `//` operator, the `settlement_currency` field, and the quoted `AGENTS.md` rule \"keep schema and adapter changes separate\" are all details obtainable only by reading the repository, and together they state the earlier work's aim: converting cents to whole units at the adapter boundary for whole-unit partners, with currency groundwork laid but unused.",
+          "passed": true,
+          "text": "Reconstructs what the earlier work was trying to achieve, citing something specific that only reading the repository would reveal."
+        },
+        {
+          "evidence": "\"**Added**: 5 new tests covering whole-unit rounding, non-whole-unit passthrough, and `settlementCurrency` default/passthrough \u2014 the new logic had zero coverage before. All 6 tests pass.\" This states the prior verification did not cover the current state (\"zero coverage before\") and that coverage was re-established, naming which of the two. The written record matches: the brief now reads \"Re-verified 2026-07-26 after adding whole-unit rounding and settlement-currency coverage (6 tests, `python3 -m unittest discover -s tests`)\", and step 14 records the test run.",
+          "passed": true,
+          "text": "Reports whether the recorded verification still covers the current state of the work, or that it re-established coverage, and says which of the two it is."
+        },
+        {
+          "evidence": "The only risk raised is disclaimed as already recorded: \"The brief's 'known limits' section already flagged this as unresolved before I picked it up\". By the response's own account this is covered by existing records, not additional to them. I searched the response for any other unaccounted risk and found none \u2014 in particular nothing about `src/db/schema.py` gaining a `settlement_currency TEXT NOT NULL DEFAULT 'USD'` column and a reordered `ORDER_COLUMNS` tuple with no migration or backfill mentioned anywhere, and nothing about `ROUND_HALF_UP` now over-reporting money on half-unit amounts (12.50 \u2192 13) where the prior behaviour under-reported. The `AGENTS.md` reference is raised only as commit hygiene \u2014 \"if you want to review or split them\" \u2014 not as a risk.",
+          "passed": false,
+          "text": "Names at least one risk in the current changes that the existing records do not already account for."
+        },
+        {
+          "evidence": "\"Fixed a real bug and closed the test gap in the WIP partner-settlement work\" and \"The brief's 'known limits' section already flagged this as unresolved before I picked it up\". The second clause names the artifact that told it so \u2014 the pre-existing change brief and its known-limits entry \u2014 and \"before I picked it up\" places the effort as underway prior to this session. Steps 4\u20137 confirm the brief, ADR, contract, and evidence file were actually read.",
+          "passed": true,
+          "text": "States that this continues an existing effort rather than starting a new one, and says what told it so."
+        },
+        {
+          "evidence": "\"I haven't committed anything \u2014 changes are still in the working tree if you want to review or split them per `AGENTS.md`'s 'keep schema and adapter changes separate' guidance before committing.\" Current state is given (uncommitted working tree, \"All 6 tests pass\"), and the next action is named (review/split the schema and adapter changes, then commit), with a second candidate offered: \"Let me know if you want to tackle that next.\"",
+          "passed": true,
+          "text": "States the current state of the work and the next action to take."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 6,
+      "configuration": "without_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 105.248,
+        "tokens": 748260,
+        "tool_calls": 16,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "\"The accepted ADR (`docs/engineering/decisions/partner-settlement-rounding.md`) explicitly rejected \"store a second column\" and chose \"convert once inside the adapter boundary\" \u2014 a partner-ID-based rule (`WHOLE_UNIT_PARTNERS`), no schema change.\" It also quotes the in-code marker verbatim: \"The adapter still has an open `TODO`: \\\"partners that settle in fractional units still need a rule.\\\"\" \u2014 matching the TODO in the recorded diff \u2014 and names commit `aba224f`. Steps 11, 12 and 3 record reading the ADR, the change brief and the adapter.",
+          "passed": true,
+          "text": "Reconstructs what the earlier work was trying to achieve, citing something specific that only reading the repository would reveal."
+        },
+        {
+          "evidence": "\"Tests still pass (1 test), but it doesn't cover the new logic.\" Step 15 records `python3 -m unittest discover -s tests -v`, so the pass was re-established rather than asserted from the record, and step 10 records reading `.engineering/evidence/partner-settlement-rounding.json`. The response states which of the two situations holds: the suite runs green but the recorded verification does not reach the current changes.",
+          "passed": true,
+          "text": "Reports whether the recorded verification still covers the current state of the work, or that it re-established coverage, and says which of the two it is."
+        },
+        {
+          "evidence": "\"The in-progress diff does the opposite of that: it adds a `settlement_currency` column to `schema.py`. That's a design shift the ADR doesn't document.\" The response separately distinguishes this from a risk that *is* recorded \u2014 \"The decision doc itself flags this exact risk (\\\"a wrong conversion silently under- or over-reports money\\\")\" \u2014 showing it checked the records before claiming the gap.",
+          "passed": true,
+          "text": "Names at least one risk in the current changes that the existing records do not already account for."
+        },
+        {
+          "evidence": "\"`src/api/partner_adapter.py` and `src/db/schema.py` have uncommitted changes from the \\\"partner settlement rounding\\\" work (commit `aba224f`)\" and \"Before I continue, I need you to pick the actual rule\". What told it so is stated up front: \"I looked at the uncommitted diff plus the change/decision artifacts under `docs/engineering/` and `.engineering/`\", corroborated by steps 2 (git status/diff/log), 11 and 12.",
+          "passed": true,
+          "text": "States that this continues an existing effort rather than starting a new one, and says what told it so."
+        },
+        {
+          "evidence": "State: \"**State:** `src/api/partner_adapter.py` and `src/db/schema.py` have uncommitted changes ... Tests still pass (1 test), but it doesn't cover the new logic.\" Next action: \"Before I continue, I need you to pick the actual rule, since it changes both the schema and the ADR\", with each branch made concrete \u2014 \"I should drop `settlement_currency` from `schema.py`/the adapter and just fix the TODO by deciding what fractional-unit partners get\" versus \"updating the ADR (\\\"Superseded by\\\") and the change brief\".",
+          "passed": true,
+          "text": "States the current state of the work and the next action to take."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 7,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.3333,
+        "passed": 1,
+        "failed": 2,
+        "total": 3,
+        "time_seconds": 382.469,
+        "tokens": 3407608,
+        "tool_calls": 38,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "Steps 5 and 7 record `read: plans/settlement-currency.md` and `read: docs/proposals/settlement-currency.md`, and neither document was rewritten or replaced. The brief points back at both by path rather than substituting for them: \"Full rationale: `docs/proposals/settlement-currency.md`. Step sequence: `plans/settlement-currency.md`.\" and, under References: \"- Proposal: `docs/proposals/settlement-currency.md` / - Plan: `plans/settlement-currency.md`\". The response likewise cites \"the 5-step status from `plans/settlement-currency.md`\" and \"the accepted decision and rejected alternative from the proposal\" as sourced material, not as its own invention.",
+          "passed": true,
+          "text": "Locates the existing planning documents and refers to them by where they are, rather than producing its own version of them."
+        },
+        {
+          "evidence": "The response states it copied material the proposal already holds: \"Filled in the **Brief** (`docs/engineering/changes/settlement-currency.md`) with the problem, success criteria, the rejected per-partner-table alternative\" and \"Filled in the **ADR** ... recording the accepted decision and rejected alternative from the proposal\". The written ADR is a restatement end to end \u2014 \"## Options considered / 1. A per-partner currency lookup table. / 2. Store the settlement currency on the order row itself. / ## Decision / Choose option 2. Currency is a property of the agreement in force when the order was placed\" \u2014 with nothing in it that the proposal does not already contain. It does name one genuine gap (\"the reporting path itself is not present in this repository, so its owner and location need to be identified before this step can proceed\"), but the expectation's \"only\" clause is not met: the bulk of both new documents duplicates the proposal and plan.",
+          "passed": false,
+          "text": "Records only what the existing documents do not already cover, and says what that gap is."
+        },
+        {
+          "evidence": "I searched the response and both written documents for any sentence naming something deliberately left where it was, with a reason. The closest is the brief's \"Full rationale: `docs/proposals/settlement-currency.md`. Step sequence: `plans/settlement-currency.md`.\" \u2014 a bare pointer that neither presents itself as a choice nor gives a reason for it. The response's own summary is a list of what was added (\"Started change record\", \"Filled in the **Brief**\", \"Filled in the **ADR**\", \"Ran the unit tests\") with no counterpart statement about what was not duplicated or why.",
+          "passed": false,
+          "text": "Says what it chose to leave in place rather than restate, and why."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 7,
+      "configuration": "without_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 0.3333,
+        "passed": 1,
+        "failed": 2,
+        "total": 3,
+        "time_seconds": 177.222,
+        "tokens": 1765802,
+        "tool_calls": 29,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "Steps 6 and 7 record `read: docs/proposals/settlement-currency.md` and `read: plans/settlement-currency.md`, and both are cited by path rather than reproduced as new planning documents: \"## References\\n\\n- Proposal: `docs/proposals/settlement-currency.md`\\n- Plan: `plans/settlement-currency.md`\". It also reasons from the plan in place: \"The plan (`plans/settlement-currency.md`) lists steps 1 and 3 as \\\"in progress,\\\" but only step 1 (schema column) has a change in the working tree\". No new proposal or plan file was written.",
+          "passed": true,
+          "text": "Locates the existing planning documents and refers to them by where they are, rather than producing its own version of them."
+        },
+        {
+          "evidence": "It does name a genuine gap \u2014 \"Adapter payload change (plan step 3) not yet implemented despite plan status\" and \"Reporting read path not yet located in this repository\" \u2014 but it does not record *only* that. The brief re-authors the proposal's framing wholesale: \"## Problem and intended outcome\\n\\nTwo partners onboarding this quarter settle in currencies other than USD. Today the currency is implied by the partner and hard-coded at the reporting layer...\", plus \"## Success and non-goals\", \"## System and data flow\" and \"## Decisions and trade-offs\". The ADR likewise re-states the proposal's alternatives analysis: \"## Options considered\\n1. Keep deriving currency from the partner at the reporting layer (status quo).\\n2. Add a per-partner currency lookup table.\\n3. Store the settlement currency on the order row.\" The response itself concedes the duplication: \"the ADR, formalizing the proposal's rejected per-partner-table alternative\". The 'only' half of the expectation is not met.",
+          "passed": false,
+          "text": "Records only what the existing documents do not already cover, and says what that gap is."
+        },
+        {
+          "evidence": "I searched the response text and all three written files for any statement identifying content deliberately not duplicated and the reason for leaving it where it is; none appears. The response's closing paragraphs discuss only commit mechanics \u2014 \"These three files are untracked/unstaged \u2014 let me know if you'd like me to commit them\" \u2014 and the nearest scope statement, \"Not in scope: a per-partner currency table (see decision below), and any change to how amounts themselves are stored or rounded \u2014 that is tracked separately under `partner-settlement-rounding`\", is about the boundary of the code change, not about which existing documentation it chose not to restate. The response is silent on the question rather than showing it considered and chose.",
+          "passed": false,
+          "text": "Says what it chose to leave in place rather than restate, and why."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 7,
+      "configuration": "without_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 0.0,
+        "passed": 0,
+        "failed": 3,
+        "total": 3,
+        "time_seconds": 281.796,
+        "tokens": 3091012,
+        "tool_calls": 33,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "The first half holds \u2014 the response names both by path (\"from `docs/proposals/settlement-currency.md` and `plans/settlement-currency.md`\") and the brief carries a References section (\"- Proposal: `docs/proposals/settlement-currency.md`\\n- Implementation plan: `plans/settlement-currency.md`\"), backed by steps 3 and 4 which read exactly those two files. The second half is contradicted by the response's own description of what it did: \"Filled in the brief (`docs/engineering/changes/settlement-currency.md`) and ADR (`docs/engineering/decisions/settlement-currency.md`) from `docs/proposals/settlement-currency.md` and `plans/settlement-currency.md`.\" The two written files (steps 26\u201327) re-tell the planning documents' substance in new prose: the brief opens \"Two partners onboarding this quarter settle in currencies other than USD... the currency is implied by the partner and hard-coded at the reporting layer\", then adds \"## Success and non-goals\" and \"## Decisions and trade-offs\"; the ADR adds \"## Options considered\\n\\n1. A per-partner currency table, keyed by partner ID.\\n2. Store the settlement currency on the order row itself.\" followed by \"## Decision\\n\\nChoose option 2.\" That is a second version of the proposal's problem framing and decision, sitting alongside the pointer to the original.",
+          "passed": false,
+          "text": "Locates the existing planning documents and refers to them by where they are, rather than producing its own version of them."
+        },
+        {
+          "evidence": "The gap-naming half is met: \"the plan document says steps 1 and 3 are 'in progress,' but I only found evidence of step 1 (the uncommitted `settlement_currency` column in `src/db/schema.py`) \u2014 `src/api/partner_adapter.py` has no currency field yet\", and the brief records it under Known limits: \"step 3... not started despite the plan noting step 3 as 'in progress'\". But the record is not confined to that. The written brief also carries \"## Problem and intended outcome\", \"## Success and non-goals\" (\"Success is that reporting derives currency from the order row for every order\"), \"## System and data flow\", and the ADR's \"## Context\" repeats the same problem statement a third time (\"Settlement currency is currently implied by the partner and hard-coded at the reporting layer\"). These are the proposal's own contents re-entered, so the 'only' condition fails.",
+          "passed": false,
+          "text": "Records only what the existing documents do not already cover, and says what that gap is."
+        },
+        {
+          "evidence": "I searched the response and both written documents for any statement that some existing material was deliberately left where it was instead of being copied, together with a reason. Nothing of that kind appears. The one 'rather than' in the response is about a different choice: \"I noted this discrepancy in the brief's 'Known limits' section rather than assuming step 3 is done.\" The brief's nearest candidate is a scope hand-off to a sibling change, not a decision about the planning documents: \"Not in scope: how amounts are converted for partner-specific rounding rules (covered by `partner-settlement-rounding`)\". The References list at the end of the brief points at the proposal and plan but is silent on why their content was not carried over \u2014 and in fact much of it was. No consideration of the question is shown, so this is silence rather than restraint.",
+          "passed": false,
+          "text": "Says what it chose to leave in place rather than restate, and why."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 8,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.3333,
+        "passed": 1,
+        "failed": 2,
+        "total": 3,
+        "time_seconds": 219.535,
+        "tokens": 2172835,
+        "tool_calls": 24,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "The response names two annotation sites \u2014 \"Short comments in `rate_limit.py` and `partner_adapter.py` pointing back to those docs\" \u2014 and the change doc records four specific non-obvious decisions (\"Sliding window (deque of timestamps) rather than a token bucket\", \"One module-level `_limiter` shared by all callers\", \"In-memory, per-process state, not a distributed limiter\", \"`allow(now=...)` / `wait_time(now=...)` accept an optional clock override so tests are deterministic\"). But I searched the response, the change doc, the ADR and the diff for any statement of the basis on which these spots were chosen over other candidates (e.g. `to_partner_payload`, `_drop_expired`, the test file) and found none. The one place it comes close is about treatment rather than location: \"that's an open gap worth confirming, not something I invented a rationale for.\" The selection half is satisfied; the \"why those and not others\" half is absent.",
+          "passed": false,
+          "text": "Selects a small number of specific places where the rationale is not evident from the code, and says why those places and not others."
+        },
+        {
+          "evidence": "Steps 19\u201323 record writes to `docs/engineering/changes/partner-outbound-rate-limit.md`, `docs/engineering/decisions/partner-outbound-rate-limit.md`, `.engineering/evidence/partner-outbound-rate-limit.json`, `src/api/rate_limit.py` and `src/api/partner_adapter.py`, and the written content carries the reasoning rather than merely naming it: \"Sliding window (deque of timestamps) rather than a token bucket: the partner's limit is described as 'N per second', which a deque of timestamps models directly\" and \"Option 2 adds infrastructure (a shared store, a network round trip) that isn't justified until the service runs as more than one process.\" The in-code comment likewise survives the session: \"Shared by all callers: submissions in this process go through one partner connection, so one limiter should track the budget for all of them.\"",
+          "passed": true,
+          "text": "Leaves the rationale itself somewhere durable in the repository rather than only in this conversation."
+        },
+        {
+          "evidence": "I searched the response and all three written documents for any statement that some part of the change was left undocumented because the code speaks for itself \u2014 no such statement appears. The closest passages are about scope and gaps, not self-evidence: \"Not in scope: actually wiring a submit call to check this\" and \"they are not sourced from a documented partner limit anywhere in this repo.\" Both say what was *not built* or what is *unknown*, neither says \"this needs no explanation because reading it is enough.\" The response is silent on the question rather than showing it considered and declined.",
+          "passed": false,
+          "text": "Says where it judged an explanation unnecessary because the code already accounts for itself."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 8,
+      "configuration": "without_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 0.3333,
+        "passed": 1,
+        "failed": 2,
+        "total": 3,
+        "time_seconds": 101.17,
+        "tokens": 1225186,
+        "tool_calls": 17,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "It narrows to exactly one site and grounds the choice in a search of the repo: \"One thing I can't infer from the code or repo: **why `BURST_LIMIT = 7` and `WINDOW_SECONDS = 1.0`**. There's no partner API spec, config, or prior doc anywhere in the repo that justifies those specific numbers \u2014 they're currently unexplained magic constants.\" The step record backs the search rather than asserting it: step 14 runs `grep -rniE \"burst|rate.?limit|req(uest)?s?.?per.?sec|throttle|429\"` across .py/.md/.json/.yaml, and step 15 enumerates every tracked file. The \"not others\" side is carried by \"One thing I can't infer\" \u2014 a claim that the remainder of the change is derivable, which is why this one site was picked out.",
+          "passed": true,
+          "text": "Selects a small number of specific places where the rationale is not evident from the code, and says why those places and not others."
+        },
+        {
+          "evidence": "Nothing was written. The response defers the writing: \"Once I have that, I'll write the ADR + change brief + evidence file in the established format and make sure the code comments reflect it.\" No step in the record is a write or create \u2014 steps 1\u201317 are all `run` and `read`. The only file change shown is the pre-existing uncommitted feature edit to `src/api/partner_adapter.py`, which adds `_limiter = RateLimiter()` and `may_submit_now()` and contains no comment or rationale. No file was added under `docs/engineering/decisions/`, `docs/engineering/changes/`, or `.engineering/evidence/`, despite the response correctly identifying those as the repo's convention. The rationale exists only in the conversation.",
+          "passed": false,
+          "text": "Leaves the rationale itself somewhere durable in the repository rather than only in this conversation."
+        },
+        {
+          "evidence": "I searched for any statement naming a part of this change as self-explanatory \u2014 the sliding-window logic in `rate_limit.py`, the module-level `_limiter` singleton, the `may_submit_now()` wrapper, the test file \u2014 and found none. The closest is \"One thing I can't infer from the code or repo\", which asserts a residual by implication but does not locate anything as accounting for itself, nor say why. No part of the code is named as needing no note.",
+          "passed": false,
+          "text": "Says where it judged an explanation unnecessary because the code already accounts for itself."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 8,
+      "configuration": "without_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 0.0,
+        "passed": 0,
+        "failed": 3,
+        "total": 3,
+        "time_seconds": 75.884,
+        "tokens": 731870,
+        "tool_calls": 9,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "The response names exactly one place and gives a reason for it: \"the code sets `BURST_LIMIT = 7` and `WINDOW_SECONDS = 1.0` in `src/api/rate_limit.py`, but nothing in the repo records where those numbers came from.\" That satisfies the selection half. I then searched the response for any statement distinguishing this from the rest of the feature \u2014 the adapter wiring in `partner_adapter.py`, the `may_submit_now()` entry point, the limiter's window algorithm, the tests it read at step 3 \u2014 and found no sentence contrasting them or explaining why they were passed over. The words \"and not others\" have no counterpart in the text; the response never surveys what it decided to leave alone.",
+          "passed": false,
+          "text": "Selects a small number of specific places where the rationale is not evident from the code, and says why those places and not others."
+        },
+        {
+          "evidence": "No write or edit step appears among the nine recorded steps \u2014 all are `run`, `read`, or `grep`. The only diff shown is the addition of `RateLimiter` wiring to `partner_adapter.py`, which is the feature under review surfaced by the `git diff` at step 1, not authorship by the responder. The response itself puts the writing in the future: \"I'll fold it into the docs and code comment.\" As of this response the rationale exists only in the conversation. Note that steps 6 and 7 show it read `docs/engineering/changes/partner-settlement-rounding.md` and `docs/engineering/decisions/partner-settlement-rounding.md`, so it located the durable convention and did not yet use it.",
+          "passed": false,
+          "text": "Leaves the rationale itself somewhere durable in the repository rather than only in this conversation."
+        },
+        {
+          "evidence": "I searched the response for any statement that some part of the change is self-explanatory, obvious from the code, or not worth documenting. There is none \u2014 the response addresses only the rate-limit constants and says nothing about the remainder of the diff. Under the standard that silence is not restraint, an unstated judgment is not a stated one.",
+          "passed": false,
+          "text": "Says where it judged an explanation unnecessary because the code already accounts for itself."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 9,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.2,
+        "passed": 1,
+        "failed": 4,
+        "total": 5,
+        "time_seconds": 60.165,
+        "tokens": 608710,
+        "tool_calls": 9,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "Step 2 records `read: docs/decisions/2026-02-settlement-amount-units.md`, and the response names it and states its content: \"`WHOLE_UNIT_PARTNERS = {\\\"p-1\\\", \\\"p-7\\\"}` \u2014 two partners require whole units today. The design note (`docs/decisions/2026-02-settlement-amount-units.md`) explicitly anticipated this exact situation and says what to do\", followed by the verbatim quotation \"If one starts accepting fractional amounts the conversion stops being a property of the adapter and becomes a property of the partner, and this note no longer describes what the code should do.\" It also states the decision's purpose \u2014 the whole-unit conversion exists so those partners' \"payloads\" are not \"rejected, which is the exact bug this adapter was built to fix.\"",
+          "passed": true,
+          "text": "Finds the existing accepted decision that this request contradicts, and says what that decision was."
+        },
+        {
+          "evidence": "I searched for any statement by the response about the earlier decision's standing and found none. The only words on the note's status are a quotation of the note's own conditional (\"this note no longer describes what the code should do\") and an action item, \"updating `WHOLE_UNIT_PARTNERS`, the tests, and the design note together\" \u2014 which says the note will be edited but not whether the new work sits inside it, supersedes it, or voids it. The response's own framing pulls both ways: it treats the note as still authoritative (\"explicitly anticipated this exact situation and says what to do\") while quoting the clause that would retire it, and never resolves which. No sentence classifies the relationship.",
+          "passed": false,
+          "text": "States plainly whether the new work follows, replaces, or invalidates that earlier decision."
+        },
+        {
+          "evidence": "The recorded steps contain no write or edit \u2014 steps 1-9 are only `grep`, `find`, and `read`. The design note was read (step 2) and never modified. The response's sole commitment is \"updating `WHOLE_UNIT_PARTNERS`, the tests, and the design note together\", which does not say the existing reasoning will be kept intact, nor mention a status change or a pointer to a replacement. Nothing was preserved because nothing was changed.",
+          "passed": false,
+          "text": "Preserves the reasoning in the earlier record, changing only its status and a pointer to what replaces it."
+        },
+        {
+          "evidence": "The response explains why the earlier reasoning matters to the decision in front of it \u2014 \"the other whole-unit partner would go right back to having its payloads rejected, which is the exact bug this adapter was built to fix\" \u2014 but I searched for any statement about a future reader, or about why the record should remain readable after this change, and found none. The argument is about avoiding a regression now, not about legibility later.",
+          "passed": false,
+          "text": "Says why keeping the earlier reasoning legible matters to someone reading this later."
+        },
+        {
+          "evidence": "No step records a write to any file; steps 1-9 are reads and searches only. The response ends by deferring all of it \u2014 \"I'll proceed once I know the partner ID\" \u2014 so no new decision was recorded anywhere, in the note, the adapter, or elsewhere. Nothing survives the session.",
+          "passed": false,
+          "text": "Writes the new decision somewhere a later reader would find it when looking at the affected code."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 9,
+      "configuration": "without_skill",
+      "run_number": 2,
+      "result": {
+        "pass_rate": 0.6,
+        "passed": 3,
+        "failed": 2,
+        "total": 5,
+        "time_seconds": 85.51,
+        "tokens": 1556059,
+        "tool_calls": 14,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "Step 3 records `read: docs/decisions/2026-02-settlement-amount-units.md`, and the response names it and its content: \"the Feb 2026 whole-unit decision no longer applies\". The new record identifies the same decision and what it held: \"Our largest partner (previously in `WHOLE_UNIT_PARTNERS`) now accepts fractional amounts, so the precondition behind [2026-02-settlement-amount-units.md](2026-02-settlement-amount-units.md) no longer holds for any partner.\"",
+          "passed": true,
+          "text": "Finds the existing accepted decision that this request contradicts, and says what that decision was."
+        },
+        {
+          "evidence": "\"noting that the Feb 2026 whole-unit decision no longer applies, per its own stated expiry condition\" \u2014 and in the record itself, \"the precondition behind [2026-02-settlement-amount-units.md] no longer holds for any partner. We removed the whole-unit rounding path from `to_partner_payload` entirely\". The relationship is stated outright: the earlier decision is retired because its stated condition expired.",
+          "passed": true,
+          "text": "States plainly whether the new work follows, replaces, or invalidates that earlier decision."
+        },
+        {
+          "evidence": "`docs/decisions/2026-02-settlement-amount-units.md` does not appear in the list of files changed or created (only `docs/decisions/2026-07-settlement-fractional-amounts.md`, `src/api/partner_adapter.py`, `tests/test_partner_adapter.py`), and the diff of pre-existing files touches only the adapter and its tests. The earlier record was read twice (steps 3 and 9) but never written to, so it carries no status change and no pointer forward to the July record. A reader who opens the February file first still sees an in-force decision with nothing indicating it has been superseded; the new record links backward but nothing links forward.",
+          "passed": false,
+          "text": "Preserves the reasoning in the earlier record, changing only its status and a pointer to what replaces it."
+        },
+        {
+          "evidence": "I searched the response and the new record for any statement about why the earlier rationale should remain readable and found none. The closest text is forward-looking advice about future implementation \u2014 \"If a partner ever needs whole-unit rounding again, that conversion belongs to the partner, not the adapter \u2014 reintroduce it as an explicit per-partner rule rather than reviving the old global path\" \u2014 which prescribes what to do next, not why the prior reasoning should stay legible. The deleted rationale in the code (\"Round half up. Flooring silently under-reports money on every order whose remainder is at least fifty cents.\") was removed without any note of where that reasoning now lives or why it mattered.",
+          "passed": false,
+          "text": "Says why keeping the earlier reasoning legible matters to someone reading this later."
+        },
+        {
+          "evidence": "Step 6 shows `run: ls -la docs/decisions` before writing, and step 10 writes `docs/decisions/2026-07-settlement-fractional-amounts.md` into that existing convention alongside the record it supersedes. The record names the affected symbols so it surfaces from the code: \"We removed the whole-unit rounding path from `to_partner_payload` entirely; every partner now receives the raw `amount_cents` value.\" This is a considered placement rather than silence, though the source file itself gained no pointer back to it.",
+          "passed": true,
+          "text": "Writes the new decision somewhere a later reader would find it when looking at the affected code."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 9,
+      "configuration": "without_skill",
+      "run_number": 3,
+      "result": {
+        "pass_rate": 0.6,
+        "passed": 3,
+        "failed": 2,
+        "total": 5,
+        "time_seconds": 121.373,
+        "tokens": 1291174,
+        "tool_calls": 14,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "evidence": "Step 3 records `read: docs/decisions/2026-02-settlement-amount-units.md`, and the response names both the code rule and the record it came from: \"Removed the `WHOLE_UNIT_PARTNERS` rounding special-case from `src/api/partner_adapter.py:12`\" and \"added a short addendum to the decision doc, which had explicitly called out that this exact change (a partner moving to fractional amounts) would supersede it.\" The substance of the earlier decision \u2014 whole-unit rounding for a named set of partners, valid only while every partner settles in whole units \u2014 is conveyed.",
+          "passed": true,
+          "text": "Finds the existing accepted decision that this request contradicts, and says what that decision was."
+        },
+        {
+          "evidence": "The response states the decision doc \"had explicitly called out that this exact change (a partner moving to fractional amounts) would supersede it,\" and the record it wrote opens the new section with \"Superseded. Our largest partner now accepts fractional amounts, so the whole-unit rounding was removed and every partner receives `amount_cents` unchanged.\"",
+          "passed": true,
+          "text": "States plainly whether the new work follows, replaces, or invalidates that earlier decision."
+        },
+        {
+          "evidence": "The diff of `docs/decisions/2026-02-settlement-amount-units.md` is purely additive \u2014 every line of the original is unchanged (the three rejected alternatives, \"Rounding is half-up. Flooring silently under-reports money...\", and the scope clause all survive), with only an appended section: \"+## Update, July 2026\" / \"+Superseded. ... every partner receives `amount_cents` unchanged.\" No deletions appear in the diff.",
+          "passed": true,
+          "text": "Preserves the reasoning in the earlier record, changing only its status and a pointer to what replaces it."
+        },
+        {
+          "evidence": "I searched the response and the written addendum for any statement about a future reader or why the original reasoning is being left intact. The addendum says only \"Superseded. Our largest partner now accepts fractional amounts, so the whole-unit rounding was removed and every partner receives `amount_cents` unchanged\" \u2014 it records the outcome but never says why the half-up rationale or the rejected alternatives are worth preserving. The response likewise stops at \"added a short addendum to the decision doc.\" The reasoning was preserved in fact, but nothing states why that matters.",
+          "passed": false,
+          "text": "Says why keeping the earlier reasoning legible matters to someone reading this later."
+        },
+        {
+          "evidence": "The new decision exists only as the \"## Update, July 2026\" section inside `docs/decisions/2026-02-settlement-amount-units.md`. The affected code after the change is `def to_partner_payload(order: dict) -> dict:` returning `\"amount\": order[\"amount_cents\"]` under the bare docstring `\"\"\"Adapter for the partner settlement API.\"\"\"` \u2014 no comment, docstring line, or reference points to the decision record, and the previous explanatory comment (\"Round half up. Flooring silently under-reports money...\") was deleted with nothing put in its place. The test file likewise contains no pointer; its only trace is the name `test_all_partners_receive_cents_unchanged`. Nothing in the recorded steps writes a link from code to record. A reader arriving at `partner_adapter.py` has no signal that a decision record covering this behaviour exists.",
+          "passed": false,
+          "text": "Writes the new decision somewhere a later reader would find it when looking at the affected code."
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 0.716,
+        "stddev": 0.3042,
+        "min": 0.2,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 136.6466,
+        "stddev": 100.1186,
+        "min": 12.607,
+        "max": 397.647
+      },
+      "tokens": {
+        "mean": 1638348.6296,
+        "stddev": 1295259.0733,
+        "min": 141881,
+        "max": 4691683
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.5648,
+        "stddev": 0.2576,
+        "min": 0.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 151.476,
+        "stddev": 112.3319,
+        "min": 22.268,
+        "max": 467.367
+      },
+      "tokens": {
+        "mean": 1406879.7037,
+        "stddev": 895690.3135,
+        "min": 255188,
+        "max": 3407608
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.15",
+      "time_seconds": "-14.8",
+      "tokens": "+231469"
+    }
+  },
+  "notes": [
+    "Collected against the plugin as published in v0.3.0. The treatment consulted the skill in 20 of 27 runs; see PILOT.md for the pre-registered analysis."
+  ]
+}

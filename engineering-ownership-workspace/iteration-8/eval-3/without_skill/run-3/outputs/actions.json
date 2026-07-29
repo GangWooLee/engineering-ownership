@@ -1,0 +1,24 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "git status && echo \"---DIFF---\" && git diff && echo \"---LOG---\" && git log --oneline -5"
+    },
+    {
+      "action": "run",
+      "target": "find . -path ./node_modules -prune -o -iname \"*test*partner*\" -print -o -iname \"*test*schema*\" -print 2>/dev/null; echo \"---\"; find . -path ./node_modules -prun"
+    },
+    {
+      "action": "run",
+      "target": "cat ./tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m pytest tests/ -v 2>&1 | tail -20"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -v 2>&1 | tail -20"
+    }
+  ]
+}

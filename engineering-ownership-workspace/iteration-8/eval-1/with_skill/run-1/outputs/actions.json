@@ -1,0 +1,8 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "cat (outside the repository) 2>/dev/null | head -100"
+    }
+  ]
+}

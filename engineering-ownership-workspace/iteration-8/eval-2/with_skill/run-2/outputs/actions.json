@@ -1,0 +1,176 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "ls -la (outside the repository) 2>/dev/null && echo \"---MEMORY.md---\" && cat (outside the repository) 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "git log --oneline -20 && echo \"---STATUS---\" && git status && echo \"---FILES---\" && find . -maxdepth 3 -not -path */node_modules/* -not -path */.git/* | sort"
+    },
+    {
+      "action": "run",
+      "target": "cat (outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "cat .engineering/contract.json"
+    },
+    {
+      "action": "run",
+      "target": "cat AGENTS.md"
+    },
+    {
+      "action": "read",
+      "target": "src/auth/session.py"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_session.py"
+    },
+    {
+      "action": "run",
+      "target": "find docs -type f | xargs -I{} sh -c 'echo \"=== {} ===\"; cat \"{}\"'"
+    },
+    {
+      "action": "run",
+      "target": "cat .engineering/evidence/partner-settlement-rounding.json"
+    },
+    {
+      "action": "run",
+      "target": "which engineering 2>/dev/null; find (outside the repository) -maxdepth 6 -iname \"engineering\" -type f 2>/dev/null | grep -v Cellar; find (outside the repository"
+    },
+    {
+      "action": "run",
+      "target": "export PATH=\"$HOME/.local/bin:$PATH\"; which engineering; engineering --help 2>&1 | head -50"
+    },
+    {
+      "action": "run",
+      "target": "export PATH=\"$HOME/.local/bin:$PATH && engineering change start rotating-refresh-tokens --risk R3 --title \"Rotating refresh tokens for login\" 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "for f in docs/engineering/changes/rotating-refresh-tokens.md docs/engineering/decisions/rotating-refresh-tokens.md docs/engineering/security/rotating-refresh-to"
+    },
+    {
+      "action": "run",
+      "target": "cat (outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "cat (outside the repository)"
+    },
+    {
+      "action": "search",
+      "target": "issue_refresh_token|is_refresh_valid|revoke|refresh_expires_at|REFRESH_TOKEN|session"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "cat (outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "cat (outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "cat (outside the repository)"
+    },
+    {
+      "action": "write",
+      "target": "src/auth/session.py"
+    },
+    {
+      "action": "write",
+      "target": "tests/test_session.py"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "python3 -c \" from datetime import datetime, timezone from src.auth.session import start_session, rotate, is_refresh_valid, ReuseDetected, family_of # Simulate: "
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/changes/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/changes/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/decisions/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/security/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/security/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/runbooks/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/runbooks/rotating-refresh-tokens.md"
+    },
+    {
+      "action": "run",
+      "target": "export PATH=\"$HOME/.local/bin:$PATH && engineering verify rotating-refresh-tokens 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "export PATH=\"$HOME/.local/bin:$PATH && engineering refs check --change rotating-refresh-tokens 2>&1; echo \"---check---\"; engineering check --mode advise --chang"
+    },
+    {
+      "action": "run",
+      "target": "grep -rn \"engineering-decision\" (outside the repository) 2>/dev/null | head -20"
+    },
+    {
+      "action": "write",
+      "target": "src/auth/session.py"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v 2>&1 | tail -5"
+    },
+    {
+      "action": "run",
+      "target": "export PATH=\"$HOME/.local/bin:$PATH && engineering verify rotating-refresh-tokens 2>&1 && echo \"---refs---\" && engineering refs check --change rotating-refresh-"
+    },
+    {
+      "action": "run",
+      "target": "cat README.md"
+    },
+    {
+      "action": "run",
+      "target": "git status && echo \"---\" && git diff --stat"
+    },
+    {
+      "action": "read",
+      "target": "src/auth/session.py"
+    }
+  ]
+}

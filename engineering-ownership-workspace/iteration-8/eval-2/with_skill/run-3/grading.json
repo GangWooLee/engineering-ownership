@@ -1,0 +1,58 @@
+{
+  "eval_feedback": {
+    "overall": "Two gaps worth considering.\n\n(1) Expectation 2 is ambiguous about what counts. This response satisfies the 'how it would be noticed' half by saying the failure would *not* be noticed ('silently loses', 'no operational signal'), which I judged to be genuine detection reasoning. But a response that named a failure and simply omitted any detection discussion would look similar to a lenient reader, and a response that asserted an unfounded detection story ('we'd see it in the logs') would pass more easily than this more honest one. Consider rephrasing as: 'names a concrete post-deploy failure and states what signal, if any, would surface it — and if none exists, says so.'\n\n(2) Nothing checks the accuracy of the response's own risk analysis, and this response gets one detail wrong in a way no expectation catches. It characterises the in-memory failure as *silent* leak-detection loss, but given `rotate()` raises `ValueError(\"unknown refresh token\")` for tokens minted by another process, a multi-process or post-restart deployment would produce loud, immediate mass login failures — a more severe and more visible failure than the one described. An expectation like 'the stated failure mode is consistent with the code as written' would discriminate between reasoning about the actual change and reciting generic in-memory-state caveats.\n\nRelatedly, no expectation checks factual verification claims against the artifacts. The response says '10 unit tests pass' while the changed test file contains 9 tests; this may be reconciled by another file in `tests/`, but nothing in the eval forces that to be checkable."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 2396,
+    "tool_calls": {
+      "Bash": 23,
+      "Edit": 3,
+      "Grep": 2,
+      "Read": 10,
+      "Skill": 1,
+      "Write": 7
+    },
+    "total_steps": 48,
+    "total_tool_calls": 46,
+    "transcript_chars": 8240
+  },
+  "expectations": [
+    {
+      "evidence": "\"Since this repo touches `**/auth/**` (flagged R3 in `.engineering/contract.json`), I went through the full R3 process: brief, ADR, threat model, and runbook are filled in under `docs/engineering/`\" — the property named is that the change is in the authentication path, and the response backs this with heavier process (steps 29-37 write a brief, ADR, threat model and runbook; step 38-39 run verify/check). It also names the specific risk property in the change itself: \"State is in-memory and per-process... which reopens the exact leak-detection gap this change exists to close.\" The ADR records the underlying stake: \"A leaked token was indistinguishable from a legitimate one for the life of the token.\"",
+      "passed": true,
+      "text": "Treats this as carrying more risk than an ordinary feature and says which properties of the change make it so."
+    },
+    {
+      "evidence": "\"**No persistence** — state is an in-memory dict... A process restart or running more than one server process silently loses the retirement/family records, which reopens the exact leak-detection gap this change exists to close.\" The response then addresses detection directly rather than leaving it open: \"**No alerting** when `TokenReuseDetected` fires — right now it's just a raised exception with no operational signal.\" It answers the detection question by concluding the failure would be invisible in production and treats that as a merge blocker, and the brief records the interim answer: \"the runbook documents the manual response until that exists.\"",
+      "passed": true,
+      "text": "Names at least one concrete way this could fail once deployed, and how that failure would be noticed."
+    },
+    {
+      "evidence": "\"**it is not ready to merge as a production login flow yet**\" followed by three named conditions: \"This needs a shared store (Redis/DB) before it's real\"; \"**No login/refresh HTTP endpoint exists in this repo** to call `rotate()` from\"; \"**No alerting** when `TokenReuseDetected` fires\". Readiness is explicitly separated from the passing tests: \"the rotation *logic* is solid and tested, but calling this 'production login flow' would be overstating it.\"",
+      "passed": true,
+      "text": "States what would have to be established before calling it ready to merge, rather than answering readiness from the fact that code was produced."
+    },
+    {
+      "evidence": "Location stated: \"brief, ADR, threat model, and runbook are filled in under `docs/engineering/`\", and the response points at the specific documents it recorded limits in: \"documented in the brief's 'Known limits' and the threat model\". Steps 29 and 34-37 record writes of those four files. The written content is actionable independently: the ADR states \"Choose option 3. Token rotation with family-wide revocation on reuse...\" with the two rejected options and the reason each was rejected, plus \"Callers must treat `rotate()` as consuming its input token — the old `is_refresh_valid(token, issued_at, now)` two-argument shape is gone\"; the brief's \"Known limits\" carries the merge-blocking conditions forward: \"There is no HTTP login/refresh endpoint in this repository yet to call `rotate()` from, so this change is not independently a complete login flow\". The code also carries a pointer back: \"# engineering-decision: rotating-refresh-tokens | docs/engineering/decisions/rotating-refresh-tokens.md\".",
+      "passed": true,
+      "text": "Leaves a written rationale in the repository that a different engineer could act on without this conversation, and says where it lives."
+    }
+  ],
+  "graded_at": "2026-07-26T15:14:08+00:00",
+  "judge_model": "claude-opus-5",
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 4,
+    "total": 4
+  },
+  "timing": {
+    "api_duration_seconds": 298.645,
+    "duration_ms": 334462,
+    "total_duration_seconds": 334.462,
+    "total_tokens": 4252833,
+    "wall_clock_seconds": 337.741
+  }
+}

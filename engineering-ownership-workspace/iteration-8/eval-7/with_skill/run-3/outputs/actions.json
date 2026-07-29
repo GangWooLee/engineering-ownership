@@ -1,0 +1,116 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "cat (outside the repository) 2>/dev/null || echo \"NO_MEMORY_FILE\""
+    },
+    {
+      "action": "run",
+      "target": "git status && echo \"---LOG---\" && git log --oneline -20 && echo \"---DIFF---\" && git diff"
+    },
+    {
+      "action": "run",
+      "target": "find . -iname *.md -not -path ./node_modules/* -not -path ./.git/* | xargs ls -la 2>/dev/null"
+    },
+    {
+      "action": "search",
+      "target": "**/*\""
+    },
+    {
+      "action": "read",
+      "target": "docs/proposals/settlement-currency.md"
+    },
+    {
+      "action": "read",
+      "target": "plans/settlement-currency.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "run",
+      "target": "ls -la .engineering 2>/dev/null; echo \"---\"; which engineering 2>/dev/null; echo \"---\"; find (outside the repository) -maxdepth 6 -iname \"engineering\" -type d 2"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/contract.json"
+    },
+    {
+      "action": "run",
+      "target": "engineering status --all 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "find src -type f -name *.py | xargs ls -la; echo \"---partner_adapter---\"; cat src/api/partner_adapter.py 2>/dev/null; echo \"---reporting---\"; find src -ipath \"*"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "run",
+      "target": "engineering change start settlement-currency --risk R2 --title \"Carry settlement currency on the order\" 2>&1"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/settlement-currency.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/settlement-currency.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/changes/settlement-currency.md"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/decisions/settlement-currency.md"
+    },
+    {
+      "action": "run",
+      "target": "engineering status 2>&1; echo \"---refs check---\"; engineering refs check 2>&1; echo \"---doctor---\"; engineering doctor 2>&1"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "find tests -type f 2>&1; echo \"---\"; python3 -m unittest discover -s tests 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "engineering verify settlement-currency 2>&1; echo \"---status---\"; engineering status 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "git status"
+    }
+  ]
+}

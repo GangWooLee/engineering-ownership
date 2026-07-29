@@ -1,0 +1,12 @@
+{
+  "eval_id": 6,
+  "eval_name": "resume-work-without-conversation-history",
+  "expectations": [
+    "Reconstructs what the earlier work was trying to achieve, citing something specific that only reading the repository would reveal.",
+    "Reports whether the recorded verification still covers the current state of the work, or that it re-established coverage, and says which of the two it is.",
+    "Names at least one risk in the current changes that the existing records do not already account for.",
+    "States that this continues an existing effort rather than starting a new one, and says what told it so.",
+    "States the current state of the work and the next action to take."
+  ],
+  "prompt": "Continue the previous database and API work."
+}

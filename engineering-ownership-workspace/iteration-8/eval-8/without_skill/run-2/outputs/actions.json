@@ -1,0 +1,72 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "git status && echo \"---DIFF---\" && git diff && echo \"---LOG---\" && git log --oneline -20"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "src/api/rate_limit.py"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_rate_limit.py"
+    },
+    {
+      "action": "run",
+      "target": "find . -iname *.md -not -path ./node_modules/* | head -50 && echo \"---\" && find . -path ./node_modules -prune -o -iname \"*partner*\" -print 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "git log --all --oneline | head -30 && echo \"---branches---\" && git branch -a"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "run",
+      "target": "git show HEAD:src/api/partner_adapter.py; echo \"---evidence---\"; cat .engineering/evidence/partner-settlement-rounding.json 2>/dev/null; echo \"---test_partner_a"
+    },
+    {
+      "action": "run",
+      "target": "find . -path ./.git -prune -o -type d -name \".engineering\" -print; echo \"---\"; find . -path ./.git -prune -o -path */.engineering/* -print; echo \"---docs tree--"
+    },
+    {
+      "action": "read",
+      "target": "README.md"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/contract.json"
+    },
+    {
+      "action": "run",
+      "target": "grep -rniE \"burst|rate.?limit|req(uest)?s?.?per.?sec|throttle|429\" --include=\"*.py --include=\"*.md --include=\"*.json --include=\"*.yaml\" --include=\"*.yml\" . | gr"
+    },
+    {
+      "action": "run",
+      "target": "find . -path ./.git -prune -o -type f -print | grep -v \\.git/ | sort"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v 2>&1 | tail -30"
+    }
+  ]
+}

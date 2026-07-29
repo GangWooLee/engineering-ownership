@@ -1,0 +1,49 @@
+{
+  "eval_feedback": {
+    "overall": "Expectation 1 is satisfiable by naming a single magic number, which is the most conspicuous target in this repo and needs no real judgment to find; a response that spotted `BURST_LIMIT = 7` and stopped would pass the first half. Since the second half ('why those places and not others') is what actually tests discrimination, consider splitting it into two expectations so a response cannot half-satisfy it invisibly — as written, the pass/fail line falls in the middle of one sentence.\n\nMore importantly, no expectation covers the behaviour this response most clearly exhibits: refusing to fabricate a rationale it could not source. The response says \"I don't want to invent a justification for those specific values\" and asks for the origin instead. A different response that confidently wrote \"7 req/sec, chosen as a safety margin below the partner's 10 req/sec limit\" into a decision doc would pass expectations 1 and 2 outright while planting an unsourced claim in the repository permanently — the exact failure the task ('find out why it was built this way') exists to prevent. I'd add an expectation that no rationale is asserted which is not traceable to the repo, the diff, or the user. Otherwise the eval rewards fluent invention over accurate uncertainty.\n\nExpectation 2 is also currently unreachable for any response that stops to ask a question, however well-founded. If asking first is acceptable behaviour, the expectation should say whether a recorded open question — e.g. a doc stating the value's provenance is unknown and pending — counts as durable. As written it forces a choice between answering the user and passing."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 580,
+    "tool_calls": {
+      "Bash": 4,
+      "Read": 5
+    },
+    "total_steps": 10,
+    "total_tool_calls": 9,
+    "transcript_chars": 932
+  },
+  "expectations": [
+    {
+      "evidence": "The response names exactly one place and gives a reason for it: \"the code sets `BURST_LIMIT = 7` and `WINDOW_SECONDS = 1.0` in `src/api/rate_limit.py`, but nothing in the repo records where those numbers came from.\" That satisfies the selection half. I then searched the response for any statement distinguishing this from the rest of the feature — the adapter wiring in `partner_adapter.py`, the `may_submit_now()` entry point, the limiter's window algorithm, the tests it read at step 3 — and found no sentence contrasting them or explaining why they were passed over. The words \"and not others\" have no counterpart in the text; the response never surveys what it decided to leave alone.",
+      "passed": false,
+      "text": "Selects a small number of specific places where the rationale is not evident from the code, and says why those places and not others."
+    },
+    {
+      "evidence": "No write or edit step appears among the nine recorded steps — all are `run`, `read`, or `grep`. The only diff shown is the addition of `RateLimiter` wiring to `partner_adapter.py`, which is the feature under review surfaced by the `git diff` at step 1, not authorship by the responder. The response itself puts the writing in the future: \"I'll fold it into the docs and code comment.\" As of this response the rationale exists only in the conversation. Note that steps 6 and 7 show it read `docs/engineering/changes/partner-settlement-rounding.md` and `docs/engineering/decisions/partner-settlement-rounding.md`, so it located the durable convention and did not yet use it.",
+      "passed": false,
+      "text": "Leaves the rationale itself somewhere durable in the repository rather than only in this conversation."
+    },
+    {
+      "evidence": "I searched the response for any statement that some part of the change is self-explanatory, obvious from the code, or not worth documenting. There is none — the response addresses only the rate-limit constants and says nothing about the remainder of the diff. Under the standard that silence is not restraint, an unstated judgment is not a stated one.",
+      "passed": false,
+      "text": "Says where it judged an explanation unnecessary because the code already accounts for itself."
+    }
+  ],
+  "graded_at": "2026-07-26T15:48:44+00:00",
+  "judge_model": "claude-opus-5",
+  "summary": {
+    "failed": 3,
+    "pass_rate": 0.0,
+    "passed": 0,
+    "total": 3
+  },
+  "timing": {
+    "api_duration_seconds": 73.8,
+    "duration_ms": 75884,
+    "total_duration_seconds": 75.884,
+    "total_tokens": 731870,
+    "wall_clock_seconds": 77.957
+  }
+}

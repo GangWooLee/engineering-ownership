@@ -1,0 +1,8 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "git diff README.md; echo \"---STATUS---\"; git status"
+    }
+  ]
+}

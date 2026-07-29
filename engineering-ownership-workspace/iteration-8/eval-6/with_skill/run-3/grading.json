@@ -1,0 +1,60 @@
+{
+  "eval_feedback": {
+    "overall": "Expectation 2 is the weakest. It passed on a single trailing clause (\"no test covers either path\") that never mentions the recorded verification, never reports the result of the test run the responder actually performed, and never says whether the evidence record is now stale. A response that guessed \"there are no tests\" without opening the evidence file or running anything would read identically. Consider requiring the response to identify the recorded verification it checked and state what that check returned — that is hard to satisfy without doing it.\n\nExpectation 3 has a related loophole in the opposite direction: the response explicitly attributes both of its findings back to existing records (\"The ADR itself names ... as the top risk here\"; \"the exact TODO the Brief already flagged\"), and it still passes because the concrete defect in the uncommitted code is new even where the category was anticipated. That distinction is doing a lot of work in my verdict and another grader could reasonably fail it. Consider rephrasing to something checkable, e.g. \"identifies a defect present in the uncommitted changes that is not described in any record.\"\n\nGap not covered by any expectation: the diff adds a `NOT NULL DEFAULT 'USD'` column to an existing `orders` table and changes `ORDER_COLUMNS`, with no migration and no mention in the ADR (whose stated scope was payload conversion only). The response lists this descriptively but never flags it as a risk, and no expectation catches the omission. An assertion about whether the response notices schema changes that exceed the recorded decision's scope would discriminate here — this response would have failed it."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 2187,
+    "tool_calls": {
+      "Bash": 8,
+      "Read": 6,
+      "Skill": 1
+    },
+    "total_steps": 17,
+    "total_tool_calls": 15,
+    "transcript_chars": 7226
+  },
+  "expectations": [
+    {
+      "evidence": "\"**Change record:** `partner-settlement-rounding` (R2, opened 2026-07-18, review was due 2026-07-25 — one day overdue). Original ADR decision: convert cents → whole units once inside `to_partner_payload`, keep the DB stored in cents (`docs/engineering/decisions/partner-settlement-rounding.md`).\" The recorded steps back this up: step 10 reads `docs/engineering/changes/partner-settlement-rounding.md` and step 11 reads the decision record, so the risk tier, dates and the ADR's stated decision are drawn from the repository rather than inferred from the prompt.",
+      "passed": true,
+      "text": "Reconstructs what the earlier work was trying to achieve, citing something specific that only reading the repository would reveal."
+    },
+    {
+      "evidence": "\"If \\\"fractional units\\\" means those partners expect a decimal currency amount (e.g. `5.01`), that conversion doesn't exist yet — and no test covers either path.\" This is a determinate report that the existing verification does not cover the changed behaviour, and the response does not claim to have re-established it. It is grounded in work that actually happened: step 7 reads `tests/test_partner_adapter.py`, step 12 reads `.engineering/evidence/partner-settlement-rounding.json`, and step 13 runs the suite. It is a thin report, though — the response never names the evidence record or states the suite result.",
+      "passed": true,
+      "text": "Reports whether the recorded verification still covers the current state of the work, or that it re-established coverage, and says which of the two it is."
+    },
+    {
+      "evidence": "\"**Silent truncation bug in the new code.** `amount // 100` floors instead of rounds — e.g. 501 cents → `5`, quietly dropping $0.01.\" The ADR named the risk category, which the response acknowledges, but no record states that the uncommitted code has materialised it; this is a defect found by reading the diff (step 2). The response also identifies an uncovered consequence of the unfinished path: \"Non-`WHOLE_UNIT_PARTNERS` currently still get raw `amount_cents` (e.g. `501`) sent as `amount`, unchanged.\"",
+      "passed": true,
+      "text": "Names at least one risk in the current changes that the existing records do not already account for."
+    },
+    {
+      "evidence": "\"I've recovered the state of this in-progress change.\" and \"**Uncommitted diff on top of that (from the prior session):**\" — the response attributes the continuation to specific artefacts it read: the change record opened 2026-07-18, the ADR, and the uncommitted working-tree diff, all of which appear as recorded steps (2, 10, 11).",
+      "passed": true,
+      "text": "States that this continues an existing effort rather than starting a new one, and says what told it so."
+    },
+    {
+      "evidence": "State: \"Leaves the exact TODO the Brief already flagged as unresolved: *\\\"partners that settle in fractional units still need a rule.\\\"*\" Next action: \"Before I write code: what's the rule for these two cases?\" followed by a concrete default it will act on — \"my default would be: round-half-up to nearest whole unit for `WHOLE_UNIT_PARTNERS`, and send `amount_cents / 100` as a 2-decimal value for everyone else\". The response chose a level of process (pause on two money-correctness decisions, proceed on everything else) rather than being silent about it.",
+      "passed": true,
+      "text": "States the current state of the work and the next action to take."
+    }
+  ],
+  "graded_at": "2026-07-26T15:34:35+00:00",
+  "judge_model": "claude-opus-5",
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 5,
+    "total": 5
+  },
+  "timing": {
+    "api_duration_seconds": 114.217,
+    "duration_ms": 121601,
+    "total_duration_seconds": 121.601,
+    "total_tokens": 994800,
+    "wall_clock_seconds": 123.838
+  }
+}

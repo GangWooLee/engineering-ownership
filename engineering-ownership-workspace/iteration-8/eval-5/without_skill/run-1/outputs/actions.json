@@ -1,0 +1,92 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "ls (outside the repository) 2>/dev/null && echo \"---\" && cat (outside the repository) 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "pwd && ls -la"
+    },
+    {
+      "action": "read",
+      "target": "README.md"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "read",
+      "target": "CONTRIBUTING.md"
+    },
+    {
+      "action": "run",
+      "target": "find . -path ./.git -prune -o -type f -print | sort"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "docs/decisions/2026-02-settlement-amount-units.md"
+    },
+    {
+      "action": "run",
+      "target": "cat .gitignore && echo \"---LOG---\" && git log --oneline -20 && echo \"---STAT---\" && git log --stat -5"
+    },
+    {
+      "action": "run",
+      "target": "find . -path ./.git -prune -o -iname \"*makefile*\" -print -o -iname \"*.yml\" -print -o -iname \"*.yaml\" -print -o -iname \"*.cfg\" -print -o -iname \"*.toml\" -print -"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "mkdir -p .github"
+    },
+    {
+      "action": "write",
+      "target": ".github/workflows/tests.yml"
+    },
+    {
+      "action": "write",
+      "target": ".github/pull_request_template.md"
+    },
+    {
+      "action": "read",
+      "target": "README.md"
+    },
+    {
+      "action": "write",
+      "target": "README.md"
+    },
+    {
+      "action": "run",
+      "target": "python3 -c \"import yaml, sys; yaml.safe_load(open('.github/workflows/tests.yml')) 2>&1 || python3 -c \" import ast content = open('.github/workflows/tests.yml')."
+    },
+    {
+      "action": "run",
+      "target": "git status && echo \"---DIFF---\" && git diff && echo \"---NEW FILES---\" && git status --porcelain | awk '{print $2}' | xargs -I{} sh -c 'echo \"== {} ==\"; cat \"{}\""
+    },
+    {
+      "action": "write",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "MEMFILE=\"~/.claude/projects/-private-var-folders-p1-j0wyrz8117sg39nkjhwx2k-00000gn-T-engo-eval-lxt37awx-eval-5-without-skill-1/memory/MEMORY.md if ["
+    }
+  ]
+}

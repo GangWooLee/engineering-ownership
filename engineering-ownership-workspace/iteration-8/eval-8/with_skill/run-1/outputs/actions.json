@@ -1,0 +1,60 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "git status && echo \"---BRANCH---\" && git branch --show-current && echo \"---LS .engineering---\" && ls -la .engineering 2>/dev/null || echo \"no .engineering dir\""
+    },
+    {
+      "action": "run",
+      "target": "ls -la AGENTS.md CLAUDE.md 2>/dev/null; echo \"---\"; which engineering 2>/dev/null || echo \"engineering not on PATH\""
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/contract.json"
+    },
+    {
+      "action": "run",
+      "target": "engineering status --all 2>&1; echo \"---evidence dir---\"; find .engineering/evidence -type f 2>/dev/null; echo ---docs/engineering---\"; find docs/engineering -t"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "git diff src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "src/api/rate_limit.py"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_rate_limit.py"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-settlement-rounding.md"
+    },
+    {
+      "action": "run",
+      "target": "cat src/api/partner_adapter.py; echo \"---COMMIT aba224f---\"; git show aba224f --stat; echo \"---decision doc---\"; cat docs/engineering/decisions/partner-settleme"
+    },
+    {
+      "action": "run",
+      "target": "cat tests/test_partner_adapter.py; echo \"---schema---\"; cat src/db/schema.py; echo \"---README---\"; cat README.md; echo \"---gitignore---\"; cat .gitignore"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v 2>&1"
+    }
+  ]
+}

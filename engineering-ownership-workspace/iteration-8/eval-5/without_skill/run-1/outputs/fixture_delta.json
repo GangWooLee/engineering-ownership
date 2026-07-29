@@ -1,0 +1,10 @@
+{
+  "file_contents": {
+    "README.md": "# orders-service\n\nOrder records and the partner settlement adapter.\n\nDesign notes live in `docs/decisions/`.\n\n## Development\n\nRun the test suite before pushing:\n\n    python3 -m unittest discover -s tests\n\nCI runs the same command on every push and pull request. See `CONTRIBUTING.md`\nfor house rules on commit structure and keeping design notes in sync.\n"
+  },
+  "paths_changed_by_run": [
+    ".github/",
+    "README.md"
+  ],
+  "tracked_diff": "diff --git a/README.md b/README.md\nindex 7398776..12501e7 100644\n--- a/README.md\n+++ b/README.md\n@@ -3,3 +3,12 @@\n Order records and the partner settlement adapter.\n \n Design notes live in `docs/decisions/`.\n+\n+## Development\n+\n+Run the test suite before pushing:\n+\n+    python3 -m unittest discover -s tests\n+\n+CI runs the same command on every push and pull request. See `CONTRIBUTING.md`\n+for house rules on commit structure and keeping design notes in sync.\n"
+}

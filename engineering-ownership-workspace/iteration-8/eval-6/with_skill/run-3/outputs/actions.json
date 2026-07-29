@@ -1,0 +1,60 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "ls (outside the repository) 2>/dev/null && echo \"---\" && cat (outside the repository) 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "git status && echo \"---DIFF---\" && git diff && echo \"---LOG---\" && git log --oneline -10"
+    },
+    {
+      "action": "run",
+      "target": "find . -type f -name *.py -not -path */node_modules/* -not -path */.git/* | xargs ls -la 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "git log --all --oneline -20 && echo \"---SHOW---\" && git show aba224f --stat"
+    },
+    {
+      "action": "run",
+      "target": "find .engineering -type f 2>/dev/null | sort"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/contract.json"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "(engineering status --all 2>&1 || (outside the repository) status --all 2>&1)"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/evidence/partner-settlement-rounding.json"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "cat AGENTS.md 2>/dev/null; echo \"---\"; cat README.md 2>/dev/null"
+    }
+  ]
+}

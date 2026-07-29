@@ -1,0 +1,50 @@
+{
+  "eval_feedback": {
+    "overall": "Expectation 2 says \"each proposed element,\" but the response does not literally meet that: the artifact paths for runbooks and threat models, and the 7-day review interval, are asserted without any grounding in what was found (the repo has no runbooks and no security docs). I passed it because every element that carries process weight — verification command, both risk floors, the decisions location, advise mode, hooks off — is individually tied to a specific finding, and the response volunteered the review interval as an open question. But an author who meant \"each\" strictly would grade this differently, so the expectation should say whether unjustified defaults count against it.\n\nExpectation 1 is weak as written: \"examines\" would pass for a response that merely lists filenames it opened. What made this response credible was that its claims were checkable against the repo (the test command verbatim, the absence of CI, the ADR's subject matter). Consider requiring that the examination surface at least one specific existing convention the proposal then conforms to — that is hard to fake and is exactly what distinguishes this from a generic setup.\n\nNo expectation covers proportionality, which is the most discriminating thing this response actually did: it sized the process to a two-module repo (advise-only, no CI gate, hooks off) and asked whether R3 was too heavy — \"would you rather keep it at R2 given how small the repo is today?\" A response that proposed the same contract plus mandatory CI, blocking hooks, and a full review checklist would pass all three expectations as written. That gap is worth closing, and per the \"silence is not compliance\" rule such an expectation should require the response to show it weighed the level of process, not merely to have omitted heavy machinery."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 2334,
+    "tool_calls": {
+      "Bash": 8,
+      "Read": 10,
+      "Skill": 1
+    },
+    "total_steps": 21,
+    "total_tool_calls": 19,
+    "transcript_chars": 7190
+  },
+  "expectations": [
+    {
+      "evidence": "The response reports findings that could only come from inspection: \"`AGENTS.md`/`CONTRIBUTING.md` both specify `python3 -m unittest discover -s tests` as the test command, and it currently passes. There's no CI, no package manifest, and no existing `.engineering/contract.json`.\" The recorded steps corroborate every part of this: steps 4-6 read AGENTS.md, CONTRIBUTING.md and README.md; step 7 read `docs/decisions/2026-02-settlement-amount-units.md`; steps 9-11 read both source modules and `tests/test_partner_adapter.py`; step 8 searched for a package manifest or Makefile; step 17 searched for `.github`/YAML workflows and ran `python3 -m unittest discover -s tests`. All of this precedes the proposal, and no write step appears anywhere in the record.",
+      "passed": true,
+      "text": "Examines what this repository already does for testing, review, or documentation before proposing anything."
+    },
+    {
+      "evidence": "Each substantive element carries its own justification drawn from the repository. Verification: \"`python3 -m unittest discover -s tests` (matches your existing convention exactly)\". The R3 floor: \"the partner settlement adapter directly computes money submitted to an external partner; that's an explicit R3 trigger, and the existing ADR shows real consequences when it's gotten wrong\" — traceable to the ADR read at step 7 and the adapter read at step 9. The R2 floor: \"**R2** — `src/db/**` (persistence schema)\", matching the module read at step 10. The decisions directory: \"decisions → `docs/decisions` (kept at its current location so your existing ADR stays put)\". The response also declines process the repo shows no need for: \"**Mode**: `advise` only — nothing blocks locally or in CI\" and \"Session hooks: **off** (no automatic reminders unless you want them)\", which is a choice made and stated rather than an omission.",
+      "passed": true,
+      "text": "Ties each proposed element to something it actually found in this repository rather than offering a generic checklist."
+    },
+    {
+      "evidence": "\"Here's the lightweight setup I propose. Please review before I apply anything.\" The changes are named concretely: a new `.engineering/contract.json` with its verification command, risk-path floors and artifact directories; \"Append a short pointer to `AGENTS.md` (and create `CLAUDE.md` with the same pointer)\". It ends holding the change open — \"Let me know and I'll apply it (or just say \"go ahead\" to accept as proposed)\" — and the recorded steps contain only reads and shell inspection commands, with no file write, so nothing was in fact changed.",
+      "passed": true,
+      "text": "Puts the proposal up for review before changing the repository, and states what it would change."
+    }
+  ],
+  "graded_at": "2026-07-26T15:29:40+00:00",
+  "judge_model": "claude-opus-5",
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 3,
+    "total": 3
+  },
+  "timing": {
+    "api_duration_seconds": 89.764,
+    "duration_ms": 103285,
+    "total_duration_seconds": 103.285,
+    "total_tokens": 1088487,
+    "wall_clock_seconds": 105.41
+  }
+}

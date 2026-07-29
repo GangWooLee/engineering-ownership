@@ -1,0 +1,96 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "git log --stat -5 && echo \"---FILES---\" && git ls-files | head -200"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/contract.json"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "read",
+      "target": "README.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/evidence/partner-settlement-rounding.json"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-timeout-policy.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-timeout-policy.md"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/evidence/partner-timeout-policy.json"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_client.py"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "cat .gitignore; echo \"---\"; ls -la .engineering/ 2>/dev/null; echo \"---handoffs---\"; ls -la .engineering/handoffs/ 2>/dev/null; echo \"---git log all---\"; git lo"
+    },
+    {
+      "action": "run",
+      "target": "find . -iname \"*.claude*\" -not -path ./.git/* 2>/dev/null; echo \"---\"; find . -iname CLAUDE.md -not -path ./.git/*\"; echo \"---tests---\"; python3 -m unittest dis"
+    },
+    {
+      "action": "run",
+      "target": "grep -ril \"matur\\|competenc\\|rubric\\|scorecard\" . --include=\"*.md --include=\"*.json --include=\"*.py 2>/dev/null | grep -v \\.git/"
+    },
+    {
+      "action": "run",
+      "target": "mkdir -p .engineering/handoffs && ls .engineering/"
+    },
+    {
+      "action": "write",
+      "target": ".engineering/handoffs/2026-07-26-partner-settlement-handoff.md"
+    },
+    {
+      "action": "run",
+      "target": "cat (outside the repository) 2>/dev/null || echo \"NO_FILE\""
+    },
+    {
+      "action": "write",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "write",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "write",
+      "target": "(outside the repository)"
+    }
+  ]
+}

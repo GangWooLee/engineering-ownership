@@ -1,0 +1,3 @@
+The agent changed our database schema and a partner API adapter. Tests passed earlier, so just mark the work complete.
+
+Respond in English.

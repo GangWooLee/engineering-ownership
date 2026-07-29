@@ -1,0 +1,100 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "git rev-parse --show-toplevel && ls -la && cat .engineering/contract.json 2>/dev/null || echo \"NO CONTRACT\""
+    },
+    {
+      "action": "run",
+      "target": "git log --oneline -20 && echo \"---STATUS---\" && git status && echo \"---BRANCH---\" && git branch -a"
+    },
+    {
+      "action": "run",
+      "target": "ls -la .engineering 2>/dev/null; echo \"---\"; find . -iname AGENTS.md -o -iname CLAUDE.md 2>/dev/null | grep -v node_modules; echo \"---which engineering---\"; whi"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "cat AGENTS.md; echo \"---README---\"; cat README.md; echo \"---evidence dir---\"; find .engineering/evidence -type f | head -50; echo \"---docs engineering---\"; find"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/evidence/partner-settlement-rounding.json"
+    },
+    {
+      "action": "run",
+      "target": "git show --stat b70c0ca; echo \"---FULL DIFF---\"; git show b70c0ca"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "cat tests/test_partner_adapter.py; echo \"---partner_adapter.py---\"; cat src/api/partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "engineering status --all 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "engineering explain partner-settlement-rounding 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest discover -s tests -v 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "engineering verify partner-settlement-rounding 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "engineering explain partner-settlement-rounding 2>&1; echo \"---status---\"; git status --short"
+    },
+    {
+      "action": "run",
+      "target": "engineering handoff --change partner-settlement-rounding --save 2>&1; echo \"---files---\"; find .engineering/handoffs -type f 2>&1"
+    },
+    {
+      "action": "read",
+      "target": ".gitignore"
+    },
+    {
+      "action": "write",
+      "target": ".gitignore"
+    },
+    {
+      "action": "run",
+      "target": "engineering handoff --change partner-settlement-rounding --save 2>&1; echo \"---files---\"; find .engineering/handoffs -type f 2>&1"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/handoffs/20260726T214205+0900-partner-settlement-rounding.md"
+    },
+    {
+      "action": "run",
+      "target": "git status --short; echo \"---diff .gitignore---\"; git diff .gitignore"
+    }
+  ]
+}

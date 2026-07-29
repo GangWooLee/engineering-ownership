@@ -1,0 +1,36 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "git log --oneline -20 && echo \"---STAT---\" && git show --stat HEAD && echo \"---DIFF---\" && git show HEAD"
+    },
+    {
+      "action": "run",
+      "target": "ls -la (outside the repository) 2>/dev/null && echo \"---MEMORY.md---\" && cat (outside the repository) 2>/dev/null"
+    },
+    {
+      "action": "run",
+      "target": "find . -path ./node_modules -prune -o -type d -name \".claude\" -print 2>/dev/null; find . -iname *.md -path \"*.claude*\" 2>/dev/null; ls -la .claude 2>/dev/null; "
+    },
+    {
+      "action": "run",
+      "target": "cat .engineering/contract.json 2>/dev/null; echo \"---handoffs dir---\"; ls -la .engineering/handoffs 2>/dev/null; echo \"---evidence dir---\"; ls -la .engineering/"
+    },
+    {
+      "action": "run",
+      "target": "find . -iname *.md | grep -v ^\\./docs/engineering/changes | grep -v ^\\./docs/engineering/decisions\"; echo \"---\"; find . -iname \"*schema*\" -o -iname \"*handoff*\" "
+    },
+    {
+      "action": "run",
+      "target": "cd \"$(git rev-parse --show-toplevel)\" && python3 -m unittest discover -s tests -v 2>&1; echo \"---files---\"; cat src/api/partner_adapter.py; echo \"---\"; cat src/"
+    },
+    {
+      "action": "run",
+      "target": "cd \"$(git rev-parse --show-toplevel)\" && grep -n \"\" src/api/partner_adapter.py; echo \"---\"; grep -n \"\" src/api/partner_client.py; echo \"---evidence rounding---\""
+    },
+    {
+      "action": "write",
+      "target": ".engineering/handoffs/2026-07-26-partner-settlement-and-timeout.md"
+    }
+  ]
+}

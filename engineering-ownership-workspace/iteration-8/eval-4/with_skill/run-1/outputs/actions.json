@@ -1,0 +1,120 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "ls -la && echo \"---\" && find . -maxdepth 2 -iname \"*.engineering*\" -o -iname AGENTS.md -o -iname CLAUDE.md 2>/dev/null && echo \"---git log---\" && git log --onel"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/contract.json"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "read",
+      "target": "README.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-timeout-policy.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-timeout-policy.md"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/evidence/partner-settlement-rounding.json"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/evidence/partner-timeout-policy.json"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_client.py"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "find (outside the repository) -type f | sort"
+    },
+    {
+      "action": "run",
+      "target": "which engineering 2>/dev/null; find (outside the repository) -iname \"bin\" -maxdepth 3 2>/dev/null; ls (outside the repository) 2>/dev/null"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "engineering status --all 2>&1; echo \"---explain settlement---\"; engineering explain partner-settlement-rounding 2>&1; echo \"---explain timeout---\"; engineering "
+    },
+    {
+      "action": "run",
+      "target": "engineering refs check --all 2>&1; echo \"---verify settlement---\"; engineering verify partner-settlement-rounding 2>&1; echo \"---verify timeout---\"; engineering"
+    },
+    {
+      "action": "run",
+      "target": "engineering status --all 2>&1"
+    },
+    {
+      "action": "run",
+      "target": "engineering handoff --change partner-settlement-rounding --save 2>&1; echo \"---\"; find .engineering/handoffs -type f 2>&1"
+    },
+    {
+      "action": "read",
+      "target": ".gitignore"
+    },
+    {
+      "action": "write",
+      "target": ".gitignore"
+    },
+    {
+      "action": "run",
+      "target": "engineering handoff --change partner-settlement-rounding --save 2>&1; echo \"---timeout handoff (for context)---\"; engineering handoff --change partner-timeout-p"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/handoffs/20260726T213613+0900-partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": ".engineering/handoffs/20260726T213613+0900-partner-timeout-policy.md"
+    },
+    {
+      "action": "run",
+      "target": "git status"
+    },
+    {
+      "action": "run",
+      "target": "git diff --stat"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "eval_feedback": {
+    "overall": "Expectation 4 is the weakest of the four. As worded it says \"somewhere a later reader would find it when looking at the affected code,\" but nothing in it can distinguish a decision record that is genuinely reachable from the code from one merely dropped into a docs folder. Here `src/api/partner_adapter.py` ends up as eight lines with no comment, no reference to either decision record, and the old rationale comment (\"Flooring silently under-reports money on every order whose remainder is at least fifty cents\") deleted — yet the expectation passes on directory convention alone. Consider splitting it: one expectation that a durable record was written, and one that the affected code carries a pointer to it (or that the record names the code path it governs, which this one does). Expectation 1 has a related soft spot: \"says what that decision was\" can be satisfied by naming the file and date without conveying the substance. Requiring the response to state which partners were affected and what rounding was applied would make it discriminating, since a response that never opened the old record could still cite its filename from a grep listing. Finally, no expectation covers whether the earlier decision's stated expiry condition was actually verified against the request — the response asserts the change is \"per its own stated expiry condition,\" and a wrong response could make the same assertion about a decision that had no such condition."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 634,
+    "tool_calls": {
+      "Bash": 7,
+      "Edit": 2,
+      "Read": 4,
+      "Write": 1
+    },
+    "total_steps": 15,
+    "total_tool_calls": 14,
+    "transcript_chars": 991
+  },
+  "expectations": [
+    {
+      "evidence": "Step 3 records `read: docs/decisions/2026-02-settlement-amount-units.md`, and the new record states what it held: \"Our largest partner (previously in `WHOLE_UNIT_PARTNERS`) now accepts fractional amounts, so the precondition behind [2026-02-settlement-amount-units.md](2026-02-settlement-amount-units.md) no longer holds for any partner.\" The response to the user also names it: \"the Feb 2026 whole-unit decision no longer applies, per its own stated expiry condition.\"",
+      "passed": true,
+      "text": "Finds the existing accepted decision that this request contradicts, and says what that decision was."
+    },
+    {
+      "evidence": "\"the precondition behind [2026-02-settlement-amount-units.md](2026-02-settlement-amount-units.md) no longer holds for any partner\" and \"the Feb 2026 whole-unit decision no longer applies, per its own stated expiry condition\" — an unambiguous statement that the earlier decision is invalidated (expired on its own terms) rather than followed.",
+      "passed": true,
+      "text": "States plainly whether the new work follows, replaces, or invalidates that earlier decision."
+    },
+    {
+      "evidence": "I searched the changed-files list and the ordered steps for any write to `docs/decisions/2026-02-settlement-amount-units.md` and found none — it appears only as `read` at steps 3 and 9. The three files written are `docs/decisions/2026-07-settlement-fractional-amounts.md`, `src/api/partner_adapter.py`, `tests/test_partner_adapter.py`. The earlier record's reasoning is untouched, but its status was not changed and no forward pointer to the superseding record was added, so a later reader who opens the Feb 2026 file will find a decision that still reads as in force. The response did not stop to ask a blocking question; it completed the change and reported \"Tests pass.\"",
+      "passed": false,
+      "text": "Preserves the reasoning in the earlier record, changing only its status and a pointer to what replaces it - or, if it stops to ask a blocking question first, says what it will record once the answer arrives."
+    },
+    {
+      "evidence": "\"Added `docs/decisions/2026-07-settlement-fractional-amounts.md`\" — a durable record placed in the repository's established decisions directory (checked at step 6, `ls -la docs/decisions`), alongside the record it supersedes, and reachable by the same search that surfaced the original. Its content carries the decision and its forward-looking rule, not just a title: \"If a partner ever needs whole-unit rounding again, that conversion belongs to the partner, not the adapter — reintroduce it as an explicit per-partner rule rather than reviving the old global path.\"",
+      "passed": true,
+      "text": "Writes the new decision somewhere a later reader would find it when looking at the affected code - or, if it stops to ask a blocking question first, names where that decision will go."
+    }
+  ],
+  "graded_at": "2026-07-29T07:02:23+00:00",
+  "judge_model": "claude-opus-5",
+  "summary": {
+    "failed": 1,
+    "pass_rate": 0.75,
+    "passed": 3,
+    "total": 4
+  },
+  "timing": {
+    "api_duration_seconds": 77.038,
+    "duration_ms": 85510,
+    "total_duration_seconds": 85.51,
+    "total_tokens": 1556059,
+    "wall_clock_seconds": 87.468
+  }
+}

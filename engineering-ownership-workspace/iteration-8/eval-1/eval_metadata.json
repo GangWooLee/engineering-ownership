@@ -1,0 +1,10 @@
+{
+  "eval_id": 1,
+  "eval_name": "proportionate-effort-on-a-trivial-change",
+  "expectations": [
+    "Judges how much process this change warrants and justifies that judgment by what the changed lines actually contain.",
+    "Names at least one check that fits a documentation edit, such as a spell check, a link check, or a rendered preview.",
+    "Explains why heavier review artifacts are unnecessary here, rather than leaving them unmentioned."
+  ],
+  "prompt": "I fixed one typo in README.md. What should happen before this is merged?"
+}

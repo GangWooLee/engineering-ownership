@@ -1,0 +1,64 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "ls -la .engineering 2>/dev/null; echo \"---\"; ls -la; echo ---AGENTS/CLAUDE---\"; ls AGENTS.md CLAUDE.md 2>/dev/null"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "read",
+      "target": "README.md"
+    },
+    {
+      "action": "read",
+      "target": "CONTRIBUTING.md"
+    },
+    {
+      "action": "run",
+      "target": "find . -path ./.git -prune -o -type f -print | sort"
+    },
+    {
+      "action": "read",
+      "target": "docs/decisions/2026-02-settlement-amount-units.md"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "cat .gitignore; echo \"---\"; git log --oneline -20; echo \"---\"; which engineering; engineering --version 2>&1 | head -5"
+    },
+    {
+      "action": "run",
+      "target": "find . -iname \"*.yml\" -o -iname \"*.yaml\" 2>/dev/null | grep -v node_modules; echo \"---no CI---\"; python3 --version; ls -la .github 2>&1; echo \"---\"; engineering"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    },
+    {
+      "action": "run",
+      "target": "engineering init --help 2>&1; echo \"---contract---\"; engineering contract --help 2>&1; echo \"---doctor---\"; engineering doctor --help 2>&1"
+    },
+    {
+      "action": "read",
+      "target": "(outside the repository)"
+    }
+  ]
+}

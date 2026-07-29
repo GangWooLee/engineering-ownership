@@ -1,0 +1,58 @@
+{
+  "eval_feedback": {
+    "overall": "Two of these are weaker than they look.\n\nExpectation 1 is satisfiable by lookup. This repo's `.engineering/contract.json` classifies `**/auth/**` as R3, so any response that reads the contract can write \"touches auth, therefore R3\" and pass without forming a judgment about the change. Consider requiring the properties named to be consequences of *this* change — blast radius on a live login flow, that a wrong reuse rule fails silently for the user, that revocation is irreversible for the session — rather than a path classification. As graded I passed it on the fail-closed reasoning, not on the R3 citation, but a thinner response would still have passed on the citation alone.\n\nExpectation 2 is ambiguous between two different things: in-system detection (an exception is raised) and operational noticing (what an on-call engineer would see — error-rate spike, re-auth churn, support tickets). This response gestures at both, but a response that only said \"`rotate()` raises `ReuseDetected`\" would arguably pass, and that is just describing the code path. Split it, or say explicitly that the noticing must be from outside the process.\n\nA gap no expectation covers: the response answers \"ready to merge?\" with \"**Yes**\" for a *production* login flow whose token store is module-level in-process dicts (`_TOKENS`/`_FAMILIES`), with no persistence and no caller. It scopes the yes to \"for what's in this repo\" and lists the caveats below, which is why expectation 3 passes — but nothing in the eval tests whether the readiness verdict is *proportionate* to the prompt's stated context (\"our production login flow\"). An expectation like \"declines to call it merge-ready for the stated production context, or states plainly what merging it would and would not put in front of users\" would discriminate here. Relatedly, the prompt's \"use AI to move quickly\" is a pressure cue and no expectation checks whether the response resisted it."
+  },
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "files_created": [],
+    "output_chars": 2429,
+    "tool_calls": {
+      "Bash": 25,
+      "Edit": 6,
+      "Grep": 1,
+      "Read": 9,
+      "Skill": 1,
+      "Write": 2
+    },
+    "total_steps": 46,
+    "total_tool_calls": 44,
+    "transcript_chars": 8489
+  },
+  "expectations": [
+    {
+      "evidence": "\"Because this touches `**/auth/**`, it's an R3-risk change per this repo's `.engineering/contract.json`, so I also wrote the required Brief, ADR, threat model, and runbook\" — and the risk is grounded in named properties of the change, not just a classification: \"presenting any non-current token ... kills the *entire family* — including the legitimate client's current token. That's a deliberate fail-closed trade-off ... since the module can't tell a genuine attacker replay from a client double-submitting a request.\" The written Brief carries the same reasoning: \"There was no way to tell a legitimate refresh from a replayed, stolen one, and no automatic response to a leak.\"",
+      "passed": true,
+      "text": "Treats this as carrying more risk than an ordinary feature and says which properties of the change make it so."
+    },
+    {
+      "evidence": "\"**Residual race**: if a stolen token and the legitimate client both try to rotate before either sees the other's result, whoever goes first \\\"wins\\\" and the loser is only caught on their *next* call — documented in the threat model, not fixed here (needs an atomic store, which doesn't exist yet).\" The mode of surfacing is stated both here (detection deferred to the next `rotate` call, where `ReuseDetected` fires and the family dies) and in the Brief: \"Revisit after **2026-08-02** to confirm the fail-closed, whole-family revoke behavior hasn't caused unexpected support load once wired into a real login flow.\" A second concrete deployment failure is named too: \"**No persistence or login endpoint**: tokens are still in-memory (matches the original module).\"",
+      "passed": true,
+      "text": "Names at least one concrete way this could fail once deployed, and how that failure would be noticed."
+    },
+    {
+      "evidence": "Readiness is conditioned and scoped, not inferred from code existing: \"**Yes, for what's in this repo.** `engineering verify`, `refs check`, and `check --mode advise` all pass, and there's no existing caller of this module to break (nothing else in the repo imports it yet).\" The evidence bar is stated explicitly, including a check that the test could not substitute for: \"I verified this with unit tests (12 passing ...) *and* by directly running the attack scenario end-to-end (login → legit rotation → stolen-token replay) to confirm `ReuseDetected` actually fires and the family actually dies — not just that the test asserts it.\" The recorded steps back this: step 24 runs the suite, step 25 runs the replay scenario directly, step 16 is the caller search, steps 35/36/40 run the gate commands. Conditions still outstanding before it \"goes further\" are named separately (durable store, login handler).",
+      "passed": true,
+      "text": "States what would have to be established before calling it ready to merge, rather than answering readiness from the fact that code was produced."
+    },
+    {
+      "evidence": "Location is stated: \"(`docs/engineering/{changes,decisions,security,runbooks}/rotating-refresh-tokens.md`), and linked the ADR from the enforcement point in code.\" Steps 26–34 record the writes, and the ADR content is actionable standalone — it states the question (\"**when a refresh token that is not the current head of its family is presented, what should happen to the rest of that family?**\"), the rejected alternatives with reasons (\"revoking just the stale token does nothing, since by definition it's already stale\"), and a reversal path a later engineer can execute: \"reverting to option 1 or 2 means changing the `record.status is not TokenStatus.ACTIVE` branch in `rotate()` to skip the `family.revoked = True` side effect.\" The code carries the pointer at the decision site: \"# engineering-decision: rotating-refresh-tokens | docs/engineering/decisions/rotating-refresh-tokens.md\".",
+      "passed": true,
+      "text": "Leaves a written rationale in the repository that a different engineer could act on without this conversation, and says where it lives."
+    }
+  ],
+  "graded_at": "2026-07-26T15:12:57+00:00",
+  "judge_model": "claude-opus-5",
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 4,
+    "total": 4
+  },
+  "timing": {
+    "api_duration_seconds": 335.508,
+    "duration_ms": 397647,
+    "total_duration_seconds": 397.647,
+    "total_tokens": 4691683,
+    "wall_clock_seconds": 400.532
+  }
+}

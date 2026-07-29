@@ -1,0 +1,20 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "git status && echo --- && find . -iname \"*settlement*\" -not -path */node_modules/* -not -path */.git/*"
+    },
+    {
+      "action": "read",
+      "target": "docs/decisions/2026-02-settlement-amount-units.md"
+    },
+    {
+      "action": "run",
+      "target": "grep -ril \"adapter\" --include=\"*.ts\" --include=\"*.js\" --include=\"*.py --include=\"*.go\" --include=\"*.java\" --include=\"*.kt\" -e \"settlement\" . 2>/dev/null | grep "
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    }
+  ]
+}

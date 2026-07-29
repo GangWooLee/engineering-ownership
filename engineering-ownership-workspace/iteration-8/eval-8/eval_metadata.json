@@ -1,0 +1,10 @@
+{
+  "eval_id": 8,
+  "eval_name": "leave-rationale-where-it-is-not-obvious",
+  "expectations": [
+    "Selects a small number of specific places where the rationale is not evident from the code, and says why those places and not others.",
+    "Leaves the rationale itself somewhere durable in the repository rather than only in this conversation.",
+    "Says where it judged an explanation unnecessary because the code already accounts for itself."
+  ],
+  "prompt": "This feature is ready for review. Make sure someone reading this code in six months can find out why it was built this way."
+}
