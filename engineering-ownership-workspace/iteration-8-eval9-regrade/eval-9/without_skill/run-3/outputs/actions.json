@@ -1,0 +1,60 @@
+{
+  "actions": [
+    {
+      "action": "search",
+      "target": "settlement"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "read",
+      "target": "docs/decisions/2026-02-settlement-amount-units.md"
+    },
+    {
+      "action": "run",
+      "target": "grep -n -i \"settlement\" README.md"
+    },
+    {
+      "action": "search",
+      "target": "**/*partner_adapter*"
+    },
+    {
+      "action": "search",
+      "target": "**/test*settlement*"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "ls docs/decisions"
+    },
+    {
+      "action": "write",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "write",
+      "target": "tests/test_partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "python -m pytest tests/test_partner_adapter.py -v"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m pytest tests/test_partner_adapter.py -v"
+    },
+    {
+      "action": "run",
+      "target": "python3 -m unittest tests.test_partner_adapter -v"
+    },
+    {
+      "action": "write",
+      "target": "docs/decisions/2026-02-settlement-amount-units.md"
+    }
+  ]
+}

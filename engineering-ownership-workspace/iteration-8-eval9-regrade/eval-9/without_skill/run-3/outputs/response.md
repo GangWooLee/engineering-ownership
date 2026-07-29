@@ -1,0 +1,1 @@
+Removed the `WHOLE_UNIT_PARTNERS` rounding special-case from `src/api/partner_adapter.py:12` — the adapter now sends `amount_cents` unchanged to every partner. Updated the test suite and added a short addendum to the decision doc, which had explicitly called out that this exact change (a partner moving to fractional amounts) would supersede it.

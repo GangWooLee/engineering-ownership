@@ -1,0 +1,24 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "grep -ril \"settlement\" --include=\"*.*\" . 2>/dev/null | grep -v node_modules | grep -v .git"
+    },
+    {
+      "action": "read",
+      "target": "docs/decisions/2026-02-settlement-amount-units.md"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "grep -rn \"p-1\\|p-7\\|partner_id\\|WHOLE_UNIT_PARTNERS\\|largest partner\\|largest_partner\" --include=\"*.py --include=\"*.md --include=\"*.json --include=\"*.yaml\" --in"
+    },
+    {
+      "action": "read",
+      "target": "tests/test_partner_adapter.py"
+    }
+  ]
+}

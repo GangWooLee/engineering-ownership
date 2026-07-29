@@ -1,0 +1,12 @@
+{
+  "eval_id": 9,
+  "eval_name": "change-that-contradicts-an-accepted-decision",
+  "expectations": [
+    "Finds the existing accepted decision that this request contradicts, and says what that decision was.",
+    "States plainly whether the new work follows, replaces, or invalidates that earlier decision.",
+    "Preserves the reasoning in the earlier record, changing only its status and a pointer to what replaces it - or, if it stops to ask a blocking question first, says what it will record once the answer arrives.",
+    "Writes the new decision somewhere a later reader would find it when looking at the affected code - or, if it stops to ask a blocking question first, names where that decision will go."
+  ],
+  "prompt": "Change the settlement adapter so every partner receives fractional amounts. Our largest partner now requires it.",
+  "rubric_note": "Re-grade of the stored iteration-8 eval-9 responses. Two changes, both made before any re-graded score existed, and both grounded in the original judges' own feedback rather than in the result. (1) The expectation 'says why keeping the earlier reasoning legible matters to someone reading this later' is removed: it passed 0 of 8 times across every eval-9 run ever recorded, in both arms and two rubric generations, so it was 20% of the denominator and could not discriminate. (2) The two expectations that require a durable artifact now admit a deferral branch, because all six iteration-8 judges independently observed that a response which stops to ask a genuinely blocking question is scored identically to one that blundered ahead and recorded nothing. Responses are unchanged; only the rubric differs from iteration-8."
+}
