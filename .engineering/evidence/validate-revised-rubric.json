@@ -1,0 +1,45 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/validate-revised-rubric.md"
+  },
+  "change_id": "validate-revised-rubric",
+  "created_at": "2026-07-29T19:43:37+09:00",
+  "diff": {
+    "digest": "9991ad600024a5fd0440313cea2f2f5696dd41c01bf7f0b54fc5dc40be20d5d9",
+    "paths": [
+      "docs/engineering/README.md",
+      "docs/engineering/changes/validate-revised-rubric.md",
+      "docs/validation/record-quality-rubric.md",
+      "scripts/eval/redact_action_logs.py"
+    ]
+  },
+  "risk": "R1",
+  "schema_version": 1,
+  "title": "Validate the revised rubric on identical inputs",
+  "understanding": {
+    "gaps": [],
+    "revisit_after": "2026-08-05",
+    "status": "not-reviewed"
+  },
+  "updated_at": "2026-07-29T19:45:55+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "9991ad600024a5fd0440313cea2f2f5696dd41c01bf7f0b54fc5dc40be20d5d9",
+      "duration_ms": 28887,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-29T19:45:55+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "9991ad600024a5fd0440313cea2f2f5696dd41c01bf7f0b54fc5dc40be20d5d9",
+      "duration_ms": 50,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-29T19:45:55+09:00"
+    }
+  ]
+}

@@ -216,9 +216,60 @@ vague, the graders diverged — which is the signal inter-rater agreement is for
   require one. Abstraction was penalised by D2 and rewarded by D3.
 
 **Decision: the first layer 2 was not automated.** Only one dimension separated
-anything, and it separated on the wrong property. The revised dimensions above
-have not themselves been dry-run; that is required before they are automated,
-by the same rule.
+anything, and it separated on the wrong property.
+
+## Second dry run, 2026-07-29 — the revision cleared its bar
+
+Same six records, byte-identical extracts (verified by hash), two fresh
+independent judges, revised dimensions. Because the inputs did not move, any
+difference is attributable to the rubric.
+
+Three criteria were fixed **before** the run: no dimension may be all-pass or
+all-fail; agreement should hold near the first run's 22/24; D3 must be
+satisfiable by at least one record, having been unsatisfiable by construction.
+
+| | First run | Second run |
+| --- | --- | --- |
+| Inter-rater agreement | 22 / 24 (92%) | **24 / 24 (100%)** |
+| Constant dimensions | 1 (D3 at 0/12) | **none** |
+| Pass counts | 11 / 2 / 0 / 11 | 10 / 10 / 8 / 10 |
+
+All three criteria met. But the honest reading is narrower than that table, and
+both judges reached it independently: **the instrument currently resolves two
+bands, not six.** One record fails all four dimensions; one other fails only
+D3; the remaining four pass everything. As one judge put it, the run "mostly
+measured one outlier and told me little about the other five."
+
+What each dimension still lets through, per the judges:
+
+- **D1** detects the *presence* of a non-goals section rather than calibration.
+  Both judges failed the outlier by drawing a line the rubric does not draw —
+  between features not built ("no PyPI yet") and limits on what the evidence
+  supports ("this does not show Y"). One said plainly: "That distinction is
+  mine, not the rubric's."
+- **D2** cannot distinguish a reported outcome from a definition of done.
+  "The full suite passes" written in a success clause is indistinguishable in
+  form from a criterion never run. The stricter bar both judges proposed:
+  require an outcome that *could have been otherwise*. Only three records clear
+  it — a repo-wide check that came back BLOCKED, a falsified hypothesis, and a
+  judge verdict that went against the author.
+- **D4** collapses toward "did you give a reason". A record appending
+  "because X" to each preference passes.
+- **D3 was the only dimension whose failures could not be faked** by adding a
+  section header — but it depends on the judge's read of which term is central,
+  and the same undefined term produced opposite verdicts in two records for
+  defensible reasons.
+
+**What this run cannot settle, and what would.** Five of six records passing
+almost everything is consistent with two very different worlds: a lenient
+rubric, or a genuinely uniform corpus. Nothing in a sample of six real records
+separates those. The next validation needs a **negative control** — a
+deliberately poor record written to fail — because both judges could only
+answer "what would a clearly bad document also pass?" speculatively, having
+never been shown one.
+
+**Decision: the revised dimensions may be used for a full pass**, with the
+two-band limitation reported alongside any result rather than discovered later.
 
 ## What this rubric does not do
 
