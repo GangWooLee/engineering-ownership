@@ -1,5 +1,9 @@
 # 첫 작업: 설치부터 다음 세션 인수인계까지
 
+> **이 문서는 [first-work.md](first-work.md)의 요약입니다.** 정본은 영어판이고,
+> 두 문서가 어긋나면 영어판이 맞습니다. 이 요약은 최신이 아닐 수 있습니다.
+> 근거: `docs/engineering/decisions/declare-english-canonical.md`
+
 ## 1. 자연어로 요청
 
 ```text

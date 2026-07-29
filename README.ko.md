@@ -2,6 +2,10 @@
 
 [English](README.md)
 
+> **이 문서는 [README.md](README.md)의 요약입니다.** 정본은 영어판이고, 두 문서가
+> 어긋나면 영어판이 맞습니다. 이 요약은 최신이 아닐 수 있습니다.
+> 근거: `docs/engineering/decisions/declare-english-canonical.md`
+
 AI가 코드를 만드는 속도는 사람이 그 코드를 이해하는 속도보다 빠릅니다.
 Engineering Ownership은 AI로 만든 결과물을 사람이 이해·설명하고,
 장기적으로 유지보수·운영하며, 장애 시 복구할 수 있도록 의사결정과 검증
