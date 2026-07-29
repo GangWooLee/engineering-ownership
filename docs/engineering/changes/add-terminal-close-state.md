@@ -3,7 +3,6 @@
 Change ID: `add-terminal-close-state`
 Created: `2026-07-25T23:55:33+09:00`
 Risk: R3
-Status: In progress
 
 ## Problem and intended outcome
 

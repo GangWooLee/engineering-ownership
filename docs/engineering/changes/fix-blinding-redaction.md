@@ -3,7 +3,8 @@
 Change ID: `fix-blinding-redaction`
 Created: `2026-07-25T23:47:42+09:00`
 Risk: R2
-Status: In progress
+Corrected: 2026-07-26 — References said the quarantined runs were re-queued for
+the next sweep; that iteration was abandoned the same day and they are not kept.
 
 ## Problem and intended outcome
 

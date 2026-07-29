@@ -3,7 +3,6 @@
 Change ID: `fix-benchmark-postpass`
 Created: `2026-07-25T23:53:03+09:00`
 Risk: R1
-Status: In progress
 
 ## Problem and intended outcome
 

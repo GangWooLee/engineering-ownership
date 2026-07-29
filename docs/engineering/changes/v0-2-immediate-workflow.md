@@ -4,7 +4,6 @@ Change ID: `v0-2-immediate-workflow`
 Created: `2026-07-23T11:43:43+00:00`
 
 Risk: R3
-Status: In progress
 
 ## Problem and intended outcome
 

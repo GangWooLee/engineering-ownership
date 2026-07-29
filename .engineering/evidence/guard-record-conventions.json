@@ -1,0 +1,52 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/guard-record-conventions.md"
+  },
+  "change_id": "guard-record-conventions",
+  "created_at": "2026-07-29T18:09:13+09:00",
+  "diff": {
+    "digest": "790b4c9d198912eb63309d273df9358c2fa467262e73729d9a67fe539436c54d",
+    "paths": [
+      "docs/engineering/README.md",
+      "docs/engineering/changes/add-terminal-close-state.md",
+      "docs/engineering/changes/defensible-skill-evaluation.md",
+      "docs/engineering/changes/describe-when-to-invoke.md",
+      "docs/engineering/changes/fix-benchmark-postpass.md",
+      "docs/engineering/changes/fix-blinding-redaction.md",
+      "docs/engineering/changes/guard-record-conventions.md",
+      "docs/engineering/changes/v0-2-immediate-workflow.md",
+      "docs/validation/record-quality-rubric.md",
+      "scripts/eval/redact_action_logs.py",
+      "tests/test_records.py"
+    ]
+  },
+  "risk": "R1",
+  "schema_version": 1,
+  "title": "Guard the record conventions with tests, not shipped code",
+  "understanding": {
+    "gaps": [],
+    "revisit_after": "2026-08-05",
+    "status": "not-reviewed"
+  },
+  "updated_at": "2026-07-29T18:16:36+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "790b4c9d198912eb63309d273df9358c2fa467262e73729d9a67fe539436c54d",
+      "duration_ms": 36907,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-29T18:16:36+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "790b4c9d198912eb63309d273df9358c2fa467262e73729d9a67fe539436c54d",
+      "duration_ms": 65,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-29T18:16:36+09:00"
+    }
+  ]
+}

@@ -4,6 +4,8 @@ Change ID: `describe-when-to-invoke`
 Created: `2026-07-25T16:21:15+09:00`
 Risk: R2
 Status: Completed
+Corrected: 2026-07-26 — a heading claimed eight runs were lost to rate limiting;
+the pilot note records six with no result, five of them rate-limited.
 
 ## Problem and intended outcome
 

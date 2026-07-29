@@ -4,6 +4,8 @@ Change ID: `defensible-skill-evaluation`
 Created: `2026-07-25T13:22:42+09:00`
 Risk: R1
 Status: Completed
+Corrected: 2026-07-26 — the tool-call figures in Verification evidence said 22
+and 6; the committed metrics.json says 35 and 10.
 
 ## Problem and intended outcome
 

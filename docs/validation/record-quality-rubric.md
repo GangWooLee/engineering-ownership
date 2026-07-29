@@ -62,12 +62,36 @@ Every item was measured against all 56 records before being admitted. Violation
 counts are as of `Checked` above and are recorded so that a later reader can
 tell a tripwire from a discriminator.
 
-| # | Guard | Violations today | Why it is here |
+| # | Guard | Violations when admitted | Why it is here |
 | --- | --- | --- | --- |
-| G1 | A record containing a correction carries a marker in its header block | **3 / 56** | A correction at the bottom means a skimming reader absorbs the withdrawn claim first. Three records carry `(Corrected …)` annotations at 65–93% depth. |
-| G2 | `Status: In progress` does not survive the change closing | **4 / 56** | Four records say in progress while all 22 evidence records are closed. The markdown status is parsed by nothing, so nothing corrects it. |
-| G3 | Relative links resolve from the record's own directory | 0 / 56 | Tripwire. Only five real links exist across the corpus, so this guards a surface that is about to grow, not one that is currently broken. |
-| G4 | The artifacts the risk tier requires exist and are non-empty | 0 / 56 | Already enforced by `evidence_gaps`; listed here so the layer is complete rather than to add a second implementation. |
+| G1 | A record containing a correction carries a marker in its header block | **3 / 56** | A correction at the bottom means a skimming reader absorbs the withdrawn claim first. The three carried `(Corrected …)` annotations at 65%, 82% and 93% depth. |
+| G2 | `Status: In progress` does not survive the change closing | **4 / 56** | Four records said in progress while every evidence record was closed. The markdown status is parsed by nothing, so nothing corrects it. |
+| G3 | Relative links resolve from the record's own directory | 0 / 56 | Tripwire. Only five real links exist across the corpus, so this guards a surface about to grow, not one currently broken. |
+| G4 | The artifacts the risk tier requires exist and are non-empty | 0 / 56 | Already enforced by `evidence_gaps`; listed so the layer is complete, not to add a second implementation. |
+
+**Implemented as tests, not as CLI behaviour** (`tests/test_records.py`). These
+are house rules. The CLI ships to other repositories, and an earlier decision
+established that repository-specific policy belongs in the contract or in tests
+rather than in shared code. Two facts made that decisive here: `check` runs in
+no CI job in this repository, while the skill tells installers to run it in
+enforce mode — so a guard placed there would be unenforced at home and blocking
+in a stranger's pipeline. And `tests/` does not ship: the release archive is
+bounded to `plugins/engineering-ownership`.
+
+**G1's detector matches a form, not a keyword — and that is not a detail.** A
+case-insensitive search for "correct" over the corpus returns 26 hits of which
+**23 are false positives**: seven records discuss correction as their subject,
+and one says a thing was *deliberately not corrected*. The guard matches
+`(Corrected YYYY-MM-DD:`, the shape every real in-place correction uses, and a
+companion test pins the false-positive set so a later loosening of the pattern
+fails loudly.
+
+**Why G1's header field is not a second `Status:`.** `Status:` was worth
+removing because no code read it, so nothing kept it true. `Corrected:` has a
+consumer — the guard itself reads it and fails when a body correction has no
+header line. For the same reason it must **not** be added to `templates.py`: a
+templated `Corrected: None` on every new record would be exactly the unread
+field that G2 exists to remove.
 
 **Rejected during design, with the measurement that rejected it:**
 
