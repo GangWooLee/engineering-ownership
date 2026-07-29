@@ -3,6 +3,10 @@
     "brief": "docs/engineering/changes/guard-record-conventions.md"
   },
   "change_id": "guard-record-conventions",
+  "closed": {
+    "closed_at": "2026-07-29T18:17:07+09:00",
+    "revision": "9daa5536475794d85b42e99bfc60eb87e110dbf3"
+  },
   "created_at": "2026-07-29T18:09:13+09:00",
   "diff": {
     "digest": "790b4c9d198912eb63309d273df9358c2fa467262e73729d9a67fe539436c54d",
@@ -28,7 +32,7 @@
     "revisit_after": "2026-08-05",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-07-29T18:16:36+09:00",
+  "updated_at": "2026-07-29T18:17:07+09:00",
   "verification": [
     {
       "command_id": "unit",
