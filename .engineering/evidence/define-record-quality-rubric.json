@@ -3,6 +3,10 @@
     "brief": "docs/engineering/changes/define-record-quality-rubric.md"
   },
   "change_id": "define-record-quality-rubric",
+  "closed": {
+    "closed_at": "2026-07-29T17:21:38+09:00",
+    "revision": "a3aea59edb4e0061cec3a0251aeb621709708f95"
+  },
   "created_at": "2026-07-29T17:04:23+09:00",
   "diff": {
     "digest": "4f4838a1ee8aa6f794b6bc2d11492a40fa9fa98412333ef2b843729df6347c0f",
@@ -23,7 +27,7 @@
     "revisit_after": "2026-08-05",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-07-29T17:08:16+09:00",
+  "updated_at": "2026-07-29T17:21:38+09:00",
   "verification": [
     {
       "command_id": "unit",

@@ -3,6 +3,10 @@
     "brief": "docs/engineering/changes/revise-rubric-after-dry-run.md"
   },
   "change_id": "revise-rubric-after-dry-run",
+  "closed": {
+    "closed_at": "2026-07-29T17:21:38+09:00",
+    "revision": "a3aea59edb4e0061cec3a0251aeb621709708f95"
+  },
   "created_at": "2026-07-29T17:18:32+09:00",
   "diff": {
     "digest": "86112a8f77aa16874b43b73f1a66a739c1266f4dd4f6888fed7888c3b5bb7a5d",
@@ -21,7 +25,7 @@
     "revisit_after": "2026-08-05",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-07-29T17:21:09+09:00",
+  "updated_at": "2026-07-29T17:21:38+09:00",
   "verification": [
     {
       "command_id": "unit",
