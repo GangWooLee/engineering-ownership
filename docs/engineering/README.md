@@ -30,7 +30,7 @@ records themselves.
 | **Separate the fixture from the answer key**<br>`separate-fixture-from-answer-key` | R1 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/separate-fixture-from-answer-key.md) |
 | **v0.1.0 public release**<br>`v0-1-0-public-release` | R3 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/v0-1-0-public-release.md), [decision](decisions/v0-1-0-public-release.md), [runbook](runbooks/v0-1-0-public-release.md), [threat_model](security/v0-1-0-public-release.md) |
 | **Engineering Ownership v0.2 immediate workflow**<br>`v0-2-immediate-workflow` | R3 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/v0-2-immediate-workflow.md), [decision](decisions/v0-2-immediate-workflow.md), [runbook](runbooks/v0-2-immediate-workflow.md), [threat_model](security/v0-2-immediate-workflow.md) |
-| **Validate the revised rubric on identical inputs**<br>`validate-revised-rubric` | R1 | open | [brief](changes/validate-revised-rubric.md) |
+| **Validate the revised rubric on identical inputs**<br>`validate-revised-rubric` | R1 | closed 2026-07-29 at `96a8a40869ab` | [brief](changes/validate-revised-rubric.md) |
 | **Withdraw the unsupported skill evaluation claim**<br>`withdraw-unsupported-evaluation-claim` | R1 | closed 2026-07-26 at `e3d67d676516` | [brief](changes/withdraw-unsupported-evaluation-claim.md) |
 | **Declare english canonical**<br>`declare-english-canonical` | - | decision only — no evidence record claims this document | [decision](decisions/declare-english-canonical.md) |
 | **Define record quality rubric**<br>`define-record-quality-rubric` | - | decision only — no evidence record claims this document | [decision](decisions/define-record-quality-rubric.md) |
