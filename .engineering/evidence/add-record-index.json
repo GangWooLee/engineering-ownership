@@ -1,0 +1,71 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/add-record-index.md",
+    "decision": "docs/engineering/decisions/add-record-index.md",
+    "runbook": "docs/engineering/runbooks/add-record-index.md",
+    "threat_model": "docs/engineering/security/add-record-index.md"
+  },
+  "change_id": "add-record-index",
+  "created_at": "2026-07-29T16:11:56+09:00",
+  "diff": {
+    "digest": "32adfe9138f5190ce35bf7cc2a81fc5db329f9587908faa0b3bca8ebf4c9c232",
+    "paths": [
+      "README.md",
+      "docs/engineering/README.md",
+      "docs/engineering/changes/add-record-index.md",
+      "docs/engineering/decisions/add-record-index.md",
+      "docs/engineering/runbooks/add-record-index.md",
+      "docs/engineering/security/add-record-index.md",
+      "plugins/engineering-ownership/src/engineering_ownership/cli.py",
+      "scripts/eval/redact_action_logs.py",
+      "tests/test_docs.py"
+    ]
+  },
+  "risk": "R3",
+  "schema_version": 1,
+  "title": "Give the engineering records an entry point",
+  "understanding": {
+    "gaps": [],
+    "revisit_after": "2026-08-05",
+    "status": "not-reviewed"
+  },
+  "updated_at": "2026-07-29T16:22:39+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "32adfe9138f5190ce35bf7cc2a81fc5db329f9587908faa0b3bca8ebf4c9c232",
+      "duration_ms": 37690,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-29T16:22:37+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "32adfe9138f5190ce35bf7cc2a81fc5db329f9587908faa0b3bca8ebf4c9c232",
+      "duration_ms": 53,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-29T16:22:37+09:00"
+    },
+    {
+      "command_id": "claude-plugin",
+      "diff_digest": "32adfe9138f5190ce35bf7cc2a81fc5db329f9587908faa0b3bca8ebf4c9c232",
+      "duration_ms": 1539,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-29T16:22:39+09:00"
+    },
+    {
+      "command_id": "release-package",
+      "diff_digest": "32adfe9138f5190ce35bf7cc2a81fc5db329f9587908faa0b3bca8ebf4c9c232",
+      "duration_ms": 68,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-29T16:22:39+09:00"
+    }
+  ]
+}
