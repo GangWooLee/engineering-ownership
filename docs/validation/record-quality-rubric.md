@@ -3,6 +3,10 @@
 Status: Current
 Checked: 2026-07-29
 
+Layer 2 was dry-run before automation and **failed**: three of its four
+dimensions produced no signal. The dimensions below are the revised ones; the
+run and what it changed are recorded at the end of this document.
+
 How the engineering records in `docs/engineering/**` are measured. This document
 is the standard; it does not contain scores. Results are recorded separately so
 that a bad result cannot be fixed by quietly editing the standard that produced
@@ -88,12 +92,17 @@ that is what layer 1's admission process is for.
 Four dimensions. Each expectation is phrased so a reader who has never seen this
 project can judge it, and so that silence fails.
 
+**The reader is an engineer new to this repository** — competent, but with no
+prior knowledge of this project's vocabulary or history. Every dimension is
+judged from that seat. Naming the reader is not decoration: the first version
+omitted it, and both graders reported they had to invent one.
+
 | Dimension | Expectation |
 | --- | --- |
-| **D1 Point first** | Read only the first three paragraphs, then state in one sentence what was done and why. Then read the rest: if the summary contradicts the record, or the record's most consequential fact appears only after the halfway mark, this fails. |
-| **D2 Completeness** | State what this record claims was verified, and say whether someone could repeat that verification from what is written here. Name the specific step that could not be repeated, if any. |
-| **D3 Comprehensibility** | List every term you had to look up outside this document to follow it, and where you had to go. A record requiring no external lookup passes; one requiring any lookup fails and the list is the evidence. |
-| **D4 Reusability** | State what someone facing a similar decision six months from now could take from this record, specifically. "It explains the change" is not an answer; name the transferable claim or say there is none. |
+| **D1 Calibration** | Read only the opening section. State what it tells you about *how much to trust* what follows — the result's strength, its limits, or what it does not claim. FAIL if the opening is contentless: if a reader who stopped there would make the same decision regardless of what the record found. |
+| **D2 Stated verification** | State what the record says was checked, and by what. FAIL if the record names no check, or names one without saying what it produced. Judge the record's account, **not** whether the subject matter happens to be deterministically repeatable — a blinded judge run reported honestly passes, a script with fixed integers does not automatically. |
+| **D3 Load-bearing jargon** | List the undefined terms the record's central argument *rests on* — terms a new engineer must resolve elsewhere before they can judge the claim. Exempt in-repo identifiers whose role is stated in the sentence that uses them (`save_evidence` used as "…calls `save_evidence`, which writes the record" is defined in place). FAIL if the list is non-empty; the list is the evidence. |
+| **D4 Bounded takeaway** | State what someone facing a similar decision could take from this record. FAIL unless the transferable claim carries either the evidence that produced it or the condition under which it stops applying. A stated preference with neither is not transferable. |
 
 Scoring is boolean per dimension with a quoted justification, following the
 existing judge output contract: evidence must be a quotation or a specific
@@ -134,6 +143,58 @@ record can score well in layer 2 and still be unreachable.
 - **Layer 3** — journeys are rewritten when the ones in use start passing
   trivially. A reach measurement that only ever reports success is measuring a
   path someone already fixed.
+
+## Dry run, 2026-07-29 — the first layer 2 failed
+
+Six records, stratified by risk tier and revision history, graded independently
+by two judges who saw only five extracted sections, no titles, no dates, and not
+each other's verdicts.
+
+**Agreement was 22 of 24 cells (92%)**, and both disagreements landed on the two
+dimensions the judges independently called ambiguous. Where the rubric was
+vague, the graders diverged — which is the signal inter-rater agreement is for.
+
+**Discrimination, first version:**
+
+| Dimension | Passed | Verdict |
+| --- | --- | --- |
+| D1 point first | 11 / 12 | near-constant |
+| D2 completeness | 2 / 12 | the only discriminator |
+| D3 comprehensibility | **0 / 12** | constant — unsatisfiable as written |
+| D4 reusability | 11 / 12 | near-constant |
+
+**What both judges found, independently:**
+
+- **D1 was guaranteed by the template.** Every record's first section is
+  `Success and non-goals`, so a coherent, self-consistent summary always exists.
+  Worse, the "most consequential fact after the halfway mark" clause is
+  structurally confounded: every record ends with `Known limits and learning
+  gaps`, which is exactly where an honest author is instructed to put caveats.
+  The clause fired on honesty. Dropped, and D1 rewritten to ask what the opening
+  says about trust rather than whether it is merely non-contradictory.
+- **D2 measured the subject, not the record.** Its single pass was the least
+  consequential change in the set, because a script with four fixed integers is
+  trivially repeatable. Records reporting a blinded judge run or rate-limited
+  probes — honestly, with outcomes stated — failed for the nondeterminism of
+  what they studied. Rewritten to judge the account rather than the reproducibility
+  of the subject matter.
+- **D3 had no defined reader**, so "PASS only if the list is empty" could not be
+  satisfied by any in-repository record: such records legitimately name their own
+  modules and artifacts. Both judges narrowed it themselves to survive, and both
+  narrowed it differently. Rewritten with the reader named and in-repo identifiers
+  exempted when their role is stated in place.
+- **D4 was satisfiable by abstraction.** A rejected alternative always reads as a
+  transferable claim, so an unsupported preference and a hard-won lesson scored
+  identically. Rewritten to require the claim to carry its evidence or its
+  boundary.
+- **D3 and D4 pulled in opposite directions.** The vaguest record had the
+  *shortest* honest lookup list, because it never became specific enough to
+  require one. Abstraction was penalised by D2 and rewarded by D3.
+
+**Decision: the first layer 2 was not automated.** Only one dimension separated
+anything, and it separated on the wrong property. The revised dimensions above
+have not themselves been dry-run; that is required before they are automated,
+by the same rule.
 
 ## What this rubric does not do
 

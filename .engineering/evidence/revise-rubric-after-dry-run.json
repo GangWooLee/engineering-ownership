@@ -1,0 +1,45 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/revise-rubric-after-dry-run.md"
+  },
+  "change_id": "revise-rubric-after-dry-run",
+  "created_at": "2026-07-29T17:18:32+09:00",
+  "diff": {
+    "digest": "86112a8f77aa16874b43b73f1a66a739c1266f4dd4f6888fed7888c3b5bb7a5d",
+    "paths": [
+      "docs/engineering/README.md",
+      "docs/engineering/changes/revise-rubric-after-dry-run.md",
+      "docs/validation/record-quality-rubric.md",
+      "scripts/eval/redact_action_logs.py"
+    ]
+  },
+  "risk": "R1",
+  "schema_version": 1,
+  "title": "Revise the record rubric after its dry run",
+  "understanding": {
+    "gaps": [],
+    "revisit_after": "2026-08-05",
+    "status": "not-reviewed"
+  },
+  "updated_at": "2026-07-29T17:21:09+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "86112a8f77aa16874b43b73f1a66a739c1266f4dd4f6888fed7888c3b5bb7a5d",
+      "duration_ms": 25422,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-29T17:21:09+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "86112a8f77aa16874b43b73f1a66a739c1266f4dd4f6888fed7888c3b5bb7a5d",
+      "duration_ms": 57,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-07-29T17:21:09+09:00"
+    }
+  ]
+}

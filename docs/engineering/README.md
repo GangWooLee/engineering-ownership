@@ -23,6 +23,7 @@ records themselves.
 | **Let runs write, and show the judge what they did**<br>`observable-run-evidence` | R2 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/observable-run-evidence.md), [decision](decisions/observable-run-evidence.md) |
 | **Remove the write-only competency tag subsystem**<br>`remove-competency-tags` | R3 | closed 2026-07-26 at `e1dd42cd43dc` | [brief](changes/remove-competency-tags.md), [decision](decisions/remove-competency-tags.md), [runbook](runbooks/remove-competency-tags.md), [threat_model](security/remove-competency-tags.md) |
 | **Rename the unreleased 0.2.1 to 0.3.0**<br>`rename-pending-release-030` | R2 | closed 2026-07-26 at `19299a353039` | [brief](changes/rename-pending-release-030.md), [decision](decisions/rename-pending-release-030.md) |
+| **Revise the record rubric after its dry run**<br>`revise-rubric-after-dry-run` | R1 | open | [brief](changes/revise-rubric-after-dry-run.md) |
 | **Rewrite the evaluation expectations to be passable on merit**<br>`rewrite-evaluation-expectations` | R2 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/rewrite-evaluation-expectations.md), [decision](decisions/rewrite-evaluation-expectations.md) |
 | **Assert the tag validator's quoting concern without coupling it to notes currency**<br>`scope-currency-gate-to-tag-time` | R1 | closed 2026-07-26 at `19299a353039` | [brief](changes/scope-currency-gate-to-tag-time.md) |
 | **Separate the fixture from the answer key**<br>`separate-fixture-from-answer-key` | R1 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/separate-fixture-from-answer-key.md) |
@@ -32,4 +33,4 @@ records themselves.
 | **Declare english canonical**<br>`declare-english-canonical` | - | decision only — no evidence record claims this document | [decision](decisions/declare-english-canonical.md) |
 | **Define record quality rubric**<br>`define-record-quality-rubric` | - | decision only — no evidence record claims this document | [decision](decisions/define-record-quality-rubric.md) |
 
-25 entries. Risk tiers R0-R3 are defined in the skill's [operating model](../../plugins/engineering-ownership/skills/engineering-ownership/references/operating-model.md); what each evidence record holds is described in the [evidence model](../../plugins/engineering-ownership/skills/engineering-ownership/references/evidence-model.md).
+26 entries. Risk tiers R0-R3 are defined in the skill's [operating model](../../plugins/engineering-ownership/skills/engineering-ownership/references/operating-model.md); what each evidence record holds is described in the [evidence model](../../plugins/engineering-ownership/skills/engineering-ownership/references/evidence-model.md).
