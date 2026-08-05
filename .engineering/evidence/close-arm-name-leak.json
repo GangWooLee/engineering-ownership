@@ -4,6 +4,10 @@
     "decision": "docs/engineering/decisions/close-arm-name-leak.md"
   },
   "change_id": "close-arm-name-leak",
+  "closed": {
+    "closed_at": "2026-08-05T22:13:59+09:00",
+    "revision": "658127ba961fb88ed402c2416115ea8cdb8afb39"
+  },
   "created_at": "2026-08-05T22:03:46+09:00",
   "diff": {
     "digest": "96ae3be0732ca3a6da2dfc29142beee59eeaa31cb7d916782c2087cb748f0fa5",
@@ -32,7 +36,7 @@
     "revisit_after": "2026-08-12",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-08-05T22:13:19+09:00",
+  "updated_at": "2026-08-05T22:13:59+09:00",
   "verification": [
     {
       "command_id": "unit",
