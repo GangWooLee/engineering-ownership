@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T08:41:25+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads: \"Success means R2 and R3 completion depends on durable reasoning artifacts and fresh verification, not a mandatory no-AI teach-back. `explain` remains an optional review aid, understanding gaps remain visible, and handoff points the next reader to the canonical records.\" Every clause names a property the change was constructed to have — the gate is removed, `explain` is optional, gaps stay visible, handoff points to records — so none could plausibly have resolved the other way once the change was written. The second paragraph (\"This change does not remove human review, verification gates, risk classification... It does not require documentation for R0 changes.\") is exactly the excluded-features list the criterion rules out. I searched for a proposition whose outcome was not guaranteed by construction — e.g. that removal of the teach-back gate would not degrade some measurable property, or that existing records would survive the schema change — and found none. A reader stopping here would trust the rest identically whatever it reported.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "I searched all five sections for a sentence reporting a check that was performed and what it produced, and found none. The nearest candidates are ownership and behaviour statements, not checks: \"schemas, tests, and release documentation are the owners that must change together\" names tests only as code that must change; \"`verify` binds command outcomes to the current diff\" and \"`check` gates required records and fresh verification\" describe what the tool does for its users, not something the author ran. No command, suite, review, or manual inspection is reported, and consequently no outcome of any kind is stated.",
+          "passed": false
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The central claim is \"Success means R2 and R3 completion depends on durable reasoning artifacts and fresh verification, not a mandatory no-AI teach-back.\" Undefined load-bearing terms a new engineer must resolve elsewhere before judging it: (1) \"R2 and R3\" — also \"R0\" in \"It does not require documentation for R0 changes\" and \"risk-proportional\" in \"`change start` creates risk-proportional Markdown records\" — a risk scale whose levels and thresholds are never stated, yet the entire scope of the change is defined by them; (2) \"teach-back\" / \"no-AI teach-back\" — the mechanism being removed, never described, so the reader cannot judge whether \"durable reasoning artifacts\" substitute for it; (3) \"`evidence_gaps`\" in \"The completion gate in `evidence_gaps`\" — named as the location of the gate, but what it is or contains is not stated; (4) \"the `teach_back` field\" — named as an owner that must change, with no statement of what it holds. Contrast the exempt cases in the same record, which do state their role in place: \"`verify` binds command outcomes to the current diff\" and \"`check` gates required records and fresh verification\". The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The transferable claim is \"The main risk is replacing a meaningful gate with documentation theater. Templates therefore require concrete context and rationale, and current-diff verification remains enforceable.\" I searched for either the specific observation from this change that produced it or a condition that would overturn it, and found neither — the mitigation is asserted as a design decision, with no reported instance of theatre encountered, no filled-but-empty record found, nothing observed. The candidate limits are scope disclaimers of the excluded form: \"The CLI checks that required records are present and filled; it cannot judge whether their reasoning is good\" states what the tool does not cover, and \"Commit and PR practices are guidance because the CLI intentionally installs no hooks and makes no network calls\" restates a build constraint. Neither names an observation a reader could make that would show the claim wrong.",
+          "passed": false
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is satisfiable without doing the work: one sentence of the form 'ran the suite; it passed' clears it, with no requirement that the check bear on the record's actual claim. A clearly bad record that removed a gate and then reported an unrelated green test run would pass D2 while proving nothing. Consider requiring that the stated outcome be capable of contradicting a claim made elsewhere in the record.\n\nD3's exemption rule produces a distinguishing test in some places and an arbitrary one in others. Here it correctly exempts `verify` and `check`, whose roles are stated in the sentence that uses them, while failing R2/R3 — but the rule keys on grammatical placement, so a record could pass by appending a nominal gloss to each term ('R2 changes, which are R2-classified') without conveying anything. It also has no severity floor: a record with one genuinely peripheral undefined identifier fails identically to this one, where the risk scale and the removed mechanism are both opaque. The dimension would discriminate better if it asked whether the reader can evaluate the central claim, rather than whether the list is literally empty.\n\nD1 and D4 held up under this record — both rejected the specific near-misses their exclusion clauses were written to catch (the non-goals list under D1, the 'CLI cannot judge reasoning quality' disclaimer under D4), so I did not have to invent a standard."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section offers only properties the change was built to have plus a list of exclusions: \"`explain` remains an optional review aid, understanding gaps remain visible, and handoff points the next reader to the canonical records.\" followed by \"This change does not remove human review, verification gates, risk classification, or the ability for a repository to adopt a stricter policy. It does not require documentation for R0 changes.\" I searched the section for a proposition that could plausibly have resolved the other way — a threshold, a measurement, a claim that could have come out false — and found none; every success criterion is a restatement of the design ('remains optional', 'remains visible', 'points the next reader'). A reader who stopped after this section would proceed identically whatever the rest of the record found.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "The only check-like statements describe what the shipped tool does, not what was done to this change: \"`verify` binds command outcomes to the current diff.\" and \"`check` gates required records and fresh verification.\" The one mention of tests is as an artifact to be modified — \"schemas, tests, and release documentation are the owners that must change together\" — not as a check that was run. I searched all five sections for any statement of a check performed on this change together with its outcome (a run, a result, a pass/fail, a count, an observation) and found none.",
+          "passed": false
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on: (1) 'R2', 'R3', 'R0' — the risk levels that scope the entire claim, never explained: \"Success means R2 and R3 completion depends on durable reasoning artifacts and fresh verification, not a mandatory no-AI teach-back.\" (2) 'teach-back' / '`teach_back` field' — the thing being removed, and therefore the subject of the change, never defined. (3) '`evidence_gaps`' — named only as \"The completion gate in `evidence_gaps`\", which states that it contains a gate but not what it is or what a gap is. (4) 'ADR' — expanded nowhere, though the argument turns on it: \"architecturally significant R2/R3 decisions receive an ADR\". (5) 'risk-proportional' in \"`change start` creates risk-proportional Markdown records\" — unresolvable without the R-level scheme. The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The candidate takeaways are stated as design facts with neither a producing observation nor an overturning condition: \"The CLI checks that required records are present and filled; it cannot judge whether their reasoning is good.\" and \"The main risk is replacing a meaningful gate with documentation theater. Templates therefore require concrete context and rationale, and current-diff verification remains enforceable.\" The nearest thing to a condition — \"Commit and PR practices are guidance because the CLI intentionally installs no hooks and makes no network calls\" — gives a fixed self-imposed scope ('intentionally'), not an observation a reader could make that would overturn the claim. I searched for any observation from this change that produced the documentation-theater claim (a record that passed the gate while empty, a template revision prompted by something seen) and found none; the risk is asserted a priori.",
+          "passed": false
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D3's exemption is exploitable and would let a clearly bad record pass. A gloss clause in the same sentence earns exemption even when it conveys nothing: \"`verify` binds command outcomes to the current diff\" states a role without telling a new engineer what binding is, what an outcome is, or what makes a diff current — yet it is exempt by the letter of the rule. A record could survive D3 by appending a syntactically-role-stating clause to every identifier while leaving every concept opaque. Consider requiring that the gloss let the reader judge the claim, not merely locate the term. D3 also leaves 'the record's central argument' to the judge; on a record like this one — which argues nothing explicitly and only describes — I had to construct the argument before I could scope the list, and a different judge could scope it narrowly enough to empty the list. D2 is passable without doing the relevant work: it asks only that some check be named with some outcome, so 'ran the schema tests; they passed' clears it even when the change's actual behavioral claim is untested. If that permissiveness is deliberate — judging the account rather than the engineering — it is worth saying so in the dimension, since as written it reads like a verification bar rather than an honesty bar."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "documentation-first-workflow"
+}

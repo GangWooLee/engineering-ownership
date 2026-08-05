@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T09:05:41+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening states the deliverable is unvalidated and that its predecessor failed the same step: \"The revised dimensions are untested and must not skip the step the first ones just failed.\" Success also requires \"the rubric stating plainly that the revised dimensions have not themselves been dry-run.\" A reader who stopped at this section would treat the revisions as provisional and would not automate them — a different decision than if the section had been silent. Noting the tension: neither success criterion is a proposition that could have resolved the other way (both are construction properties), so the trust signal here comes from the reliability disclosure rather than from the success criteria; see rubric_feedback.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "The check is named in place: \"Two judges, each blind to the other. Verdicts compared cell by cell; agreement and per-dimension pass counts computed before any dimension was rewritten.\" The outcome is stated: \"The failure this guards against is a standard that looks rigorous and measures nothing — which is what the first layer 2 was. It is caught by the mandatory all-pass/all-fail check, which is exactly what caught it here.\" A second outcome is stated in the limits: \"The rewrites follow findings both judges reached independently.\" The record does not report the agreement figure or the pass counts it says were computed, but it does say what the run produced.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The list is non-empty. (1) \"layer 2\" — \"The failure this guards against is a standard that looks rigorous and measures nothing — which is what the first layer 2 was.\" The Failure section's entire argument rests on this referent, and the term is never defined or glossed anywhere in the record. (2) \"risk tier\" — \"Six records, stratified by risk tier and revision history.\" The claim that the sample was representative rests on this classification; no definition or range is given. (3) \"the mandatory all-pass/all-fail check\" — used as the mechanism that catches the central failure mode; the record never states what the check compares or what threshold makes it fire, and never says what makes it mandatory. By contrast, \"judge output contract\" and \"critique channel\" are exempt, being defined in the sentence that uses them: \"the existing judge output contract — quoted evidence, no partial credit, a critique channel where the judge attacks the expectations themselves.\"",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "Transferable claim with the observation from this change that produced it: \"That critique channel produced most of this change's content, which is the argument for having it.\" A reader building a similar review process can take from this that the channel letting the judge attack the expectations is worth keeping, and is told the specific thing observed here that supports it. A second bounded claim carries a stopping condition a reader could check: \"The judges were the same model family. Agreement between them measures rubric clarity less well than agreement between different families would.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D1 is internally ambiguous and I could defend either verdict on this record, which is a reproducibility problem. Its headline test (does the opening change the reader's decision?) and its bright-line clause (at least one success criterion must be a proposition that could plausibly have resolved the other way) point in opposite directions here: the section calibrates trust via a reliability disclosure while both its success criteria are properties the change was built to have. Either the bright line should be stated as a sufficient-but-not-necessary example, or it should be broadened from 'success criteria' to 'any statement in the opening section' — as written, a grader has to guess which clause governs.\n\nD2's 'saying what came out of it' is satisfied by a purely qualitative result. This record says agreement and pass counts were 'computed' and never reports either number, yet passes on 'exactly what caught it here.' A clearly bad record that ran nothing but asserted 'the review surfaced problems, which we fixed' would clear the same bar. Consider requiring that any quantity the record says it computed also be stated.\n\nD4 is passable by naming one element of your own process and asserting it worked on this change; there is no requirement that the claim be non-obvious or that the observation be specific enough to check. 'We kept X and X helped' satisfies it.\n\nD3 was the only dimension that did real discriminating work here, and its 'the list is the evidence' construction is the reason — it forces the grader to produce artifacts rather than render an impression."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section states the epistemic status of what it delivers, not just what it deferred: \"Non-goals: automating anything; grading the corpus; changing any record. The revised dimensions are untested and must not skip the step the first ones just failed.\" Paired with the success criterion \"the rubric stating plainly that the revised dimensions have not themselves been dry-run\", a reader who stopped at the opening would know the artifact this change produces is unvalidated and would decline to rely on it — a different decision than if the record had reported the revised dimensions as exercised. I note the tension with the sub-clause about built-in properties: both stated success criteria (traceability; the disclosure sentence) are things the author controlled by construction, and neither is a finding that could have come out the other way. The calibration here comes from the non-goals prose rather than the success criteria, and it concerns the reliability of what IS delivered rather than what was excluded, so it is not the disqualified 'list of deferred features'.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "A check is named with a stated result: \"It is caught by the mandatory all-pass/all-fail check, which is exactly what caught it here.\" This says the check ran on the prior version of the standard and fired — the first version produced a uniform verdict, exposing that it \"looks rigorous and measures nothing\". A second outcome is stated in \"That critique channel produced most of this change's content\" and in \"The rewrites follow findings both judges reached independently.\" This is a blinded judge run whose outcome is reported, which D2 says passes. Caveat recorded in feedback: the record also says \"agreement and per-dimension pass counts computed before any dimension was rewritten\" and never states either number.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: (1) \"layer 2\" — \"The failure this guards against is a standard that looks rigorous and measures nothing — which is what the first layer 2 was.\" The record's central justification is that a prior version of this standard failed; a new engineer cannot tell what a 'layer' is, what layer 2 covers, or how many layers exist, and nothing in the sentence states its role. (2) \"risk tier\" — \"Six records, stratified by risk tier and revision history.\" The sampling claim rests on this stratification and no tier scheme is described. Both must be resolved elsewhere. (By contrast \"judge output contract\" and \"critique channel\" are defined in place — \"quoted evidence, no partial credit, a critique channel where the judge attacks the expectations themselves\" — and are correctly exempt.)",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The run reused the existing judge output contract — quoted evidence, no partial credit, a critique channel where the judge attacks the expectations themselves. That critique channel produced most of this change's content, which is the argument for having it.\" The transferable claim (give a judge a channel to attack the criteria themselves) carries the specific observation from this change that produced it — that channel, not the verdicts, generated most of the revision. The same shape appears in \"It is caught by the mandatory all-pass/all-fail check, which is exactly what caught it here.\"",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is the weakest of the four here. It admits a record that names two checks and states an outcome for only one: this record says \"agreement and per-dimension pass counts computed\" and never reports a single number, yet passes on a different sentence. D2 says \"a script whose output is never stated does not\" pass — but it does not say what happens when a record names several checks and states results for a subset. As written, one gestured outcome launders any number of unreported ones. Worse, the outcome that carries the pass is content-free: \"exactly what caught it here\" asserts the check fired without saying what the pattern was. A clearly bad record could pass D2 by appending \"and it caught the problem\" to any named procedure. Consider requiring that the stated outcome be specific enough that a reader could recognise a different outcome.\n\nD4 has the adjacent hole. The disqualifiers rule out scope disclaimers and restated third-party properties, but nothing stops \"we did X and it worked here\" from satisfying \"the specific observation from this change that produced it\". The critique-channel takeaway passes on a bare quantity claim (\"most of this change's content\") that the record never substantiates. A bad record fluent in this form would pass D4 as easily as a good one.\n\nD1's two disqualifiers don't partition the space they seem to. This record's calibration lives in the non-goals paragraph, not the success criteria, and it reads as adjacent to a deferral (\"dry-running is not done yet\") while functioning as a trust statement about the delivered artifact. Both stated success criteria are, strictly, properties the change was built to have — so the literal sub-clause pushes toward FAIL while the headline test pushes toward PASS. Two graders could split on this record. If the intent is that the success criteria specifically must contain the falsifiable proposition, say that the headline test cannot be satisfied elsewhere in the section; if the intent is that any statement of the deliverable's reliability counts, say so and drop the implication that the success criteria are the only place to look.\n\nD3 was the only dimension that discriminated here, and it did so on a term (\"layer 2\") that a reader inside the project would never notice — which is the strongest argument for the rubric naming its reader explicitly."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "revise-rubric-after-dry-run"
+}

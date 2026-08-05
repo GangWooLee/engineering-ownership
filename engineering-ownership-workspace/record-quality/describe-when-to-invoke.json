@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T08:39:22+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success is all three pre-registered criteria: the positive interval clears the prior upper bound of 0.41, the negative interval stays below 0.5, and engagement on an already-configured repository does not regress.\" These are thresholds an outcome could miss, not properties the change was built to have — a rewrite tuned to trigger more could plausibly have breached the 0.5 negative bound or regressed the configured case. The opening also bounds what any result can license: \"A trigger rate says whether it runs, never how well. The efficacy question is still open.\" A reader stopping here would not make the same decision regardless of the finding.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "Named checks with stated outcomes: \"The first hypothesis for those failures - that a run ending in a clarifying question exits non-zero - was wrong, and testing it directly is what showed that.\" And: \"They failed three seconds apart while successful runs were fifteen to twenty seconds apart, and the same probes succeeded on retry.\" Also a probe run with its result: \"the agent correctly looks, finds none, and asks.\" None of these is a pointer to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "I searched all five graded sections for a definition of each of the following and found none. (1) \"unmanaged\" / \"managed\": \"still needs a repository where the treatment engages - which, until this change, did not exist for the unmanaged case\" and \"the managed-base regression run queued behind one of them never started.\" One of the three success criteria is stated in terms of an \"already-configured repository\"; whether that is the managed base is left to inference, and a reader cannot judge criterion three without resolving it. (2) \"the prior upper bound of 0.41\" — no statement of what prior measurement produced 0.41 or what it was measured on, so a reader cannot tell whether clearing it is a demanding result. (3) \"the test score is biased by having selected on train\" — a train/test split of the probe set is never introduced in the graded text; \"the test half is smaller still\" is the first mention of a half. (4) \"six structural patterns extracted from twenty-five installed skill descriptions\" — the patterns themselves are explicitly deferred: \"The rules and the corpus evidence are recorded in the decision record.\" Terms I judged exempt because their role is stated in place: \"treatment\"/\"baseline\" (\"the baseline cannot invoke a skill it was not given\"), and the owner's rule, quoted inline as \"must exclude its own PID when matching processes\".",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"It matched processes by name with `pgrep -f \"run_trigger_probes.py\"`, and the waiting shell's own command line contains that string, so the condition could never become false... The fix was not a better pattern but removing the waiter.\" The transferable claim carries the specific observation from this change that produced it — \"Two shells spun until they were killed, and the managed-base regression run queued behind one of them never started,\" contrasted against \"an earlier wait in this same session, on a specific PID with `kill -0`, worked correctly.\" A second bounded takeaway names its own stopping condition in the freeze: \"editing it now would spend the only guarantee this design has.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 has a hole this record walks through. It is satisfied by any single check-with-outcome, so a record can pass on incidental debugging anecdotes while never reporting the result of its own headline verification. This record pre-registers three criteria in its opening section and never once states whether they were met — the reader finishes not knowing whether the positive interval cleared 0.41 — yet D2 passes on a rate-limiting diagnosis and a discarded hypothesis. Consider requiring that a check named as the record's own success condition be reported, or the omission be stated. As written, 'names one without saying what came out of it' is also ambiguous between 'any named check lacks an outcome' and 'no named check has an outcome'; I applied the latter, but the two readings give opposite verdicts here.\n\nD3's exemption ('in-repo identifiers whose role is stated in the sentence that uses them') does not cover the common case where a term is glossed a sentence or two away, or in a different section. 'Unmanaged' versus 'already-configured repository' is exactly that, and my verdict turned on how much stitching I was willing to do on the reader's behalf. Two careful judges would split on it. Tightening to 'resolvable from the graded text without leaving it' would be falsifiable; 'in the sentence that uses them' is stricter than most well-written prose can meet.\n\nD1 can be satisfied by a threshold whose provenance is never given. 'Clears the prior upper bound of 0.41' reads as pre-registered rigour, but nothing in the opening lets a reader tell whether 0.41 was a demanding bar or a formality — the same sentence with 0.04 would pass identically. The dimension asks whether a criterion could have resolved the other way; it cannot check whether it plausibly might have.\n\nD4 is close to automatic for any record that narrates a debugging session. Concrete failures come with their own specifics, so 'the specific observation from this change' is nearly always present. A record that learned nothing generalisable but told one good war story would pass."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success is all three pre-registered criteria: the positive interval clears the prior upper bound of 0.41, the negative interval stays below 0.5, and engagement on an already-configured repository does not regress.\" Reading only this section, I learn the criteria were fixed before the measurement and that at least two are empirical thresholds that could have resolved either way — an interval that fails to clear 0.41, or a negative interval at or above 0.5, would be a failure. These are outcomes of a measurement, not properties the change was constructed to have, so a reader who stopped here would not make the same decision regardless of what the record found. The non-goal (\"A trigger rate says whether it runs, never how well\") further bounds what a pass would license.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "The record names checks and states their output rather than pointing elsewhere. On the harness run: \"Six runs produced no result — five lost to rate limiting, one to a timeout... They failed three seconds apart while successful runs were fifteen to twenty seconds apart, and the same probes succeeded on retry.\" On a directly executed test of a hypothesis: \"The first hypothesis for those failures - that a run ending in a clarifying question exits non-zero - was wrong, and testing it directly is what showed that.\" On a probe: \"`Fix the typo in the README heading` presupposes a typo the unmanaged base does not contain, so the agent correctly looks, finds none, and asks.\" Each names what was exercised and what came out.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The central argument rests on undefined terms a new engineer must resolve elsewhere. (1) managed / unmanaged: \"which, until this change, did not exist for the unmanaged case\" and \"engagement on an already-configured repository does not regress\" and \"the managed-base regression run\" — the whole framing of what this change enabled turns on a managed/unmanaged distinction that is never stated; nothing in the record says what configures a repository or what makes a base managed. (2) \"the prior upper bound of 0.41\" — a bare number carrying the primary success criterion, with no statement of what prior measurement produced it or of what it bounds. (3) positive / negative interval: the two directions in \"the positive interval clears the prior upper bound of 0.41, the negative interval stays below 0.5\" are named before \"`triggers.json` carries labelled probes\" and \"reports both directions\", neither of which says what a positive or negative probe is or why 0.5 is the negative threshold. (4) \"a synthetic slash-command stand-in rather than the plugin\" — the stated reason for not reusing an existing runner, resting on two undefined terms. I searched the record for any sentence defining managed/unmanaged, the origin of 0.41, or the positive/negative labels and found none; the corpus rules are deferred (\"recorded in the decision record\").",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The fix was not a better pattern but removing the waiter: the runner is backgrounded directly and the harness reports its exit, so there is nothing left to match against.\" The transferable claim — a wait condition that matches on a name will match the waiter itself, and the repair is to delete the wait rather than refine the pattern — carries the specific observation from this change that produced it: \"It matched processes by name with `pgrep -f \\\"run_trigger_probes.py\\\"`, and the waiting shell's own command line contains that string, so the condition could never become false. Two shells spun until they were killed, and the managed-base regression run queued behind one of them never started,\" contrasted against \"an earlier wait in this same session, on a specific PID with `kill -0`, worked correctly.\" This is not a generic property restated: it names how this change hit it and what distinguished the working case.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is the weakest dimension as written. It requires *a* check with *a* stated outcome, not the outcome of the verification the record was built around. This record passes D2 while never stating whether any of its three success criteria were met — the intervals are never reported. It clears the bar on incidental findings (a rate-limiting diagnosis, a refuted hypothesis, an ill-posed probe). A record that ran its main measurement, said nothing about the result, and narrated a debugging detour instead would pass identically. Consider requiring that the check bearing on the D1 criteria be the one whose output is stated.\n\nD1 can be satisfied by assertion. The judge sees only the opening section, so \"pre-registered\" and \"the prior upper bound of 0.41\" cannot be distinguished from a threshold chosen after the data were in. A record that invents a plausible-sounding numeric bar post hoc reads identically to one that fixed it in advance.\n\nD3's exemption is scoped to \"in-repo identifiers,\" but the terms that actually blocked me here are domain nouns (managed/unmanaged, positive/negative) and a bare constant (0.41), which the dimension's exemption language does not address. Two consequences: the exemption is narrower than the failure mode, and because any project with vocabulary will leak at least one such term, D3 is close to an automatic fail and will dominate the four-dimension score. If the intent is \"the reader cannot judge the central claim without leaving,\" say that directly and require the judge to name which claim becomes unjudgeable — otherwise a judge can fail any record by harvesting a term the argument does not actually rest on."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "describe-when-to-invoke"
+}

@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T09:10:13+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: the suite passes mid-development with stale notes, and still fails if the tag/package mismatch regresses; `validate_release_tag.py v0.3.0` passes once the notes actually cover the shipped content.\" The second clause is a proposition that could plausibly have resolved the other way: the change narrows an existing assertion, and narrowing it too far would have destroyed its ability to catch the mismatch. The third is conditional on work not yet done at write time (\"once the notes actually cover the shipped content\"), so a reader stopping at this section knows the record is not uniformly green and knows the crux — retained detection power — on which their decision turns. The non-goals list alone would not have carried this.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"If notes go stale, the release job fails at its first step — observed today.\" A named check (the release workflow's first step, run against stale notes) with a stated outcome (it failed). Reinforced by \"(twice now: on this branch's stale notes, and again today)\". This is a reported observation, not a pointer to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: \"the quoting concern\" / \"quoting failure\". The central argument of the search section rests on it — \"already covers the quoting concern's negative case; only the positive case needed re-aiming\" — and so does the flow section's justification: \"a currency refusal ... no longer registers as a quoting failure.\" I searched the whole record for any sentence stating what quoting is, what is being quoted, or what a quoting failure looks like, and found none; nothing connects quoting to tag/package validation, so a new engineer cannot judge whether narrowing the test preserved the concern's positive case without reading the test elsewhere. \"The gate's own failure path\" is a second, milder instance — \"the gate\" is never named, though it is inferable as `validate_release_tag.py`.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The gate's own failure path remains manually observed rather than tested (twice now: on this branch's stale notes, and again today). If it fires a third time without catching a real problem, revisit whether the comparison is too coarse.\" The transferable claim (assert on the specific failure message rather than a zero exit, and tolerate an untested gate that has only fired legitimately) carries both the specific observation from this change — two firings, each on a real stale-notes condition — and an overturning condition a reader could observe: a third firing that catches nothing real. That is a stopping condition, not a scope disclaimer.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is the weakest gate here. \"observed today\" is four words, and a clearly bad record could satisfy D2 with \"ran it, it worked\" — the dimension requires a named check and an outcome but sets no floor on how identifiable either is. Consider requiring that the check be reconstructible: what was run, against what input, and what the observable result was. In this record the check happens to be reconstructible from the surrounding sentence, but the dimension would not have caught it if it weren't.\n\nD4's stopping condition is formulaic to satisfy. \"If it fires a third time without catching a real problem, revisit\" is a good condition, but the shape \"if this happens again, reconsider\" can be appended to any claim without doing the work of identifying what would actually falsify it. The dimension might ask that the condition name a *consequence* of the claim being wrong, not merely a recurrence count.\n\nD1's test — \"a proposition that could plausibly have resolved the other way\" — is adjudicated by the grader's imagination rather than by the text, since a reader unfamiliar with the change cannot tell which criteria were genuinely at risk. I passed it here because narrowing an assertion has an obvious failure mode, but that inference came from my own engineering judgment, not from anything the record said about the risk. The dimension would be more falsifiable if it required the record to state which criterion it expected to be in doubt, or to report the outcome of that criterion.\n\nD3 was the only dimension that discriminated on this record, and it did so cleanly."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: the suite passes mid-development with stale notes, and still fails if the tag/package mismatch regresses; `validate_release_tag.py v0.3.0` passes once the notes actually cover the shipped content.\" The second clause is a preservation claim about a deliberate loosening of an assertion — narrowing a test from \"zero exit\" to \"absence of one message\" plausibly destroys regression detection, so it could have resolved the other way, and a reader who stopped here would decide differently depending on how it resolved. The non-goals paragraph (\"No flag, no skip switch, no change to `scripts/validate_release_tag.py` at all\") is pure exclusion and carries no weight in this verdict.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"If notes go stale, the release job fails at its first step — observed today.\" A named check (the release job's first step run against stale notes) with a stated outcome (it failed there), reinforced by \"manually observed ... (twice now: on this branch's stale notes, and again today)\". No pointer-to-another-document substitution is used for this check.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: (1) \"the quoting concern\" / \"quoting failure\" — \"The mismatch assertion for the invalid tag (`v9.9.9`) already covers the quoting concern's negative case; only the positive case needed re-aiming.\" I searched the whole record for any statement of what the quoting concern is; it is never said. The central argument is that the test should register quoting failures and not other refusals, so a reader cannot judge whether the narrowed assertion tests the right thing without resolving this elsewhere. (2) \"currency refusal\" — glossed only as \"a different, legitimate refusal\", which says what it is not, not what it is. (3) \"the comparison\" in \"revisit whether the comparison is too coarse\" — no antecedent states which comparison is meant.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The test now asserts the absence of the tag-mismatch message rather than a zero exit, so a currency refusal — a different, legitimate refusal — no longer registers as a quoting failure.\" The transferable claim (assert the specific failure you mean rather than overall exit status) carries the observation from this change that produced it — a stale-notes refusal mid-development was being counted as a quoting failure — and additionally an overturn condition: \"If it fires a third time without catching a real problem, revisit whether the comparison is too coarse.\"",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is the weakest dimension: it is satisfied by the bare word \"observed\" plus a result, with no account of what was run or how. A record that said \"ran it manually — it failed as expected\" would pass identically, and the explicit instruction to judge the record's account rather than repeatability removes the only lever a judge would have to push back. Consider requiring that the reported check be tied to the record's own central claim — here the check that passes D2 (the gate firing on stale notes) is not the claim the change rests on (that the narrowed assertion still catches a tag/package regression), and that claim is asserted, never checked: \"If the tag/package match regresses, the invalid-tag assertion still fails the suite\" reports no run. D1 is also near-vacuous under a preservation-style success criterion: \"still fails if X regresses\" is boilerplate almost any change can assert, and it is indistinguishable from a built-to-have property except by a judge's private sense of how risky the change was. Sharpening it to require that the record say how the could-have-gone-either-way proposition was settled would make it much harder to pass by phrasing alone. D3 and D4 both worked as written and discriminated well on this record."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "scope-currency-gate-to-tag-time"
+}

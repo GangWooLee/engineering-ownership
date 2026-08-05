@@ -2,6 +2,9 @@
 
 Status: Current
 Checked: 2026-07-29
+Corrected: 2026-07-29 — the layer-1 denominator was written as 56 with no commit
+pinned; it was 58 at this document's own commit, and the retro-edit count was 6
+when written and is 9 now.
 
 Layer 2 was dry-run before automation and **failed**: three of its four
 dimensions produced no signal. The dimensions below are the revised ones; the
@@ -58,9 +61,18 @@ not *"does something violate it today?"*
 
 ## Layer 1 — guards
 
-Every item was measured against all 56 records before being admitted. Violation
-counts are as of `Checked` above and are recorded so that a later reader can
-tell a tripwire from a discriminator.
+Every item was measured against the whole record set before being admitted.
+Violation counts are recorded so a later reader can tell a tripwire from a
+discriminator.
+
+**The denominator below is 56 and is pinned to the moment of measurement, not
+to a commit** — which is the defect this note exists to name. At `dca835c`, the
+commit that introduced this document, the four record directories held **58**
+files. The measurement ran before the change record and ADR describing it were
+created, so the corpus grew by two between the count and the commit. A count
+taken against a live tree, in a repository whose records are themselves records
+of the counting, is not reproducible unless the commit is stated. Later rounds
+state one.
 
 | # | Guard | Violations when admitted | Why it is here |
 | --- | --- | --- | --- |
@@ -141,9 +153,14 @@ changed: `Success and non-goals`, `Existing responsibilities searched`,
 two oldest records were authored against materially different instructions —
 scoring the sections that moved would measure the template, not the writing.
 
-For records with more than one commit, the text graded is the version at the
-add commit, not at HEAD. Six records were retro-edited during a later audit;
-grading HEAD would score that audit rather than the original work.
+Records are graded at HEAD. An earlier draft of this rule said to grade the
+version at each record's add commit, so a later audit's corrections would not
+leak in; six records were retro-edited at the time of writing, and nine are now.
+The rule was dropped before it was ever applied, because extracting that version
+showed `change start` creates a record *before* the work is done — one sample's
+add-commit text was a 252-character skeleton with template instructions still in
+it. "As authored" and "at the add commit" are not the same thing in this
+workflow, and HEAD is what a reader actually meets.
 
 ## Layer 3 — reach
 

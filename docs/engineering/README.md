@@ -20,6 +20,7 @@ records themselves.
 | **Exclude illustrative decision references from refs check**<br>`exclude-illustrative-references` | R3 | closed 2026-07-26 at `19299a353039` | [brief](changes/exclude-illustrative-references.md), [decision](decisions/exclude-illustrative-references.md), [runbook](runbooks/exclude-illustrative-references.md), [threat_model](security/exclude-illustrative-references.md) |
 | **Deliver the promised post-pass for the vendored aggregator**<br>`fix-benchmark-postpass` | R1 | closed 2026-07-26 at `e1dd42cd43dc` | [brief](changes/fix-benchmark-postpass.md) |
 | **Close quoting evasions in the judge-visible action log**<br>`fix-blinding-redaction` | R2 | closed 2026-07-26 at `e1dd42cd43dc` | [brief](changes/fix-blinding-redaction.md), [decision](decisions/fix-blinding-redaction.md) |
+| **Grade the whole record corpus against the tightened rubric**<br>`grade-the-record-corpus` | R1 | open | [brief](changes/grade-the-record-corpus.md) |
 | **Guard the record conventions with tests, not shipped code**<br>`guard-record-conventions` | R1 | closed 2026-07-29 at `9daa55364757` | [brief](changes/guard-record-conventions.md) |
 | **Let runs write, and show the judge what they did**<br>`observable-run-evidence` | R2 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/observable-run-evidence.md), [decision](decisions/observable-run-evidence.md) |
 | **Remove the write-only competency tag subsystem**<br>`remove-competency-tags` | R3 | closed 2026-07-26 at `e1dd42cd43dc` | [brief](changes/remove-competency-tags.md), [decision](decisions/remove-competency-tags.md), [runbook](runbooks/remove-competency-tags.md), [threat_model](security/remove-competency-tags.md) |
@@ -36,4 +37,4 @@ records themselves.
 | **Declare english canonical**<br>`declare-english-canonical` | - | decision only — no evidence record claims this document | [decision](decisions/declare-english-canonical.md) |
 | **Define record quality rubric**<br>`define-record-quality-rubric` | - | decision only — no evidence record claims this document | [decision](decisions/define-record-quality-rubric.md) |
 
-29 entries. Risk tiers R0-R3 are defined in the skill's [operating model](../../plugins/engineering-ownership/skills/engineering-ownership/references/operating-model.md); what each evidence record holds is described in the [evidence model](../../plugins/engineering-ownership/skills/engineering-ownership/references/evidence-model.md).
+30 entries. Risk tiers R0-R3 are defined in the skill's [operating model](../../plugins/engineering-ownership/skills/engineering-ownership/references/operating-model.md); what each evidence record holds is described in the [evidence model](../../plugins/engineering-ownership/skills/engineering-ownership/references/evidence-model.md).

@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T08:52:17+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: the three guards fail on the corpus before the fixes and pass after, demonstrated in that order\" — this is a proposition that could have resolved the other way: a guard that passes before the fix is vacuous, and the record's own later admission that \"G3 has never fired\" shows this is a live outcome rather than a property the change was guaranteed to have. A reader stopping here knows what evidence would count against the change, so the verdict is not decision-independent. The non-goals list (\"adding a `Corrected:` field to the templates; touching ADR `Status:` lines\") is the excluded-features kind that does not count on its own, but the success clause carries the dimension.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"a keyword search for \\\"correct\\\" returns 26 hits of which 23 are records whose subject is correction, including one stating a thing was deliberately *not* corrected.\" This names a check (the keyword search over the corpus) and states what it produced (26 hits, 23 of them false positives, with a described worst case). It is not a pointer to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Searched the record for any definition of \"G4\" and found none: it appears exactly once, in \"`evidence_gaps` already covers G4; this change adds no second implementation of it.\" Neither the guard nor `evidence_gaps` has its role stated in that sentence, so the section's central claim — that no duplicate implementation is being added — cannot be judged without leaving the record. Related: the record says \"the three guards\" but names only G1, G3, and G4; searched for \"G2\" and found no occurrence, so a reader cannot determine which three guards are in scope. Also load-bearing and undefined: \"the rubric's own rule says a never-firing guard on a grown surface should be re-measured rather than trusted\" — searched for any statement of what \"the rubric\" is and found none.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The failure mode a guard like this creates is manufacturing defects... a keyword search for \\\"correct\\\" returns 26 hits of which 23 are records whose subject is correction... a fourth test pins the false-positive set so loosening the pattern fails loudly.\" The transferable claim (pin the false-positive set of a keyword guard over prose) carries the specific observation from this change that produced it — the 26/23 measurement. Separately, \"if the corpus stays link-free it will keep proving nothing\" supplies a stopping condition a reader could check by observation.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is satisfiable by a bad record. It asks only that *a* check be named with *an* outcome, with no requirement that the check bear on the record's central claim. A record could report \"ran the suite; it passed\" while the substantive question went unexamined and still pass, and this record shows the asymmetry from the other side: the keyword search it reports is genuine, but the red-then-green demonstration promised in the opening section is never reported as having actually happened anywhere in the graded sections — only asserted as a success criterion — and D2 does not notice the gap. Consider requiring that the stated check be the one that tests the success criterion the opening section committed to.\n\nD1 and D3 pull against each other in a way worth naming. D1 rewards a compressed, high-information opening; D3 penalises undefined terms. Compression is achieved largely by adopting local shorthand (\"the three guards\", \"layer 2\", \"the corpus\"), so the writing move that passes D1 is the one that fails D3. That may be intended, but a record cannot maximise both, and the rubric gives no guidance on where the line sits.\n\nD3's exemption clause is doing more work than its wording supports. \"In-repo identifiers whose role is stated in the sentence that uses them\" is clear for a function name, but this record's `ValidationRecordCase` holds the validation index current\" pattern defines the identifier by reference to a second undefined term (\"the validation index\"). I let those pass as inferable, but the rule as written does not say how far the chain of definition must bottom out, and a different grader could reasonably fail them."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: the three guards fail on the corpus before the fixes and pass after, demonstrated in that order\" and \"the suite grows without any existing test changing.\" The first is not a property the change was built to have: a guard that already passes on the pre-fix corpus is vacuous, and the record's own later note that \"G3 has never fired\" shows this criterion does discriminate. The second could equally have resolved the other way — an existing test needing edits. A reader stopping here learns the change is only worth trusting if the before-state actually failed.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"a keyword search for \\\"correct\\\" returns 26 hits of which 23 are records whose subject is correction, including one stating a thing was deliberately *not* corrected.\" The check is named (keyword search over the corpus) and its result is stated as a count with a characterisation of the false positives. A second stated outcome: \"G3 has never fired.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the argument rests on: (1) \"G4\" and \"evidence_gaps\" — \"`evidence_gaps` already covers G4; this change adds no second implementation of it.\" The no-duplication claim of the entire 'Existing responsibilities searched' section cannot be judged without resolving both elsewhere; the sentence states neither what G4 is nor what `evidence_gaps` does, so the in-repo-identifier exemption does not apply. (2) The G-numbering itself — the record says \"the three guards\" and then names G1, G3, G4; G2 never appears, so a reader cannot even reconstruct the set. (3) \"the rubric\" — \"the rubric's own rule says a never-firing guard on a grown surface should be re-measured rather than trusted\" cites an external document as the authority for the limit without stating the rule's basis. (4) \"layer 2\" — \"grading any record, which is layer 2 and is not yet re-validated\" and \"layer 2 failed its dry run\"; a layering scheme is presupposed and never stated.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"G3 has never fired. It guards a surface with five links in it; if the corpus stays link-free it will keep proving nothing\" — this names an observation a reader of their own system could make (a guard that never fires while the surface it covers grows) that would overturn trust in the guard, rather than a scope disclaimer. The transferable claim about form-matching detectors also carries its originating observation: \"The detector therefore matches the form every real correction uses, and a fourth test pins the false-positive set so loosening the pattern fails loudly,\" grounded in the 26-hits/23-false-positives finding from this change.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is satisfiable by any single check anywhere in the five graded sections, even when the record's headline verification goes unreported. Here the passing evidence is an incidental keyword search; the Success section's central claim — that the guards fail before the fixes and pass after — is stated only as a criterion, and nowhere in the graded text does the record say it observed that happen. A record can therefore pass D2 while leaving its main claim unverified in its own account. Consider requiring that the check reported be one that bears on a stated success criterion.\n\nD1 has a related gap: it asks only that a success criterion *could* have resolved the other way, not that the opening section say how it did. Boilerplate of the form \"tests fail before the fix and pass after\" satisfies it mechanically, in any record, without the author having done anything.\n\nD3's exemption clause carries most of the dimension's weight and is applied inconsistently by construction: `ValidationRecordCase` is exempt because \"holds the validation index current\" appears in the same sentence, while the far more consequential `evidence_gaps` fails on a technicality of sentence construction. The rule is workable but rewards a writing tic rather than reader comprehension — a term glossed in the *previous* sentence would fail. Consider scoping the exemption to the paragraph."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "guard-record-conventions"
+}

@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T08:14:52+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"`refs check` still passes with references to closed changes; `engineering check` behavior is byte-identical; all 11 existing evidence records remain readable with no data rewrite\" — these are not properties the change was built to have; they are compatibility invariants a schema-adding change could plausibly have broken, and the record commits to them as checkable bars. A reader stopping here knows the decision flips if a data rewrite had been required or `check` output had shifted. The non-goals also state a rejected alternative with its reason rather than a deferral list: \"deriving closure from commit state (rejected: it cannot distinguish completed from abandoned work, the most expensive confusion for a successor)\".",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"Discovered while verifying: repository-wide `engineering refs check --all` was already BLOCKED before this change by ~10 pre-existing dangling references (test literals, tutorial examples, committed eval artifacts, and an eval fixture).\" — a named check with its stated outcome. Also \"`change review` was examined as a possible completion mechanism: it snoozes the `--due` view for at most 365 days and suppresses nothing else\" and \"The hand-written `Status:` Brief convention was examined: no parser exists except `decision_is_superseded`, which reads ADRs only\" — searches with stated results. Noting against this: the security section is only \"See the linked threat model\", which by this dimension's own rule names no check; the pass rests entirely on the other sections.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on, each searched for a gloss in its own sentence and not found: (1) \"R3\" in \"deferred deliberately to keep the R3 diff minimal\" — the sole justification for the deferral, and nothing in the record says whether R3 is a release, phase, or milestone; (2) `reference_gaps` and `command_check` in \"filtering happens in the presentation callers ... because `reference_gaps` and `command_check` build on the same record list and must keep seeing closed records\" — this is the load-bearing reason the filter lives in the callers rather than the data layer, and a reader cannot judge \"must keep seeing closed records\" without resolving both elsewhere; (3) \"the shared pure layer\" applied to \"`list_evidence`/`evidence_gaps` stay untouched as the shared pure layer\" — project vocabulary used as the architectural premise; (4) \"the hook's stale count\", named as a success criterion and again in \"`ownership_hook` excludes closed records from both the current-change list and the stale count\", with no statement of what makes a record stale; (5) `ensure_open` and `save_evidence` in the bare arrow chain \"`change close <id>` → `ensure_open` → set `closed = {closed_at, revision}` ... → `save_evidence`\", used with no role stated, unlike this dimension's exempted form.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"Discovered while verifying: repository-wide `engineering refs check --all` was already BLOCKED before this change by ~10 pre-existing dangling references (test literals, tutorial examples, committed eval artifacts, and an eval fixture) ... This change's new test composes its marker at runtime so it adds no new gap.\" — a transferable technique (build reference-like strings at runtime in tests) carrying the specific observation from this change that produced it (test literals were among the ~10 references already blocking the repo-wide check). A second instance: \"`closed_at` records when the terminal state was recorded, not when work finished — finish timing already lives in `updated_at`, `verified_at`, and git history; a backdating flag was rejected because it would let records claim states that were never observed.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is the weakest dimension as written. It is satisfied by any single check-with-outcome anywhere in the graded sections, so a record can punt on the verification that matters most and still pass on an incidental aside. This record is the demonstration: its `Failure, security, and recovery` section is \"See the linked threat model\" — which D2 itself defines as naming no check — yet the dimension passes on a refs-check result discovered in passing. A clearly bad record that pointed every substantive claim at another document but mentioned one grep result would pass identically. Consider scoping D2 to whether the record's own central claims are verified, or failing any graded section that promises verification and delivers only a pointer.\n\nD1 is satisfiable by rote. \"The full suite passes\" or \"existing tests still pass\" is near-universal boilerplate and is technically a proposition that could have resolved the other way, so any record carrying a standard regression line clears the bar without the author having thought about what could falsify the change. The bar might need the proposition to be specific to this change's risk rather than merely falsifiable in principle.\n\nD3's scope is underspecified for multi-section records. \"The central argument\" is clear for a record making one claim; here there are at least four separable arguments (where filtering lives, what close writes, why no reopen, why no backdating), and two graders could reasonably draw the boundary differently and produce opposite verdicts. The exemption test — \"role stated in the sentence that uses them\" — also has no purchase on arrow-notation data flow, where there are no sentences; `ensure_open` in a flow chain is judged by a rule that cannot apply to it. Stating whether every graded section counts as central, and how to treat non-prose notation, would make the dimension repeatable."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"`refs check` still passes with references to closed changes; `engineering check` behavior is byte-identical; all 11 existing evidence records remain readable with no data rewrite\" — these are not properties the feature was built to exhibit but compatibility propositions that could plausibly have resolved the other way: adding a `closed` field to a stored record format could have required a migration of the existing 11, and could have leaked into an adjacent command's output. A reader stopping at the opening section learns the record's credibility rests on outcomes that were open at the time, so learning they failed would change the decision.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"Discovered while verifying: repository-wide `engineering refs check --all` was already BLOCKED before this change by ~10 pre-existing dangling references (test literals, tutorial examples, committed eval artifacts, and an eval fixture).\" The check is named and its output is stated, including a result the change did not want. A second instance: \"The hand-written `Status:` Brief convention was examined: no parser exists except `decision_is_superseded`, which reads ADRs only.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Non-empty list. (1) \"R3\" — \"deferred deliberately to keep the R3 diff minimal.\" R3 is never glossed anywhere in the graded sections; it is not an in-repo identifier with a role stated in its sentence but an opaque scope label, and it is the entire justification offered for leaving `audit_payload` un-split. A new engineer cannot judge whether that deferral is reasonable without resolving R3 elsewhere. (2) \"Brief\" — \"The hand-written `Status:` Brief convention was examined.\" Capitalised Brief is repo vocabulary for a document kind, and the search claim turns on Brief being a different artifact from the \"ADRs\" that `decision_is_superseded` reads; a reader who does not know what a Brief is cannot tell whether the search covered the right ground. I searched the record for any definition or in-sentence role statement for either term and found none.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"`closed_at` records when the terminal state was recorded, not when work finished — finish timing already lives in `updated_at`, `verified_at`, and git history; a backdating flag was rejected because it would let records claim states that were never observed.\" The transferable claim (don't let a lifecycle timestamp be backdated) carries the specific observation from this change that produced it — that three other fields in this system already carry finish timing — which is also the observation that would overturn it if a reader found it false in their system. A second instance: \"filtering happens in the presentation callers (`command_status`, `handoff_text`, the hook) because `reference_gaps` and `command_check` build on the same record list and must keep seeing closed records.\"",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "Three problems.\n\n1. **D2 has no scope rule, and this record exposes it.** The dimension explicitly disqualifies \"see the threat model\" as naming no check — and the record's entire `Failure, security, and recovery` section opens with \"See the linked threat model.\" Yet the record passes D2 on evidence drawn from two other sections. As written, D2 is satisfied by any one check anywhere in the five graded sections, so a record with a wholly hollow security section clears it. If the intent is that each graded section stand on its own, say so; if not, the \"points at another document\" clause is toothless, because a record will nearly always have one real check somewhere to offer.\n\n2. **D1's escape hatch is standard boilerplate.** \"At least one proposition that could plausibly have resolved the other way\" is, in practice, satisfied by any regression-invariant list — \"existing behavior unchanged, existing data still readable, suite passes.\" Almost every change record contains that sentence, and it is what carried this one. A clearly bad record that lists four things it did plus \"and nothing else broke\" would pass. The dimension would bite harder if it required the opening section to state a proposition whose failure would have *changed the design*, not merely one that could have been false.\n\n3. **D3's \"central argument\" is undefined, and it decided this verdict.** R3 appears once, in a known-limits bullet, not in the close-lifecycle argument the record is mostly about. I counted it because a limits section exists precisely so a reader can judge what was cut, but a grader reading \"central\" narrowly would exempt it and pass the record. Two competent graders will split here. Either drop \"central\" (any undefined term in a graded section that carries a claim), or name the test — e.g. \"a term a reader must resolve to evaluate any claim the record asks them to accept.\"\n\nD4's two explicit exclusions (scope disclaimers, and third-party tool properties restated) are well-specified and did real filtering work; nothing to add there."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "add-terminal-close-state"
+}

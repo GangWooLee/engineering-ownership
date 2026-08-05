@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T09:15:38+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: the control fails the dimensions it was built to game and passes the one it was not, and any dimension it slips through is tightened using wording a judge proposed and checked against the corpus.\" — this is not a property the change was built to have: the control was built to game those dimensions, so \"it fails them\" is a proposition about the rubric that could plausibly have resolved the other way, and the record says so explicitly in the same sentence (\"any dimension it slips through\"). A reader stopping at the opening knows the finding could have been \"the rubric was fooled,\" which changes how much the rest is worth. The non-goals list on its own would not have carried this; the success clause does.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"The control lives under `docs/validation/fixtures/` so it is outside every guard that globs the record directories, and outside the non-recursive glob that indexes validation documents — verified by the suite staying green with it present.\" A check is named (running the suite with the fixture present) and its result is stated (green). A second check is named — \"Seven extracts were built, the control at position four, and graded by two blind judges under the current dimensions\" — and that one does not report its outcome in the section that names it, but a partial outcome does surface later (\"93% agreement\"). The suite result alone meets the expectation.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: (1) \"D3\" and \"the other three dimensions\" — the record's central argument is \"It deliberately does not game D3 — every identifier is glossed where it appears — so a D3 pass isolates the other three dimensions instead of confounding them,\" and the opening bar is \"the control fails the dimensions it was built to game and passes the one it was not.\" The dimensions are never enumerated and the mapping from the three named leniencies onto them is never stated, so I cannot check whether three gamed + one ungamed accounts for the whole rubric. The em-dash clause hints at D3's subject but does not state its role in the way the exemption requires. (2) \"the correction guard\" in \"`tests/test_evals.py` already pins a false-positive set for the correction guard\" — what it guards is never said, and it is the prior art the section rests on. (3) \"the full pass\" in \"the full pass tests those predictions\" — never defined. I searched the record for any enumeration or gloss of the dimensions and for any statement of what the correction guard checks; neither is present.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"**The tightenings carry predicted verdicts, not measured ones.** Each judge stated which records their edit would newly fail; the full pass tests those predictions, and a miss is a finding about the rubric.\" This names an observation a reader could make that would overturn the claim — a predicted verdict that the full pass does not reproduce — rather than a scope disclaimer. It is reinforced by a condition tied to this change specifically: \"The control was written by the same author as the rubric, which is the weakest possible adversary.\" A reader validating their own prose rubric can take the method and knows the two conditions under which its result weakens.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is the weakest dimension as written. It requires a check plus an outcome, but nothing about the check being identifiable. \"Verified by the suite staying green\" passes without naming which suite, what it asserts, or what would have made it red — a clearly bad record could pass D2 by appending an outcome word to any unnamed process. This is one clause away from the leniency this very record says it built its control to exploit (\"'the full suite passes' placed inside a success clause and never reported as run\"); the rubric caught the un-run version and would let a vacuous run-version through. Consider requiring that the reader be able to say what the check would have caught.\n\nD1 has a related soft spot: \"could plausibly have resolved the other way\" is judged from grammar, and any built-in property can be dressed in falsifiable grammar (\"Success: the tests pass\"). The distinguishing feature in this record is that the record separately admits the losing branch was live (\"any dimension it slips through is tightened\"). Requiring that the record name what it would have done had the criterion failed would make D1 harder to satisfy by phrasing alone.\n\nD4's exclusion of scope disclaimers is doing real work, but the boundary is thin: \"It probes the three leniencies that were named and says nothing about leniencies nobody has thought of yet\" is a disclaimer in stopping-condition clothing, and would have carried D4 alone if the predicted-verdicts bullet were absent. The dimension may want to say that the overturning observation must be one the reader could actually go make, not one that is true by construction."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: the control fails the dimensions it was built to game and passes the one it was not, and any dimension it slips through is tightened using wording a judge proposed and checked against the corpus.\" This is not a property the change was built to have — the artifact under test was deliberately built to game the criteria, so whether it actually fails them is a proposition about the rubric that could plausibly have resolved either way, and the clause \"any dimension it slips through\" tells a reader who stopped here that slippage was a live outcome. The non-goals go beyond deferred features (\"treating the control as a record of real work — it documents nothing and says so in its own header\").",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"The control lives under `docs/validation/fixtures/` so it is outside every guard that globs the record directories, and outside the non-recursive glob that indexes validation documents — verified by the suite staying green with it present.\" A named check (the suite) with a stated outcome (green). A second stated outcome appears in the limits: \"Both judges remain the same model family, so 93% agreement measures rubric clarity less well than cross-family agreement would.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms, none of which state their role in the sentence that uses them: (1) \"the correction guard\" — \"`tests/test_evals.py` already pins a false-positive set for the correction guard\" never says what the correction guard does or guards against, yet the whole precedent claim (\"The negative-control idea is not new here\") rests on it; (2) \"the corpus\" — \"wording a judge proposed and checked against the corpus\" and \"grading the full corpus\"; the soundness of every tightening rests on what this corpus is, and the record never says; (3) \"the current dimensions\" and \"D3\" — \"graded by two blind judges under the current dimensions\"; the record's central claim is which dimensions the control passed and failed, but the dimension set is never enumerated and only one is named by a bare label; (4) \"Seven extracts were built, the control at position four\" — extracts of what, from what, is never stated, yet this is the mechanism of the verification. Contrast the terms the record does gloss in place (\"three named leniencies\", spelled out in the same sentence), which shows the omission is inconsistent rather than stylistic.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"**The tightenings carry predicted verdicts, not measured ones.** Each judge stated which records their edit would newly fail; the full pass tests those predictions, and a miss is a finding about the rubric.\" The transferable claim — a rubric edit derived from a single control is a prediction until run against the whole set — carries a named overturning observation (a miss in the full pass), not a scope disclaimer. A second instance carries the specific observation from this change instead: \"It deliberately does not game D3 — every identifier is glossed where it appears — so a D3 pass isolates the other three dimensions instead of confounding them.\"",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is the weakest dimension: it is satisfied by any single named check with a stated outcome, regardless of whether that check bears on the record's central claim. Here the qualifying quotation is an incidental 'suite stayed green' about file placement, while the actual verification the record turns on — what two blind judges returned on seven extracts — is stated only as 'graded by two blind judges' with no verdicts given in the same sentence. A clearly bad record could pass D2 by mentioning that a linter ran clean. Consider requiring that the check with a stated outcome be one that could have falsified the success criterion in the opening section.\n\nD3's exemption clause is scoped to 'in-repo identifiers,' which leaves two common categories unadjudicated and therefore judge-dependent: rubric-internal labels ('D3', 'the current dimensions') and domain nouns that are neither identifiers nor plain English ('the corpus', 'extracts', 'the correction guard'). I read the exemption's spirit — role stated in the sentence that uses it — as applying to all three categories and still found terms that fail it, but a different judge could reasonably read the exemption as covering only file/function names and reach the opposite verdict on the same text. Naming the categories, or restating the exemption as 'any term whose role is stated where it is used,' would remove the ambiguity.\n\nD1's guard against 'properties the change was built to have' is doing real work, but it is defeatable by phrasing: any success criterion written as 'X behaves as designed' can be recast as 'we will find out whether X behaves as designed' without changing what was actually at risk. The distinguishing signal in this record is not the phrasing but that the artifact was built to defeat the criterion — an adversarial setup. That structural property may be worth naming directly."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "tighten-rubric-with-control"
+}

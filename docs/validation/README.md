@@ -25,6 +25,7 @@ mirrors the supersession rule already used for decision records in
 
 | Document | Status | Checked | Subject |
 | --- | --- | --- | --- |
+| [record-quality-2026-08.md](record-quality-2026-08.md) | Current | 2026-08-05 | Full-corpus grading of the change records against the rubric |
 | [record-quality-rubric.md](record-quality-rubric.md) | Current | 2026-07-29 | How the engineering records are measured; the standard, not the scores |
 | [skill-evaluation.md](skill-evaluation.md) | Withdrawn | 2026-07-25 | Paired skill/baseline comparison; retracted, rebuild in progress |
 | [v0.2-host-and-skill.md](v0.2-host-and-skill.md) | Current | 2026-07-23 | v0.2 packaging, host install, and live skill routing |

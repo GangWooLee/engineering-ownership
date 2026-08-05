@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T09:24:47+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"The release ZIP digest is unchanged, so the published integrity claim in `correct-git-attribution` stays true.\" This is a proposition about an artifact outside the change that could have resolved the other way — a rebuild producing a different digest would falsify it and would mean the change had silently reached shipped files. Paired with \"No current document presents an efficacy number\", a corpus-wide claim the author had to establish rather than construct, the opening tells a reader that the record's value is the retraction plus the gate, and stakes a checkable claim on the digest rather than only listing what was deferred.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`scripts/grade_skill_evals.py` was the only owner of eval grading. It was removed rather than repaired: it could not run (`WORKSPACE` pointed at a non-existent `iteration-2`), had assertions for four of eight evals and `raise ValueError` for the rest, and matched on the skill's own vocabulary.\" The check is named (exercising/inspecting that script) and its product is stated concretely: it did not run, the cause was a path at a non-existent directory, and coverage was four of eight with ValueError for the remainder. Also \"`tests/` had no coverage of the eval manifest at all\" — a search with its result stated. Note for the record's own benefit: the new `PublishedResultCase` is described only by what it asserts (\"its means must match to four decimal places\"), never by an outcome of running it; the pass rests on the grader finding, not on the new test.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The undefined load-bearing terms are the R1/R2 risk classification and `risk_paths`. \"Those live under `plugins/engineering-ownership/skills/**`, which the contract classifies R2 and which ships in the release ZIP. Keeping them untouched is what holds this change at R1 and keeps the ZIP digest stable.\" Nothing in the record says what R1 or R2 mean or what obligations attach to each; the reader is told only that one R2 directory happens to ship in the ZIP, which does not explain why \"holding this change at R1\" is the thing that makes the digest claim and the scoping argument work. The same term carries a limit — \"Deliberately left for the R2 rebuild\" — and \"`scripts/**` still matches no `risk_paths` entry in `.engineering/contract.json`. The script that generates the project's public efficacy claims is therefore unclassified\" requires the reader to open `.engineering/contract.json` to know what being unclassified costs. Secondary: \"the published integrity claim in `correct-git-attribution`\" names a document without stating the claim it is being trusted to preserve.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"Keeping a non-functional grader that encodes the discredited method would leave a second source of truth for a claim that no longer stands\" — the transferable claim (delete the broken measurement tool rather than repair it) is carried by the specific observations from this change that produced it: it could not run, covered four of eight evals, and \"matched on the skill's own vocabulary\". A second one carries an overturning condition rather than a scope note: \"The reversible failure mode is over-strict tests blocking legitimate future work — for example if a replacement grader must legitimately mention an eval name. Recovery is to narrow the assertion with a recorded reason rather than delete it, since the test encodes a defect that actually occurred.\" The observation that would trigger the retreat is named.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 does not require the check to be of the work the record describes. This record passes on diagnostics about pre-existing code it deleted, while its own new test module is described only by what it asserts — the record never states that it ran or what it reported. A record that says nothing about verifying its own change can clear D2 by reporting findings about the code it replaced, which inverts the dimension's intent. Consider requiring at least one check whose subject is the change itself.\n\nD1's discriminator — 'could plausibly have resolved the other way' — is judged entirely by the grader's imagination of counterfactuals, because the record never has to say the outcome was in doubt. A digest-equality or CI-green line is mechanically true for any docs-only change, yet it reads as falsifiable and rescues an otherwise entirely built-in list. A clearly bad record passes D1 by appending one hash assertion. Tightening it to require the record to state why the outcome was uncertain, or what would have been done had it come out the other way, would close that.\n\nD4's exclusion of 'X does not cover Y' scope disclaimers is doing real work but sits close to a legitimate case: 'It cannot check that the artifact was produced by a sound method' is formally a scope disclaimer, yet it does name an observation (an artifact from an unsound method) that would overturn the gate's sufficiency. The boundary between disallowed disclaimer and allowed stopping condition currently turns on phrasing rather than on content."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening's fourth success criterion states a proposition about the world that could have come out false: \"The release ZIP digest is unchanged, so the published integrity claim in `correct-git-attribution` stays true.\" A digest either matches or it does not; had the change touched shipped files, this bar would have failed and taken a separate published claim down with it. The other three criteria (\"No current document presents an efficacy number\", \"The withdrawn number is quoted alongside the reasons it fails\", \"Automated checks fail if a number is published without a committed artifact behind it\") are properties the change was built to have, but D1 requires only one that could have resolved the other way. The non-goals are a deferral list and do not carry the verdict.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "A check is named and its output is stated in the same sentence: \"`scripts/grade_skill_evals.py` was the only owner of eval grading. It was removed rather than repaired: it could not run (`WORKSPACE` pointed at a non-existent `iteration-2`), had assertions for four of eight evals and `raise ValueError` for the rest, and matched on the skill's own vocabulary.\" That is an inspection with three specific findings, not a pointer to another document. A second check with a stated result: \"`tests/` had no coverage of the eval manifest at all, which is why the drift between `evals.json` and the grader went undetected.\" Noting for the record that the new test module's own run outcome is never stated — the record says what `PublishedResultCase` asserts, never that it was executed or passed — but the fail condition (no check named, or a check named with no output) is not met.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: **R1**, **R2**, **\"the contract\"** as a classification scheme, and **`risk_paths`**. The entire justification for the second non-goal rests on them: \"Those live under `plugins/engineering-ownership/skills/**`, which the contract classifies R2 and which ships in the release ZIP. Keeping them untouched is what holds this change at R1 and keeps the ZIP digest stable.\" A new engineer cannot judge whether that reasoning is sound without leaving the record to find out what R1 and R2 oblige. The sentence states where R2 comes from, not what it means. The terms recur load-bearingly in the limits section — \"`scripts/**` still matches no `risk_paths` entry in `.engineering/contract.json`\" and \"Deliberately left for the R2 rebuild\" — where the claim that the script is \"unclassified\" is only assessable if the reader already knows what the classes are. The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "Transferable claim carried with the specific observation from this change that produced it: \"`scripts/**` still matches no `risk_paths` entry in `.engineering/contract.json`. The script that generates the project's public efficacy claims is therefore unclassified, which is part of how this defect survived.\" The takeaway — bring the code that generates your published claims under the same coverage regime as the code you ship — is grounded in a named thing that happened here, not asserted in general. A second instance meets the bar independently: \"Recovery is to narrow the assertion with a recorded reason rather than delete it, since the test encodes a defect that actually occurred.\" This is not a scope disclaimer; the bullet about the gate being unable to check method soundness would be one, but D4 does not turn on it.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is passable without any verification of the change itself. I passed it on findings from reading existing code (\"WORKSPACE pointed at a non-existent iteration-2\") and an absence-of-coverage search — both genuine checks with stated outputs — while the record never states that its own new test module was run or what it produced. A record that only narrates what it found while looking around, and never executes anything, satisfies the current wording. Consider requiring at least one check whose subject is the change as made.\n\nD1's discriminator is fragile. Every criterion here except the digest is definitional, and the digest criterion is one the change was explicitly engineered to satisfy by not touching the relevant files (\"Keeping them untouched is what holds this change at R1 and keeps the ZIP digest stable\"). \"Could plausibly have resolved the other way\" is ambiguous between *given the approach chosen* and *given sloppy execution* — under the second reading nearly any criterion qualifies, and the dimension stops biting. Sharpen to: the falsity must have been a live possibility given the design, not merely given a mistake.\n\nD3 has no threshold and no weighting. One undefined acronym fails a record whose argument is otherwise legible end to end, while a record that says nothing specific enough to require vocabulary passes cleanly — the dimension rewards vagueness. The exemption rule also needs an edge case resolved: \"which the contract classifies R2\" states a term's *source* but not its *meaning*. Say explicitly whether naming where a term is defined counts as stating its role in place; I read it as not counting, but the text does not settle it."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "withdraw-unsupported-evaluation-claim"
+}

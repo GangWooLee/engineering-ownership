@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T08:44:10+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads in full: \"Success: `refs check --all` exits 0; the four test literals compose markers at runtime; tutorials keep their concrete worked example; eval fixtures and committed eval records are untouched; the full suite passes with new coverage for exclusion behavior and contract validation.\" Every one of these five is a property the change was constructed to have — a command the change makes pass, literals the change rewrote, files the change deliberately did not touch, tests the change added. I searched the section for a proposition that could plausibly have resolved the other way (a bet on whether exclusion was the right mechanism, on whether the reused `risk_paths` shape would fit, on how many files exclusion would actually remove) and found none. The non-goals list — \"an inline \\\"example\\\" pragma in the scanner ...; excluding `tests/**` ...; editing historical eval artifacts\" — is exactly the list of deferred/excluded features the dimension names as insufficient. A reader who stopped after this section learns what the change is, not how much to trust the rest.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`refs check --all` exits 0\" and \"the full suite passes with new coverage for exclusion behavior and contract validation\" — two named checks (the `refs check --all` invocation, the test suite) each with its produced result stated (exit 0; passes). This is not a bare pointer: contrast the record's own \"See the threat model for the gate-weakening analysis\", which names no check and would not have carried this dimension on its own.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on: (1) \"markers\" / \"enforcement marker\" — the entire change is about excluding paths from a scan for these, yet the record never says what a marker is; \"the four test literals compose markers at runtime\" and \"Excluded paths are not reported per-file\" are unjudgeable without resolving it elsewhere. (2) \"the `check` gate\" in \"`reference_gaps` (used by both `refs check` and the `check` gate)\" — the security claim is that this change weakens a gate, and the gate is never described. (3) `cover-ship-critical-paths` in \"The deliberate-exclusion precedent is `cover-ship-critical-paths` (the harness is not taxed with ceremony)\" — the sole justification offered for the exclusion stance is a citation to an external record, and \"the harness\" is itself undefined. (4) \"eval fixtures and committed eval records\" — named as an untouched invariant with no statement of what they are. `risk_paths`, `reference_gaps`, and `text_paths` are exempt: each has its role stated in the sentence that uses it. The list above is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"`fnmatch` treats `*` and `**` identically (both cross `/`), so `refs.exclude` globs are broader than gitignore semantics — same caveat as `risk_paths`, acceptable because both err toward matching more.\" The fnmatch behavior is a third-party property, but the record says how this change encountered it (its own `refs.exclude` globs inherit it) and why the change accepted it (the error direction is toward over-matching). It then supplies a stopping condition an outside reader could observe: \"Revisit if an excluded path ever needs a real enforcement marker\", reinforced by \"The worst misuse — excluding a path that later gains a real marker — is visible in the reviewed contract diff and reversible by deleting one glob.\" That names an observable event that overturns the decision, not a scope disclaimer.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is the weak dimension here, and this record shows why. Its evidence comes entirely from the *Success criteria* list — a section whose job is to state targets, written in the present tense (\"exits 0\", \"passes\", \"are untouched\"). A record whose author ran nothing at all would produce a byte-identical sentence, because that sentence is a specification of success, not a report of it. As written, D2 cannot distinguish \"I ran the suite and it passed\" from \"success means the suite passes\"; it rewards tense, not verification. Tightening suggestion: require the check and its outcome to appear as a retrospective claim, or require an outcome that is not simply the restated criterion (a count, a diff, an unexpected result) — note that this record's \"only the scanned-file count reveals the effect\" gestures at exactly such a number and never states it.\n\nD4 has a smaller version of the same problem: the sentence \"Revisit if X\" is a cheap suffix. Any record can append one, and the dimension as phrased accepts it so long as X is observable. Consider requiring that the stopping condition be one the author could not have written without having made this specific change.\n\nD1 and D3 both did real work on this record and I'd leave them alone. D3's in-sentence-definition exemption in particular is well calibrated: it correctly cleared `risk_paths` and `reference_gaps` while still catching \"markers\", which is the term that actually blocks a new reader."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads: \"Success: `refs check --all` exits 0; the four test literals compose markers at runtime; tutorials keep their concrete worked example; eval fixtures and committed eval records are untouched; the full suite passes with new coverage for exclusion behavior and contract validation.\" Every item is a property the change was constructed to have — the command exiting 0, the literals being rewritten, the tutorials and eval artifacts being left alone, the suite passing. I searched the section for a proposition whose resolution was not settled by building the change (an expected effect that could have come out otherwise, a threshold that might not have been met, a hypothesis about behavior) and found none. The remainder is the non-goals list — \"an inline \\\"example\\\" pragma in the scanner ...; excluding `tests/**` ...; editing historical eval artifacts\" — which the dimension excludes explicitly. A reader stopping here would take the same view of the change regardless of what the rest reported.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`refs check --all` exits 0\" names a check and its output (exit status 0), and \"the full suite passes with new coverage for exclusion behavior and contract validation\" names a second check with its outcome (passes). The record does contain one disqualified form — \"See the threat model for the gate-weakening analysis\" — but that is an additional pointer, not the only check named.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: (1) \"marker\" — the record's central object, appearing as \"the four test literals compose markers at runtime\", \"promoted to a shared `decision_marker` helper\", and \"excluding a path that later gains a real marker\", but nowhere stating what a marker is or what it enforces; a reader cannot judge whether excluding paths from the scan weakens anything without resolving it elsewhere. (2) \"the `check` gate\" in \"`reference_gaps` (used by both `refs check` and the `check` gate)\" — the security argument turns on \"the gate-weakening analysis\", yet what the gate blocks is never stated. (3) \"the harness is not taxed with ceremony\", the parenthetical gloss on the precedent `cover-ship-critical-paths` — both \"the harness\" and \"ceremony\" are undefined, and this sentence is the entire justification offered for the exclusion stance. (4) \"the threat model\" — a document the reader must find to complete the security claim. The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"`fnmatch` treats `*` and `**` identically (both cross `/`), so `refs.exclude` globs are broader than gitignore semantics — same caveat as `risk_paths`, acceptable because both err toward matching more. Excluded paths are not reported per-file; only the scanned-file count reveals the effect. Revisit if an excluded path ever needs a real enforcement marker.\" The transferable claim (reuse the existing path-policy shape and accept its coarser matching rather than adding a second config surface) carries both the observation from this change — exclusions are invisible except through the scanned-file count — and a stopping condition naming an event a reader could observe: an excluded path coming to need a real enforcement marker.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is the weak dimension. It bars pointing at another document but accepts an unsourced present-tense assertion, so the cheapest sentence a record can write — \"the full suite passes\" — clears it. A clearly bad record that ran nothing passes D2 by writing that clause, since the dimension asks only that an outcome be stated, not that anything distinguishing be stated about it (no counts, no named failing-then-fixed case, no command output). Consider requiring one check whose reported outcome contains a detail that could only come from having run it.\n\nD1 and D2 also read the same sentence to opposite verdicts here. That is internally coherent — trust-calibration and verification are different questions — but it means a record can be rewarded and penalised for one line, and an author optimising for the pair learns to append a stale-sounding number rather than to state a proposition that could have failed. D1's own test is the sharper one and does the work; it may be worth stating that D2 cannot be satisfied by the Success section alone.\n\nD4's \"condition under which it stops applying\" is satisfiable by boilerplate of the form \"revisit if <the thing this change assumed> ever changes\", which is mechanically derivable from any design decision without observing anything. The bar rules out scope disclaimers but not this template.\n\nOne substantive point the rubric gives no channel for: the record claims fnmatch's over-matching is \"acceptable because both err toward matching more\", but over-matching is conservative for `risk_paths` (more paths flagged) and anti-conservative for `refs.exclude` (more paths skipped). D4 grades the shape of the takeaway, not its soundness, so an inverted justification passes."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "exclude-illustrative-references"
+}

@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T08:26:16+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: `evidence.py`, `templates.py`, `resources/schemas/**`, the three release/validation scripts, and `release.yml` classify R3; `ci.yml` classifies R2; the full suite and all contract commands pass under the new contract.\" The classification clauses are properties the change was built to have (adding a glob makes the path match), and the non-goals are an exclusion list, which the dimension explicitly disallows. The pass rests on the final clause: the change raises the obligation bar and is then held to that raised bar itself, so \"pass under the new contract\" is a proposition that could plausibly have resolved the other way — widened globs can break existing classification assertions or impose obligations this change fails. A reader who stopped at the opening learns the change met a bar it had just made harder, which is a different decision than if it had not.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"the full suite and all contract commands pass under the new contract\" names the checks (the full unit suite; all contract commands) and states what they produced (they pass), rather than pointing at another document. No other graded section reports a check: \"System and data flow\" describes mechanism (\"`classify_risk` matches changed paths against the globs with `fnmatch`\") and \"Failure, security, and recovery\" argues from a property (\"`effective_risk` takes the maximum\") without reporting a run. The verdict therefore hangs entirely on that one clause, which is framed as a success criterion rather than as a report of an execution.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Searched the record for any definition of the risk levels the whole argument is expressed in — R3, R2, R1 — and found none. They are used as the load-bearing conclusion in every section: \"`ci.yml` classifies R2\", \"a test edit alone still classifies R1\", \"taxing test edits with R2 ceremony\". A new engineer cannot judge whether `ci.yml` belongs at R2 rather than R3 without resolving elsewhere what obligations each level carries. Also undefined and load-bearing: \"the contract\" / \"contract commands\" / \"the new contract\" (the thing being changed, and the thing the verification claim rests on); \"the ADR\", which is the sole justification offered for the non-goals (\"deliberate, recorded in the ADR\"); and \"the audit\", which is the stated reason tests are exempted (\"discourage exactly the additions the audit asked for\"). By contrast `classify_risk` and `risk_paths` are exempt — their roles are stated in the sentences that use them (\"matches changed paths against the globs with `fnmatch`\"; \"the single source of truth for path-detected risk\").",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"Revisit if a test change ever ships a behavior regression.\" This is a stopping condition, not a scope disclaimer: it names an observation a reader could actually make — a test-only edit that lets a behavior regression through — which would overturn the transferable claim that the suite is itself the verification layer and so needs no escalated risk. The claim is also anchored to a specific observation from this change: \"the previous misclassification downward cost silent under-verification of the modules that write the evidence this tool exists to keep.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D1 and D2 are both satisfied here by a single clause — \"the full suite and all contract commands pass\" — and that clause is close to boilerplate. Almost any record, good or bad, ends with some form of \"and the tests pass,\" and because tests can always fail in principle, that phrasing will generally clear D1's \"could plausibly have resolved the other way\" gate and D2's name-a-check-and-its-outcome gate at the same time. Two dimensions falling to one sentence of standard closing language is a weak gate; D1 might require that the contingent proposition be about the change's *effect* rather than about its own build/test health.\n\nD2 has an unaddressed ambiguity: it does not say whether a success *criterion* stated in the present tense (\"the suite passes\") counts as a reported check outcome. In this record the only verification evidence sits under a \"Success:\" heading, so it is formally a definition of done, not a report of an execution. A record that only ever declares goals — and never runs anything — reads identically. Distinguishing \"what would make this correct\" from \"what I ran and what came back\" would close that hole.\n\nD3 is the only dimension doing real discriminating work here, and it correctly caught a record that is otherwise tightly reasoned. That asymmetry is worth noting: this record passed three of four while being unreadable to its stated audience without external lookup, which suggests D1/D2/D4 are calibrated for records that are already legible."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"the full suite and all contract commands pass under the new contract\" — the file-to-level assignments (\"`evidence.py`, `templates.py`, `resources/schemas/**` ... classify R3; `ci.yml` classifies R2\") are all properties the change was built to have, and the non-goals are an exclusion list, but this last clause states a proposition that could plausibly have resolved the other way: raising these files to R3 raises the obligations the contract commands enforce, and tests asserting the old classifications could have failed. A reader stopping here knows the outcome hinged on something that could have come back negative.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"the full suite and all contract commands pass under the new contract\" — a named check (the full suite; all contract commands) with a stated result (pass). This is the minimum the dimension allows: no counts, no command names, no observed output beyond the word \"pass\", but the outcome is stated rather than deferred to another document. No other graded section names a check — \"`classify_risk` matches changed paths against the globs with `fnmatch`, where `*` crosses `/`\" and \"`effective_risk` takes the maximum\" are asserted behaviours with no check attached.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: (1) **R3 / R2 / R1** — \"`evidence.py`, `templates.py`, `resources/schemas/**`, the three release/validation scripts, and `release.yml` classify R3; `ci.yml` classifies R2\" and \"a test edit alone still classifies R1\". These levels are the entire subject of the record and are never defined; I searched every graded section for a statement of what obligations attach to R1, R2, or R3 and found only the gesture \"costs ceremony\" and \"R2 ceremony\". Without them a reader cannot judge whether the reclassification was correct or whether the `tests/**` exclusion is reasonable. (2) **\"the contract\" / \"the new contract\" / \"all contract commands\"** — used as the governing artifact and as the verification, never identified. (3) **\"the ADR\"** — \"deliberate, recorded in the ADR\" is the sole support for the non-goals. (4) **\"the audit\"** — \"would discourage exactly the additions the audit asked for\" is the load-bearing premise of the accepted limit, and the audit is never described. (`risk_paths` and `effective_risk` are exempt: their roles are stated in the sentences that use them — \"the single source of truth for path-detected risk\" and \"takes the maximum\".) The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"Accepted for now — the unit suite is itself the verification layer, and taxing test edits with R2 ceremony would discourage exactly the additions the audit asked for. Revisit if a test change ever ships a behavior regression.\" The transferable claim (don't tax test edits with classification ceremony) carries a stopping condition naming an observation a reader could actually make — a test change that ships a behaviour regression — not a scope disclaimer. The second takeaway is likewise grounded in this change: \"Widening risk paths can only raise future obligations, never lower them (`effective_risk` takes the maximum) ... the previous misclassification downward cost silent under-verification of the modules that write the evidence this tool exists to keep.\"",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D1 and D2 are satisfied here by the same nine words — \"the full suite and all contract commands pass\" — which means one boilerplate clause clears two independent dimensions. Nearly every engineering record contains some form of \"tests pass\", so under the current wording D1's falsifiability test and D2's named-check-with-outcome test are both near-free. D1 would discriminate better if the falsifiable criterion had to be specific to this change rather than a generic gate. D2's own examples imply it wants more than it asks for: \"a script whose output is never stated does not [pass]\" suggests the intent is a stated observation, but the literal bar is only a result-word, so \"pass\" with no counts, no command, and no output clears it. Consider requiring the check to be identifiable enough that a reader could re-run it, or requiring the result to include something observed rather than a verdict. D4's stopping-condition test is also cheap to satisfy in form: \"Revisit if X ever happens\" passes as long as X is phrased as an observation, whether or not X is something anyone would notice — here it happens to be observable, but the template invites a hedge. D3 is the only dimension that did real work on this record, and it works well precisely because it requires an enumerated list as evidence."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "cover-ship-critical-paths"
+}

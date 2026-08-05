@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T08:23:47+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Commit count, parent topology, source trees, messages, and dates remain equivalent after mapping old commits to new commits.\" and \"Release ZIPs are rebuilt from the rewritten tags, checksums match, and fresh provenance exists for each released ZIP.\" These are not properties the change is guaranteed to have by construction: a history rewrite is precisely the operation that can silently perturb committer dates or trees, and a rebuilt archive matching a prior checksum is an empirical outcome that routinely fails. A reader who stopped at the opening section learns that the change is gated on contingent equivalence checks rather than on self-asserted intent, so the outcome of those checks would change their decision.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "I searched all five graded sections for any statement of what a check produced and found none. The failure section delegates entirely: \"See the threat model and runbook.\" The only other checking language names conditions without results — \"Abort on ref drift, tree/message/date mismatch, non-atomic push failure, CI failure, or release digest mismatch.\" The opening section's items (\"Every rewritten commit resolves to `GangWooLee` through the GitHub API.\") sit under the heading \"Success and non-goals\" and are stated as criteria to be met, never as a run that occurred with an outcome: no count of commits checked, no comparison result, no CI or digest verdict. \"Verified refs are pushed atomically\" asserts that verification happened without saying what it returned.",
+          "passed": false
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Non-empty list. (1) \"the threat model\" and \"the runbook\" in \"See the threat model and runbook.\" — the entire failure/security argument rests on two artifacts that are never named, located, or summarized; their role is not stated in the sentence that uses them, so the in-repo-identifier exemption does not apply, and a new engineer must resolve them elsewhere before judging the security claim. (2) \"explicit leases\" in \"Verified refs are pushed atomically with explicit leases.\" — the safety of the irreversible push rests on this term, which is never expanded. (3) \"fresh provenance\" in \"fresh provenance exists for each released ZIP\" — what counts as provenance, and what would make it stale versus fresh, is never stated.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "Both takeaways are general platform behaviour with no observation from this change and no overturning condition. \"Existing downstream clones keep the old history until users rebase or clone again.\" is a property of Git rewriting in general — the record does not say how this change encountered it (no count of affected clones, no consumer who broke, no observed divergence). \"GitHub contribution rendering may take up to 24 hours after attribution is corrected.\" is a hedged general property of GitHub; the record does not say what this change actually observed (no elapsed time measured, no check performed after the rewrite), and \"may take up to 24 hours\" names no observation a reader could make that would overturn the claim.",
+          "passed": false
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D1 is the weak dimension, and this record shows why. Its headline question — what the opening section tells you about how much to trust what follows — and its operational test — at least one success criterion that could plausibly have resolved the other way — measure different things, and the test is far easier to satisfy. Almost any acceptance-criteria list written in the declarative contains one item whose outcome was not guaranteed by construction, so the test collapses to \"did the author write success criteria at all.\" I passed D1 here, yet a reader who stopped at that section learns nothing about confidence: no claim is marked as shakier than another, no residual uncertainty is stated, and nothing distinguishes what was assured by design from what was genuinely at risk. A clearly bad record that listed eight designed-in properties plus one measurable one would pass identically. If the intent is trust calibration, the test should require the record to say which of its claims are least certain, or to rank a criterion by how likely it was to fail — not merely to include one falsifiable line. Separately, D2 and D3 both fire on the same phrase (\"See the threat model and runbook\"), once as a pointer-instead-of-a-check and once as an unresolvable load-bearing reference. That is defensible, but the overlap means a single deferral defect costs two dimensions, which may overstate how bad such a record is relative to one that names a check and omits its output."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening states bars that could have resolved either way rather than restating built-in intent: \"Commit count, parent topology, source trees, messages, and dates remain equivalent after mapping old commits to new commits.\" and \"Release ZIPs are rebuilt from the rewritten tags, checksums match, and fresh provenance exists for each released ZIP.\" A rewrite that shifted dates, or a rebuild whose ZIP bytes differed, would visibly miss these bars, so a reader who stopped at this section would not make the same decision regardless of the outcome. The non-goals line (\"Do not modify product behavior, versions, release notes, or unrelated Git configuration.\") is on its own only an exclusion list, but the criteria above carry the section.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "I searched all five graded sections for a named check paired with what it produced, and found none. The only place the record points at verification is \"See the threat model and runbook.\" — a reference to other documents, which the dimension explicitly counts as naming no check. The nearest candidates are guards, not results: \"Abort on ref drift, tree/message/date mismatch, non-atomic push failure, CI failure, or release digest mismatch.\" states conditions under which something would stop, never that it was run or what came out. \"GitHub Actions rebuilds and attests the release ZIPs\" describes a mechanism with no reported output — no digest, no pass/fail, no count of commits confirmed against the GitHub API.",
+          "passed": false
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Non-empty list of undefined load-bearing terms: (1) \"the threat model and runbook\" — the entire failure/security case rests on \"See the threat model and runbook.\", and neither document is named, located, or summarized, so a new engineer cannot judge whether the failure handling is adequate without leaving the record; (2) \"provenance\" / \"attests\" — \"fresh provenance exists for each released ZIP\" is a success bar and \"GitHub Actions rebuilds and attests the release ZIPs\" is the mechanism, but nothing says what artifact provenance is or what attesting produces, so \"fresh provenance exists\" cannot be evaluated; (3) \"explicit leases\" in \"Verified refs are pushed atomically with explicit leases\" — the safety of the push argument rests on this, and the sentence does not state what a lease is or what it protects against. By contrast, \"the repository release builder for ZIP creation\" does state its role in place and is exempt.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "Both takeaways are general properties restated without the observation from this change or an overturning condition: \"Existing downstream clones keep the old history until users rebase or clone again.\" is true of any history rewrite and does not say whether downstream clones existed here or what was seen; \"GitHub contribution rendering may take up to 24 hours after attribution is corrected.\" is a property of a third-party platform stated as documentation (\"may take up to 24 hours\"), with no statement that this change observed the delay, how long it actually took, or what observation would show the claim no longer holds.",
+          "passed": false
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D1 is the weak dimension, and this record demonstrates it. A record can pass D1 by transcribing an acceptance-criteria checklist written *before* the work, while never stating a single result anywhere — which is exactly what happened here (pass on D1, fail on D2). D1 claims to measure 'how much to trust what follows', but as written it only tests whether a falsifiable bar was *declared*, not whether the reader learns anything about the reliability of the findings. A clearly bad record that pasted its CI job list into the opening and then reported nothing would pass. Tightening suggestion: require the opening to indicate how the bar was resolved, or at minimum that the criteria be phrased as outcomes rather than intentions.\n\nSecond, D3's exemption is scoped only to 'in-repo identifiers', which leaves undefined how to treat widely-known third-party domain vocabulary ('noreply address', 'mirror clone', 'annotated tags', 'leases'). A strict reader fails essentially every record; a lenient one fails essentially none. Since the stated reader is 'competent', I read standard Git/GitHub vocabulary as fair game and failed only on terms whose meaning is project- or artifact-specific — but that judgment call is mine, not the rubric's, and two graders could reasonably split on it.\n\nThird, D2 and D3 double-count the same flaw: 'See the threat model and runbook' is both the D2 disqualifier ('pointing at another document') and a D3 undefined term. One weakness producing two failures overstates the difference between a record with this problem and one without."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "correct-git-attribution"
+}

@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T09:07:50+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening states a success criterion whose outcome was genuinely open — \"the maintenance behaviour the owner identified as this project's distinguishing focus is actually covered\" — and the record later shows coverage did partly resolve the other way (\"Only two of nine scenarios have fixtures\"). It then bounds the trust: \"Not in scope: running the rewritten manifest at a sample size that would support a published number. Two harness changes have to land first, and they are named under known limits.\" A reader who stopped at the opening knows the claims rest on test enforcement rather than a measured run, and that the artifact is blocked on unlanded prerequisites — a different decision than if the opening had reported a score.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "Named checks with stated outcomes: \"Spot-checked: `test_r0_passes_without_brief` asserts `Risk: R0` on a documentation-only change, which is exactly what the old eval 1 asked a judge to confirm.\" And, for the release hazard: \"Recovery, had it gone wrong, was `gh release download v0.2.0`; the remote assets were confirmed byte-identical beforehand.\" Also \"Restricting the tool set did not prevent writes in the pilot\" — a check whose result is stated. These name specific checks and say what came out of them, rather than pointing at another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central arguments rest on: (1) \"the language confound\" — the entire justification for capability symmetry is the analogy \"giving the treatment a tool the baseline lacks would kill the comparison the way the language confound killed the first one\"; the record never says what that confound was or what \"the first one\" refers to, so the argument cannot be judged in place. (2) \"the actual regression\" — the defence of the syntactic proxy is \"That would have caught every instance of the actual regression, and will not catch a carefully worded future one\"; the regression is never described. (3) \"the maintenance behaviour the owner identified as this project's distinguishing focus\" — a success criterion whose subject is never named, so a reader cannot tell whether it is covered. (4) \"this skill\" in \"the treatment's transcript names this skill four times and the baseline's never does\" — never identified. I searched the record for any sentence defining these four and found none; contrast `settled` and the runner/judge/aggregator chain, which are defined in place.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"Handing it the transcript is the obvious fix and the wrong one: the treatment's transcript names this skill four times and the baseline's never does, and `metrics.json` carries a `Skill` key on one side only. What it should receive is a machine-derived, ordered action log with skill entries dropped, plus the content of what the run changed.\" The transferable claim — a blinded judge cannot be handed raw transcripts — carries the specific observation from this change that produced it (a four-to-zero mention asymmetry, and a `Skill` key present on one side only). The release-pin hazard is a second instance: the claim to bump version pins before editing content is grounded in this change's own observation that \"`.engineering/contract.json` and `tests/test_release.py` both invoked `build_release.py --version 0.2.0`\" against an untracked `dist/`.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 grades assertion, not substantiation, and the exemption for non-repeatable subject matter widens that: a record that wrote \"ran the suite, all green\" would pass identically to this one, and a fabricated outcome passes as readily as a real one. The dimension cannot distinguish a check that was run from a check that was described. D1's decisive clause — 'at least one must state a proposition that could plausibly have resolved the other way' — is hard to apply, because almost any success criterion can be read post hoc as something that might have failed. Here I passed it on 'is actually covered', where the load is carried by the word 'actually'; a bad record could clear the same bar by appending 'and it works' to a goal statement. D4 is satisfiable by any one sentence anywhere in the record, with no requirement that the record present it as a takeaway — the grader does the extraction, so a record dense with incidental specifics will pass while a record with a clearly stated but under-evidenced lesson fails. Finally, D3 and D4 pull in opposite directions on the same text: the insider shorthand that makes D4's observations feel concrete ('the language confound', 'the actual regression') is exactly what fails D3, so a terse record written for colleagues will reliably split these two dimensions, and the split says more about audience than about quality."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "Third success criterion states a proposition that could have resolved the other way: \"the maintenance behaviour the owner identified as this project's distinguishing focus is actually covered\" — the record later says expectations were bulk-removed (\"Those expectations were removed rather than reworded\"), so a rewrite losing coverage of that behaviour was a live outcome, not a built-in property. The opening also bounds trust in what follows: \"Not in scope: running the rewritten manifest at a sample size that would support a published number. Two harness changes have to land first\" — a reader who stopped there knows this record supports no measured result, only a manifest's construction. Note this verdict rests on a criterion whose referent the record never identifies (see D3).",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"Spot-checked: `test_r0_passes_without_brief` asserts `Risk: R0` on a documentation-only change, which is exactly what the old eval 1 asked a judge to confirm.\" — a named check with its stated output. A second check states its result: \"the remote assets were confirmed byte-identical beforehand.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Non-empty list of undefined terms the central argument rests on: (1) \"four stated rules\" — success is defined as \"every expectation satisfies four stated rules,\" but the four are never enumerated; only one surfaces later (\"Not satisfiable by silence\"), so a reader cannot judge the record's own success claim without going elsewhere. (2) \"the maintenance behaviour the owner identified as this project's distinguishing focus\" — the referent is never named. (3) \"the language confound killed the first one\" — the confound and \"the first one\" are the entire warrant for the symmetric-capability constraint. (4) \"the actual regression\" in \"would have caught every instance of the actual regression\" — the regression is never described. (5) \"this skill\" in \"the treatment's transcript names this skill four times\" — never identified. Searched the record for any definition or in-sentence role statement for each; found none.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"Handing it the transcript is the obvious fix and the wrong one: the treatment's transcript names this skill four times and the baseline's never does, and `metrics.json` carries a `Skill` key on one side only.\" — transferable claim (raw transcripts leak condition identity to a blinded judge; feed a derived, filtered action log instead) carrying the counts observed in this change. A second instance carries an overturning condition rather than a scope disclaimer: \"That would have caught every instance of the actual regression, and will not catch a carefully worded future one\" — a reader who observes a passing response that is vacuous but positively phrased has overturned the rule's adequacy.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is the weakest dimension: it asks only that *a* check and *an* outcome be named, not that the check bear on the change under review. This record passes on a spot-check of a pre-existing test (`test_r0_passes_without_brief`) and on a byte-comparison of release assets — neither exercises the rewritten manifest, which the record concedes was never run. A record that verified nothing about its own change could clear D2 by citing one unrelated green test. Consider requiring that at least one stated check target the change's own claim.\n\nD1's discriminator — 'could plausibly have resolved the other way' — is adjudicated by the grader's imagination, not by anything the record must say. The record need not state that the criterion was at risk, how it was assessed, or how it came out; a criterion phrased with 'actually' passes where the same claim phrased flatly might not. Two graders could split on this record's third criterion. Requiring the record to state the criterion's *outcome*, or what observation would have shown it unmet, would make D1 falsifiable from the text.\n\nD1 and D3 interact badly here. The only success criterion that clears D1 is built on a phrase — 'the maintenance behaviour the owner identified as this project's distinguishing focus' — that D3 flags as unresolvable jargon. A record can therefore pass calibration on a proposition its reader cannot evaluate. D1 arguably ought to require that the falsifiable criterion be legible to the stated reader.\n\nD4 is passed by the record's best single sentence regardless of the rest. A record whose body was misleading, or whose limits section listed one well-formed takeaway among four vague ones, clears it identically."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "rewrite-evaluation-expectations"
+}

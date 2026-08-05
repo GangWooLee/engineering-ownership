@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T08:33:41+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success for this stage is a runner, a fixture, a blinded judge, and an aggregator that work end to end, plus evidence that the two configurations differ in the skill and nothing else.\" The final clause is a proposition that could plausibly have resolved the other way — the two arms could have differed in more than the skill — and it is not a property the change was built to have, it is a claim about the world the pilot had to establish. A reader stopping at this section learns that the deliverable is a harness plus an isolation claim, and that no efficacy number is on offer (\"Not in scope yet: ... running enough repetitions to report a mean, or publishing any number\"), so they would read the findings below as harness-quality evidence and not as a result. That changes what they would do with the record.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"The pilot graded one run per configuration against the original expectations. The blinded judge passed the baseline on all four and failed the treatment on one - because the treatment resolved the staleness it was asked to identify and then reported the resulting clean state, while the baseline stopped and asked\". The check is named (blinded judge run over two configurations) and its outcome is stated in full, including the direction of the surprise. A second check with a stated result: \"the treatment used roughly four to five times the tokens of the baseline on this scenario.\" The defect table also states outcomes rather than pointing elsewhere, e.g. \"The agent edited fixture files\".",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "\"Those follow, and the first requires touching `evals.json`, which raises this to R2 and forces a version bump.\" `R2` is undefined and its role is not stated in the sentence that uses it — the reader learns only that it is a tier reached by touching a file and that it triggers a version bump, not what scheme it belongs to or what obligations it carries. The entire justification for the record's scope boundary (why rewriting the expectations is deferred to a separate change) rests on it, so a new engineer cannot judge that boundary without resolving the term elsewhere. I also searched for a gloss on \"the stated focus\" in \"One eval is missing for the stated focus\" and found none in the graded text; the focus is never stated. By contrast, \"blinded judge\" is defined in place (\"The judge receives the response inline and is given no tools, so it cannot read the directory name that encodes the configuration\") and treatment/baseline are defined in place, so those do not count against the list.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"| `--allowedTools` pre-approves but does not restrict | The agent edited fixture files | `--tools` set; writes are now recorded rather than prevented |\" — the transferable claim about the flag is attached to the specific observation from this change that produced it. The same holds for the isolation lesson: \"| Only this plugin was disabled | Thirteen others stayed active, one of which rewrites the response format | All user-scope plugins disabled |\". The strongest transferable claim also carries its originating observation: \"the treatment resolved the staleness it was asked to identify and then reported the resulting clean state, while the baseline stopped and asked, leaving the staleness visible in its answer. As written, that expectation rewards not fixing the problem.\" Anyone writing A/B expectations for an agent can take that, and it is grounded in what this run did rather than restated as a general property.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D3's boundary is the weakest part of the rubric and is where my verdict is least reproducible. \"The central argument\" is not defined, so whether a term is load-bearing depends on which claim the judge decides is central. I failed this record on `R2` because it carries a scope justification inside a graded section; a judge who treated the harness findings as the sole central argument would have passed the same text with the same reasoning. Either enumerate what counts as central (every claim in the graded sections? only the ones the record itself emphasises?) or drop the qualifier and fail on any undefined term, which is at least checkable.\n\nD2 is cheap to pass. Its bar is one named check with one stated outcome, so \"we ran the test suite and it passed\" clears it — including for a record whose stated outcome is unfalsifiable or trivially true. The dimension screens out records that point at other documents, which is worth doing, but it does not distinguish a check that could have failed from one that could not. D1 carries that burden alone, and only for the opening section.\n\nD1's escape hatch is phrasing. The rule bars \"properties the change was built to have,\" but the test is applied to wording, and \"evidence that X\" reads as falsifiable whether or not X was ever in doubt. A record could write \"success is evidence that the parser handles all inputs\" and pass without having risked anything. What actually earned the pass here is external to the wording — the record later shows the isolation claim did resolve the other way — which suggests D1 would be sharper if it asked whether the record anywhere reports the falsifiable criterion's actual resolution.\n\nD4 is stated as a disjunction (observation OR stopping condition), and the observation branch is easy to satisfy with any defect list that includes a consequence column. A record that logged five bugs with symptoms and no generalisable claim at all would pass, because each row trivially pairs a claim with the observation that produced it. The dimension does not require that the takeaway be usable by someone whose situation differs from this one."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success for this stage is a runner, a fixture, a blinded judge, and an aggregator that work end to end, plus evidence that the two configurations differ in the skill and nothing else.\" The final clause is a proposition that could plausibly have resolved the other way — it is an empirical claim about the harness, not a property the change was built to have — and the record shows it did initially resolve the other way (\"Thirteen others stayed active, one of which rewrites the response format\"). A reader who stopped at the opening learns that nothing downstream should be trusted as a measurement (\"Not in scope yet: ... running enough repetitions to report a mean, or publishing any number\"), so their decision does depend on what the record found about isolation.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"The pilot graded one run per configuration against the original expectations. The blinded judge passed the baseline on all four and failed the treatment on one - because the treatment resolved the staleness it was asked to identify and then reported the resulting clean state, while the baseline stopped and asked, leaving the staleness visible in its answer.\" A named check with its outcome stated. A second check with a stated result: \"the treatment used roughly four to five times the tokens of the baseline on this scenario.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The terms the central argument rests on are defined in the sentences that use them: \"The judge receives the response inline and is given no tools, so it cannot read the directory name that encodes the configuration\" defines the blinding; \"The treatment then gets the skill back through `--plugin-dir` and nothing else, so plugin loading is the only variable\" defines treatment against baseline; \"`tests/test_cli.py` already had a helper that builds a throwaway Git repository, and `scripts/eval/build_fixture.py` follows the same shape\" defines the fixture. The one undefined repo-specific label I found is \"R2\" in \"which raises this to R2 and forces a version bump\" — its consequence is stated in place, and it carries a scoping aside about why the expectation rewrite was deferred, not the record's central claim about isolation and the pilot's findings.",
+          "passed": true
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"the treatment resolved the staleness it was asked to identify and then reported the resulting clean state, while the baseline stopped and asked, leaving the staleness visible in its answer. As written, that expectation rewards not fixing the problem.\" The transferable claim — an expectation that checks for a problem being visible in the answer scores the agent that did not fix it — carries the specific observation from this change that produced it. A second: \"`--allowedTools` pre-approves but does not restrict | The agent edited fixture files\" states how this change encountered the tool's behaviour rather than restating it abstractly.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D1 is checkable only against the opening section, so it cannot detect a falsifiable-sounding criterion that the body never resolves. A record that opened with \"plus evidence that the configurations differ in the skill and nothing else\" and then never mentioned isolation again would pass D1 identically to this one; the dimension rewards the promise, not the follow-through. Consider requiring that the opening's falsifiable proposition be one the reader can later find answered.\n\nD2 sets no relevance bar. \"We ran the test suite and it passed\" names a check and its outcome, and would pass, even if the check has nothing to do with the record's central claim. The dimension distinguishes reported-versus-unreported but not load-bearing-versus-incidental.\n\nD3's exemption is written only for \"in-repo identifiers,\" which leaves process and product labels unhandled — a risk tier like \"R2\" is neither an identifier nor plain English, and the dimension gives no rule for it. Combined with \"central argument,\" which is undefined, two graders could reasonably split on this record: one scoping the central argument to the isolation claim (pass) and one scoping it to every claim in the graded sections (fail). Naming what counts as central, as the criteria did for the reader, would close this.\n\nD4 is close to automatable by format. A defect table of the shape problem/consequence/fix satisfies \"the specific observation from this change that produced it\" by construction, so a record that merely logs its own bugs with no generalisable insight would pass. The dimension does not require the claim to be one a reader facing a different problem could actually use."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "defensible-skill-evaluation"
+}

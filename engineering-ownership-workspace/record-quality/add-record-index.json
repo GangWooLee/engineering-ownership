@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T08:10:20+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads: \"Success: `docs/engineering/README.md` lists every change record with its title, risk, state, and links to its documents; `README.md` links it; adding a record without regenerating fails the suite; every link resolves from the index's own directory.\" All four are definition-of-done properties the change was built to have — an index that lists records, a link in the README, a guard test, and correct relative links. I searched the section for a proposition that could plausibly have resolved the other way (a measurement, a prediction, a claim that could have come out false) and found none. The remainder of the section is a list of exclusions — \"Non-goals: rewriting existing records ...; a glossary ...; changing what `status` shows to open work only\" — which the dimension explicitly says does not satisfy it. A reader who stopped here learns what was built, not how much to trust the findings that follow.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"That file was reachable by `ls` and by nothing else — not `explain`, not `refs check`, not `status`. Fifty-one of fifty-two documents could be named from the evidence; that one could not.\" This names a check (attempting to name every document from the evidence, and reaching the ADR through each command) and states its output as a count with a specific failure. Note that the section nominally responsible for verification does the opposite — \"See the linked threat model and runbook\" is a pointer, and \"covered by regenerating in the test and comparing\" states coverage without stating a result — but the 51-of-52 count is a check with a stated outcome, so the record does not fail on silence.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on: (1) risk tiers R1/R2 — \"an ADR written under an R1 record has nowhere to live in that record's artifact map, because `artifact_paths` allocates a decision document only from R2 up\", and the bounding claim \"an orphan runbook — which the current risk tiers cannot produce\", which cannot be judged without knowing what the tiers are and what each allocates; (2) \"contract key\" — \"the index needs no new input and no new contract key\", never explained, yet load-bearing on the claim that nothing new was invented; (3) \"the skill's references\" — \"the definitions already exist in the skill's references and need links, not copies\", where \"the skill\" has no referent in the record; (4) \"the document guard\" — \"would be listed by the document guard but have no row of its own\", a distinct mechanism from the guard described earlier, introduced without definition; (5) \"the audit\" — \"a failure this repository produced during the audit itself\", a specific event assumed known. The function names (`list_evidence`, `handoff_text`, `index_rows`, `link_from`, `command_index`) are correctly exempt because each carries its role in the sentence that uses it, but the terms above are not identifiers with stated roles. The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"An index that only walked the evidence would have reproduced the blind spot it was built to remove.\" The transferable claim — derive an index from the registry *and* scan the filesystem for what the registry cannot name — carries the specific observation from this change that produced it: \"an ADR written under an R1 record has nowhere to live in that record's artifact map ... That file was reachable by `ls` and by nothing else ... Fifty-one of fifty-two documents could be named from the evidence; that one could not.\" That is the observation, not a restated property of a third-party tool.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is satisfiable without verifying the change. This record passes on a count that comes from the investigation that motivated the work, stated in the data-flow section; the section that exists to report verification contains only a pointer (\"See the linked threat model and runbook\") and an unresolved coverage claim (\"covered by regenerating in the test and comparing\"). As written, D2 asks only that some check with some output appear anywhere in the graded text, so a record that ran nothing after building and merely narrated one measurement from its scoping phase would pass. If the intent is that the reader learn whether the change works, D2 should require the stated check to bear on the delivered change, or should explicitly say that a motivating measurement counts.\n\nD4 does not require the transferable claim to be stated as transferable. Here the generalization is one clause inside a paragraph about this repository's directory layout; the reader has to lift it out. A record with a vivid, well-quantified war story and no generalization at all would pass on the same evidence, because the specific observation is the thing the dimension checks for and the claim it attaches to can be left implicit.\n\nD1 and D3 held up under pressure — both failed this record on things I could point to rather than on absence-as-suspicion, and D3's in-place-definition exemption correctly cleared eight function names while leaving the terms that actually block a new reader (the risk tiers, \"the skill\", \"the audit\") in the list. One note on D3's scope: its exemption is written for in-repo identifiers, but the terms that most often defeat a new reader are bare nouns from a project's private vocabulary, which the exemption never reaches. That asymmetry is working as intended here, but it is worth stating in the dimension so a judge does not read the exemption as covering all jargon that \"feels\" locally obvious."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section's success criteria are: \"`docs/engineering/README.md` lists every change record with its title, risk, state, and links to its documents; `README.md` links it; adding a record without regenerating fails the suite; every link resolves from the index's own directory.\" All four are properties the change was constructed to have — an index that lists records, a README link, a guard that fails on staleness, and correct relative links. None states a proposition that could plausibly have resolved the other way; each is satisfied by the act of building the thing. The remainder of the section is the non-goals list (\"rewriting existing records\", \"a glossary\", \"changing what `status` shows\"), which is a set of exclusions and is explicitly disqualified. A reader who stopped after this section would learn what was built and what was skipped, and would ship it either way; nothing there calibrates trust in a finding, because no finding is at stake.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"That file was reachable by `ls` and by nothing else — not `explain`, not `refs check`, not `status`. Fifty-one of fifty-two documents could be named from the evidence; that one could not.\" This names a check (enumerating the document corpus and testing reachability through three named commands) and states its output as a specific count, 51 of 52, with the negative result for the remaining file. It clears the bar despite the failure section deferring wholesale — \"See the linked threat model and runbook\" — which on its own would count as naming no check.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The list is non-empty. (1) \"R1\" and \"R2\": \"an ADR written under an R1 record has nowhere to live in that record's artifact map, because `artifact_paths` allocates a decision document only from R2 up.\" These are never defined; a new engineer cannot tell what distinguishes an R1 record from an R2 one, yet the entire justification for the orphan scan — the record's central design argument — rests on that distinction. \"the current risk tiers\" appears later as a hint but is itself undefined. (2) \"the document guard\": \"an orphan runbook ... would be listed by the document guard but have no row of its own\" — a mechanism named without any statement of what it is or does. (3) \"the audit\": \"a failure this repository produced during the audit itself\" — a prior event the reader must resolve elsewhere. By contrast, `list_evidence`, `handoff_text`, `command_status`, `index_rows`, `index_text`, `link_from`, and `command_index` are all exempt, each having its role stated in the sentence that uses it (e.g. \"`link_from`\" is introduced as what rewrites \"every link ... relative to the index's own directory\").",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"An index that only walked the evidence would have reproduced the blind spot it was built to remove.\" The transferable claim — an index derived solely from a system's own registry inherits that registry's omissions, so it must also scan the underlying store — carries the specific observation from this change that produced it: \"Fifty-one of fifty-two documents could be named from the evidence; that one could not.\" A reader facing a similar registry-versus-filesystem decision gets both the claim and the concrete case that generated it.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is the weak dimension here, and this record exposes it. The section whose job is verification defers entirely — \"See the linked threat model and runbook\" — which is precisely the pattern D2 declares equivalent to naming no check. The pass is rescued by a count reported in a different section, about the repository's prior state, not about whether this change works: the record never states the outcome of running the guard it added. As written, D2 is satisfied by any quantified observation anywhere in the prose, so a record that verified nothing about its own change but narrated one measurement of the pre-existing system would also pass. If the intent is verification of the change, D2 should say so; if the intent is any honestly-reported check, the current phrasing invites graders to split on it. Secondarily, D3's defined-in-place exemption turns on the grader's tolerance for thin glosses. \"`ValidationRecordCase` and `CommittedArtifactCase` ... which hold the other two indexes current\" states a role but leaves \"the other two indexes\" dangling — I exempted it, but a stricter reader would not, and the dimension gives no rule for a gloss that defines a term by reference to another undefined one."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "add-record-index"
+}

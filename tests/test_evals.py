@@ -257,6 +257,7 @@ class EvalGraderCase(unittest.TestCase):
         # are excluded: they are covered by the provenance digest instead, and
         # editing them locally is what that check exists to catch.
         candidates = list((ROOT / "scripts").glob("*eval*.py"))
+        candidates.extend((ROOT / "scripts").glob("grade_*.py"))
         candidates.extend((ROOT / "scripts" / "eval").glob("*.py"))
         candidates.extend((ROOT / "scripts" / "eval").glob("*.md"))
         return [path for path in candidates if path.is_file()]

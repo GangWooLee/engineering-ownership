@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T08:50:09+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"replaying the eight quarantined leak commands through the fixed code yields zero residual leaks\" — this is a proposition about pre-existing recorded data that could plausibly have resolved the other way: the eight historical commands could have contained a form the new token pass does not cover, in which case a reader would trust the fix less. It is not merely a property the change was built to have, unlike the companion criterion (\"the full suite passes including a regression test that drives `action_target` + `redact` over bare, quoted, `$HOME`, absolute, flag, and in-fixture-filename forms\"), which enumerates the cases the fix was written against. The non-goals list on its own would not have carried this dimension.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "Two checks are named with their outcomes: \"the full suite passes including a regression test that drives `action_target` + `redact` over bare, quoted, `$HOME`, absolute, flag, and in-fixture-filename forms of the runner location\" (outcome: passes), and \"replaying the eight quarantined leak commands through the fixed code yields zero residual leaks\" (outcome: zero residual leaks). The recovery path also reports an outcome rather than pointing elsewhere: \"exercised today for eight runs now in `/tmp/eo-quarantine/`.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: (1) **fixture** — the central mechanism is stated as \"`$`-prefixed tokens are treated as outside the fixture\" and \"in-fixture-filename forms\", and the placement argument turns on \"transcripts and fixture deltas\"; I searched every section for any statement of what the fixture is or what its boundary means and found none, so I cannot judge whether treating `$`-prefixed tokens as outside it is right. (2) **leak / the skill** — the entire purpose rests on \"zero residual leaks\" and \"A run whose own response names the skill is inadmissible\"; the record never states what leaks, to whom, or why naming the skill is disqualifying (the closest is the identifier `JudgeBlindingCase`, which is a name, not a statement). (3) **judge bundle** — the terminus of the data flow, \"`actions.json` → judge bundle\", is never described. (4) **sweep** — the sole known limit, \"a sweep launched before a redaction fix keeps the old code in memory for its whole life\", is unjudgeable without knowing what a sweep is. (5) **`ROOT.name`** — \"any target still carrying `ROOT.name` after the token pass is scrubbed wholesale\" does not state its role in that sentence; a reader must infer it from \"the repository name\" two sections earlier. By contrast, `--resume` is exempt, being defined in place: \"(`--resume` re-runs any run directory that was moved out)\".",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The backstop was placed in `action_target` itself, not in `redact()`, because `redact()` also runs over transcripts and fixture deltas where replacing the repository name would rewrite agent-authored content\" — the transferable claim (put a scrubber at the narrowest producer, not in the shared function) carries the specific observation from this change that produced it: that `redact()` is also applied to material the change must not rewrite. The stale-process paragraph on its own would not have carried this dimension: \"a sweep launched before a redaction fix keeps the old code in memory for its whole life\" is a general property of long-lived processes and is not tied to any observation made during this change.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "Three concerns.\n\n(1) **D1 and D2 are satisfied by the same sentence.** Both my D1 and D2 verdicts rest on the two clauses of the first sentence of `Success and non-goals`. A record whose opening section contains one well-formed empirical claim collects two of four dimensions, which overweights that section relative to the other four graded ones. Consider requiring D2's evidence to come from outside the section D1 is judged on, or explicitly noting that overlap is intended.\n\n(2) **D2's bar is low enough that boilerplate clears it.** The dimension fails only a record that names no check or states no outcome. A record whose sole verification line was \"the full suite passes\" would pass, since that names a check and its result. The stronger prohibitions the dimension does carry are all about *reference* (\"exercised by tests\", \"see the threat model\"), not about *content* — nothing requires the check to bear on the claim at issue. A clearly bad record can pass D2 by asserting a green test run for tests that predate the change.\n\n(3) **D3's exemption rule underdetermines domain nouns.** The stated exemption covers in-repo identifiers \"whose role is stated in the sentence that uses it\", which is a clean test for things like `save_evidence` or `--resume`. It gives no guidance for bare domain nouns — \"fixture\", \"sweep\", \"judge bundle\" — which never appear in identifier position and are often *inferable* from elsewhere in the record without being defined anywhere. Here, `ROOT.name` is arguably resolvable from a phrase two sections earlier; I counted it as undefined on a strict reading of \"the sentence that uses it\", but a grader reading \"defined anywhere in the graded sections\" would exclude it. Since D3 fails on a non-empty list, that ambiguity can flip the verdict on records that hinge on a single term. Worth stating explicitly whether definition-at-distance counts, and whether domain nouns get the same exemption as identifiers.\n\nD4's added exclusions (scope disclaimers, restated third-party behaviour) did real work here — they are what kept the stale-process paragraph from carrying the dimension by itself."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"replaying the eight quarantined leak commands through the fixed code yields zero residual leaks\" — the opening does not only enumerate exclusions; it stakes success on a replay of eight pre-existing captured leak commands, which is a proposition that could plausibly have resolved the other way (some of the eight could have survived the fix). Read alone, it tells the reader the verification is against real prior contamination plus a six-form regression test over \"bare, quoted, `$HOME`, absolute, flag, and in-fixture-filename forms\", and that response/transcript/fixture contents were deliberately left unscrubbed — so a reader who stopped there would weigh a residual-leak finding differently from a clean one.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"the full suite passes including a regression test that drives `action_target` + `redact` over bare, quoted, `$HOME`, absolute, flag, and in-fixture-filename forms of the runner location; replaying the eight quarantined leak commands through the fixed code yields zero residual leaks.\" Checks are named (suite, regression test over six token forms, replay of eight commands) and each carries its outcome (passes; zero residual leaks). A second check with an outcome: \"Recovery for already-recorded contamination is quarantine and re-run (`--resume` re-runs any run directory that was moved out), exercised today for eight runs now in `/tmp/eo-quarantine/`.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: (1) \"the skill\" — \"A run whose own response names the skill is inadmissible by the grader's refusal check, not silently rewritten\"; nothing in the record says what a skill is, yet the whole non-goal rests on it. (2) \"the grader\" / \"the grader's leak refusal\" — \"caught by `JudgeBlindingCase` at test time and by the grader's leak refusal at grading time — two independent nets behind this fix\"; the second of the two nets is never explained. (3) \"fixture\" — \"`$`-prefixed tokens are treated as outside the fixture\"; the inside/outside-the-fixture distinction is the core of the fix's logic and is never stated. (4) \"`ROOT.name`\" — \"any target still carrying `ROOT.name` after the token pass is scrubbed wholesale\"; the sentence does not say what ROOT is. (5) \"judge bundle\" — terminal stage of \"`parse_stream` → `action_target(name, input, cwd)` → `redact(...)` → `actions.json` → judge bundle\", the destination the leak is said to reach. (6) \"sweep\" — \"a sweep launched before a redaction fix keeps the old code in memory for its whole life\", on which the entire known-limit rests. A new engineer must resolve each of these elsewhere before judging whether the fix closes the leak.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The backstop was placed in `action_target` itself, not in `redact()`, because `redact()` also runs over transcripts and fixture deltas where replacing the repository name would rewrite agent-authored content (see non-goals).\" The transferable claim — put a wholesale scrubbing backstop at the narrow producing stage rather than in the shared redaction pass — carries the specific observation from this change that produced it (the shared pass also processes material that is itself the object of evaluation, so scrubbing there would distort it), which also fixes when it stops applying: if the shared function did not touch content that must be preserved verbatim, the backstop would belong there.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is satisfiable without doing the work: it asks only that a check be named with an outcome, so a bare unverifiable 'the full suite passes' clears it. Nothing distinguishes an outcome that was observed from one that was asserted, and this record's strongest verification claim is phrased as a success criterion ('Success: the full suite passes...') rather than as a report of a run — I passed it, but a record that never ran anything could write the identical sentence. D1 has the same soft spot in reverse: it requires a criterion that 'could plausibly have resolved the other way', but plausibility is judged from phrasing alone, and any author can retro-phrase a built-to-pass criterion as an empirical replay over pre-existing data. Consider requiring the record to state the pre-check expectation or the observed count, not just the post-hoc result. D3 is the load-bearing dimension here but its exemption boundary is underspecified: a pipeline diagram ('parse_stream → action_target(name, input, cwd) → redact(...)') arguably 'states the role' of each identifier positionally, and 'the central argument rests on' is not operationalized — I had to decide for myself whether the two-nets claim or the token-normalization logic was central. Because almost every record contains some undefined term, D3 approaches an automatic fail and therefore carries little discriminating information; scoring it as a count against a threshold, or scoping it to a single named central claim, would separate records better."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "fix-blinding-redaction"
+}

@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T09:12:38+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section's only success statement is: \"Success is a second fixture base with ordinary engineering conventions and none of this skill's artifacts, the scenarios that ask about producing discipline moved onto it, and a test that fails if this skill's template fields appear there.\" All three clauses are properties the change was built to have — a base constructed to lack the artifacts, scenarios relocated by the change itself, and a guard test that passes by construction. The remainder of the section is an exclusion (\"Not a goal: removing this skill's artifacts from every fixture\") plus a diagnosis of the prior defect. I searched the section for any proposition that could plausibly have resolved the other way — e.g. a stated expectation about whether results on the second base would differ, or a threshold the change might have missed — and found none. A reader who stopped at this section would take the same action whatever the rest of the record reported.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"On the unmanaged repository the skill never engaged. `skill_loaded` is false for the treatment while the preflight in the same iteration records the plugin loaded and the skill visible, so this is not availability. The treatment took three actions and wrote nothing; the baseline took thirteen and wrote three files.\" The check (a treatment/baseline run on the new base, with a preflight) is named and its result is stated in specific values rather than deferred to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: (1) `iteration-3` — the record's central open question is \"So how much of `iteration-3`'s result came from the fixture is still unmeasured\", and a new engineer cannot judge the significance of that gap without resolving elsewhere what iteration-3 was and what it found; (2) \"The ninth scenario and the unfamiliar-repository scenario moved to `unmanaged`\" — \"the ninth scenario\" is an unexplained index, and it is the same scenario whose result is in question, so judging whether the right things moved requires outside knowledge; (3) \"already materialized a base plus optional settled and working layers\" — \"settled and working layers\" is never explained, yet it carries the claim that this change adds selection \"rather than a second builder\"; (4) \"no supersession fields to fill in\" — undefined, and it is part of the stated contrast that makes the two bases differ only in \"documentation convention\". The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The transferable claim — \"the runner tracks whether the skill was actually invoked, so a run where the treatment did not take is distinguishable from one where it took and did not help. Any future reporting has to separate those two, or a non-triggering run will silently dilute a mean.\" — is carried by the specific observation from this change that produced it: \"`skill_loaded` is false for the treatment ... The treatment took three actions and wrote nothing; the baseline took thirteen and wrote three files.\" It also bounds its own strength: \"This is one observation. It should be repeated before anything is concluded from it.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 has no relevance requirement: it asks only that *a* check be named with *an* outcome. A record that says \"ran the test suite; 412 passed\" while never exercising the behaviour its central claim rests on passes cleanly. Tying the check to the claim the record is asking the reader to believe would close that.\n\nD4's OR structure lets the easier branch carry every record. Attaching any concrete number to a generic lesson satisfies \"the specific observation from this change\", so no record ever has to supply a falsifying condition — which is the harder and more useful half, and the half the dimension's own prose (two sentences of it) works hardest to define. This record earns the pass, but a weak record would too.\n\nD3's exemption is ambiguous about scope: \"whose role is stated in the sentence that uses them\" excludes definitions given one sentence away. `skill_loaded` here is effectively defined two paragraphs later (\"the runner tracks whether the skill was actually invoked\"); I let it pass, but a judge reading the exemption literally would fail it. Since D3's verdict is a non-empty-list test, one such disagreement flips the dimension, so the same record can score differently on wording alone. Either say \"in the immediate vicinity\" or say \"strictly the same sentence\".\n\nD1 may misfire on a category rather than on bad writing. For a change whose deliverable is a fixture, there may be no honest proposition that could have resolved the other way at authoring time — the interesting uncertainty only appears once the fixture is used. Requiring one in the opening section pushes such records toward inventing a hypothesis after the fact, which is worse than the silence the dimension is trying to punish."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section's criteria are: \"Success is a second fixture base with ordinary engineering conventions and none of this skill's artifacts, the scenarios that ask about producing discipline moved onto it, and a test that fails if this skill's template fields appear there.\" All three are things the change constructs — a base that exists, scenarios moved, a guard test installed — so all three are satisfied by the act of building. The remainder of the section is exclusion (\"Not a goal: removing this skill's artifacts from every fixture\") and motivation (\"The defect was using one base for both questions without saying so\"). I searched the section for any proposition whose resolution was not determined by construction — e.g. a statement of what the new base would show, or a result that would count as the change failing — and found none. A reader who stopped at this section would trust what follows identically whether the record went on to report a clean comparison or, as it does, that the skill never ran at all.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`skill_loaded` is false for the treatment while the preflight in the same iteration records the plugin loaded and the skill visible, so this is not availability. The treatment took three actions and wrote nothing; the baseline took thirteen and wrote three files.\" The check is the run of the moved scenarios on the unmanaged base, and its output is stated in concrete counts rather than deferred to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on: (1) `iteration-3` — \"So how much of `iteration-3`'s result came from the fixture is still unmeasured.\" This is the reason the fixture was split, and neither what iteration-3 was nor what result it produced appears anywhere in the record. (2) \"overlay\" — \"this adds per-overlay base selection\" and \"An overlay names the base it starts from\"; the mechanism the System-and-data-flow section describes cannot be checked without knowing what an overlay is, and its relation to the \"settled and working layers\" mentioned in the same sentence is never stated. (3) \"The ninth scenario and the unfamiliar-repository scenario moved to `unmanaged`\" — the ninth scenario is identified only by ordinal, so a reader cannot tell what question was moved. (4) \"this skill\" is never named, though the whole finding is about whether it engaged. The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"Any future reporting has to separate those two, or a non-triggering run will silently dilute a mean\" — transferable to anyone comparing a treatment against a baseline. It carries the specific observation from this change that produced it: \"The treatment took three actions and wrote nothing; the baseline took thirteen and wrote three files\", with `skill_loaded` false while \"the preflight in the same iteration records the plugin loaded and the skill visible\", which is what makes the non-trigger distinguishable from an ineffective trigger rather than a general property asserted in the abstract.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is satisfiable without doing the work that matters. It asks only that *a* check be named with *an* outcome — it never requires the check to bear on the record's own claim. A record that says \"ran the test suite; 412 passed\" and then makes an entirely unrelated argument passes D2 cleanly. Consider requiring that the stated check be one whose outcome could have changed what the record concludes.\n\nD4's two branches are not equally demanding. The 'specific observation' branch is met by attaching any concrete detail from the change to any generic piece of advice; nothing forces the observation to actually license the generalisation. A record could pair \"the build took 40s\" with \"always instrument your experiments\" and satisfy the letter of it. The 'stopping condition' branch is the one with teeth, and it is the optional one.\n\nD3's exemption — \"identifiers whose role is stated in the sentence that uses them\" — is ambiguous between *stating what a thing does* and *stating what it is*. \"the preflight in the same iteration records the plugin loaded\" tells me what a preflight produced without telling me what a preflight is; I judged it exempt, but I expect another grader to judge the same clause the other way, and that disagreement is inside the rubric rather than inside the record."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "separate-fixture-from-answer-key"
+}

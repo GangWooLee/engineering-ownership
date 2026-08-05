@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T08:55:10+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "Opening section: \"Success is that a run can produce durable artifacts, that the judge is shown an ordered record of what the run did and the content of what it wrote, and that a mechanical check confirms that record does not identify the configuration.\" and \"Not in scope: fixtures for the remaining seven scenarios, or a sample size that would support a published number.\" Reading only this, I learn the evidence is not statistically powered — no number that follows should be treated as a result — and that the run's validity hinges on a blinding check whose outcome was genuinely open. That third clause is not a property the change was built to have but a proposition about generated content that could have resolved either way; the record's own limits confirm it was live (\"The response can still leak\"). A reader who stopped after the opening would read anything downstream as an anecdote conditional on the blinding holding, not as a finding.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"The judge reported that expectation 3 of the ninth scenario bundled two behaviours and created a tension: correct practice for superseding a decision *requires* editing the earlier record's status, so \\\"leaves the original intact\\\" read as forbidding the right answer. It has been split into preservation and explanation.\" A check (the validation run with a judge) is named and its output stated. A second check with a stated outcome: \"The baseline performed the maintenance behaviour too. It found the contradicted decision, marked it superseded, and wrote a replacement. The single differentiator was explaining why preservation matters.\" Neither is a pointer at another document; both report what came out.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "I searched for terms a new engineer would have to resolve outside the record to judge its claims. The candidates all carry their role in place: \"`redact()` already existed for home paths and is reused for every field that reaches a committed artifact\"; \"Per-run fixture isolation already existed - a fresh tree per run, removed afterwards\"; \"`AGENTS.md` forbids storing home paths\"; \"The new failure mode is a blinding leak. It is handled by refusing to grade: if the assembled evidence names this project, the run is recorded invalid with the reason rather than graded and reported.\" \"identify the configuration\" is unglossed at first use but is resolved within the record itself — \"the transcript names this skill in one arm only, `tool_calls` carries a `Skill` key on one side\" — so the two-arm meaning does not require an outside document. \"expectation 3 of the ninth scenario\" points outward, but the substance needed to judge the claim is quoted in place. The one genuinely undefined term, \"risk tier\", appears only as one of two illustrations (\"a risk tier or this project's directories\") and no claim rests on it.",
+          "passed": true
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"A fixture that teaches the answer is a confound, and it should be examined before these scenarios are used for a published number\" — the transferable claim arrives carrying the specific observation from this change that produced it: \"The baseline performed the maintenance behaviour too... The single differentiator was explaining why preservation matters. That may say more about the fixture than the skill: the fixture's decision template already carries a `Supersession` section, so the convention is visible to anyone who reads it.\" A second bounded takeaway is likewise anchored: \"This is the second time the judge's critique of an expectation has been more useful than its verdicts. That field is worth reading first, not last\" — tied to the concrete expectation-3 defect described immediately above it.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "Three concerns.\n\nD2 has no relevance requirement, and this record shows why that matters. Its opening names one check as the success bar — \"a mechanical check confirms that record does not identify the configuration\" — and the record never states that check's result. I searched for it and found only the mechanism (\"if the assembled evidence names this project, the run is recorded invalid\"), never an outcome. D2 still passes on two unrelated checks. As written, a record can report the outcome of a peripheral check while silently omitting the outcome of the one its own success criteria named. Consider requiring that at least one reported check bear on a stated success criterion.\n\nD1's escape hatch is cheap to fake. The rule asks for \"a proposition that could plausibly have resolved the other way,\" but nothing distinguishes a genuinely open proposition from one merely phrased as a verification. Any author can convert \"the output is redacted\" into \"a check confirms the output is redacted\" and clear the bar without adding uncertainty. I passed this record partly because its limits section independently confirms the proposition was live, but that evidence sits outside the opening section the dimension says to read alone — so I applied a standard the dimension does not actually state.\n\nD3 is the weakest as specified. \"FAIL if the list is non-empty; the list is the evidence\" makes a pass unfalsifiable — the judge asserts absence and there is nothing to check. More consequentially, the exemption says a term is safe when \"its role is stated in the sentence that uses them,\" but I passed \"identify the configuration\" on a looser standard: it is never glossed in the sentence that introduces it, only inferable from a different section two headings later. By the literal rule this record fails D3. The dimension should say whether in-record inference across sections counts, because that gap decides the verdict here. The exemption also invites laundering: appending a six-word gloss to any term satisfies it regardless of whether the gloss is informative."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"a mechanical check confirms that record does not identify the configuration\" is a proposition that could have resolved the other way — the record later confirms it is a live risk (\"The new failure mode is a blinding leak\", \"The response can still leak\"). Paired with the non-goal \"a sample size that would support a published number\", a reader who stopped at the opening section knows that any comparative result below is unpowered and that the blinding could have failed; that changes how much they trust what follows.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"The judge reported that expectation 3 of the ninth scenario bundled two behaviours and created a tension: correct practice for superseding a decision *requires* editing the earlier record's status, so \\\"leaves the original intact\\\" read as forbidding the right answer. It has been split into preservation and explanation.\" A second check with a stated result: \"The baseline performed the maintenance behaviour too. It found the contradicted decision, marked it superseded, and wrote a replacement. The single differentiator was explaining why preservation matters.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "I searched for terms the central argument rests on that a new engineer must resolve outside this record, and did not find one. The candidates are all defined in the sentence that uses them: \"`redact()` already existed for home paths and is reused for every field that reaches a committed artifact\"; \"each run gets a fresh fixture built outside this repository and removed afterwards\"; \"`Skill` entries are dropped from the action log before it is written, so the distinction cannot be reconstructed downstream\"; and \"the configuration\" is resolved in place by \"the transcript names this skill in one arm only, `tool_calls` carries a `Skill` key on one side\". `iteration-3` and \"risk tier\" are undefined but the claims that use them (\"The grading in `iteration-3` was produced against the unsplit wording\", \"It may name a risk tier or this project's directories\") are judgeable without resolving them.",
+          "passed": true
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"A fixture that teaches the answer is a confound, and it should be examined before these scenarios are used for a published number\" — carried by the specific observation from this change that produced it: \"The baseline performed the maintenance behaviour too... the fixture's decision template already carries a `Supersession` section, so the convention is visible to anyone who reads it.\" The observation a reader could make that would overturn a skill-effect claim is named outright: check whether the fixture already contains the convention.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D1 has a loophole in its own escape hatch. It demands \"at least one [criterion] must state a proposition that could plausibly have resolved the other way\", but any criterion phrased as \"a check confirms X\" reads as falsifiable regardless of whether the check could realistically fail — \"a test confirms the build compiles\" would pass on the same grammar. The dimension is judging sentence form, not epistemic risk. It would be stronger if it required the opening to say what outcome would have counted as failure, or to state the check's result, rather than merely to name a check. This record clears the bar substantively (the leak risk is real and recurs later in the text), but it clears it on wording that a bad record could imitate cheaply.\n\nD3's exemption — \"in-repo identifiers whose role is stated in the sentence that uses them\" — puts the entire verdict on a grader's threshold for how much inference counts as \"stated\". I made at least three close calls here (`iteration-3`, \"risk tier\", \"this skill\", none of which is ever defined) and could have justified either verdict on each. Since D3 declares \"the list is the evidence\" and fails on any non-empty list, a single borderline term flips the dimension, so two graders will disagree on records like this one. It also gives no test for \"central argument\" when a record makes several — the jargon load differs sharply between the blinding argument and the fixture-confound argument here. A rule for what counts as resolvable by inference from the record itself, versus requiring an outside document, would make it repeatable."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "observable-run-evidence"
+}

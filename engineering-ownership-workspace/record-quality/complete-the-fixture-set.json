@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T08:20:42+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads in full: \"Success is nine fixtures that build deterministically, each carrying the state its expectations need, plus a guard that closes the gap rather than describing it. / Not a goal: running the suite. Building the repositories and measuring in them are separate steps, and the second is expensive enough to decide on its own.\" Every success criterion is a property the fixtures were constructed to have — that they build, that they carry the state their expectations need, that a guard exists — and none states a proposition that could plausibly have resolved the other way. The only trust-bearing content is \"Not a goal: running the suite,\" which is an exclusion, and the dimension states that a list of deferred or excluded features does not satisfy it. I searched the section for any criterion whose outcome was in doubt and found none.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "I searched all five graded sections for a named check together with what it produced. The record instead states the opposite: \"**No scenario has been run against its new fixture.** Building the repository and measuring in it are separate, and nothing here says the expectations are answerable in practice - only that the state they ask about is present.\" The nearest candidates are assertions, not reported checks: \"Nothing ships; `build_release.py` packages the plugin directory alone\" names a script but reports no run or output, and \"Success is nine fixtures that build deterministically\" is a goal, not an observed result. \"The one thing missing was a way for two scenarios to share a state\" reports a prior-art finding about the builder, not a verification of the change.",
+          "passed": false
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on, none given a role in the sentence that uses them: (1) \"a guard that closes the gap rather than describing it\" — half the success criterion, with neither the guard nor the gap identified; (2) \"the contract\" in \"on a path the contract treats as highest risk\" — the sole justification for scenario 2's state; (3) \"Trigger-probe runs already recorded against the previous commit\" — the entire subject of the first and most emphasised known limit; (4) \"the managed base\" and \"the unmanaged base\" — the distinction carries the last limit, and \"managed\" is never explained; (5) \"the skill\" in \"whether a skill is consulted\" and \"what the skill does inside a repository\" — the thing all nine fixtures exist to test; (6) \"the prompt says 'a complex change' in the singular\" — an external artefact the second limit turns on. By contrast `settled` and `build_release.py` are exempt, their roles being stated in place. The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"**The unmanaged base still serves two scenarios and the managed base seven.** That is fine while the question is what the skill does inside a repository, and it will need revisiting if a scenario needs a language or a layout this service does not have.\" The transferable claim — heavy reuse of a shared fixture base is acceptable while the behaviour under test is internal to the fixture — carries a stopping condition naming an observation a reader could make that would overturn it: a scenario requiring a language or layout the shared base does not provide. The first limit is similarly grounded in this change's own observation: \"The managed base's commit changed, because scenario 1 needs the typo to exist before it can be fixed... the recorded figures were taken against a repository that no longer exists in exactly that form.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2's boundary is ambiguous in a way that a clearly bad record could exploit. The dimension says \"State what the record says was checked, and what that check produced,\" but one of the five graded sections is a prior-art search section, and a sentence like \"The one thing missing was a way for two scenarios to share a state\" is literally something checked with a stated outcome. A record that verified nothing about its own change could pass D2 on a codebase-search sentence alone. If D2 means verification of the change's behaviour, it should say so and explicitly exclude findings about what existed beforehand.\n\nD1 is cheaper to satisfy than it looks. It requires only that one success criterion state a proposition that could plausibly have resolved the other way — not that anyone resolved it, and not that the record says which way it went. \"Success is that the build is deterministic\" is falsifiable in principle and would pass, even in a record where nothing was ever built. Pairing D1 with a requirement that the record report the criterion's outcome would close this; as written, D1 and D2 can both be gamed by the same untested sentence.\n\nD4 has a boilerplate escape hatch. The rubric rules out \"X does not cover Y\" but accepts any clause of the form \"...and this will need revisiting if Z,\" without requiring Z to be plausible, connected to anything observed here, or non-trivial. Appending such a clause to any claim passes. The sentence I passed this record on is close to that form — its stopping condition is generic enough that it could be attached to almost any shared-fixture decision — and it is only saved by the neighbouring limit, which does carry a specific observation from this change. A stronger D4 would require the stopping condition to name something this change actually came close to hitting."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads in full: \"Success is nine fixtures that build deterministically, each carrying the state its expectations need, plus a guard that closes the gap rather than describing it.\" and \"Not a goal: running the suite. Building the repositories and measuring in them are separate steps, and the second is expensive enough to decide on its own.\" All three success criteria are properties the change was built to have — fixtures that build deterministically, fixtures carrying their required state, a guard that exists. None states a proposition that could plausibly have resolved the other way; the change either produced these artifacts or was not finished. The remainder is a deferral of the suite run, which the dimension excludes explicitly. A reader who stopped at this section would take the same view of what follows whether the fixtures turned out well or badly.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "I searched the five graded sections for a named check together with what it produced, and found none. The only sentence about a check is its negation: \"**No scenario has been run against its new fixture.**\" The nearest candidates state facts rather than outcomes of a check: \"Nothing ships; `build_release.py` packages the plugin directory alone\" describes what a script does, not that it was run or what it emitted; and \"nothing here says the expectations are answerable in practice - only that the state they ask about is present\" asserts state presence without naming how presence was established. \"Trigger-probe runs already recorded against the previous commit\" points at measurements taken elsewhere and reports no result from them.",
+          "passed": false
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on: (1) \"recipe\" / \"overlay\" — the record's core change is \"A recipe entry may now also name another scenario's overlay\", and neither term's role is stated in the sentence; a reader cannot judge whether this closes \"a way for two scenarios to share a state\" without resolving both elsewhere. (2) \"managed\" / \"unmanaged\" base — load-bearing in two of the four limits (\"**The managed base's commit changed**\", \"**The unmanaged base still serves two scenarios and the managed base seven.**\") and never distinguished. (3) \"Trigger-probe runs\" — the entire first limit turns on what these are and why a one-character README change invalidates them. (4) \"the contract\" in \"on a path the contract treats as highest risk\" — the risk claim for scenario 2 rests on it. (5) \"the skill\" in \"whether a skill is consulted\" and \"what the skill does inside a repository\" — the argument that the invalidation is harmless, and the scope claim in the last limit, both depend on it. (6) \"this service\" in \"a language or a layout this service does not have\", which is the stopping condition of the final limit.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"**The unmanaged base still serves two scenarios and the managed base seven.** That is fine while the question is what the skill does inside a repository, and it will need revisiting if a scenario needs a language or a layout this service does not have.\" The transferable claim — a small number of shared fixture bases is adequate rather than one per scenario — is paired with a condition a reader could observe that overturns it: a scenario arriving that requires a language or layout the shared base lacks. The first limit adds the observation that produced its own claim: \"The difference is one character in a README and cannot plausibly affect whether a skill is consulted, but the recorded figures were taken against a repository that no longer exists in exactly that form.\"",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D4 is the weakest of the four here. I passed it on a sentence of the form \"that is fine while X, and it will need revisiting if Y\" — but D4 checks the shape of that sentence, not whether the claim generalises past this repository. Any record can append \"…and this will need revisiting if the shared base stops fitting\" to a purely local observation and clear the bar; a clearly bad record with a boilerplate \"revisit if requirements change\" clause would pass unless the grader silently imports a transferability test the dimension never states. Consider requiring the claim to be statable without reference to this change's own artifacts.\n\nD2 has a targeting problem worth naming. This record's most trust-relevant sentence is an explicit, unhedged negative — \"No scenario has been run against its new fixture\" — and it fails D2, correctly under the wording, because no check was performed. But that means D2 gives the same verdict to a record that honestly declares zero verification and to one that performed checks and hid their results, which are opposite writing failures. D1 already absorbs some of this (the deferral there is what tells a reader how much to trust the rest). If D2 is meant to punish only the concealment case, it needs a separate outcome for a record that states plainly that nothing was checked; if it is meant to punish unverified work regardless of disclosure, the dimension is measuring the change rather than the record, which sits oddly beside its own instruction to judge the account and not the subject matter.\n\nD3 is falsifiable and did its job, but the in-place-definition exemption is doing a lot of unsupervised work at the margin. \"The builder already supported a shared base, an optional committed layer, and an optional working layer\" arguably defines \"the builder\" by what it supports; I excluded it and included \"recipe\" on a judgment call that another grader could reasonably make the other way. Since D3's verdict is a non-empty list, a single borderline term flips it, so the exemption's boundary decides more outcomes than its one-line phrasing can carry."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "complete-the-fixture-set"
+}

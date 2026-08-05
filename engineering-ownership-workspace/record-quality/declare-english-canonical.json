@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T08:30:46+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads: \"Success: the decision is recorded; `README.ko.md` and `first-work.ko.md` each open by naming their English source and their status as a summary; nothing in either claims to be complete.\" All three criteria are properties the change was built to have — writing the headers makes them true by construction, so none could plausibly have resolved the other way. The remainder is a deferral list: \"Non-goals: retranslating the Korean documents to match the current English ... translating the engineering records; changing the language of conversation with the owner, which stays Korean.\" A reader who stopped here learns what was and was not touched, but nothing about how much to trust the findings; I searched the section for any criterion whose outcome was open at the time of writing and found none.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"No prior statement of language policy exists — `grep -i \"canonical\\|번역\\|translation\"` across `README.md`, `CONTRIBUTING.md`, `AGENTS.md`, `CLAUDE.md`, and `GOVERNANCE.md` returns nothing about which language governs.\" The check is named (the pattern and the exact file set) and its result is stated. A second observation is also reported with its outcome: \"`README.ko.md:3` already links `[English](README.md)`, but as a sibling link, not as a source.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the closing argument rests on: (1) \"R2\" — \"`artifact_paths` (`cli.py:135-145`) allocates a decision document only at R2 and above\" and \"raising the risk to R2 purely to obtain a file\". The record never states what the risk tiers are or which tier this change was assigned, so I cannot judge whether the ADR should have been allocated. (2) \"the Brief\" — \"the evidence record's `artifacts` map lists only the Brief\"; no role for a Brief is given anywhere in the record. (3) \"evidence record\" — used as a container with an `artifacts` map, never defined. (4) \"the skill description\" in \"`tests/test_evals.py` requires eval prompts, expectations, and the skill description to be ASCII\", which carries the claim that \"the evaluated surface is already English by enforcement\". `artifact_paths` and `tests/test_evals.py` are exempt — each sentence states what they do — but the terms above are not resolvable from the text.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"A guard could assert that each `*.ko.md` names its English source, but the drift this change documents is about content, not headers, and no cheap check catches that — a test that compared the two would fail permanently by design. Left as a stated limit rather than a false gate.\" The transferable claim (state the limit instead of building a gate that cannot pass) carries the specific observation from this change that produced it: the Korean files are deliberately summaries, so any content comparison against the English source diverges permanently. The tier paragraph is similarly anchored: \"the ADR exists on disk while the evidence record's `artifacts` map lists only the Brief\" supports \"The tier is meant to be a floor on required artifacts, not a ceiling on judgement.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is the weakest dimension as written. It asks only that a check be named with an outcome, and it counts a prior-art search as a check — so this record passes on a grep that confirms the absence of prior policy, i.e. a search about the repository's starting state, not a verification of anything the change produced. A clearly bad record could pass D2 by reporting any negative grep ('searched for X, found nothing') while never checking its own output at all. If the intent is verification of the change, D2 should require the check's subject to be something the change created or altered.\n\nD3 turns on 'the record's central argument', which is undefined and does the deciding. Here the undefined vocabulary (R2, the Brief, evidence record) sits in a paragraph the record itself frames as an aside about a product gap; a judge who reads 'central argument' as the language decision alone would pass this record, and one who reads it as any substantive claim in the graded sections fails it. Two careful judges will split on records like this one. Naming the scope — e.g. 'any claim the record asks the reader to accept' — would make it falsifiable.\n\nD4's disjunction ('either the specific observation ... or the condition under which it stops applying') is satisfiable by attaching any concrete detail to a generic maxim. The stopping-condition branch is the demanding one and is well specified; the observation branch is a much lower bar and is the one most records will take, including weak ones."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "Opening section reads: \"Success: the decision is recorded; `README.ko.md` and `first-work.ko.md` each open by naming their English source and their status as a summary; nothing in either claims to be complete.\" All three criteria are satisfied by the act of writing the headers — writing a header that names a source is what makes \"each open by naming their English source\" true, and \"nothing in either claims to be complete\" is the same property restated negatively. None states a proposition that could have resolved the other way. The remainder of the section is \"Non-goals: retranslating the Korean documents to match the current English ...; translating the engineering records; changing the language of conversation with the owner\" — a list of deferred and excluded work, which the dimension explicitly disqualifies. A reader who stopped after this section would approve the change regardless of what the rest of the record found.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"No prior statement of language policy exists — `grep -i \\\"canonical\\|번역\\|translation\\\"` across `README.md`, `CONTRIBUTING.md`, `AGENTS.md`, `CLAUDE.md`, and `GOVERNANCE.md` returns nothing about which language governs.\" The check is named (a grep, with its pattern and its five targets) and its outcome is stated (nothing about which language governs). A second result is stated as well: \"`README.ko.md:3` already links `[English](README.md)`, but as a sibling link, not as a source.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The list is empty. The central claim — English is the source, the Korean files are summaries, and headers make staleness visible rather than hiding it — uses no term I had to resolve elsewhere. Every in-repo identifier is used in a sentence that states its role: \"`artifact_paths` (`cli.py:135-145`) allocates a decision document only at R2 and above\"; \"`tests/test_evals.py` requires eval prompts, expectations, and the skill description to be ASCII\"; \"A guard could assert that each `*.ko.md` names its English source\"; \"the tier is meant to be a floor on required artifacts, not a ceiling on judgement.\" I searched for undefined vocabulary the argument depends on and found only \"the Brief,\" which is never defined — but the claim it appears in (\"the ADR exists on disk while the evidence record's `artifacts` map lists only the Brief\") is judgeable knowing only that the Brief is not the ADR, which the sentence itself supplies. See rubric_feedback: under a broader reading of \"central argument\" this verdict would flip.",
+          "passed": true
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"Nothing enforces the summaries staying summaries. A guard could assert that each `*.ko.md` names its English source, but the drift this change documents is about content, not headers, and no cheap check catches that — a test that compared the two would fail permanently by design. Left as a stated limit rather than a false gate.\" The transferable claim (record a limit rather than install a gate that cannot detect the thing you care about) carries the specific observation from this change that produced it: the drift is in content while the only cheap check is on headers, and the content check would fail permanently. This is not a scope disclaimer and not a restated property of a third-party tool.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D3's phrase \"the record's central argument\" is the weak point, and this record sits exactly on it. The record's substantive jargon — `R2`, \"the tier\", \"the Brief\", `engineering explain declare-english-canonical` — is all confined to a flagged aside in the last section, not the main claim. Read narrowly (the argument for the change), the list is empty and it passes. Read as \"any claim the record asks me to accept,\" I cannot judge \"raising the risk to R2 purely to obtain a file would have been the tail wagging the dog\" without knowing the risk scale, what this change's own tier is, or what qualifies as R2 — none of which the record states. As written, D3 lets a record pass by quarantining its unresolvable vocabulary in a subordinate paragraph. Either scope it to all claims in the graded sections, or say explicitly that asides are exempt.\n\nD3's exemption clause is also loose: \"role is stated in the sentence that uses them\" is satisfied by a bare role-clause that leaves the term unjudgeable. \"raising the risk to R2\" states that R2 is a point on a risk scale, which is enough to exempt it but not enough to assess whether the author's tier call was right. Consider requiring that the stated role be sufficient to evaluate the claim, not merely to categorise the term.\n\nD2 is the dimension a clearly bad record would most easily pass here. It is satisfied by one grep with a null result about *prior art* — this record never states a check on whether the change itself does anything, and it passes cleanly. A record that made a substantive, untested edit and reported only \"grepped for X, found nothing\" would clear D2 identically. If the intent is that the record verified its own change, D2 should say the check must bear on the change's effect, not merely on the search that preceded it.\n\nD4's first branch — \"the specific observation from this change that produced it\" — is close to free. Almost any transferable claim stated next to a concrete detail from the change will read as satisfying it. The second branch (a stopping condition naming an overturning observation) is the one with teeth; as written a record can always take the cheap branch."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "declare-english-canonical"
+}

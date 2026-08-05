@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T08:47:21+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "Opening section reads in full: \"Success: `fix_benchmark.py iteration-2` yields tokens 3,254,669 / 725,974, runs_per_configuration 1, delta +2528695; a regression test fails any committed benchmark whose token figures disagree with its timing records.\" and \"Non-goals: editing the vendored file (PROVENANCE.md forbids it; the digest test enforces it); recomputing pass rates or times (the aggregator gets those right).\" Both success clauses are properties the change was built to have — the script emits the figures it was written to emit, and the new test fails on disagreement by construction (\"fails any committed benchmark whose token figures disagree\" is a description of the guard, not a claim about the corpus that could have come out false). The non-goals are an exclusion list, which the dimension disqualifies. I searched the opening for any proposition whose truth depended on something outside the change — a rate, a threshold, a comparison, a stated uncertainty — and found none; a reader stopping there would adopt the change on the strength of the exact numbers regardless of what the rest of the record reported.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"If the post-pass is skipped, the new `test_committed_benchmarks_report_tokens_from_timing_records` fails on the committed artifact, naming the fix.\" The check is named inline rather than by pointing at another document, and an outcome is stated. A second check with a stated output appears in the opening: \"`fix_benchmark.py iteration-2` yields tokens 3,254,669 / 725,974, runs_per_configuration 1, delta +2528695.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Non-empty list of undefined load-bearing terms: (1) \"the post-pass\" — the entire failure/recovery claim rests on it (\"If the post-pass is skipped\"), and it is introduced with a definite article having never been named; the reader must guess it means running `fix_benchmark.py` after the aggregator. (2) \"the pilot disclaimer\" — \"used to stamp the pilot disclaimer inline into iteration-2's benchmark.md, which previously carried no warning of its own\"; no pilot and no disclaimer text is identified anywhere, so a reader cannot judge whether the right warning was stamped. (3) The PROVENANCE.md prescription: \"This is the 'adapt it in our own scripts alongside' arrangement PROVENANCE.md prescribes\" — the sole justification offered for the design in `Existing responsibilities searched` is a quoted rule from a document the reader must open, with no gloss of what the arrangement requires. (4) \"iteration-2\" — used as the unit of work throughout with no statement of what an iteration is.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The limits section reads in full: \"`executor_model`/`analyzer_model` still render as `<model-name>` placeholders — upstream behavior, out of scope here; the model id lives in run_meta.json and preflight.json.\" \"out of scope here\" is exactly the \"X does not cover Y\" scope disclaimer the dimension rules out, and \"upstream behavior\" is a general property of the third-party tool restated without saying how this change encountered it. The nearest transferable claim is \"The vendored module's own `calculate_stats` and `generate_markdown` are imported and reused, so the corrected output keeps the exact upstream format and no rendering logic is duplicated\" — but it is grounded in a rule PROVENANCE.md prescribes, not in an observation from this change, and I searched all five sections for a condition under which it stops applying (e.g. an upstream signature change, a format the helpers cannot produce) and found none.",
+          "passed": false
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is passable without doing the work, and this record shows how. Its bar — \"names a check\" plus \"what came out of it\" — is met by a counterfactual statement of designed behaviour: \"If the post-pass is skipped, the new test fails.\" That is a specification of the guard, not an observation; nowhere does the record say the test was run, or that it passes now. A record that adds a test and never executes it could write that exact sentence and pass. D2 already bars checks identified by pointer (\"exercised by tests\"); it should equally bar checks whose only reported outcome is one the author asserts by construction, and require the result actually observed. Relatedly, D2's own example — \"a script whose output is never stated does not [pass]\" — implies the converse, that a stated script output suffices; the opening's token figures then satisfy D2 purely by being specific, with no claim anyone ran anything.\n\nD3's exemption is inconsistent with D2's pointer rule and lets an external argument through on a one-clause gloss. \"PROVENANCE.md forbids it\" states the document's role in the sentence that uses it, so by the letter of the exemption it is exempt — yet the reader still cannot check the constraint without leaving the record, which is precisely the failure D2 names when it rejects \"see the threat model\". The exemption should be scoped to in-repo code identifiers, with external documents treated as pointers unless the record states the substance of what they require."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads: \"Success: `fix_benchmark.py iteration-2` yields tokens 3,254,669 / 725,974, runs_per_configuration 1, delta +2528695; a regression test fails any committed benchmark whose token figures disagree with its timing records.\" Both criteria are properties the change was built to have — the script emits the figures it was written to emit, and the test asserts what it was written to assert — so neither states a proposition that could plausibly have resolved the other way. The remainder of the section, \"Non-goals: editing the vendored file (PROVENANCE.md forbids it; the digest test enforces it); recomputing pass rates or times (the aggregator gets those right)\", is a list of exclusions, which the dimension explicitly disqualifies. I searched the opening section for any criterion whose failure was a live possibility (e.g. a bound the numbers had to fall within, an invariant that might not have held, a check that might have surfaced other bad artifacts) and found none; a reader who stopped here would decide the same way whatever the record went on to find.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "A check is named by name with its outcome stated: \"the new `test_committed_benchmarks_report_tokens_from_timing_records` fails on the committed artifact, naming the fix.\" The script run also has its output stated rather than pointed at: \"`fix_benchmark.py iteration-2` yields tokens 3,254,669 / 725,974, runs_per_configuration 1, delta +2528695.\" This is not the disqualified \"exercised by tests\" form — a specific test is identified and what it produces on the committed artifact is stated.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: (1) \"the 'adapt it in our own scripts alongside' arrangement PROVENANCE.md prescribes\" — the entire justification for the design in `Existing responsibilities searched` rests on a quoted phrase whose meaning exists only in PROVENANCE.md; (2) \"the pilot disclaimer\" in \"used to stamp the pilot disclaimer inline into iteration-2's benchmark.md\" — no pilot and no disclaimer content is identified anywhere in the record, and this is the stated purpose of the appended-note feature; (3) \"the digest test\" in \"PROVENANCE.md forbids it; the digest test enforces it\" — named as the enforcement mechanism for a non-goal with no statement of what a digest is or what it covers; (4) \"iteration-2\" / `<iteration>` — the unit the whole change operates over, never explained. The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The only candidate takeaway is in `Known limits and learning gaps`: \"`executor_model`/`analyzer_model` still render as `<model-name>` placeholders — upstream behavior, out of scope here; the model id lives in run_meta.json and preflight.json.\" That is a scope disclaimer of exactly the disqualified form, attached to a general property of the upstream tool. I searched the graded sections for a claim phrased so someone facing a similar decision could carry it — e.g. why importing `calculate_stats`/`generate_markdown` beats re-rendering, and when that would stop being the right call — and found only the description of what was done here (\"imported and reused, so the corrected output keeps the exact upstream format and no rendering logic is duplicated\"), with no observation offered as the reason to generalize it and no condition under which it would no longer hold.",
+          "passed": false
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is satisfiable without doing the work as I had to apply it. It asks for a check and 'what that check produced', but says nothing about whether the record must claim the check was actually run. This record's strongest numbers — 3,254,669 / 725,974, delta +2528695 — appear under 'Success:', i.e. as a target the change is supposed to hit, and the test's outcome is stated counterfactually ('If the post-pass is skipped, ... fails'). Nowhere does the record say the suite was run and passed. A record that states only aspirational acceptance figures, with specific enough digits to look observed, passes D2 as written. Tightening it to require the record to state that the check was executed and what the execution returned would close this without touching the 'blinded judge run reported honestly passes' allowance.\n\nD3's exemption is scoped to 'the sentence that uses them', but records naturally define a term in one section and lean on it in another — 'the aggregator' here is opaque in `Success and non-goals` and only resolved a section later in `System and data flow`. I judged that resolved; a stricter reader would not, and the dimension gives no guidance. Say whether the defining sentence must be in the same section or anywhere in the graded text.\n\nD1's escape hatch is narrow enough to be gameable in the other direction: a record can satisfy 'a proposition that could plausibly have resolved the other way' by inventing a trivially uncertain criterion ('success: the run completes in under an hour') that carries no information about trust. The dimension's real target — does the opening tell you the record could have reported bad news — might be better stated as requiring the criterion's failure to have been a consequential outcome, not merely an uncertain one."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "fix-benchmark-postpass"
+}

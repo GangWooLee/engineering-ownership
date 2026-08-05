@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T09:01:48+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"`validate_release_tag.py v0.3.0` passes including the new currency check; the suite passes with the version-pinned release tests updated.\" — the file-content items (\"both plugin manifests, `marketplace.json`, `SKILL.md` metadata ... all read `0.3.0`\") are properties the change was built to have, but these two are outcomes of running something that could have come out the other way: a version bump that misses a manifest or a literal pin fails them. A reader who stopped at this section knows the bar is a validator verdict plus a suite run, so their read of the change does depend on how those resolved. The non-goals (\"creating the tag or publishing the release\") are the excluded-features kind that the dimension says do not count, and they are not what carries the verdict.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"The realistic failure is a missed stamp, which `validate_distribution.py` catches by comparing all manifests against `pyproject.toml` — it passes.\" The check is named, what it does is stated in the same sentence, and the outcome is given (\"it passes\") rather than deferred to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms a new engineer must resolve elsewhere, all from claims the record asserts on its own authority: (1) \"risk detection and diff binding are tree-wide\" — neither \"risk detection\" nor \"diff binding\" is explained anywhere in the record; (2) \"two agents sharing one working tree cannot both bind clean evidence\" — \"clean evidence\" is undefined, so the failure being described is unresolvable; (3) \"The tool has no per-change diff scoping and no worktree guidance\" — \"the tool\" is never named, and \"per-change diff scoping\" is undefined, so a reader cannot check the claim against anything; (4) \"the contract's `release-package` command\" — \"the contract\" is a project noun used with no statement of what it is; (5) \"including the new currency check\" — what the currency check compares is never stated, and it is one of the two success criteria that carry the section. Contrast `validate_distribution.py`, which is exempt because its role is given in the sentence that uses it (\"already asserts that every manifest agrees with `pyproject.toml`\"). The concurrency bullet is not incidental — the record advances it as a finding and recommends acting on it (\"Worth a decision record if shared-tree work becomes normal\"), and it is unjudgeable as written.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The only transferable claim is \"Concurrency limit discovered here: risk detection and diff binding are tree-wide, so two agents sharing one working tree cannot both bind clean evidence.\" I searched for the observation from this change that produced it and found only the assertion \"discovered here\" — nothing about what happened during the version bump that surfaced it (no contaminated diff, no collision, no symptom of any kind). I also searched for a condition that would overturn it; \"The tool has no per-change diff scoping and no worktree guidance\" is a restatement of the same general tooling property, not an observation a reader could make, and \"Worth a decision record if shared-tree work becomes normal\" is a trigger for future action rather than a condition under which the claim stops holding. The other limit — \"Left as written — history is not edited\" — is a convention, with no observation or overturning condition attached.",
+          "passed": false
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D1 is cheap to clear as operationalised. Its headline test (\"would make the same decision regardless of what the record found\") is a judgement about calibration, but the concrete rule that decides the verdict (\"at least one must state a proposition that could plausibly have resolved the other way\") is satisfied by writing \"the suite passes\" into any success list. That is a sentence a clearly bad record adds for free, and it is doing real work in my verdict here — I passed this record on it. If the intent is that the falsifiable criterion must bear on the change's actual risk, say so; otherwise D1 rewards a formula.\n\nD2 does not require the named check to be related to the record's central claim. \"Ran the linter — clean\" names a check and states an outcome, and would pass a record whose real risk was never touched. The dimension would discriminate better if the check had to be one that could have falsified the success criteria.\n\nD3's scope term \"the record's central argument\" is ambiguous in a way that flips the verdict here. This record has a mechanical main claim whose terms are mostly defined in place, and a peripheral finding in Known limits that is dense with unresolvable vocabulary. Reading \"central\" narrowly passes it; reading it as \"any claim the record asks the reader to act on\" fails it. Since D3 is graded on a list, and the list is empty or non-empty depending on that reading, two careful judges will disagree. Consider scoping D3 to \"any claim the record asserts\" rather than \"the central argument\" — the graded sections are already restricted, so the narrower phrase is not buying anything.\n\nD4's two escape hatches are not symmetric in difficulty. \"The specific observation from this change that produced it\" is a fact the author either has or does not; \"the condition under which it stops applying\" invites a plausible-sounding sentence with no factual content. The clause \"the condition must name an observation a reader could make\" is the right guard, and it held here, but it is doing all the work — worth stating that the observation must be checkable by the reader without access to the author's session."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads: \"Success: `pyproject.toml`, both plugin manifests, `marketplace.json`, `SKILL.md` metadata, `__init__.py`, and the contract's `release-package` command all read `0.3.0`; `docs/releases/v0.3.0.md` exists; `validate_release_tag.py v0.3.0` passes including the new currency check; the suite passes with the version-pinned release tests updated.\" Every clause is a property the change was constructed to have — a version bump succeeds exactly when the strings are the new version and the pinned tests were updated to match. None states a proposition that could plausibly have resolved the other way. The remainder is \"Non-goals: creating the tag or publishing the release\", which is the excluded-work list the dimension explicitly rules out. I searched the section for any stated uncertainty, risk, or open question about whether the approach would hold and found none; a reader stopping there learns the scope but nothing about how much to trust the findings.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"The realistic failure is a missed stamp, which `validate_distribution.py` catches by comparing all manifests against `pyproject.toml` — it passes.\" The check is named, what it compares is stated in the same sentence, and the outcome (\"it passes\") is given rather than deferred to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: (1) \"the new currency check\" in \"`validate_release_tag.py v0.3.0` passes including the new currency check\" — this check is part of what makes the change correct, but nothing in the record says what \"currency\" is being checked, so a reader cannot judge whether passing it means anything; (2) \"the contract's `release-package` command\" — \"the contract\" is a repo term whose referent is never stated, yet it is one of the artifacts whose value proves completeness; (3) \"risk detection and diff binding are tree-wide, so two agents sharing one working tree cannot both bind clean evidence... The tool has no per-change diff scoping\" — \"diff binding\", \"bind clean evidence\", and \"per-change diff scoping\" are the entire substance of that claim and none is defined in the sentence that uses it. Contrast `validate_distribution.py`, which is defined in place (\"already asserts that every manifest agrees with `pyproject.toml`\") and so is exempt.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The candidate takeaway is: \"Concurrency limit discovered here: risk detection and diff binding are tree-wide, so two agents sharing one working tree cannot both bind clean evidence. The tool has no per-change diff scoping and no worktree guidance. Worth a decision record if shared-tree work becomes normal.\" \"discovered here\" asserts that this change encountered it but names no observation — I searched for any statement of what was actually seen during this rename (a polluted diff, a failed bind, a collision) and found none; it is a general property of the tool restated. \"Worth a decision record if shared-tree work becomes normal\" is a trigger for future action, not an observation a reader could make that would overturn the claim. The other transferable line, \"Left as written — history is not edited\", is a bare convention with neither an observation from this change nor a stopping condition.",
+          "passed": false
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is the weakest dimension: this record clears it on a single four-word clause (\"it passes\") that never says what was run against what input or what the output actually was, only that the script's verdict was favourable. A record that did no work beyond running one pre-existing script would pass D2 identically, and so would a record that fabricated the result — the dimension as written cannot distinguish 'named a check and reported its outcome' from 'reported an outcome worth anything'. Requiring the check's *observable* result (what it compared, how many artifacts, what it would have said on failure) would raise the bar without demanding reproducibility, which the dimension rightly disclaims.\n\nD3's scoping is ambiguous when a record makes two unrelated claims. This record's main body argues one thing (the rename is complete) and its limits section argues another (a concurrency defect). The rename argument's key term, `validate_distribution.py`, is defined in place and would pass on its own; the concurrency claim is almost entirely undefined jargon. Which is \"the record's central argument\" decides the verdict, and the dimension gives no rule. I read a claim the record states as a finding to be in scope, but a grader could defensibly restrict to the change's own thesis and pass this record. Naming whether *every* substantive claim in the five graded sections is in scope, or only the change's thesis, would remove the coin-flip."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "rename-pending-release-030"
+}

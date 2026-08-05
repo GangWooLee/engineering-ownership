@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T08:58:59+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: full suite passes; the release ZIP no longer contains the catalog; `grep` finds no live tag plumbing outside historical records and eval fixture data; a regression test proves legacy records with the field stay readable.\" The last clause is not a property the deletion was built to have — whether records the change never touched remain readable depends on facts about the pre-existing schema and validator that could plausibly have resolved the other way (a schema forbidding unknown properties would have made removal break every legacy record). A reader who stopped at the opening also learns the claim is bounded to \"live tag plumbing outside historical records and eval fixture data\", which changes what \"the field is gone\" is worth.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"The audit's refutation pass already confirmed no consumer exists: no gate, filter, aggregation, or hook reads the field.\" — a search is named and its outcome stated in place rather than deferred to another document. Second instance: \"the schema keeping the field merely unlisted (no `additionalProperties: false` anywhere)\" states what was looked for and that it was not found. Noted but not decisive: \"Covered by `test_evidence_with_legacy_competencies_field_stays_readable`\" names a test without ever stating that it was run or what it produced; on its own that clause would not have carried this dimension.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: (1) \"The audit's refutation pass\" — the whole safety argument rests on \"no consumer exists\", and its sole authority is this phrase. The sentence states what the pass concluded but never what it is, which audit is meant, or what it covered; a new engineer cannot weigh the conclusion without leaving the record to find it. It is not an in-repo identifier with its role stated in place. (2) \"no gate, filter, aggregation, or hook reads the field\" — these four are the record's taxonomy of consumers and the scope of the safety claim, yet a \"gate\" and a \"hook\" in this system are nowhere characterised, so the reader cannot tell whether the enumeration is exhaustive. (3) \"the release ZIP no longer contains the catalog\" — \"the catalog\" appears in the success criterion with no referent; it is resolvable only two sections later by inference from \"`references/competencies.md`\".",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "Takeaway a reader facing a field-removal could take: a field can be dropped from the write path while old documents stay valid, provided nothing reads it and the schema never closed itself to unknown keys — and that provision is checked, not assumed. It carries the specific observation from this change: \"Covered by `test_evidence_with_legacy_competencies_field_stays_readable` and by the schema keeping the field merely unlisted (no `additionalProperties: false` anywhere).\" That is this schema's actual structure as found, plus the named test written against it, not a restated general property of JSON Schema. Passed on that clause alone; the \"Known limits and learning gaps\" section contributes nothing here, since \"deliberately untouched\" (twice) is a scope disclaimer, not a stopping condition.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is the weakest dimension and a clearly bad record would pass it. It asks whether the record says a check was made and what came out, which is satisfied by a bare assertion of a result — \"the refutation pass confirmed no consumer exists\" would read identically whether a search happened or not. The dimension distinguishes pointing at a document from naming a check, but not asserting an outcome from evidencing one; the cheapest way to pass is confident past-tense phrasing. Consider requiring that the check's scope be stated (what was searched, over what surface) so the reader can judge whether the outcome follows.\n\nD4's first branch — \"carries the specific observation from this change that produced it\" — puts the transferring work on the judge. This record never articulates a transferable claim anywhere; I constructed one and then checked whether nearby sentences grounded it. Any record that states one concrete fact about its own code will pass under that procedure, because a judge can always assemble a plausible generalisation around a concrete fact. The dimension would bite harder if it required the record itself to state the claim in a form that outlives the change, with the observation attached.\n\nD1 is easy for deletion work specifically. A removal can always phrase its own completion as falsifiable-sounding criteria (\"grep finds nothing\", \"the ZIP no longer contains X\"), and those read as propositions that could resolve either way while being exactly the properties the change was built to have. Here a genuinely independent criterion existed — legacy readability — but the dimension gives no way to separate it from the three that are restatements of \"the change was applied\"."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"`grep` finds no live tag plumbing outside historical records and eval fixture data; a regression test proves legacy records with the field stay readable.\" The non-goals are a pure exclusion list and contribute nothing, but the legacy-readability criterion states a proposition about pre-existing data that could plausibly have resolved the other way: removing the property from the schema could have made old records invalid. A reader stopping at the opening learns that the safety of this removal hinges on an empty grep and a compatibility test, not on the author's intent — so the finding would change the decision.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"The audit's refutation pass already confirmed no consumer exists: no gate, filter, aggregation, or hook reads the field.\" A search is named and its outcome stated inline rather than deferred to another document. A second inspection reports its result the same way: \"the schema keeping the field merely unlisted (no `additionalProperties: false` anywhere)\" — a search of the schemas with a stated finding of none.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: \"the audit\" and \"refutation pass\", in \"The audit's refutation pass already confirmed no consumer exists\". The entire safety case for the removal rests on this one claim, and the record gives no antecedent for which audit is meant and no account of what a refutation pass does. The sentence states the finding but not the method, so a new engineer must resolve both elsewhere before they can judge how much the confirmation is worth. Secondary: \"no gate, filter, aggregation, or hook reads the field\" uses \"gate\" and \"hook\" as project vocabulary with no role stated in the sentence.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"Covered by `test_evidence_with_legacy_competencies_field_stays_readable` and by the schema keeping the field merely unlisted (no `additionalProperties: false` anywhere).\" Transferable claim: a field can be dropped from a schema without breaking existing data by leaving it unlisted rather than forbidden. The parenthetical carries both the specific observation from this change that produced it and an overturning condition a reader can check in their own repo — if `additionalProperties: false` is set anywhere, the claim fails. This is not a bare restatement of a JSON Schema property: the record says how this change encountered it, via `validate_evidence`, \"which now ignores the field instead of validating it against a vocabulary that no longer exists\".",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is the weakest dimension: it cannot distinguish a check that was run from a check that merely exists. Everything in this record's opening is in criterion mood — \"Success: full suite passes\" is a target, not a report — and the failure section says \"Covered by `test_...`\" without ever saying the test was executed or passed. I passed D2 only on \"already confirmed\", a single past-tense verb. A clearly bad record could pass D2 by listing plausible-sounding checks in the same normative mood. D2 should require that the outcome be reported as an observation, not asserted as a success condition.\n\nD1's \"could plausibly have resolved the other way\" is hard to apply to removal changes, where the author writes both the criterion and the test that satisfies it. \"A regression test proves legacy records stay readable\" is simultaneously a discovery and a thing the author built; the dimension gives no way to separate those, so the verdict turns on the judge's charity.\n\nD3 and D4 can diverge in a way that seems unintended: this record fails D3 because its central claim rests on vocabulary a newcomer cannot resolve, yet passes D4 on a parenthetical about schema mechanics. A record whose main argument is unreadable to the target reader can still supply a well-grounded takeaway about an unrelated detail."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "remove-competency-tags"
+}

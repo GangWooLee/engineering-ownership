@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T08:36:20+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The whole of the opening section is: \"Success: a rubric document with every layer-1 item measured against all 56 records before admission, and an ADR recording why the layers are split the way they are.\" and \"Non-goals: producing any score (that is the dry run and the grading pass); writing any code; changing any existing record. This change adds a standard and nothing else.\" Both success criteria are properties the change was built to have — a document exists, and its items were measured before admission — and the non-goals are a list of deferred work, which the dimension excludes explicitly. I searched the section for a proposition that could plausibly have resolved the other way (e.g. a threshold the rubric had to clear, a count of items that had to survive measurement, an outcome the measurement could have produced that would have sunk the change) and found none: nothing in the opening states a result, so a reader who stopped there would accept the standard regardless of what the rest of the record reports.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"The dead-link guard's first implementation manufactured a defect by ignoring code spans, flagging a link inside backticks. Fixed before admission\" — a named check (running the dead-link guard over the record corpus) with its stated result (a false positive on a link inside backticks), not a pointer to another document. The record also states the negative case honestly: \"The rubric has not been dry-run. Nothing here is known to discriminate in practice.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on: (1) \"layer-1\" / \"layer 2\" — the record's core claim is that items are split across layers and gated differently (\"every layer-1 item measured against all 56 records before admission\", \"layer 2's all-pass/all-fail check is mandatory and reported each round\"), and \"an ADR recording why the layers are split the way they are\" is half of the success criterion, yet what distinguishes a layer-1 item from a layer-2 dimension is never stated; (2) \"each round\" — the unit the layer-2 check repeats over is never named; (3) \"at R1 the tier allocates no decision document\" — \"R1\" and \"the tier\" are used to justify an accepted gap without saying what the tiers are or what allocates documents; (4) \"the evidence record's artifact map\" and \"`explain`\" — \"`explain` will not mention it\" states a consequence but never says what `explain` is or reads. A new engineer cannot judge \"every layer-1 item measured\" without resolving (1) elsewhere. The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The dead-link guard's first implementation manufactured a defect by ignoring code spans, flagging a link inside backticks. Fixed before admission, and recorded in the rubric as the reason every item must be run over the corpus first.\" The transferable claim — run a proposed rubric item over the full corpus before admitting it — is carried by the specific observation from this change that produced it (a link inside backticks flagged as a dead link), not by a general property of a tool restated. The second bullet adds a stopping condition in the same vein: \"They may not generalise to a repository whose records fail differently.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is satisfiable without verifying anything the change claims. This record states outright that its central artifact is unverified — \"Nothing here is known to discriminate in practice\" — and still passes D2 on an incidental bug found in one item's implementation. As written, D2 asks only for *a* check with *an* outcome, not a check that bears on the change's load-bearing claim, so a record that ships an untested standard and mentions one typo it caught along the way clears it. Consider requiring the reported check to be one whose result could have changed the change. D4 has the adjacent weakness: any development war story with a moral attached satisfies it, since the war story trivially supplies 'the specific observation from this change'; the dimension does not require the takeaway to be one a reader could act on without already sharing the repository's setup. D3, by contrast, is the sharpest of the four here — it caught the term the other three dimensions all quietly leaned on ('layer-1') without noticing it was undefined, which suggests D1 and D2 should not be judged as passing on sentences whose key nouns D3 has just flagged."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads in full: \"Success: a rubric document with every layer-1 item measured against all 56 records before admission, and an ADR recording why the layers are split the way they are. Non-goals: producing any score (that is the dry run and the grading pass); writing any code; changing any existing record. This change adds a standard and nothing else.\" Both success criteria are properties the artifact was constructed to have — a document whose items were measured, and an ADR that exists. \"measured against all 56 records\" asserts that a procedure was performed, not that any result came out one way rather than another. The non-goals are exactly the deferred/excluded-features list the dimension disqualifies. I searched the section for any proposition that could plausibly have resolved the other way — e.g. that the rubric discriminates, that some item survived a bar it might have failed — and found none. A reader who stopped here learns the deliverable and would proceed identically whatever the rest of the record reported; nothing later in the record (\"Nothing here is known to discriminate in practice\") is foreshadowed by it.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"The dead-link guard's first implementation manufactured a defect by ignoring code spans, flagging a link inside backticks. Fixed before admission, and recorded in the rubric as the reason every item must be run over the corpus first.\" This names a check — running the guard over the corpus — and states what it produced: a false positive on a link inside backticks. The outcome is stated in the record itself rather than deferred to another document. Also present, though weaker on its own: \"every layer-1 item carries the violation count that admitted it, and layer 2's all-pass/all-fail check is mandatory and reported each round whether or not it removes anything\" — the counts themselves live in the rubric, not here, so this clause alone would be pointing at another document; the dead-link sentence is what carries the pass.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on: (1) \"layer-1\" / \"layer 2\" — the success criterion is \"every layer-1 item measured against all 56 records before admission\" and the sole guard against the stated failure mode is \"layer 2's all-pass/all-fail check is mandatory and reported each round\". Nowhere does the record say what distinguishes the two layers, so a new engineer cannot judge whether the guard covers the failure mode it is offered against; the ADR that would explain it is named but its content is not summarised. (2) \"all-pass/all-fail check\" — its effect is partly described (\"whether or not it removes anything\") but what it tests is never stated. (3) \"R1\" and \"the tier\" and \"`explain`\" in \"at R1 the tier allocates no decision document, so `explain` will not mention it\" — a risk-tier scheme and a command, neither given a role in the sentence that uses them, yet the reader is asked to accept a claimed product gap on their basis. (4) \"the evidence record's artifact map\" — used as a known object. (5) \"the dry run and the grading pass\" — named as the things that produce scores, and load-bearing for the non-goal boundary, with no statement of what either is. The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The dead-link guard's first implementation manufactured a defect by ignoring code spans, flagging a link inside backticks. Fixed before admission, and recorded in the rubric as the reason every item must be run over the corpus first.\" The transferable claim — run every rubric item over the whole corpus before admitting it — is carried together with the specific observation from this change that produced it: a guard that invented a violation by not excluding code spans. Reinforced by a genuine stopping condition elsewhere: \"Layer 2's dimensions were written against defects found in this corpus. They may not generalise to a repository whose records fail differently\" — an observation a reader could make about their own corpus that would overturn the transfer.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "Three concerns. (1) D2 is satisfiable by a development anecdote rather than by verification of the delivered artifact. The sentence that passes D2 here describes a bug in a guard's *first* implementation, found and fixed before the thing shipped — no check of the admitted rubric is reported with an outcome. A clearly bad record could pass D2 by narrating any incidental defect encountered while building, since that formally 'names a check and says what came out of it'. If the intent is that the shipped artifact was checked, D2 should say the check must bear on what the change delivers, not on a discarded draft of it. (2) D2 and D4 are passed by the same sentence here, and the overlap looks structural rather than accidental: 'a specific observation from this change' (D4) and 'a check and what it produced' (D2) are near-identical shapes. A record containing exactly one well-told bug story clears half the rubric while reporting no verification of its output and offering no second transferable claim. (3) D1 may be mis-fit to standards-only changes. This record honestly produces no findings — it says so, in 'The rubric has not been dry-run' — and there is no truthful proposition about such a change that 'could plausibly have resolved the other way' beyond the trivial. As written, D1 rewards authors who manufacture a pseudo-hypothesis in the opening over authors who state accurately that the change is a deliverable with nothing yet demonstrated. Notably, this record's most calibrating sentence sits in the last section, where D1 forbids me from crediting it."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "define-record-quality-rubric"
+}
