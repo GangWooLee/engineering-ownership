@@ -26,7 +26,7 @@ record of real work — it documents nothing and says so in its own header.
 
 ## Existing responsibilities searched
 
-The negative-control idea is not new here: `tests/test_evals.py` already pins a
+The negative-control idea is not new here: `tests/test_records.py` already pins a
 false-positive set for the correction guard, and the eval harness already runs a
 baseline arm so a treatment cannot be scored against nothing. This applies the
 same shape to a prose rubric. The control lives under `docs/validation/fixtures/`

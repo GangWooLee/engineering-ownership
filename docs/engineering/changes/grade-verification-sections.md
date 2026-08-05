@@ -3,6 +3,10 @@
 Change ID: `grade-verification-sections`
 Created: `2026-08-05T19:36:20+09:00`
 Risk: R1
+Corrected: 2026-08-05 — Known limits said the corpus was not re-graded and that
+the published table still described the old extraction. Both were true when
+written and false by the time this record was committed, in the same commit that
+reports the full rerun.
 
 ## Problem and intended outcome
 
@@ -150,13 +154,18 @@ single-run difference can mean, and the first run published a table without it.
 
 ## Known limits and learning gaps
 
-- **The corpus is not re-graded.** D1, D3 and D4 verdicts in the earlier run may
-  also move, because the judge now reads more text -- D3 in particular, since a
-  longer extract carries more unglossed terms. Until a full run happens under
-  this extraction, the published table describes the old one, and it says so.
-- Three records is a probe, not a measurement. It tests that the extraction
-  changed and that the judge can now see what it withheld; it does not estimate
-  how many D2 verdicts move.
+- **D1, D3 and D4 did move, and not in one direction.** The rerun shows four,
+  five and three records changing verdict with almost no net change in any of
+  them. D1 reads only the opening section, which this change did not touch, so
+  its four moves are the instrument re-rolling. Everything the rerun reports
+  about those three dimensions sits above that floor only for D2.
+  (Corrected 2026-08-05: these two bullets said the corpus was not re-graded and
+  that the published table still described the old extraction. That was true
+  when written and false by the time this record was committed, in the same
+  commit that reports the rerun.)
+- Three records was a probe, not a measurement, and it under-reported. It found
+  no verdict changes; the full rerun found eleven records moving. A probe that
+  reaches the diagnosed record says the fix works, not how far it reaches.
 - The guards compare a list in Python source to prose in Markdown by regex. They
   catch a name present in one and absent from the other. They do not catch a
   rubric paragraph that names the right sections and describes them wrongly.

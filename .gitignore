@@ -10,3 +10,9 @@ engineering-ownership-workspace/**/review.html
 engineering-ownership-workspace/**/feedback.json
 .DS_Store
 
+# iteration-7 was abandoned as contaminated and its run data is deliberately not
+# published; only its own note is. 269 files of it were once swept into an
+# unrelated commit by an over-broad `git add`, and the workspace index went on
+# saying the data was uncommitted while it sat in the tree.
+engineering-ownership-workspace/iteration-7/eval-*/
+engineering-ownership-workspace/iteration-7/preflight.json

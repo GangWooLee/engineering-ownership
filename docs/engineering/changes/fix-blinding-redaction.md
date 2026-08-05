@@ -62,7 +62,15 @@ versus name-based backstop; both are used, in that order.
 
 Failure mode if this regresses: contaminated runs are recorded, caught by
 `JudgeBlindingCase` at test time and by the grader's leak refusal at grading
-time — two independent nets behind this fix. Recovery for already-recorded
+time — two independent nets behind this fix.
+
+(Corrected 2026-08-05: they are not independent. Both call `blinding_leaks`, so
+a string missing from `BLINDING_TELLS` disables both at once. That is what
+happened — the list omitted the arm names themselves, and six action logs naming
+their own configuration passed the grader and the suite together. See
+[`close-arm-name-leak`](close-arm-name-leak.md).)
+
+Recovery for already-recorded
 contamination is quarantine and re-run (`--resume` re-runs any run directory
 that was moved out), exercised today for eight runs now in `/tmp/eo-quarantine/`.
 

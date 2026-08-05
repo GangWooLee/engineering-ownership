@@ -3,6 +3,9 @@
 Change ID: `guard-record-conventions`
 Created: `2026-07-29T18:09:13+09:00`
 Risk: R1
+Corrected: 2026-08-05 — the headline read "Seven of twenty-four change records",
+counting violations as records; seven violations were found across six records,
+which the same document lists correctly ten lines earlier.
 
 ## Problem and intended outcome
 
@@ -95,8 +98,11 @@ Order matters here, and it was followed.
    The index guard fired in between and was satisfied by regenerating — itself a
    demonstration that the guard notices a new record.
 
-**Seven of twenty-four change records were caught.** That number is the point:
-a guard that caught nothing would be measuring nothing.
+**Seven violations across six of twenty-four change records were caught.** That
+number is the point: a guard that caught nothing would be measuring nothing.
+(Corrected 2026-08-05: this line read "Seven of twenty-four change records",
+counting violations as records, which disagrees with the six files listed ten
+lines above it.)
 
 ## Known limits and learning gaps
 

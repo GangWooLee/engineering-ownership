@@ -13,6 +13,7 @@ engineering explain <id>
 engineering change review <id> --status reviewed|gaps [--gap <text>] [--revisit-days <days>]
 engineering change close <id>
 engineering status [--due] [--all]
+engineering index [--format text|md] [--write <repo-relative-path>]
 engineering handoff [--change <id>] [--save|--output <repo-relative-path>]
 engineering contract migrate [--write]
 ```

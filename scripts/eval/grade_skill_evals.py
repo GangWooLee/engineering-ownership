@@ -94,7 +94,22 @@ def evidence_section(run_dir: Path) -> str:
 # of the two can produce it. The response itself is exempt: it is the artifact
 # under review and cannot be altered without changing what is being judged. That
 # residual leak is disclosed rather than silently tolerated.
-BLINDING_TELLS = ("engineering-ownership", "--plugin-dir", "plugin-dir", "skill-creator")
+#
+# The arm names are here because they were not, and that omission is how two
+# graded runs reached a judge with `eval-7-without_skill-1` in the log: the
+# fixture directory encodes the configuration, a shell token carried it, and the
+# only predicate that could have objected was not looking for it. A tell list
+# that omits the thing being hidden is a list that cannot fail.
+BLINDING_TELLS = (
+    "engineering-ownership",
+    "--plugin-dir",
+    "plugin-dir",
+    "skill-creator",
+    "with_skill",
+    "without_skill",
+    "with-skill",
+    "without-skill",
+)
 
 
 def blinding_leaks(bundle: str) -> list[str]:

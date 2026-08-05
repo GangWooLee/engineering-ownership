@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import shutil
 import subprocess
 import tempfile
@@ -170,6 +171,13 @@ def invoke(prompt: str, cwd: Path, model: str, with_skill: bool, timeout: int) -
 def action_target(name: str, tool_input: dict, cwd: Path) -> str:
     """Describe what a tool call touched, in terms of the fixture."""
 
+    # A path can sit inside a token rather than start it. `D=/abs/path`,
+    # `MEMFILE="~/x`, and `--out=/abs/path` all begin with a letter or a dash,
+    # so every leading-character test below returns raw and the absolute path
+    # reaches the judge. Two live runs were graded with their fixture directory
+    # -- which encodes the configuration -- sitting in the log this way.
+    EMBEDDED = re.compile(r'(?<=[=:])["\']?(?=[~$/])[^\s"\']+')
+
     def relative(raw: str) -> str:
         candidate = Path(raw)
         # A path written with a leading tilde or an unexpanded $HOME is outside
@@ -181,7 +189,11 @@ def action_target(name: str, tool_input: dict, cwd: Path) -> str:
         try:
             return candidate.resolve().relative_to(cwd.resolve()).as_posix()
         except (ValueError, OSError):
-            return "(outside the repository)" if candidate.is_absolute() else raw
+            if candidate.is_absolute():
+                return "(outside the repository)"
+            # Not a path itself, but it may carry one. Normalize what it carries
+            # rather than returning the token whole.
+            return EMBEDDED.sub("(outside the repository)", raw)
 
     def looks_like_path(token: str) -> bool:
         return "/" in token or token.startswith("~") or token.endswith((".py", ".md", ".json"))

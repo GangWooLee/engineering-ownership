@@ -16,9 +16,27 @@ pass rate existed.
 | Plugin under test | as published in `v0.3.0` (`main` at `0a4feed`) |
 
 Preflight passed before the sweep: the baseline answered `NONE`, the treatment
-named the skill. Blinding held — all 54 action logs pass the leak check, no
-`without_skill` run loaded the skill, and no run was refused for identifying
-its configuration.
+named the skill. No `without_skill` run loaded the skill, and no run was refused
+for identifying its configuration.
+
+**Blinding did not fully hold. (Corrected 2026-08-05.)** This paragraph
+previously read "Blinding held — all 54 action logs pass the leak check". Every
+clause of that was true and the conclusion was false. Two graded runs,
+`eval-5/without_skill/run-1` and `eval-7/without_skill/run-1`, carried their own
+fixture directory into the judge-visible action log — that directory name
+encodes the configuration, so both judges were shown which arm they were
+grading. The leak check passed because its tell list did not contain the arm
+names, and the grader's refusal path and the test guard both call that same
+predicate, so the two nets described elsewhere as independent fail together.
+
+Excluding both runs moves the baseline from **0.5648 to 0.5700** across 25 runs
+and the difference from **0.1512 to 0.1460**. Direction and magnitude hold, so
+the sweep is not re-collected and the figures below are unchanged, reported as
+collected. The two runs are pinned in `tests/test_evals.py` as known leaks and
+their artifacts are left as recorded rather than rewritten, because editing a
+judge's recorded input to make a guard pass would falsify the evidence. The
+defect, its cause, and its fix are in
+[`close-arm-name-leak`](../../docs/engineering/changes/close-arm-name-leak.md).
 
 ## Result, in the pre-registered order
 
