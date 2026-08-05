@@ -139,6 +139,42 @@ that D3 is too noisy to be measuring anything. The experiment named in the
 first run, grading a record written deliberately for an outsider at normal
 length, should be run **twice** so its result can be told apart from a re-roll.
 
+### That experiment was run. The first reading holds.
+
+`docs/validation/fixtures/outsider-rewrite-record.md` restates one existing
+record -- `add-record-index`, which failed D3 outright in both runs -- with the
+same facts, decisions and numbers, changing only the glossing. All four judges
+across the two earlier runs had failed it on the same terms: the risk tiers R1
+and R2, on which its central argument rests, and `artifact_paths`. The rewrite
+defines those where they are used, and was deliberately not shortened.
+
+Graded blind, twice, two judges each:
+
+| | D1 | D2 | D3 | D4 |
+| --- | --- | --- | --- | --- |
+| `add-record-index`, run 1 | fail | pass | **fail** | pass |
+| `add-record-index`, run 2 | fail | pass | **fail** | pass |
+| Outsider rewrite, run A | split | pass | **pass** | pass |
+| Outsider rewrite, run B | fail | pass | **pass** | pass |
+
+D3 moved from 0 of 4 cells to 4 of 4 and held across both runs. Every other
+dimension stayed where the original was, so the change is isolated to the one
+thing that was edited. The judges name the glossing as the reason without being
+asked: "the argument turns on the tier system, which is defined in place";
+"both are defined in place".
+
+So D3's bar is clearable, it is clearable at a length inside the corpus range,
+and the same content clears it once its vocabulary is resolved. **The corpus
+writes for insiders.** D3 is not too noisy to measure and it is not placed where
+only thin records pass; 23 of 29 records fail it because they assume a reader
+who already knows this project.
+
+Two things this does not establish. The rewrite is 1.62x the original's graded
+length -- inside the corpus range, above its median -- so length is not fully
+controlled, and a shorter glossed rewrite would test that. And it is one record,
+written by the rubric's own author, which is the weakest available writer of an
+outsider-facing test.
+
 ## Limits
 
 - **One rerun is not a reliability study.** Four D1 moves on fixed input give a

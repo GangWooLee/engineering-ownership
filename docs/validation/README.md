@@ -34,10 +34,14 @@ mirrors the supersession rule already used for decision records in
 | [legacy-project-read-only.md](legacy-project-read-only.md) | Current | 2026-07-23 | Contract v1 read-only compatibility on three external repositories |
 
 `fixtures/` holds artifacts used to validate the instruments in this
-directory rather than the project. `negative-control-record.md` is a change
-record written deliberately to fail the record-quality rubric; it documents no
-real work and is graded blind among real records to locate what the rubric
-lets through.
+directory rather than the project. Neither documents real work, and each is
+graded blind, from opposite directions.
+
+`negative-control-record.md` is written deliberately to fail the record-quality
+rubric, to locate what the rubric lets through.
+`outsider-rewrite-record.md` restates an existing record for a reader new to
+this project, changing only its glossing, to find out whether a dimension the
+corpus almost always fails can be cleared at all.
 
 There is currently **no published quantitative efficacy claim** for the skill.
 See [skill-evaluation.md](skill-evaluation.md) for why the previous one was

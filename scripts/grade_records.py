@@ -270,6 +270,14 @@ def main() -> int:
         help="grade just this record; repeatable. For checking a change to "
         "extraction against known records without paying for a full run.",
     )
+    parser.add_argument(
+        "--path",
+        action="append",
+        metavar="FILE",
+        help="grade this file as well, wherever it lives; repeatable. For "
+        "fixtures that probe the rubric rather than the corpus, which must not "
+        "sit in the record directory where guards and indexes would claim them.",
+    )
     args = parser.parse_args()
 
     section = rubric_section()
@@ -278,15 +286,28 @@ def main() -> int:
         raise SystemExit("no dimensions found in the rubric section")
     out = ROOT / args.out
 
+    extra = []
+    for name in args.path or ():
+        candidate = Path(name)
+        if not candidate.is_absolute():
+            candidate = ROOT / candidate
+        if not candidate.is_file():
+            raise SystemExit(f"no such file: {name}")
+        extra.append(candidate)
+
+    # `--only` filters the whole candidate set, explicit paths included, so a
+    # fixture can be graded alone: `--only <stem> --path <file>`. Validating it
+    # against the record directory alone made that combination unusable.
     wanted = set(args.only or ())
     if wanted:
         present = {path.stem for path in RECORDS.glob("*.md")}
+        present |= {path.stem for path in extra}
         unknown = sorted(wanted - present)
         if unknown:
             raise SystemExit(f"no such record(s): {', '.join(unknown)}")
 
     graded = 0
-    for path in sorted(RECORDS.glob("*.md")):
+    for path in sorted(RECORDS.glob("*.md")) + extra:
         if wanted and path.stem not in wanted:
             continue
         target = out / f"{path.stem}.json"

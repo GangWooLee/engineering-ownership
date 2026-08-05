@@ -3,14 +3,22 @@
 Change ID: `unname-the-fixture-arm`
 Created: `2026-08-05T22:29:07+09:00`
 Status: Accepted
+Corrected: 2026-08-05 — the Context said the run's `HOME` was set to the fixture
+directory. It is the run's working directory; that `HOME` belongs to the git
+subprocess that builds the fixture. The decision is unchanged.
 
 ## Context
 
 Each evaluation run executes in a fixture directory named
-`{overlay}-{configuration}-{index}`, and the run's `HOME` is set to that
+`{overlay}-{configuration}-{index}`, and that directory is the run's working
 directory. The arm was therefore written into the one path a run quotes whenever
-it says anything about its own filesystem, and two graded runs reached their
-judge with that path in the action log.
+it says anything about where it is, and two graded runs reached their judge with
+that path in the action log.
+
+(Corrected 2026-08-05: this said the run's `HOME` was set to the fixture
+directory. `build_fixture` sets `HOME` for the git subprocess that builds the
+fixture, not for the run. The decision is unchanged — the working directory is
+the channel, and removing the arm from its name closes it either way.)
 
 `close-arm-name-leak` closed the recording hole: a path embedded inside a token
 is now normalized, and the arm names are in the tell list. That change named

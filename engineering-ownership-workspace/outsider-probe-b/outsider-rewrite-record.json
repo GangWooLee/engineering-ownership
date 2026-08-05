@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T13:50:52+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section contains exactly two things the rubric names as insufficient: a set of built-to-have success criteria — \"Success: a generated index at `docs/engineering/README.md` lists every change with its title, risk tier, closed state and links to each document it produced; the top-level `README.md` links it; adding a record without regenerating fails the test suite; every link resolves from the index's own directory.\" — and a list of exclusions, \"Not attempted: rewriting the existing records... a glossary... and narrowing `status` to open work only, which stays.\" Every one of the four success clauses is a requirement the implementation was written to satisfy; I searched the section for a proposition that could plausibly have resolved the other way (e.g. a stated bet about whether the index could be built from stored metadata at all) and found none. The record does contain such a proposition, and it resolved against the change — \"Fifty-one of fifty-two documents were reachable from the stored metadata; that one was not.\" — but it appears in `System and data flow`, not in the opening. A reader who stopped after the opening would learn what was built and what was skipped, and would trust the rest exactly as much either way.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 88 tests pass, up from 83, with five added and none modified.\" and \"The guard was proved by breaking it. A decision document that no change claims was added to `docs/engineering/decisions/`; the suite failed, naming the file. Removing it made the suite pass again.\" and \"All 58 links in the generated index were resolved from the directory the index lives in. All 58 resolved.\" Each names a check and states what it produced; none defers to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The list is empty. Every identifier the central argument rests on has its role stated in the sentence that uses it: \"`list_evidence` (`evidence.py:136`) already returns each change's identifier, title, risk tier, closed state and document paths\"; \"`artifact_paths` turns a tier into the document paths that change is allowed to have\"; \"`.engineering/contract.json`, this project's per-repository configuration file\"; \"`ValidationRecordCase` and `CommittedArtifactCase`... each of which holds a different generated list current by regenerating it during the test and failing on any difference\". The one piece of genuine project vocabulary the blind-spot argument depends on is defined before it is used: \"Every change is assigned a tier from R0 to R3 at the start; the tier judges how much could go wrong and decides which documents the change must produce — R0 and R1 a brief only, R2 a decision record naming the rejected alternative, R3 also a runbook and a threat model.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"During the audit a decision record was written for a change classified R1. Because `artifact_paths` allocates a decision document only from R2 upward, that file had no slot in its own change's document set... Fifty-one of fifty-two documents were reachable from the stored metadata; that one was not. An index built only from that metadata would have reproduced the blind spot it was written to remove.\" The transferable claim — build an inventory from the artefacts as well as the metadata, because the metadata's own gaps are invisible to it — carries the specific observation from this change that produced it. A second claim carries an overturning condition rather than a scope disclaimer: \"That is an argument from the current tier rules, not a guarantee: if a future tier allocated a runbook without a record, this gap would open.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D3 is the dimension a clearly bad record would most easily pass. Its pass condition is an empty list, so vagueness is rewarded: a record that says \"we added an index and it is tested\" names no load-bearing term and passes trivially, while a record that reports real mechanism has more surface to fail on. Consider requiring the judge to also state which terms it *considered* and why each was exempt, so a pass is backed by something other than silence.\n\nD1's disqualifier is hard to apply consistently. \"A property the change was built to have\" and \"a proposition that could plausibly have resolved the other way\" are not disjoint — every success criterion is a goal, and almost every goal could have failed. Here \"every link resolves from the index's own directory\" is arguably both: it is a requirement, and relative-link rewriting across nested directories genuinely could have come out false (the record later reports checking all 58). I failed the dimension because all four clauses read as requirements rather than as findings-in-question, but a judge weighing that clause the other way would pass the same text. The test would be sharper if it asked for something structurally identifiable: a criterion whose failure the author expected to be *possible enough to have changed the design*, stated as a question rather than a target — or an explicit statement of what the record's account is weakest on.\n\nD4's \"specific observation from *this* change\" is the strongest of the four, because it cannot be satisfied by a generality. Worth keeping as the model for the others."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section's only success statement is: \"Success: a generated index at `docs/engineering/README.md` lists every change with its title, risk tier, closed state and links to each document it produced; the top-level `README.md` links it; adding a record without regenerating fails the test suite; every link resolves from the index's own directory.\" All four clauses restate features the change was built to deliver — the artifact exists, it is linked, the guard fires, the generated links resolve — and none states a proposition whose resolution was in doubt. The remaining content of the section is the \"Not attempted:\" paragraph (rewriting existing records, a glossary, narrowing `status`), which is a list of exclusions and is explicitly disallowed as satisfying this dimension. I searched the opening section for any statement of confidence, residual risk, expected-versus-observed claim, or criterion that could have come out false and changed the reader's decision, and found none: a reader who stopped after this section learns the scope of the work but nothing about how much to trust the report of it.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 88 tests pass, up from 83, with five added and none modified.\" and \"The guard was proved by breaking it. A decision document that no change claims was added to `docs/engineering/decisions/`; the suite failed, naming the file. Removing it made the suite pass again.\" and \"All 58 links in the generated index were resolved from the directory the index lives in. All 58 resolved.\" Each check is named and its outcome stated; none is delegated to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The list is empty. Every identifier the argument rests on has its role stated in the sentence that uses it: \"`list_evidence` (`evidence.py:136`) already returns each change's identifier, title, risk tier, closed state and document paths\"; \"`.engineering/contract.json`, this project's per-repository configuration file\"; \"`ValidationRecordCase` and `CommittedArtifactCase` in `tests/test_evals.py`, each of which holds a different generated list current by regenerating it during the test and failing on any difference\"; \"`index_text` renders those rows as one line per change or as a Markdown table, rewriting each link relative to the index's own directory via `link_from`\"; \"`artifact_paths` turns a tier into the document paths that change is allowed to have\". The risk tiers, on which the central failure story depends, are defined before use: \"Every change is assigned a tier from R0 to R3 at the start; the tier judges how much could go wrong and decides which documents the change must produce — R0 and R1 a brief only, R2 a decision record naming the rejected alternative, R3 also a runbook and a threat model.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"During the audit a decision record was written for a change classified R1. Because `artifact_paths` allocates a decision document only from R2 upward, that file had no slot in its own change's document set... Fifty-one of fifty-two documents were reachable from the stored metadata; that one was not. An index built only from that metadata would have reproduced the blind spot it was written to remove.\" The transferable claim — an index derived only from stored metadata inherits that metadata's blind spots, so scan the filesystem too — is carried with the specific counted observation from this change that produced it. A stopping condition is also given for the second claim: \"That is an argument from the current tier rules, not a guarantee: if a future tier allocated a runbook without a record, this gap would open.\"",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D3 is passed by silence. A record that names no functions, no file paths, and no project-specific concepts — \"we added a listing of the docs and a test to keep it fresh\" — yields an empty undefined-term list and passes, while a record like this one, which names a dozen identifiers and defines each in place, earns the same verdict for far more work. The dimension measures absence of unresolved vocabulary, not presence of resolvable specificity; it needs a floor requiring that the central argument be specific enough for the list to have been non-trivially empty.\n\nD2 sets no bar on the check's relevance. \"Ran the linter; it reported no warnings\" names a check and states what came out of it, and would pass for a change whose central risk is a stale generated file. The dimension would be stronger if it required at least one stated check to bear on the failure the record itself identifies as the one that matters.\n\nD1's exclusion clause is the ambiguous one, and it is where I spent most of my judgment. \"Success criteria that are all properties the change was built to have\" describes, on a literal reading, every success criterion any completed change could state — the feature was, after all, built to satisfy them. Distinguishing those from \"a proposition that could plausibly have resolved the other way\" requires a boundary the rubric never draws. Here, \"every link resolves from the index's own directory\" is a falsifiable claim about a real 58-link corpus that depended on stored paths matching disk — and the record's own System section shows that corpus was in fact inconsistent — yet it is also plainly a property the change was engineered to produce. I resolved it as failing because nothing in the opening puts a claim at risk in a way that would change a reader's decision, but a second judge could defensibly resolve it the other way on the same text. One worked example of a passing criterion and one of a failing criterion would remove most of that spread."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "outsider-rewrite-record"
+}

@@ -4,6 +4,10 @@ Change ID: `observable-run-evidence`
 Created: `2026-07-25T15:00:43+09:00`
 Risk: R2
 Status: Completed
+Corrected: 2026-08-05 — "zero tells" was false for one of the two bundles. The
+run behind this record's headline verdict named its own arm in the judge-visible
+action log; the leak check missed it because the arm names were not in its tell
+list. See `close-arm-name-leak`.
 
 ## Problem and intended outcome
 
@@ -82,6 +86,17 @@ Real-runtime evidence, from `engineering-ownership-workspace/iteration-3`:
 - **The action log is populated and neutral.** 32 recorded actions against 22.
   The leak check found nothing identifying in either bundle: 15,061 and 12,217
   characters of evidence, zero tells.
+
+  (Corrected 2026-08-05: the second bundle was not neutral. The 12,217-character
+  bundle is `iteration-3/eval-9/without_skill/run-1`, and step 12 of its action
+  log reads `find /private/var/.../engo-eval-kqvewaa0/eval-9-without_skill-1
+  "*/.git*"` — the fixture directory names the arm. The leak check returned
+  nothing because its tell list did not contain the arm names until
+  `close-arm-name-leak` added them; run today it returns `['without_skill']`.
+  The check was reported honestly and it was blind to this. That run is the one
+  whose verdict the next bullet presents as this change's headline finding, so
+  the judge that produced it had been shown which arm it was grading. The run is
+  now pinned in `tests/test_evals.py` as a known leak.)
 - **`skill_loaded` is correct**: true for the treatment, false for the baseline,
   and that field is withheld from the judge.
 - **The enriched bundle changed a verdict.** The judge failed the baseline on

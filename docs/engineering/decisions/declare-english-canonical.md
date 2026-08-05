@@ -3,16 +3,26 @@
 Change ID: `declare-english-canonical`
 Created: `2026-07-29T16:00:15+09:00`
 Status: Accepted
+Corrected: 2026-08-05 — the Context cited a harm that never occurred. The Korean
+README never described the deleted competency tag subsystem. The decision is
+unchanged; the example supporting it was false.
 
 ## Context
 
 The repository carries English and Korean documents with no statement of which
-governs. The Korean README is three days and one breaking release behind the
-English one and still describes a subsystem that has been deleted. Nothing tells
-a reader that, because neither file claims to be the source. The project is
-written for "anyone who develops with AI"; its owner works in Korean and its
-conversations happen in Korean, so the pull toward Korean documents is real and
-will not go away.
+governs. The Korean README was last touched three days before the English one,
+and nothing tells a reader whether that matters, because neither file claims to
+be the source. The project is written for "anyone who develops with AI"; its
+owner works in Korean and its conversations happen in Korean, so the pull toward
+Korean documents is real and will not go away.
+
+(Corrected 2026-08-05: this said the Korean README "still describes a subsystem
+that has been deleted". It never described it. `README.ko.md` has no mention of
+the competency tags in any revision, and the change that removed them touched
+`README.md` alone. The two files had not diverged in content during the window
+cited. The decision is unchanged and does not depend on that example — the
+absence of any statement of which language governs is the reason, and it is
+true.)
 
 ## Options considered
 

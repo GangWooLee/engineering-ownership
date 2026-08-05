@@ -3,15 +3,30 @@
 Change ID: `unname-the-fixture-arm`
 Created: `2026-08-05T22:29:07+09:00`
 Risk: R2
+Corrected: 2026-08-05 — this record said `build_fixture` sets the run's `HOME`
+to the fixture directory and that the arm reached the judge through `~`
+expansion. It does not and it did not. That `HOME` is set for the git
+subprocess that builds the fixture; the run executes with the real environment.
+The channel is the working directory. The fix and its verification are
+unaffected; the mechanism was described wrongly.
 
 ## Problem and intended outcome
 
 Each evaluation run is executed in a fixture directory named
-`{overlay}-{configuration}-{index}`, and `build_fixture` sets the run's `HOME`
-to that directory. Every `~` a run writes down expands to it, and anything the
-run reports about its own filesystem quotes it. So the arm was written into the
-one path most likely to appear in the judge-visible log, and two graded runs
-reached their judge with `eval-7-without_skill-1` in it.
+`{overlay}-{configuration}-{index}`. That directory is the run's **working
+directory**, so anything the run reports about where it is quotes the name, and
+the host encodes the working directory into the per-project paths it keeps under
+the real home — which is how the name also reached text that reads as
+home-relative. So the arm was written into the path most likely to appear in the
+judge-visible log, and two graded runs reached their judge with
+`eval-7-without_skill-1` in it.
+
+(Corrected 2026-08-05: this paragraph said `build_fixture` sets the run's `HOME`
+to the fixture directory and that `~` expansion carried the arm. `build_fixture`
+sets `HOME` for the git subprocess that builds the fixture, so the commit is
+reproducible; `invoke` runs the model with the real environment. The verification
+below did not test that claim, because it exercised `action_target` on strings
+rather than a live run — the one part of this change that needed a sweep.)
 
 `close-arm-name-leak` fixed the recording side and named this as its next step,
 because after that fix the name still held the answer and a scrub was the only
@@ -93,7 +108,7 @@ this change affects was actually built and inspected.
 | --- | --- |
 | Path per arm | `with_skill` and `without_skill` both resolve to `eval-7-1`; one distinct path |
 | Arm name in the path | None, for either spelling |
-| Fixture actually built | 66 files created at `.../engo-probe-*/eval-7-1`; that path is the run's `HOME` |
+| Fixture actually built | 66 files created at `.../engo-probe-*/eval-7-1`; that path is the run's working directory |
 | The token shape that leaked, recorded from inside it | `MEMFILE="~/…"` → `MEMFILE=(outside the repository) cat "$MEMFILE"`; `D=<fixture> find …` → `D=(outside the repository) find "$D" -type f \| sort`. No arm name in either |
 | Sequential reuse of the shared path | Rebuilt into the same directory; 66 files, no collision, no residue |
 | Guard proved by breaking it, helper | Restoring `{configuration}` inside `fixture_dir` fails `test_the_fixture_directory_does_not_name_the_arm` |

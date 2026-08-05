@@ -1,0 +1,55 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/settle-the-jargon-reading.md"
+  },
+  "change_id": "settle-the-jargon-reading",
+  "created_at": "2026-08-05T22:51:35+09:00",
+  "diff": {
+    "digest": "7d270322d26bd751f6cab83e76bf5782dcaf9d77dfb5cad952c6054e75535fc4",
+    "paths": [
+      "docs/engineering/README.md",
+      "docs/engineering/changes/declare-english-canonical.md",
+      "docs/engineering/changes/observable-run-evidence.md",
+      "docs/engineering/changes/settle-the-jargon-reading.md",
+      "docs/engineering/changes/unname-the-fixture-arm.md",
+      "docs/engineering/decisions/declare-english-canonical.md",
+      "docs/engineering/decisions/unname-the-fixture-arm.md",
+      "docs/validation/README.md",
+      "docs/validation/fixtures/outsider-rewrite-record.md",
+      "docs/validation/record-quality-2026-08-rerun.md",
+      "engineering-ownership-workspace/outsider-probe-a/outsider-rewrite-record.json",
+      "engineering-ownership-workspace/outsider-probe-b/outsider-rewrite-record.json",
+      "scripts/eval/run_skill_evals.py",
+      "scripts/grade_records.py"
+    ]
+  },
+  "risk": "R1",
+  "schema_version": 1,
+  "title": "Settle which of D3's two readings the corpus supports",
+  "understanding": {
+    "gaps": [],
+    "revisit_after": "2026-08-12",
+    "status": "not-reviewed"
+  },
+  "updated_at": "2026-08-05T23:30:06+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "7d270322d26bd751f6cab83e76bf5782dcaf9d77dfb5cad952c6054e75535fc4",
+      "duration_ms": 20935,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-08-05T23:30:06+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "7d270322d26bd751f6cab83e76bf5782dcaf9d77dfb5cad952c6054e75535fc4",
+      "duration_ms": 45,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-08-05T23:30:06+09:00"
+    }
+  ]
+}

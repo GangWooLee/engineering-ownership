@@ -3,16 +3,33 @@
 Change ID: `declare-english-canonical`
 Created: `2026-07-29T16:00:15+09:00`
 Risk: R1
+Corrected: 2026-08-05 — the motivating harm never occurred. This record and its
+ADR said the Korean README still described the competency tag subsystem after
+it was deleted; `README.ko.md` never described it, and the two files had not
+diverged in content during the window cited. The decision stands on the fact
+that no file declared which language governs.
 
 ## Problem and intended outcome
 
 This repository holds documents in two languages and says nowhere which one is
-authoritative. The English `README.md` was last changed 2026-07-26; the Korean
-`README.ko.md` on 2026-07-23 — three days and a breaking release behind, still
-describing the competency tag subsystem that `remove-competency-tags` deleted.
-A translation that silently falls behind is worse than no translation: a reader
-who lands on it cannot tell they are reading a stale description, because
-nothing claims either file is the source.
+authoritative. The English `README.md` was last changed 2026-07-26, the Korean
+`README.ko.md` on 2026-07-23. Nothing tells a reader which of the two governs,
+so a reader who lands on the Korean file has no way to know whether it is
+current. A translation that can silently fall behind is worse than no
+translation precisely because nothing claims either file is the source.
+
+(Corrected 2026-08-05: this paragraph said the Korean README was "three days and
+a breaking release behind, still describing the competency tag subsystem that
+`remove-competency-tags` deleted". That harm never occurred. `README.ko.md`
+never described the competency tags — `git show 03ec6d1:README.ko.md` contains
+no mention of them, and `remove-competency-tags` touched `README.md` alone
+because there was nothing to remove from the Korean file. That removal was also
+the only English change in the three-day window, so the two files had not
+diverged in content at all. The timestamp gap was real; the divergence was
+invented, and the verification cited for this paragraph was
+`git log -1 --format=%ci` on each file, which can establish dates and cannot
+establish content. The decision does not rest on it: no file declared which
+language governs, which is true and is the reason that stands.)
 
 Intended outcome: one stated canonical language, and Korean documents that
 declare themselves summaries pointing at it.

@@ -96,11 +96,19 @@ CONFIGURATIONS = ("with_skill", "without_skill")
 def fixture_dir(scratch: Path, overlay: str, index: int) -> Path:
     """Where one run's fixture is built. Deliberately not a function of the arm.
 
-    The run's `HOME` is set to this directory, so every `~` the run writes down
-    expands to this path, and anything the run reports about its own filesystem
-    quotes it. When the name contained the configuration, that made the fixture
-    path a statement of which arm was executing, and two graded runs reached
-    their judge with `eval-7-without_skill-1` in the action log.
+    This directory is the run's working directory. Anything the run reports
+    about its own location quotes it, and the host encodes the working directory
+    into the per-project paths it keeps under the real home, so the name also
+    reaches text that looks home-relative. When the name contained the
+    configuration, that made the path a statement of which arm was executing,
+    and two graded runs reached their judge with `eval-7-without_skill-1` in the
+    action log.
+
+    Not `HOME`. `build_fixture` sets `HOME` to this directory for the git
+    subprocess that builds the fixture, so the commit is reproducible and does
+    not read the operator's global config; `invoke` runs the model with the real
+    environment. An earlier version of this docstring said the run's `HOME` was
+    set here and was wrong.
 
     The redaction pass now scrubs those paths, but scrubbing is a thing that can
     have a hole -- it has had two. A name that never held the answer cannot leak
