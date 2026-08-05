@@ -4,8 +4,9 @@ Change ID: `declare-english-canonical`
 Created: `2026-07-29T16:00:15+09:00`
 Status: Accepted
 Corrected: 2026-08-05 — the Context cited a harm that never occurred. The Korean
-README never described the deleted competency tag subsystem. The decision is
-unchanged; the example supporting it was false.
+README had dropped the competency tag text three days before the subsystem was
+deleted, so on the date cited it was ahead of the English README, not behind it.
+The decision is unchanged; the example supporting it ran the wrong way.
 
 ## Context
 
@@ -17,12 +18,17 @@ owner works in Korean and its conversations happen in Korean, so the pull toward
 Korean documents is real and will not go away.
 
 (Corrected 2026-08-05: this said the Korean README "still describes a subsystem
-that has been deleted". It never described it. `README.ko.md` has no mention of
-the competency tags in any revision, and the change that removed them touched
-`README.md` alone. The two files had not diverged in content during the window
-cited. The decision is unchanged and does not depend on that example — the
-absence of any statement of which language governs is the reason, and it is
-true.)
+that has been deleted". It did not. `README.ko.md` carried the competency text
+until 2026-07-23 and dropped it three days before `remove-competency-tags`
+deleted the subsystem, so the example runs the opposite way: the Korean file was
+ahead. The change that removed the subsystem then touched `README.md` alone,
+because nothing was left to remove from the Korean one. The decision is
+unchanged and does not depend on the example — the absence of any statement of
+which language governs is the reason, and it is true.
+
+The first version of this note said the competency tags appeared in no revision
+of `README.ko.md`. Three revisions carried them. It was written from one
+`git show` instead of a walk of the file's history.)
 
 ## Options considered
 

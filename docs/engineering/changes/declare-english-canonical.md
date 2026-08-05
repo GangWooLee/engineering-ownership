@@ -5,8 +5,9 @@ Created: `2026-07-29T16:00:15+09:00`
 Risk: R1
 Corrected: 2026-08-05 — the motivating harm never occurred. This record and its
 ADR said the Korean README still described the competency tag subsystem after
-it was deleted; `README.ko.md` never described it, and the two files had not
-diverged in content during the window cited. The decision stands on the fact
+it was deleted. It did not: `README.ko.md` dropped that text on 2026-07-23,
+three days before the subsystem was removed, so on the date cited it was ahead
+of the English README rather than behind it. The decision stands on the fact
 that no file declared which language governs.
 
 ## Problem and intended outcome
@@ -20,16 +21,24 @@ translation precisely because nothing claims either file is the source.
 
 (Corrected 2026-08-05: this paragraph said the Korean README was "three days and
 a breaking release behind, still describing the competency tag subsystem that
-`remove-competency-tags` deleted". That harm never occurred. `README.ko.md`
-never described the competency tags — `git show 03ec6d1:README.ko.md` contains
-no mention of them, and `remove-competency-tags` touched `README.md` alone
-because there was nothing to remove from the Korean file. That removal was also
-the only English change in the three-day window, so the two files had not
-diverged in content at all. The timestamp gap was real; the divergence was
-invented, and the verification cited for this paragraph was
-`git log -1 --format=%ci` on each file, which can establish dates and cannot
-establish content. The decision does not rest on it: no file declared which
-language governs, which is true and is the reason that stands.)
+`remove-competency-tags` deleted". It was not describing it. `README.ko.md`
+carried `--competency security-privacy` until `03ec6d1` on 2026-07-23, which
+removed it — three days *before* `remove-competency-tags` deleted the subsystem
+on 2026-07-26. So on the date this record cites, the Korean file had already
+dropped the text and the English one had not; the example runs the wrong way.
+`remove-competency-tags` then touched `README.md` alone, because there was
+nothing left to remove from the Korean file, and that was the only English
+README change in the window, so the two had not diverged in content.
+
+The timestamp gap was real. The divergence was not, and the verification cited
+for this paragraph was `git log -1 --format=%ci` on each file, which establishes
+dates and cannot establish content. The decision does not rest on it: no file
+declared which language governs, which is true and is the reason that stands.
+
+A second correction, same day: the first version of this note said
+`README.ko.md` "never described the competency tags" and cited a single
+revision. Three earlier revisions did. Checking one commit is not checking a
+history.)
 
 Intended outcome: one stated canonical language, and Korean documents that
 declare themselves summaries pointing at it.
