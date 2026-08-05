@@ -41,12 +41,12 @@
   "title": "Give every scenario a repository to run in",
   "understanding": {
     "gaps": [],
-    "reviewed_at": "2026-08-05T23:42:41+09:00",
+    "reviewed_at": "2026-08-05T23:52:16+09:00",
     "revisit_after": "2026-08-12",
     "self_attested": true,
     "status": "reviewed"
   },
-  "updated_at": "2026-08-05T23:42:41+09:00",
+  "updated_at": "2026-08-05T23:52:16+09:00",
   "verification": [
     {
       "command_id": "unit",

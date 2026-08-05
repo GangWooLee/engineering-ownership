@@ -806,11 +806,16 @@
   "schema_version": 1,
   "title": "Declare English canonical for records, Korean as summary",
   "understanding": {
-    "gaps": [],
-    "revisit_after": "2026-08-05",
-    "status": "not-reviewed"
+    "gaps": [
+      "The motivating harm cited in the Problem section and the ADR Context never occurred: README.ko.md dropped the competency tag text on 2026-07-23, three days before the subsystem was deleted, so it was ahead of the English README rather than behind it. Corrected in place 2026-08-05.",
+      "The verification offered for that paragraph was git log -1 --format=%ci on each README, which establishes dates and cannot establish content. The content claim was never verified by anything."
+    ],
+    "reviewed_at": "2026-08-05T23:52:06+09:00",
+    "revisit_after": "2026-08-12",
+    "self_attested": true,
+    "status": "gaps"
   },
-  "updated_at": "2026-07-29T16:23:33+09:00",
+  "updated_at": "2026-08-05T23:52:06+09:00",
   "verification": [
     {
       "command_id": "unit",

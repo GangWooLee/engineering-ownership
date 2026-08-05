@@ -30,10 +30,12 @@
   "title": "Describe when to invoke the skill, and measure whether it does",
   "understanding": {
     "gaps": [],
-    "revisit_after": "2026-08-01",
-    "status": "not-reviewed"
+    "reviewed_at": "2026-08-05T23:52:16+09:00",
+    "revisit_after": "2026-08-12",
+    "self_attested": true,
+    "status": "reviewed"
   },
-  "updated_at": "2026-07-26T10:41:40+09:00",
+  "updated_at": "2026-08-05T23:52:16+09:00",
   "verification": [
     {
       "command_id": "unit",

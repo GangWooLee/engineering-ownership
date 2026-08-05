@@ -6,6 +6,10 @@
     "threat_model": "docs/engineering/security/reopen-understanding-review.md"
   },
   "change_id": "reopen-understanding-review",
+  "closed": {
+    "closed_at": "2026-08-05T23:52:31+09:00",
+    "revision": "0d40519de30b22e2b032f35065a2dd45963cf8fc"
+  },
   "created_at": "2026-08-05T23:41:00+09:00",
   "diff": {
     "digest": "5ba91176aa96f457ece25ddbdd8162168a068269f2a3e7025428c94ba5e47b72",
@@ -25,10 +29,12 @@
   "title": "Let a closed change still record that its owner understood it",
   "understanding": {
     "gaps": [],
+    "reviewed_at": "2026-08-05T23:52:17+09:00",
     "revisit_after": "2026-08-12",
-    "status": "not-reviewed"
+    "self_attested": true,
+    "status": "reviewed"
   },
-  "updated_at": "2026-08-05T23:51:23+09:00",
+  "updated_at": "2026-08-05T23:52:31+09:00",
   "verification": [
     {
       "command_id": "unit",

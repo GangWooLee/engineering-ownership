@@ -34,15 +34,13 @@
   "schema_version": 1,
   "title": "v0.1.0 public release",
   "understanding": {
-    "gaps": [
-      "Revisit the CLI safety boundaries and release rollback after hands-on use."
-    ],
-    "reviewed_at": "2026-07-23T10:06:17+00:00",
-    "revisit_after": "2026-07-30",
+    "gaps": [],
+    "reviewed_at": "2026-08-05T23:52:18+09:00",
+    "revisit_after": "2026-08-12",
     "self_attested": true,
-    "status": "gaps"
+    "status": "reviewed"
   },
-  "updated_at": "2026-07-26T10:41:41+09:00",
+  "updated_at": "2026-08-05T23:52:18+09:00",
   "verification": [
     {
       "command_id": "unit",

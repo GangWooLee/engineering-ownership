@@ -24,11 +24,16 @@
   "schema_version": 1,
   "title": "Stop naming the arm in the directory the run lives in",
   "understanding": {
-    "gaps": [],
+    "gaps": [
+      "The stated leak mechanism was wrong: build_fixture sets HOME for the git subprocess that builds the fixture, not for the evaluated run. The channel is the run's working directory. Corrected in the record, the ADR and the docstring on 2026-08-05; the fix and its verification are unaffected.",
+      "The verification exercised action_target on strings, not a live run, so it could not have caught the mechanism error. No sweep has run under this change."
+    ],
+    "reviewed_at": "2026-08-05T23:52:06+09:00",
     "revisit_after": "2026-08-12",
-    "status": "not-reviewed"
+    "self_attested": true,
+    "status": "gaps"
   },
-  "updated_at": "2026-08-05T22:34:43+09:00",
+  "updated_at": "2026-08-05T23:52:06+09:00",
   "verification": [
     {
       "command_id": "unit",

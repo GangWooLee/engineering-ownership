@@ -32,10 +32,12 @@
   "title": "Settle which of D3's two readings the corpus supports",
   "understanding": {
     "gaps": [],
+    "reviewed_at": "2026-08-05T23:52:18+09:00",
     "revisit_after": "2026-08-12",
-    "status": "not-reviewed"
+    "self_attested": true,
+    "status": "reviewed"
   },
-  "updated_at": "2026-08-05T23:30:48+09:00",
+  "updated_at": "2026-08-05T23:52:18+09:00",
   "verification": [
     {
       "command_id": "unit",

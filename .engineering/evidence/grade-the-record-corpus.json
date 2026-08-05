@@ -53,10 +53,12 @@
   "title": "Grade the whole record corpus against the tightened rubric",
   "understanding": {
     "gaps": [],
+    "reviewed_at": "2026-08-05T23:52:17+09:00",
     "revisit_after": "2026-08-12",
-    "status": "not-reviewed"
+    "self_attested": true,
+    "status": "reviewed"
   },
-  "updated_at": "2026-08-05T19:10:12+09:00",
+  "updated_at": "2026-08-05T23:52:17+09:00",
   "verification": [
     {
       "command_id": "unit",

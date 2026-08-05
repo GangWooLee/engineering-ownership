@@ -294,10 +294,12 @@
   "title": "Deliver the promised post-pass for the vendored aggregator",
   "understanding": {
     "gaps": [],
-    "revisit_after": "2026-08-01",
-    "status": "not-reviewed"
+    "reviewed_at": "2026-08-05T23:52:17+09:00",
+    "revisit_after": "2026-08-12",
+    "self_attested": true,
+    "status": "reviewed"
   },
-  "updated_at": "2026-07-26T11:02:38+09:00",
+  "updated_at": "2026-08-05T23:52:17+09:00",
   "verification": [
     {
       "command_id": "unit",

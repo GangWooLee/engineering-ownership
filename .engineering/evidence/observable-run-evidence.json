@@ -54,11 +54,15 @@
   "schema_version": 1,
   "title": "Let runs write, and show the judge what they did",
   "understanding": {
-    "gaps": [],
-    "revisit_after": "2026-08-01",
-    "status": "not-reviewed"
+    "gaps": [
+      "The reported blinding result 'zero tells' is false for one of the two bundles. iteration-3/eval-9/without_skill/run-1 names its own arm in the judge-visible action log, and it is the run whose verdict this record presents as its headline finding. The leak check was honest and blind to it; the arm names entered its tell list only in close-arm-name-leak. The run is pinned in tests/test_evals.py."
+    ],
+    "reviewed_at": "2026-08-05T23:52:06+09:00",
+    "revisit_after": "2026-08-12",
+    "self_attested": true,
+    "status": "gaps"
   },
-  "updated_at": "2026-07-26T10:41:40+09:00",
+  "updated_at": "2026-08-05T23:52:06+09:00",
   "verification": [
     {
       "command_id": "unit",
