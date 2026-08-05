@@ -1,0 +1,70 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/reopen-understanding-review.md",
+    "decision": "docs/engineering/decisions/reopen-understanding-review.md",
+    "runbook": "docs/engineering/runbooks/reopen-understanding-review.md",
+    "threat_model": "docs/engineering/security/reopen-understanding-review.md"
+  },
+  "change_id": "reopen-understanding-review",
+  "created_at": "2026-08-05T23:41:00+09:00",
+  "diff": {
+    "digest": "5ba91176aa96f457ece25ddbdd8162168a068269f2a3e7025428c94ba5e47b72",
+    "paths": [
+      "docs/engineering/README.md",
+      "docs/engineering/changes/add-terminal-close-state.md",
+      "docs/engineering/changes/reopen-understanding-review.md",
+      "docs/engineering/decisions/reopen-understanding-review.md",
+      "docs/engineering/runbooks/reopen-understanding-review.md",
+      "docs/engineering/security/reopen-understanding-review.md",
+      "plugins/engineering-ownership/src/engineering_ownership/cli.py",
+      "tests/test_cli.py"
+    ]
+  },
+  "risk": "R3",
+  "schema_version": 1,
+  "title": "Let a closed change still record that its owner understood it",
+  "understanding": {
+    "gaps": [],
+    "revisit_after": "2026-08-12",
+    "status": "not-reviewed"
+  },
+  "updated_at": "2026-08-05T23:51:23+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "5ba91176aa96f457ece25ddbdd8162168a068269f2a3e7025428c94ba5e47b72",
+      "duration_ms": 21713,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-08-05T23:51:22+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "5ba91176aa96f457ece25ddbdd8162168a068269f2a3e7025428c94ba5e47b72",
+      "duration_ms": 47,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-08-05T23:51:23+09:00"
+    },
+    {
+      "command_id": "claude-plugin",
+      "diff_digest": "5ba91176aa96f457ece25ddbdd8162168a068269f2a3e7025428c94ba5e47b72",
+      "duration_ms": 537,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-08-05T23:51:23+09:00"
+    },
+    {
+      "command_id": "release-package",
+      "diff_digest": "5ba91176aa96f457ece25ddbdd8162168a068269f2a3e7025428c94ba5e47b72",
+      "duration_ms": 57,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-08-05T23:51:23+09:00"
+    }
+  ]
+}

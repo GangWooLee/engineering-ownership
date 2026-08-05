@@ -666,12 +666,33 @@ class CliCase(unittest.TestCase):
         self.invoke("change", "close", "settled-work")
         for mutating in (
             ("verify", "settled-work"),
-            ("change", "review", "settled-work", "--status", "reviewed"),
             ("change", "set-risk", "settled-work", "--risk", "R2"),
         ):
             result = self.invoke(*mutating)
             self.assertEqual(result.returncode, 2, mutating)
             self.assertIn("start a new change", result.stderr)
+
+        # `change review` is deliberately not in that list. It was, and gating
+        # it left every closed record frozen at `not-reviewed` with no way to
+        # change it — the attestation this tool exists to keep, unreachable the
+        # moment work was finished properly. Verification and risk are bound to
+        # a live diff and stay closed; understanding is reviewed afterwards.
+        recorded = self.invoke(
+            "change", "review", "settled-work", "--status", "reviewed"
+        )
+        self.assertEqual(recorded.returncode, 0, recorded.stderr)
+        self.assertIn("closed", recorded.stdout)
+
+        # The half that is scheduling still ends at close: `--due` never matches
+        # a closed record, so a flag whose only effect is a due date is refused
+        # rather than silently accepted.
+        snoozed = self.invoke(
+            "change", "review", "settled-work",
+            "--status", "reviewed", "--revisit-days", "30",
+        )
+        self.assertEqual(snoozed.returncode, 2, snoozed.stdout)
+        self.assertIn("never becomes due", snoozed.stderr)
+
         self.assertEqual(self.invoke("explain", "settled-work").returncode, 0)
         readable = self.invoke("check", "--mode", "advise", "--change", "settled-work")
         self.assertEqual(readable.returncode, 0, readable.stderr)

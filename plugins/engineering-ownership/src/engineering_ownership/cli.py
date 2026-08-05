@@ -607,9 +607,24 @@ def command_explain(args: argparse.Namespace) -> int:
 def command_change_review(args: argparse.Namespace) -> int:
     root = repo_root(args.repo)
     contract = read_contract(root)
-    record = ensure_open(read_evidence(root, contract, args.change_id))
+    # Deliberately not `ensure_open`. This command does two things that were
+    # gated together and should not have been: it snoozes the `--due` view, and
+    # it records whether the owner retained an understanding of the change. The
+    # first is scheduling and ends when the change closes. The second is the
+    # attestation this whole tool exists to keep, and an owner reviews their
+    # understanding after the work lands, not before. Gating both left every
+    # closed record frozen at `not-reviewed` with no way to change it -- which
+    # was the state of all 32 records in this repository when it was found.
+    record = read_evidence(root, contract, args.change_id)
+    closed = bool(record.get("closed"))
     gaps = [redact(item.strip()) for item in args.gap if item.strip()]
     status = args.status
+    if closed and args.review_days is not None:
+        raise EngineeringError(
+            f"Change '{record['change_id']}' is closed; --revisit-days schedules "
+            "a `status --due` reminder and a closed change never becomes due. "
+            "Re-run without it to record the review."
+        )
     review_days = (
         args.review_days
         if args.review_days is not None
@@ -619,6 +634,11 @@ def command_change_review(args: argparse.Namespace) -> int:
         raise EngineeringError("revisit-days must be between 1 and 365")
     if status == "reviewed" and gaps:
         raise EngineeringError("A reviewed state cannot include gaps")
+    # `revisit_after` is written for closed records too. It is inert there --
+    # `--due` already skips closed records, so the date is never acted on -- and
+    # the schema requires the field, so omitting it would mean a schema change
+    # to remove data nothing reads. The flag that sets it is refused above,
+    # which is where the confusion would actually arise.
     record["understanding"] = {
         "status": status,
         "gaps": gaps,
@@ -630,7 +650,8 @@ def command_change_review(args: argparse.Namespace) -> int:
     }
     record["updated_at"] = now_iso()
     save_evidence(root, contract, record, overwrite=True)
-    print(f"Recorded self-review: {record['change_id']} -> {status}")
+    where = " (closed)" if closed else ""
+    print(f"Recorded self-review: {record['change_id']} -> {status}{where}")
     return 0
 
 

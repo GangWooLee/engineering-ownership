@@ -3,6 +3,11 @@
 Change ID: `add-terminal-close-state`
 Created: `2026-07-25T23:55:33+09:00`
 Risk: R3
+Corrected: 2026-08-05 — `change review` was gated on the change being open, on
+the reasoning that "review obligations end at close". That holds for the `--due`
+snooze and not for recording the owner's understanding, which happens after work
+lands. The gate left `understanding` frozen at `not-reviewed` on every closed
+record. Narrowed in `reopen-understanding-review`.
 
 ## Problem and intended outcome
 
@@ -55,13 +60,25 @@ the same record list and must keep seeing closed records.
 `change close <id>` → `ensure_open` → set `closed = {closed_at, revision}`
 (full HEAD SHA; displayed truncated to 12, matching the handoff's revision
 display) → `save_evidence`. Consumers: `command_status` skips closed records
-unless `--all`; `--due` never matches a closed record (review obligations end
-at close); `handoff_text` without `--change` lists open records only, and with
+unless `--all`; `--due` never matches a closed record (the *scheduling* half of
+review ends at close — see the correction below); `handoff_text` without
+`--change` lists open records only, and with
 `--change` reports the close line for audit; `ownership_hook` excludes closed
 records from both the current-change list and the stale count. Mutating verbs
 (`verify`, `change set-risk`, `change review`, second `close`) reject closed
 records; read verbs (`explain`, `check --change`, `refs check`, `handoff
 --change`) keep working.
+
+(Corrected 2026-08-05: `change review` should not have been in that list, and
+"review obligations end at close" was true of only half of what it does. The
+command both snoozes the `--due` view and records whether the owner understood
+the change; the first ends at close, the second is what an owner does after the
+work lands. Gating both froze `understanding` at `not-reviewed` on every closed
+record — all 32 in this repository — with no command able to change any of them,
+from the day this shipped until it was found. Narrowed in
+[`reopen-understanding-review`](reopen-understanding-review.md): reviewing is
+allowed on a closed record, `--revisit-days` is refused there, and `verify` and
+`set-risk` stay closed.)
 
 ## Decisions and trade-offs
 
