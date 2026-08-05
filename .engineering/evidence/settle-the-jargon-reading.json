@@ -3,6 +3,10 @@
     "brief": "docs/engineering/changes/settle-the-jargon-reading.md"
   },
   "change_id": "settle-the-jargon-reading",
+  "closed": {
+    "closed_at": "2026-08-05T23:30:48+09:00",
+    "revision": "b1a9263c10aa260c6cfa01d64a240c05a59c9c6e"
+  },
   "created_at": "2026-08-05T22:51:35+09:00",
   "diff": {
     "digest": "7d270322d26bd751f6cab83e76bf5782dcaf9d77dfb5cad952c6054e75535fc4",
@@ -31,7 +35,7 @@
     "revisit_after": "2026-08-12",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-08-05T23:30:06+09:00",
+  "updated_at": "2026-08-05T23:30:48+09:00",
   "verification": [
     {
       "command_id": "unit",

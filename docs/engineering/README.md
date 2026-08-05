@@ -31,7 +31,7 @@ records themselves.
 | **Rewrite the evaluation expectations to be passable on merit**<br>`rewrite-evaluation-expectations` | R2 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/rewrite-evaluation-expectations.md), [decision](decisions/rewrite-evaluation-expectations.md) |
 | **Assert the tag validator's quoting concern without coupling it to notes currency**<br>`scope-currency-gate-to-tag-time` | R1 | closed 2026-07-26 at `19299a353039` | [brief](changes/scope-currency-gate-to-tag-time.md) |
 | **Separate the fixture from the answer key**<br>`separate-fixture-from-answer-key` | R1 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/separate-fixture-from-answer-key.md) |
-| **Settle which of D3's two readings the corpus supports**<br>`settle-the-jargon-reading` | R1 | open | [brief](changes/settle-the-jargon-reading.md) |
+| **Settle which of D3's two readings the corpus supports**<br>`settle-the-jargon-reading` | R1 | closed 2026-08-05 at `b1a9263c10aa` | [brief](changes/settle-the-jargon-reading.md) |
 | **Tighten the rubric using a negative control**<br>`tighten-rubric-with-control` | R1 | closed 2026-07-29 at `1391ba33d6a5` | [brief](changes/tighten-rubric-with-control.md) |
 | **Stop naming the arm in the directory the run lives in**<br>`unname-the-fixture-arm` | R2 | closed 2026-08-05 at `72ad468b9e71` | [brief](changes/unname-the-fixture-arm.md), [decision](decisions/unname-the-fixture-arm.md) |
 | **v0.1.0 public release**<br>`v0-1-0-public-release` | R3 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/v0-1-0-public-release.md), [decision](decisions/v0-1-0-public-release.md), [runbook](runbooks/v0-1-0-public-release.md), [threat_model](security/v0-1-0-public-release.md) |
