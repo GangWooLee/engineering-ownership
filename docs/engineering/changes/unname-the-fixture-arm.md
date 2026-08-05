@@ -116,13 +116,30 @@ this change affects was actually built and inspected.
 | First version of the call-site guard | Did **not** exist; the helper-only guard passed on a reverted call site. Recorded rather than quietly added |
 | Suite | 97 tests |
 | Contract commands | Recorded via `engineering verify` |
+| Live sweep, added 2026-08-06 | `eval-7`, both arms, `claude-sonnet-5`. Zero arm names in either action log, redaction active on live data, preflight still separates the arms, and no contamination between arms sharing the directory. See the resolved limit below |
 
 ## Known limits and learning gaps
 
-- **No sweep has run under this change.** The fixture was built and inspected,
-  and the run loop's use of the path is one line, but no model has executed
-  inside the renamed directory. The first live sweep is where a surprise would
-  appear.
+- ~~**No sweep has run under this change.**~~ **Resolved 2026-08-06.** A live
+  two-arm sweep ran `eval-7` — the evaluation whose log leaked — with
+  `claude-sonnet-5` executing inside the renamed directory. Results in
+  `engineering-ownership-workspace/fixture-name-probe/`. Four things were
+  checked and all four held:
+
+  | Check | Result |
+  | --- | --- |
+  | Arm name in either action log | Zero occurrences; `blinding_leaks` returns `[]` for both |
+  | Redaction on live data | 6 actions in the treatment arm normalised to `(outside the repository)` |
+  | Skill loading after the rename | Preflight `treatment_has_skill: true`, `baseline_clean: true`; the treatment answered `engineering-ownership` and the baseline did not |
+  | **Cross-arm contamination** | None. The second arm's `paths_changed_by_run` lists one file; it did not inherit the three the first arm wrote |
+
+  The contamination check was the one that could have failed. Both arms now
+  share a directory, and the claim that `build_fixture.build` clearing the
+  destination makes that safe had only been argued, not run.
+
+  What the sweep does not cover: one evaluation of nine, one run per arm, one
+  executor model. It shows the loop works under the rename; it is not a
+  measurement of anything.
 - The guard reads source text for the offending shape. It catches
   `{configuration}` interpolated into a path. It would not catch the arm reaching
   a path by another name -- a variable assigned from `configuration` first, for
