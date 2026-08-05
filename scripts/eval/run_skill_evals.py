@@ -93,6 +93,26 @@ LANGUAGE_CONTROL = "\n\nRespond in English."
 CONFIGURATIONS = ("with_skill", "without_skill")
 
 
+def fixture_dir(scratch: Path, overlay: str, index: int) -> Path:
+    """Where one run's fixture is built. Deliberately not a function of the arm.
+
+    The run's `HOME` is set to this directory, so every `~` the run writes down
+    expands to this path, and anything the run reports about its own filesystem
+    quotes it. When the name contained the configuration, that made the fixture
+    path a statement of which arm was executing, and two graded runs reached
+    their judge with `eval-7-without_skill-1` in the action log.
+
+    The redaction pass now scrubs those paths, but scrubbing is a thing that can
+    have a hole -- it has had two. A name that never held the answer cannot leak
+    it. Both arms of the same run therefore share this path; they execute one
+    after the other and `build_fixture.build` clears the destination first, so
+    sharing is safe by construction rather than by timing.
+
+    The arm is still recorded, in the output directory the judge never reads.
+    """
+    return scratch / f"{overlay}-{index}"
+
+
 def now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
@@ -502,7 +522,7 @@ def main() -> int:
                 if args.resume and (run_dir / "outputs" / "response.md").is_file():
                     print(f"skipping {overlay} {configuration} run-{index}: already recorded")
                     continue
-                cwd = scratch / f"{overlay}-{configuration}-{index}"
+                cwd = fixture_dir(scratch, overlay, index)
                 fixture = build_fixture(overlay, cwd)
                 print(f"running {overlay} {configuration} run-{index} ...")
                 outcome = invoke(

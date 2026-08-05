@@ -126,6 +126,11 @@ from history before this push. The ignore rule stops that recurring.
   arm in its name, so the normalization is a scrub rather than a structural
   guarantee. Making it structural means changing the run layout, which cannot be
   verified without a live sweep. Named as the next change, not deferred silently.
+  (Done 2026-08-05 in
+  [`unname-the-fixture-arm`](unname-the-fixture-arm.md). The premise here was
+  half wrong: `build_fixture` needs no model call, so the renamed fixture was
+  built and inspected without a sweep. What still needs a live sweep is the run
+  loop executing inside it, and that remains untested.)
 - The two nets remain one net. Splitting them means a second predicate with a
   different derivation, which is more than this change should carry.
 - The tell list is a substring match. It catches the arm names as spelled; a run

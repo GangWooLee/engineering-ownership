@@ -311,6 +311,73 @@ class JudgeBlindingCase(unittest.TestCase):
         spec.loader.exec_module(module)
         return module
 
+    def runner(self):
+        import importlib.util
+        import sys
+
+        path = ROOT / "scripts" / "eval" / "run_skill_evals.py"
+        if not path.is_file():
+            self.skipTest("no runner is present")
+        sys.path.insert(0, str(path.parent))
+        try:
+            spec = importlib.util.spec_from_file_location("_runner_under_test", path)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+        finally:
+            sys.path.remove(str(path.parent))
+        return module
+
+    def test_the_fixture_directory_does_not_name_the_arm(self) -> None:
+        # The run's HOME is its fixture directory, so the directory name is
+        # quoted by anything the run says about its own filesystem. While that
+        # name held the configuration, two graded runs told their judge which
+        # arm they were, and the redaction pass -- which has had two holes --
+        # was the only thing standing between the name and the judge.
+        runner = self.runner()
+        scratch = Path("/tmp/scratch")
+        built = {
+            configuration: runner.fixture_dir(scratch, "eval-7", 1)
+            for configuration in runner.CONFIGURATIONS
+        }
+        self.assertEqual(
+            len(set(built.values())),
+            1,
+            f"the fixture path still varies by configuration: {built}",
+        )
+        for configuration, path in built.items():
+            for spelling in (configuration, configuration.replace("_", "-")):
+                self.assertNotIn(
+                    spelling,
+                    str(path),
+                    f"the fixture path names the arm: {path}",
+                )
+
+    def test_no_run_directory_is_built_by_interpolating_the_arm(self) -> None:
+        # Guarding `fixture_dir` alone guards nothing: the first version of this
+        # case passed while the call site was reverted to the interpolation that
+        # caused the leak, because the helper it checked was no longer the thing
+        # constructing the path. Read the source and refuse the shape.
+        source = (ROOT / "scripts" / "eval" / "run_skill_evals.py").read_text(
+            encoding="utf-8"
+        )
+        offenders = [
+            line.strip()
+            for line in source.splitlines()
+            if "{configuration}" in line and ("scratch /" in line or "Path(" in line)
+        ]
+        self.assertEqual(
+            offenders,
+            [],
+            "a filesystem path is built by interpolating the configuration; "
+            f"use fixture_dir instead: {offenders}",
+        )
+        self.assertIn(
+            "cwd = fixture_dir(",
+            source,
+            "the sweep no longer builds its fixture through fixture_dir, so the "
+            "guard above is checking a helper nothing calls",
+        )
+
     def test_evidence_naming_this_project_is_treated_as_a_leak(self) -> None:
         # The action log is derived from paths the run touched. If one of them
         # names this project, the configuration is readable from the bundle.

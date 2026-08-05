@@ -1,0 +1,66 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/unname-the-fixture-arm.md",
+    "decision": "docs/engineering/decisions/unname-the-fixture-arm.md"
+  },
+  "change_id": "unname-the-fixture-arm",
+  "created_at": "2026-08-05T22:29:07+09:00",
+  "diff": {
+    "digest": "2d802afc51504882cc7b49e6b16fa262341d0fe8274e7f012b01e0b736f1b197",
+    "paths": [
+      "docs/engineering/README.md",
+      "docs/engineering/changes/close-arm-name-leak.md",
+      "docs/engineering/changes/unname-the-fixture-arm.md",
+      "docs/engineering/decisions/unname-the-fixture-arm.md",
+      "scripts/eval/run_skill_evals.py",
+      "tests/test_evals.py"
+    ]
+  },
+  "risk": "R2",
+  "schema_version": 1,
+  "title": "Stop naming the arm in the directory the run lives in",
+  "understanding": {
+    "gaps": [],
+    "revisit_after": "2026-08-12",
+    "status": "not-reviewed"
+  },
+  "updated_at": "2026-08-05T22:34:16+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "2d802afc51504882cc7b49e6b16fa262341d0fe8274e7f012b01e0b736f1b197",
+      "duration_ms": 20941,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-08-05T22:34:16+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "2d802afc51504882cc7b49e6b16fa262341d0fe8274e7f012b01e0b736f1b197",
+      "duration_ms": 48,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-08-05T22:34:16+09:00"
+    },
+    {
+      "command_id": "claude-plugin",
+      "diff_digest": "2d802afc51504882cc7b49e6b16fa262341d0fe8274e7f012b01e0b736f1b197",
+      "duration_ms": 348,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-08-05T22:34:16+09:00"
+    },
+    {
+      "command_id": "release-package",
+      "diff_digest": "2d802afc51504882cc7b49e6b16fa262341d0fe8274e7f012b01e0b736f1b197",
+      "duration_ms": 52,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-08-05T22:34:16+09:00"
+    }
+  ]
+}
