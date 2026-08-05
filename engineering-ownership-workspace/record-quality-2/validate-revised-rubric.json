@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T12:03:14+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success criteria, fixed before the run: no dimension may be all-pass or all-fail; inter-rater agreement should hold near the first run's 22/24; D3 must be satisfiable by at least one record, having been unsatisfiable by construction.\" These are propositions about the outcome of a run, not properties the work was built to have: the first criterion is stated elsewhere in the record to have already failed once (\"which caught the first version and cleared this one\"), so a reader stopping at the opening knows the findings could have resolved the other way and knows which three claims to check before trusting them.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "Check and outcome both stated: \"Extracts regenerated from HEAD and compared by SHA-256 against the first run's: **6 of 6 byte-identical**.\" And under Verification evidence: \"Inter-rater agreement | 22 / 24 (92%) | **24 / 24 (100%)**\", \"Constant dimensions | 1 (D3 at 0/12) | **none**\", \"Pass counts D1 / D2 / D3 / D4 | 11 / 2 / 0 / 11 | 10 / 10 / 8 / 10\". The judge run is described as executed and its results reported, not pointed at.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on: (1) \"D3\" — the record's headline success criterion is \"D3 must be satisfiable by at least one record, having been unsatisfiable by construction\" and its headline result is \"Constant dimensions | 1 (D3 at 0/12) | **none**\" and \"one other fails only D3\", yet the record never says what D3 asks. A new engineer cannot judge whether 0/12 → 8 is the fix it is claimed to be without resolving D3 elsewhere. D1, D2 and D4 get one-line roles in the limits section, but D3 gets none. (2) \"the first run\" — every result is stated as a delta against it (\"inter-rater agreement should hold near the first run's 22/24\"), and what that run did differently is never stated beyond \"The same procedure as the first run, deliberately\". (3) \"the layer-1 fixes\" in \"Four of the six records had their headers edited in the interim by the layer-1 fixes\". (4) \"the output contract\" in \"same output contract\". The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The next validation needs a **negative control** — a record written deliberately to fail — because both judges could only answer 'what would a clearly bad document also pass?' speculatively, never having been shown one.\" The transferable claim (a validation run needs a negative control) carries the specific observation from this run that produced it, and the term is defined in the same sentence. The neighbouring bullet supplies a stopping condition of the same kind: \"Whether that means the rubric is lenient or the corpus is uniform cannot be settled by six real records.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D1 is satisfiable without doing the work. It instructs the judge to read only the opening section, so a record that pre-registers three falsifiable-sounding criteria and then never reports against them passes identically to one that reports honestly — the reader is calibrated by a promise, not a finding. A clearly bad record could pass D1 by writing a criteria list and nothing else. Relatedly, 'could plausibly have resolved the other way' has no test attached; the judge is guessing at the author's counterfactual, and here I only escaped that guess because the record happened to mention elsewhere that the criterion had failed once before. D1 would be stronger if it required the opening to state a criterion whose resolution is reported later in the same record.\n\nD3's 'defined in place' exemption carries the whole dimension but has no threshold. 'D1 currently detects the presence of a non-goals section' arguably states D1's role; 'edited ... by the layer-1 fixes' arguably states what the fixes did. Two judges applying this will produce different lists and therefore different verdicts, and since the list is the evidence, D3's verdict is the least reproducible of the four. It also, as written, penalises any record that names a companion artifact by its repo-local identifier — which is how engineers in a repo actually write — so it may be measuring self-containment rather than clarity.\n\nD4 has a seam. It forbids 'X does not cover Y' as a stopping condition, but accepts 'cannot be settled by six real records', which is the same move phrased as a sample-size admission rather than a scope boundary. A bad record could clear D4 by appending 'but this was only one case' to any generality. The distinction the dimension wants is between an admission of insufficiency and a named observation that would overturn the claim; only the second is a stopping condition, and the current wording does not exclude the first."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success criteria, fixed before the run: no dimension may be all-pass or all-fail; inter-rater agreement should hold near the first run's 22/24; D3 must be satisfiable by at least one record, having been unsatisfiable by construction.\" These are outcomes of a run, not properties the work was built to have: \"no dimension may be all-pass or all-fail\" is a proposition that demonstrably resolved the other way once already (the record later reports \"1 (D3 at 0/12)\" for the first run). A reader who stopped at the opening knows the results that follow are measured against a bar fixed in advance and that the bar had a real chance of failing, so their trust depends on what the run found.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "Named check with stated outcome: \"Extracts regenerated from HEAD and compared by SHA-256 against the first run's: **6 of 6 byte-identical**.\" And a second, with results: \"Inter-rater agreement | 22 / 24 (92%) | **24 / 24 (100%)**\" ... \"Pass counts D1 / D2 / D3 / D4 | 11 / 2 / 0 / 11 | 10 / 10 / 8 / 10\". Neither is a pointer to another document; both report what came out.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: (1) \"D3\" — the record's headline finding is that D3 moved from \"0\" to \"8\" passes and that the second band consists of a record that \"fails only D3\", but the record never states what D3 asks for. \"D3 must be satisfiable by at least one record, having been unsatisfiable by construction\" asserts a defect in D3 without saying what D3 required, so a new engineer cannot tell whether the improvement is a repair or a loosening — which is the whole claim. (By contrast D1, D2 and D4 each get a role stated in the sentence using them: \"D1 currently detects the presence of a non-goals section\", \"D2 cannot separate a reported outcome from a definition of done\", \"D4 collapses toward 'did you give a reason'.\") (2) \"layer-1 fixes\" — \"Four of the six records had their headers edited in the interim by the layer-1 fixes\"; this is the premise of the claim that \"the inputs were provably unchanged\", and \"layer-1\" is project vocabulary the reader must resolve elsewhere. (3) \"the same output contract\" — offered as part of the claim that the procedure was held constant, with no statement of what the contract is. I searched the record for any sentence stating what D3 requires, what a layer is, or what the output contract specifies, and found none.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The transferable claim carries the observation from this run that produced it: \"**Two bands is not six.** Whether that means the rubric is lenient or the corpus is uniform cannot be settled by six real records. The next validation needs a **negative control** — a record written deliberately to fail — because both judges could only answer 'what would a clearly bad document also pass?' speculatively, never having been shown one.\" The specific observation is stated: \"One record fails all four dimensions, one other fails only D3, and the remaining four pass everything\", and one judge's report that \"the run 'mostly measured one outlier and told me little about the other five.'\" A reader facing a similar validation can check for the same signature — high agreement concentrated on one outlier — and knows what would overturn the confidence.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is passable without doing the work: it asks only that a check be named and an outcome stated, so \"ran the script; it exited 0\" satisfies it regardless of whether the outcome bears on the record's claim. A record that reports a number irrelevant to what it is asserting passes identically to one that reports a decisive result. The record under review identifies this same gap from the inside (\"D2 cannot separate a reported outcome from a definition of done\"), which suggests it is a real property of the dimension and not an artifact of this sample.\n\nD1's escape hatch — \"at least one must state a proposition that could plausibly have resolved the other way\" — leaves \"plausibly\" to the grader with nothing to check it against. An author who pre-registers a bar they were confident of clearing produces text indistinguishable from an author who took a risk. Nothing in the record can settle which happened; here it is only the reported prior failure (\"D3 at 0/12\") that makes the bar credible, and a record with no prior run would have no such corroboration.\n\nD3's exemption is written for a term used once (\"whose role is stated in the sentence that uses them\") but real records use a term across many sentences, some glossing it and some leaning on it. The rubric does not say whether a gloss anywhere in the document discharges the obligation everywhere. I resolved it against the record for \"D3\" — glossed nowhere, load-bearing in three places — but a grader reading the exemption more generously would have passed the same text, which makes the dimension's verdict depend on an ambiguity rather than on the writing."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "validate-revised-rubric"
+}

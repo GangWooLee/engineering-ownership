@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:36:40+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success is that a run can produce durable artifacts, that the judge is shown an ordered record of what the run did and the content of what it wrote, and that a mechanical check confirms that record does not identify the configuration.\" The third clause is an empirical proposition that could have resolved the other way — the check either finds tells in the assembled evidence or it does not — and the record later reports it resolving both ways (\"zero tells\" for the bundles, but \"The response can still leak\"). The opening also bounds trust in any number that follows: \"Not in scope: fixtures for the remaining seven scenarios, or a sample size that would support a published number.\" A reader who stopped at the opening knows to read the results as a single existence proof, not as a measurement.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 60 tests pass.\" and \"32 recorded actions against 22. The leak check found nothing identifying in either bundle: 15,061 and 12,217 characters of evidence, zero tells.\" Named checks with stated outcomes, including a negative control whose result is reported: \"the leak check was given an action log naming the plugin directory and observed rejecting it\".",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the argument rests on, with no definition anywhere in the record: (1) \"All four contract commands pass\" — I searched for any statement of what the contract commands are or what they check; the record never names them, so this verification claim cannot be judged without resolving the term elsewhere. (2) \"the workspace index guard fired for real when `iteration-3` was committed before being declared\" — neither the workspace index, the guard, nor what \"declared\" means is stated; this sentence is offered as evidence that guards are real rather than assumed. (3) \"It may name a risk tier or this project's directories\" — \"risk tier\" is used as a named leak vector with no explanation. (4) \"the transcript names this skill in one arm only\" — the skill under test is never identified, though the whole treatment/baseline comparison rests on it. By contrast, `redact()`, `skill_loaded`, `Skill` entries and `AGENTS.md` are all defined in the sentence that uses them and are correctly exempt.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"A fixture that teaches the answer is a confound, and it should be examined before these scenarios are used for a published number\" is carried by the specific observation from this change that produced it: \"The single differentiator was explaining why preservation matters. That may say more about the fixture than the skill: the fixture's decision template already carries a `Supersession` section, so the convention is visible to anyone who reads it.\" A second transferable claim is likewise grounded: \"the judge's critique of an expectation has been more useful than its verdicts. That field is worth reading first, not last\" follows the concrete finding that \"expectation 3 ... bundled two behaviours and created a tension: correct practice for superseding a decision *requires* editing the earlier record's status, so \\\"leaves the original intact\\\" read as forbidding the right answer.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D1 is gameable by phrasing. Its test runs on the wording of the success criterion, not on whether the outcome was ever in doubt, so any property guaranteed by construction passes once it is restated as \"a check confirms X\" — \"we drop the Skill keys\" becomes \"a mechanical check confirms no Skill keys remain\" and clears the bar without the author having risked anything. A bad record would pass D1 with one such rewrite.\n\nD2 requires an outcome but not an informative one. \"All four contract commands pass\" satisfies D2's letter — a named check with a stated result — while telling a new reader nothing about what was exercised; the same is true of \"60 tests pass\" without any statement of what the tests cover. A record consisting entirely of unnamed-suite pass claims would pass D2 cleanly. Consider requiring that the outcome be one a reader could have predicted differently, or that at least one check be described by what it would have caught.\n\nD3 and D2 pull against each other in a way that penalises precision. This record's \"contract commands\" line fails D3 precisely because it names something; had the author deleted the line, D3's list would be shorter and D2 would still pass on the unittest line. The rubric currently rewards omitting a real check over naming it imprecisely. D3's scope word — the terms the \"central argument *rests on*\" — is also the least reproducible part of the rubric; two graders will draw the boundary between central and supporting differently, and the boolean verdict hides that disagreement. Naming which claim counts as central (e.g. the record's own success criteria) would make the list reproducible.\n\nD4 accepts adjacency as grounding. It asks that the transferable claim carry \"the specific observation from *this* change that produced it\", but nothing requires the observation to actually support the generalisation — a platitude followed by any nearby concrete sentence reads as passing. This record happens to satisfy the stronger reading, but a bad one would satisfy the weaker."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section states: \"Success is that a run can produce durable artifacts, that the judge is shown an ordered record of what the run did and the content of what it wrote, and that a mechanical check confirms that record does not identify the configuration.\" The third clause is a proposition that could have resolved either way — the mechanical check could have found the record identifying the configuration, in which case the run would not be usable. The section also states \"Not in scope: fixtures for the remaining seven scenarios, or a sample size that would support a published number,\" which tells a reader who stops there that no quantitative conclusion should be drawn from what follows. A reader stopping at the opening therefore knows the result hinges on an outcome not guaranteed by construction, and knows the ceiling on how far to trust it.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "Named checks with stated outcomes: \"`python3 -m unittest discover -s tests`: 60 tests pass.\" and \"The leak check found nothing identifying in either bundle: 15,061 and 12,217 characters of evidence, zero tells.\" and \"Both configurations changed six paths.\" and \"32 recorded actions against 22.\" A negative control is also reported with its result: \"the leak check was given an action log naming the plugin directory and observed rejecting it.\" These are checks named in the record with what they produced stated in the record, not pointers to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the argument rests on, which a new engineer must resolve elsewhere: (1) \"contract commands\" — the record says \"All four contract commands pass\" and nowhere states what a contract command is or what it checks, so the reader cannot judge what this verification claim asserts; (2) \"risk tier\" — in \"It may name a risk tier or this project's directories,\" offered as a residual leak vector the reader cannot evaluate without knowing what a risk tier is; (3) \"this skill\" — the change under evaluation is referred to only as \"this skill\" (\"the transcript names this skill in one arm only\"; \"That may say more about the fixture than the skill\") and is never said to do anything, yet the record's conclusion turns on comparing its behaviour to the baseline's; (4) the scenario set — \"expectation 3 of the ninth scenario\" and \"Seven of nine scenarios still have no fixture\" reference an enumerated set defined nowhere in the record. By contrast, `redact()`, `skill_loaded`, and `Skill` entries do have their roles stated in the sentences that use them and are exempt.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The baseline performed the maintenance behaviour too. It found the contradicted decision, marked it superseded, and wrote a replacement. The single differentiator was explaining why preservation matters. That may say more about the fixture than the skill: the fixture's decision template already carries a `Supersession` section, so the convention is visible to anyone who reads it. A fixture that teaches the answer is a confound, and it should be examined before these scenarios are used for a published number.\" The transferable claim — that a test fixture can encode the answer it is meant to discriminate on — is carried by the specific observation from this change that produced it (the baseline reproduced the behaviour, and the template itself contains the `Supersession` heading). A reader could make the same observation on their own fixture.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 has no requirement that the named check be *identifiable*. \"All four contract commands pass\" names a check by an opaque label and states an outcome, and that alone satisfies D2 as written — a record could pass D2 entirely on lines like \"the suite passes\" and \"all checks pass\" while telling the reader nothing about what was actually exercised. The dimension currently rewards the grammatical form 'check + result' rather than the reader's ability to know what was checked; consider requiring that the check be resolvable from the record, which would also stop D2 and D3 from grading the same sentence to opposite verdicts (as happened here with \"contract commands\").\n\nD1 asks the judge to decide whether a success criterion \"could plausibly have resolved the other way\" using only the opening section — but whether a check is genuinely uncertain or guaranteed by construction is usually only visible later in the record, or not at all. A bad record can pass by phrasing a tautology in falsifiable-sounding language (\"success is that the tests we wrote for it pass\"), and the judge, confined to the opening, has no basis to catch it. Either allow the judge to check the criterion against the rest of the record, or require the opening to name the outcome the criterion actually produced.\n\nD3's exemption is under-specified for terms that are neither in-repo identifiers nor ordinary English — \"treatment\"/\"baseline\"/\"arm\" here are standard experimental vocabulary a competent engineer knows, while \"risk tier\" is project-local, and the rubric gives no rule for telling those apart. Different judges will draw that line in different places, which makes a boolean verdict with no partial credit unstable across graders."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "observable-run-evidence"
+}

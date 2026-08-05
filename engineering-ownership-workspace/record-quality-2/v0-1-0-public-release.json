@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:58:42+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads: \"Success means the public repository installs as a Python 3.11+ CLI and as both plugin formats; R0 remains lightweight; R2/R3 enforce missing current-diff evidence; v1 stays readable and migrates only with an explicit write.\" Every clause names a property the change was built to have — it installs, it enforces, it stays readable — and the second paragraph is a pure exclusion list (\"PyPI, official marketplace submission, hooks, MCP, telemetry, dashboards, and competency scores are excluded from v0.1\"), which the dimension explicitly disallows. I searched the opening section for any criterion that could plausibly have resolved the other way — a threshold, a comparison, an outcome not guaranteed by construction — and found none. A reader who stopped after this section would trust the rest exactly as much regardless of what the record found.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "There is no `Verification evidence` section in this record. The only statement resembling a check is \"Controls are documented in the repository threat model and exercised by tests\" — a check identified by pointing at another document and at unnamed tests, which the dimension states counts as naming no check, and no outcome is reported. The nearest other candidate, \"`check` compares the live digest to stored evidence,\" describes what a command does, not a check that was run or what it produced. I searched the full record for any reported result — a pass/fail, a count, an observed output — and found none.",
+          "passed": false
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The list is non-empty. Undefined terms the central argument rests on: \"R0\", \"R2/R3\" (\"R0 remains lightweight; R2/R3 enforce missing current-diff evidence\" — some risk tiering the success criteria depend on, never explained); \"v1\" (\"v1 stays readable and migrates only with an explicit write\" — a versioned artifact whose identity is never stated); \"current-diff evidence\"; \"understanding-review model\" and \"Understanding review is optional and self-attested\"; \"digest\" (\"a digest of the current working tree\" — of what, computed how, is load-bearing for the staleness claim); \"repository contract\"; \"change record\"; \"handoff\"; \"Agent Skills\". None is given its role in the sentence that uses it, and each must be resolved elsewhere before the claims about enforcement, staleness detection, or migration can be judged.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The closest transferable claim is \"These limits are visible rather than converted into a score.\" It carries neither the observation from this change that produced it nor a condition that would overturn it — the related line \"score-like audit ... not reused\" appears in a different section as an inventory item with no stated reason. The remaining entries are general properties restated without saying how this change encountered them: \"GitHub attestation proves workflow provenance, not semantic correctness\" is a fact about a third-party tool, and \"Claude and Codex discovery can change between client versions\" names no observation a reader could make here. I searched for a stopping condition — an observable that would overturn any claim — and found only scope statements such as \"PyPI, official marketplace submission, hooks, MCP, telemetry, dashboards, and competency scores are excluded from v0.1\".",
+          "passed": false
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D3 is the weakest dimension as written, because it rewards vagueness. A record that says nothing specific — \"we reviewed the design, it is safe, tests exist\" — has an empty load-bearing-jargon list and passes, while a record that names its actual mechanisms fails unless it also glosses each one. The dimension measures density of specific nouns as much as it measures explanatory adequacy, and it gives the judge no test for which terms the \"central argument rests on\" versus which are incidental; my list above could defensibly have been half its length or twice it. Consider requiring the judge to state, for each listed term, the specific claim that becomes unjudgeable without it — that would make the list falsifiable rather than a matter of the judge's threshold.\n\nD1's operative test — \"at least one must state a proposition that could plausibly have resolved the other way\" — depends on the judge's imagination about counterfactuals, and is close to unfalsifiable at the margin. Almost any criterion could have resolved the other way in a weak sense (the install could have failed). What appears to be intended is that the record commits to a criterion whose outcome was not settled by construction *and* reports it as a real test. Saying so directly, and tying it to whether the outcome is stated anywhere in the record, would remove the guesswork.\n\nD2 and D4 are tight and were straightforward to apply here; the explicit carve-outs (\"exercised by tests\" counts as no check; a scope disclaimer is not a stopping condition) did the work of blocking the two evasions this record actually attempts."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads in full: \"Success means the public repository installs as a Python 3.11+ CLI and as both plugin formats; R0 remains lightweight; R2/R3 enforce missing current-diff evidence; v1 stays readable and migrates only with an explicit write.\" followed by \"PyPI, official marketplace submission, hooks, MCP, telemetry, dashboards, and competency scores are excluded from v0.1.\" Every item in the first sentence is a property the thing was built to have — it installs, it stays lightweight, it enforces, it stays readable — and the second sentence is the excluded-features list the dimension names as insufficient. I searched the section for any proposition that could plausibly have resolved the other way (a doubt, a risk that might not hold, a question the work could have answered negatively) and found none. A reader who stopped after this section learns only what was attempted and what was skipped, and would proceed identically whatever the record went on to report.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"Controls are documented in the repository threat model and exercised by tests.\" This is the exact pattern the dimension excludes — a check identified only by pointing at another document, plus \"exercised by tests\" with no statement of what any test produced. I searched all five sections for a named check with a stated outcome; there is no `Verification evidence` section, and the only other verification-adjacent sentences are \"`check` compares the live digest to stored evidence\" and \"`handoff` renders only repository-relative state and canonical document links,\" which describe what commands do by design, not a check that was run or anything it returned.",
+          "passed": false
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on: \"R0\", \"R2/R3\" (from \"R0 remains lightweight; R2/R3 enforce missing current-diff evidence\" — these carry two of the four success criteria and nothing in the record says what an R-level is or how one is assigned); \"current-diff evidence\" (the thing R2/R3 enforce, never defined); \"v1\" (from \"v1 stays readable and migrates only with an explicit write\" and \"restoration of the v1 backup\" — a version of an unnamed artifact); \"the repository contract\" (\"The repository contract declares command IDs, argv, literal safe environment, timeouts, risk paths, and artifact locations\" — the list of what it declares does not tell a new reader what the contract is or where it lives); \"risk paths\"; \"understanding-review model\" and \"understanding state\" (\"optional and self-attested\" describes its status, not what it is). By contrast `check` and `handoff` are exempt, since their roles are stated in the sentence that uses them. The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The nearest transferable claim is \"These limits are visible rather than converted into a score.\" I searched for the observation from this change that produced it and for a condition that would overturn it, and found neither: the only related sentence, \"Its monolithic CLI, string shell commands, score-like audit, default agent-file editing, and test-file-presence gate were not reused,\" lists the score-like audit as rejected without saying what was observed about it. The other candidate, \"GitHub attestation proves workflow provenance, not semantic correctness,\" is a general property of a third-party tool restated with no account of how this change encountered it — explicitly named as insufficient. \"The digest represents the local working tree rather than the runtime artifact\" and \"Claude and Codex discovery can change between client versions\" are bare scope limits attached to no transferable claim, and neither names an observation a reader could make that would overturn one.",
+          "passed": false
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D3 is satisfiable by writing less. Its output is a list of undefined load-bearing terms, so a record that stays entirely at the level of \"the system validates inputs and the tests cover the risky paths\" produces an empty list and passes, while a record that names its actual internals and defines most of them fails on the two it missed. The dimension currently penalises specificity and rewards abstraction — the opposite of what a new engineer needs. Consider requiring that the central claim be identified first, so a record with no resolvable central claim fails rather than passes vacuously.\n\nD2 as written judges the presence of a stated outcome, not its credibility, which the dimension acknowledges deliberately (\"Judge the record's account\"). Worth being explicit that this makes D2 unable to distinguish an honest report from an invented one: appending \"and it passed\" to any named check clears it. That may be the right trade for a text-only judge, but a clearly bad record that fabricates outcomes passes D2 while this record, which at least does not claim results it doesn't have, fails.\n\nD4's two escape hatches are unevenly demanding. \"The specific observation from this change\" is hard to fake, but \"the condition under which it stops applying\" can be met by a formulaic clause — \"this holds only while the toolchain stays on a single runtime\" — bolted onto an otherwise unsupported claim. The bar that the condition \"name an observation a reader could make\" helps, but a fluent bad record can meet it without the observation having any connection to the work."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "v0-1-0-public-release"
+}

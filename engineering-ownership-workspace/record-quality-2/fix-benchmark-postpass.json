@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:23:56+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening reads in full: \"Success: `fix_benchmark.py iteration-2` yields tokens 3,254,669 / 725,974, runs_per_configuration 1, delta +2528695; a regression test fails any committed benchmark whose token figures disagree with its timing records. Non-goals: editing the vendored file (PROVENANCE.md forbids it; the digest test enforces it); recomputing pass rates or times (the aggregator gets those right).\" Both success criteria are properties the change was built to have — the script emits the figures it emits, and the test was added by this change to enforce them; the figures are this change's own output quoted back as its target, with no threshold or independent expectation they could have missed. The non-goals are an exclusion list. I searched the section for any proposition whose failure was a live possibility (e.g. that other committed benchmarks would turn out to disagree with their timing records, or that reused upstream functions would not reproduce the format) and found none stated as something that could resolve either way.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 scripts/eval/fix_benchmark.py engineering-ownership-workspace/iteration-2 \"Pilot data. …\"`: tokens 3254669.0 / 725974.0, runs_per_configuration 1, delta +2528695, pilot note rendered under \"## Notes\" in benchmark.md.\" and \"`python3 -m unittest discover -s tests`: 72 tests pass (new regression test included; it verifies iteration-2's committed values against timing.json).\" Both name a check and state what it produced.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "I looked for terms whose meaning I would have to fetch from outside the record to judge the claim that the post-pass produces correct token figures, and each candidate carries its role in the record: \"`fix_benchmark.py <iteration>` rewrites: per-run `result.tokens` from each run's timing.json, per-config token stats via `calculate_stats`, `delta.tokens` in the upstream `+.0f` format, `runs_per_configuration` counted from run entries\"; \"editing the vendored file (PROVENANCE.md forbids it; the digest test enforces it)\"; \"vendored aggregate_benchmark.py → benchmark.json/md\"; \"the model id lives in run_meta.json and preflight.json\". The one notation left unexplained — the slash in \"tokens 3,254,669 / 725,974\" and what `delta` is a delta of — resolves inside the record by arithmetic: 3,254,669 − 725,974 = 2,528,695, the stated \"delta +2528695\".",
+          "passed": true
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The closing section reads in full: \"`executor_model`/`analyzer_model` still render as `<model-name>` placeholders — upstream behavior, out of scope here; the model id lives in run_meta.json and preflight.json.\" That is a scope disclaimer plus a file pointer, which the dimension excludes. I searched the rest of the record for a claim stated so it could carry past this change and found only assertions about this artifact — \"The vendored module's own `calculate_stats` and `generate_markdown` are imported and reused, so the corrected output keeps the exact upstream format and no rendering logic is duplicated\" and \"If the post-pass is skipped, the new `test_committed_benchmarks_report_tokens_from_timing_records` fails on the committed artifact, naming the fix.\" Neither is offered as transferable, and neither names an observation a reader could make that would overturn it.",
+          "passed": false
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is the weakest as written. \"72 tests pass\" is an aggregate count that says nothing about which behaviour the suite exercised; a record that ran an unrelated suite and pasted the same line would satisfy D2 identically. The dimension asks only that an outcome be stated, not that the stated outcome bear on the claim, so a bad record passes by pasting any terminal output. Consider requiring that at least one reported result be attributable to the change under review.\n\nD1's clause \"a proposition that could plausibly have resolved the other way\" is ambiguous when success criteria are exact measured values. Every measurement is unknown before it is taken, so a record can appear to satisfy the clause by quoting its own output to seven significant figures — which is close to what happened here, and I had to apply the stricter reading (the change was built to produce whatever it produces) to reach a verdict. The clause would be decidable if it required the record to say why the proposition's failure was a live possibility, not merely that its value was unknown.\n\nD3's exemption is narrower than its own rationale: \"whose role is stated in the sentence that uses them\" would disqualify `calculate_stats`, whose role appears in a later section than the sentence introducing it, and gives no guidance on a term like `delta` that is resolvable only by doing arithmetic on two other numbers in the record. \"Elsewhere\" should mean outside the record, not outside the sentence; as written the two readings give opposite verdicts here."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "Opening section reads in full: \"Success: `fix_benchmark.py iteration-2` yields tokens 3,254,669 / 725,974, runs_per_configuration 1, delta +2528695; a regression test fails any committed benchmark whose token figures disagree with its timing records. // Non-goals: editing the vendored file (PROVENANCE.md forbids it; the digest test enforces it); recomputing pass rates or times (the aggregator gets those right).\" Every success criterion names an output the script was built to emit (the figures it writes, the test it adds); I searched the section for a proposition that could plausibly have resolved the other way — e.g. a stated threshold the corrected numbers might have missed, or a claim about the vendored aggregator that the work could have disconfirmed — and found none. The non-goals are exclusions, which the dimension explicitly disqualifies. A reader stopping here learns the shape of the change but nothing about how much to trust its findings.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 scripts/eval/fix_benchmark.py engineering-ownership-workspace/iteration-2 \"Pilot data. …\"`: tokens 3254669.0 / 725974.0, runs_per_configuration 1, delta +2528695, pilot note rendered under \"## Notes\" in benchmark.md.\" and \"`python3 -m unittest discover -s tests`: 72 tests pass (new regression test included; it verifies iteration-2's committed values against timing.json).\" Both name a specific check and state what it produced; neither defers to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "I worked through each term the central argument rests on — that the vendored aggregator's token figures are rewritten by an adjacent script that preserves upstream formatting, guarded by a regression test — and each has its role stated where used: \"`fix_benchmark.py <iteration>` rewrites: per-run `result.tokens` from each run's timing.json, per-config token stats via `calculate_stats`\"; \"The vendored module's own `calculate_stats` and `generate_markdown` are imported and reused, so the corrected output keeps the exact upstream format\"; \"PROVENANCE.md forbids it; the digest test enforces it\"; \"the new `test_committed_benchmarks_report_tokens_from_timing_records` fails on the committed artifact, naming the fix.\" The quoted phrase \"adapt it in our own scripts alongside\" comes from a document I have not read, but the sentence before it states the arrangement in full, so judging the claim does not require resolving it. List of load-bearing undefined terms: empty.",
+          "passed": true
+        },
+        {
+          "dimension": "D4",
+          "evidence": "Takeaway available to a reader facing a vendored artifact whose output is wrong but which they may not edit: correct it in a post-pass that imports the vendor's own formatting helpers, and pin the corrected values with a test against the committed artifact. The record carries the specific observation from this change that produced it: \"The vendored module's own `calculate_stats` and `generate_markdown` are imported and reused, so the corrected output keeps the exact upstream format and no rendering logic is duplicated\", together with \"If the post-pass is skipped, the new `test_committed_benchmarks_report_tokens_from_timing_records` fails on the committed artifact, naming the fix.\"",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D4 is the weakest dimension as written. It asks the judge to state what a reader could take away, then only tests whether that judge-synthesized claim is anchored in an observation from the change. Any record that narrates concretely what it did and what resulted supplies such an anchor by construction — so a record that never generalizes at all, and whose designated takeaway section is a pure scope disclaimer (as here: \"upstream behavior, out of scope here\"), still passes on the strength of ordinary description elsewhere. That is close to satisfiable without doing the work. If the intent is that the record must do the generalizing, D4 should require the transferable claim to be stated in the record rather than extractable from it, and should say which section carries it. My D4 pass rests entirely on that permissive reading; under the stricter reading this record fails, and the dimension currently does not say which reading is correct.\n\nD2 is also cheap to satisfy. \"72 tests pass\" is a check with a stated outcome, but it is an unfalsifiable self-report that tells the reader nothing about what the new test asserts beyond its name; a fabricated line of the same shape would pass identically. The dimension's own guidance (\"a blinded judge run reported honestly passes\") accepts self-report by design, so this may be intended — but it means D2 discriminates only against records that omit outcomes, not against records that report meaningless ones.\n\nD3's exemption is broader than it looks: \"role is stated in the sentence that uses them\" lets a record discharge an external constraint by asserting it (\"PROVENANCE.md forbids it; the digest test enforces it\") without giving the reader any basis to judge whether the constraint is real or correctly applied. That is arguably the right trade for a jargon dimension, but it means D3 tests glossing, not resolvability."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "fix-benchmark-postpass"
+}

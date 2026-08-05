@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:10:03+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section states: \"Success for this stage is a runner, a fixture, a blinded judge, and an aggregator that work end to end, plus evidence that the two configurations differ in the skill and nothing else.\" The final clause is a proposition that could plausibly have resolved the other way — whether the two configurations are isolated to a single variable is an empirical question, and the record later reports it initially resolved the wrong way (\"Only this plugin was disabled | Thirteen others stayed active, one of which rewrites the response format\"). Paired with \"Not in scope yet: rewriting the expectations, running enough repetitions to report a mean, or publishing any number,\" a reader who stopped at the opening section knows to trust this record only as evidence of a working, isolated harness and not as any efficacy result — a materially different decision from what a positive measurement would license.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "Checks are named with their outcomes: \"`python3 -m unittest discover -s tests`: 54 tests pass.\"; \"`build_release.py --version 0.2.0` still produces digest `8507a02d...`, unchanged, because `evals.json` was not touched.\"; and the control run — \"records that on the same fixture and model the baseline answered `NONE` when asked which engineering-ownership skills were available, and the treatment named the skill.\" Also \"Four new guards were each deliberately broken, observed failing with a specific message, and restored.\" Each names a check and states what came out of it rather than pointing at another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The list is non-empty. (1) `CLAUDE_CODE_DISABLE_CLAUDE_MDS=1` — used bare in \"Both configurations run with every user-scope plugin disabled and with `CLAUDE_CODE_DISABLE_CLAUDE_MDS=1`.\" No role is stated in the sentence; a new engineer cannot tell what a CLAUDE.md is or why disabling it matters, yet this is one of the three mechanisms the record's central claim — that \"plugin loading is the only variable\" — rests on. (2) `R2` — \"the first requires touching `evals.json`, which raises this to R2 and forces a version bump.\" R2 is an uncoded tier name with no gloss anywhere in the record; the scoping claim in the opening section rests on it. (3) \"the withdrawn evaluation\" — \"This is the control the withdrawn evaluation never had\" and \"where the withdrawn evaluation carried hardcoded zeros\"; the claim that this pilot improves on a predecessor rests on a predecessor the reader must resolve elsewhere. (4) \"the stated focus\" in \"One eval is missing for the stated focus\" — no focus is stated in this record. I searched the record for any sentence defining `CLAUDE_CODE_DISABLE_CLAUDE_MDS`, `R2`, or identifying the withdrawn evaluation, and found none.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The blinded judge passed the baseline on all four and failed the treatment on one - because the treatment resolved the staleness it was asked to identify and then reported the resulting clean state, while the baseline stopped and asked, leaving the staleness visible in its answer. As written, that expectation rewards not fixing the problem.\" The transferable claim — an eval expectation that scores on the visible presence of the described problem penalizes the agent that fixed it — is carried with the specific observation from this change that produced it. A second instance does the same: \"Skill detection matched tool inputs | The baseline was reported as having loaded the skill, because the repository directory shares its name | Detect the Skill tool only.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is satisfiable without doing the work: it asks only that a check be named and an outcome stated, with no requirement that the check bear on the record's own claims. A clearly bad record that touched nothing relevant could write \"`python3 -m unittest discover -s tests`: 54 tests pass\" — a pre-existing suite that exercises none of the new code — and pass. This record happens to also report a control run and deliberately broken guards, but D2 as written cannot distinguish the two cases. Consider requiring that at least one named check target a claim the record makes.\n\nD1's falsifiability test is weaker than it looks. It requires a success criterion that \"could plausibly have resolved the other way\" but not that the record say how it resolved or that it was ever at risk. A bad record can phrase any built-in property as an empirical-sounding proposition (\"success is that the two paths produce identical output\") and pass, having verified it before writing. Requiring the opening section to say which criterion was in doubt, or to state the resolution, would close this.\n\nD3's scope is the ambiguous one. \"Terms a new engineer must resolve elsewhere before they can judge the claim\" turns on what counts as \"the record's central argument,\" which the rubric leaves to the judge. I had to decide whether `R2` — which appears only in a scope-deferral justification — is central or peripheral, and a second grader reading \"central\" narrowly would plausibly exempt it and pass this record. The exemption clause is also asymmetric in practice: `--plugin-dir` and `grading.json` get their roles from surrounding sentences and are clearly exempt, while an env-var name with no gloss is clearly not, but many terms sit between. Scoping D3 to a fixed set of sentences (the success criteria and the verification claims, say), or having the judge first quote the sentences it treats as central and then list undefined terms only within those, would make the verdict reproducible."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success for this stage is a runner, a fixture, a blinded judge, and an aggregator that work end to end, plus evidence that the two configurations differ in the skill and nothing else.\" The second clause is a proposition that could plausibly have resolved the other way — it asserts an empirical property of the setup, not a feature the change was built to contain, and the record later shows it did resolve the other way (\"Only this plugin was disabled | Thirteen others stayed active, one of which rewrites the response format\"). The opening also bounds trust directly: \"Not in scope yet: rewriting the expectations, running enough repetitions to report a mean, or publishing any number.\" A reader who stopped at the opening would treat any downstream number as unclaimed, which is a different decision from the one they would make if the section had promised a measurement.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "Checks are named with their outcomes: \"`python3 -m unittest discover -s tests`: 54 tests pass.\" and \"`build_release.py --version 0.2.0` still produces digest `8507a02d...`, unchanged, because `evals.json` was not touched.\" The control check states what came out of it rather than pointing elsewhere: \"records that on the same fixture and model the baseline answered `NONE` when asked which engineering-ownership skills were available, and the treatment named the skill.\" The guard check states the procedure and result: \"Four new guards were each deliberately broken, observed failing with a specific message, and restored.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "List of undefined load-bearing terms: empty. I searched the terms the central argument (the harness is controlled, it found five defects, no efficacy claim follows) rests on, and each states its role in the sentence that uses it: \"The judge receives the response inline and is given no tools, so it cannot read the directory name that encodes the configuration\" (blinding); \"Both configurations run with every user-scope plugin disabled ... The treatment then gets the skill back through `--plugin-dir` and nothing else, so plugin loading is the only variable\" (isolation); \"`--allowedTools` pre-approves but does not restrict\" (the flag's failure mode); \"Its aggregator and judge prompt are vendored verbatim under `scripts/eval/vendor/` with recorded digests\" (vendoring); the data-flow line gives each of `evals.json`, `grading.json`, `benchmark.json` a position in the pipeline. The one term I could not resolve, \"which raises this to R2 and forces a version bump\", carries a scope-deferral note rather than the central claim, and its stated consequence is the only part the deferral turns on.",
+          "passed": true
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The blinded judge passed the baseline on all four and failed the treatment on one - because the treatment resolved the staleness it was asked to identify and then reported the resulting clean state, while the baseline stopped and asked, leaving the staleness visible in its answer. As written, that expectation rewards not fixing the problem.\" The transferable claim (an eval criterion phrased as detection penalises the agent that remediates) is carried by the specific observation from this change that produced it. A second instance pairs a tool property with how this change met it: \"`--allowedTools` pre-approves but does not restrict | The agent edited fixture files\".",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 has no relevance requirement: it asks only that some check be named with its output, so a record that reports \"linter: clean\" and says nothing about whether its central claim was ever exercised passes. Consider requiring that at least one reported check bear on the record's main claim. D3's scoping phrase, \"the record's central argument rests on\", is where the verdict actually gets decided, and it is judge-dependent. This record contains one term I could not resolve, \"R2\", used as the sole justification for deferring work in the opening section; I passed it because the deferral is not the central claim, but a judge who counted every load-bearing sentence in the graded sections would fail the same record on the same word. Either name the scope (e.g. all six graded sections) or state the exemption as a test the judge applies rather than as an example. D4 is close to free for any record with a defect table: pairing a bug with the symptom that revealed it satisfies \"the specific observation from this change that produced it\" even when the lesson is unremarkable, so a clearly bad record that lists five trivial fixes would pass. D1's test is a counterfactual about a hypothetical reader's decision and cannot be checked directly; the operative sub-clause (\"at least one must state a proposition that could plausibly have resolved the other way\") is the falsifiable part and is doing all the work — the counterfactual framing above it adds room for disagreement without adding a check."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "defensible-skill-evaluation"
+}

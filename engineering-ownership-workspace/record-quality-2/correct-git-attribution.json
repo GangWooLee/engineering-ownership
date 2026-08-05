@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:01:51+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Release ZIPs are rebuilt from the rewritten tags, checksums match, and fresh provenance exists for each released ZIP.\" Reading only the opening section, I can name what would sink this change: an independent rebuild from rewritten tags producing digests that differ from the already-published assets. That is not true by construction — a rebuild matching a previously published archive byte-for-byte is an empirical outcome that could plausibly have gone the other way, as could \"Commit count, parent topology, source trees, messages, and dates remain equivalent after mapping old commits to new commits.\" A reader who stopped at the opening knows their trust in the rest is contingent on those two propositions resolving true, so the decision is not outcome-independent.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"GitHub API resolved all nine authors and committers to `GangWooLee`, with no unresolved identities.\" and \"Rebuilt v0.1.0 and v0.2.0 ZIPs matched the existing public asset digests.\" and \"`gh attestation verify` passed for both rebuilt ZIPs.\" Each names a check and states what it produced; CI is named with platforms, Python versions, and a run link. These stand on their own rather than pointing elsewhere.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "I looked for terms the central claim (the rewrite changed identity and nothing else, and is reversible) rests on that a new engineer would have to resolve elsewhere, and found each candidate resolved in the sentence using it or in a neighbouring one. \"Isolated rewrite comparison passed for nine commits: source trees, full messages, author/committer timestamps, names, parent topology, and tag messages/timestamps remained equivalent\" states what the comparison compared. \"Reuse Git refs as the source of truth, the repository release builder for ZIP creation, GitHub Releases for assets, and the existing release workflow for provenance\" gives each in-repo artifact its role in place. \"Verified refs are pushed atomically with explicit leases\" plus \"Abort on ref drift... non-atomic push failure\" makes the lease's function legible without outside reading. The remainder (mirror clone, force-with-lease, noreply address, attestation) is standard Git/GitHub vocabulary, not this repository's.",
+          "passed": true
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The only transferable material is \"Existing downstream clones keep the old history until users rebase or clone again. GitHub contribution rendering may take up to 24 hours after attribution is corrected.\" Both are documented properties of third-party tools — Git rewriting and GitHub's contribution graph — restated with no observation from this change attached. I searched for a stated count of affected clones, an observed rendering delay, or any \"we saw X\" tying either sentence to this rewrite, and found none; \"may take up to 24 hours\" is a vendor-documented range, not something this change measured. The rest of the record is an account of one operation and states no claim offered as transferring beyond it.",
+          "passed": false
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "Three problems.\n\n(1) D4's clauses conflict, and I had to pick a winner. \"Existing downstream clones keep the old history *until users rebase or clone again*\" satisfies the stopping-condition clause on its face — re-cloning is an observation a reader could make that overturns the claim — while simultaneously being the exact pattern the third-party-tool clause disqualifies. I ruled the specific clause governs because it says such a claim \"is neither,\" but a different judge reading the clauses in the other order passes this record. The clauses should be ordered explicitly, or the stopping-condition clause should say the condition must be one this change could have observed.\n\n(2) D3 has a hole this record sits in. \"Failure, security, and recovery\" is, in full: \"See the threat model and runbook. Never print the full commit email or tokens. Abort on ref drift...\" — an entire section's reasoning delegated to two documents that are never named, linked, or located. A new engineer cannot judge the security claim at all. No dimension fires: D3 only hunts undefined *terms*, and \"threat model\" is ordinary vocabulary; D2's pointer clause is scoped to checks and is satisfied elsewhere by the verification section. A record could outsource every non-verification section this way and score 4/4. D3's pointer test should cover load-bearing references to unlocatable documents, not just vocabulary.\n\n(3) D1's discriminator is doing less work than it appears to. \"At least one must state a proposition that could plausibly have resolved the other way\" is judge-dependent, because nearly any success criterion stated as a measurement is falsifiable in principle. I passed this record on checksum equality, but a bad record whose criteria are equally measurable and entirely tautological (\"the new flag is present in the config\") passes the same test. In practice D1 collapses into \"are the criteria specific,\" which is a lower bar than the dimension's framing implies.\n\nA clearly bad record would also pass D2 here: the dimension is satisfied by any bulleted list of checks with green outcomes, with no requirement that the checks bear on the record's riskiest claim."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Release ZIPs are rebuilt from the rewritten tags, checksums match, and fresh provenance exists for each released ZIP.\" Read alone, the opening section stakes the change on propositions that could have resolved the other way rather than on properties it was built to have: digest equality between a ZIP rebuilt after a history rewrite and the already-published asset is an empirical outcome that fails whenever a build embeds commit metadata, and \"Commit count, parent topology, source trees, messages, and dates remain equivalent after mapping old commits to new commits\" is likewise checkable and losable. A reader who stopped here knows the record's trustworthiness hangs on whether those equalities actually held, and would decide differently had they not.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"GitHub API resolved all nine authors and committers to `GangWooLee`, with no unresolved identities.\" and \"`gh attestation verify` passed for both rebuilt ZIPs.\" and \"Rebuilt v0.1.0 and v0.2.0 ZIPs matched the existing public asset digests.\" Each names a specific check and states what it produced; the CI bullet also states the outcome (\"CI passed on macOS and Ubuntu with Python 3.11, 3.12, and 3.13\") rather than only linking.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The list is non-empty. (1) \"See the threat model and runbook.\" — the record's entire failure, security, and recovery argument, including the opening criterion \"A local bundle and remote backup refs make the old history recoverable\", rests on two documents that are neither named, located, nor summarized; the sentence using them states no role beyond \"see\", so the in-place exemption does not apply. (2) \"Authenticated GitHub account ID and login determine the correct noreply address.\" — \"noreply address\" is the target the whole rewrite maps identities to, and a reader must resolve GitHub's noreply-email convention elsewhere before they can judge whether resolving to `GangWooLee` is correct. (3) \"fresh provenance exists for each released ZIP\" — \"provenance\"/\"attests\" is load-bearing for one success criterion and one verification bullet, and the record never says what provenance asserts or what passing verification establishes.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"Existing downstream clones keep the old history until users rebase or clone again. GitHub contribution rendering may take up to 24 hours after attribution is corrected.\" Both are general properties of Git and of GitHub restated without saying how this change encountered them — the record reports no downstream clone it inspected and no observation of rendering lag (\"may take up to 24 hours\" is a hedge, not a measurement). Neither carries a stopping condition: I searched for an observation a reader could make that would overturn either claim and found none. The one candidate for a transferable claim with a specific observation behind it — that rebuilt ZIPs matched the pre-rewrite public digests — is reported as a result only, never articulated as something a reader facing a similar rewrite could carry away.",
+          "passed": false
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D1's \"could plausibly have resolved the other way\" test is decided by the grader's own domain prior, not by anything in the record. I passed this record because I happen to know release builds often embed commit SHAs, which makes post-rewrite digest equality genuinely uncertain; a grader without that knowledge reads the identical bullet as a property the change was built to have and fails it. The dimension gives the grader no way to check its own guess against the record, so the same text scores differently by grader. Consider requiring the record itself to say why the criterion was in doubt.\n\nD2 is passable by a clearly bad record: it asks only that a check be named and an outcome stated, not that the check bear on the record's central claim. \"Ran the migration script; exit code 0\" satisfies it verbatim. It also gives no rule for a split record like this one — `Failure, security, and recovery` does exactly what D2 declares equivalent to naming no check (\"See the threat model and runbook\"), while `Verification evidence` names six checks with outcomes. I resolved that as a pass because D2 asks what the record says was checked and this record says plenty, but the dimension does not actually settle whether a pointer in one graded section poisons the verdict.\n\nD3 does not say how to treat third-party vocabulary. Its only exemption is scoped to in-repo identifiers, which read literally would fail nearly every record for \"force-with-lease\", \"mirror clone\", or \"annotated tags\" — standard Git terms a competent engineer resolves from public docs. I confined my list to terms whose referents are unresolvable or project-specific, but that boundary is mine, not the rubric's, and it is the difference between a pass and a fail here."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "correct-git-attribution"
+}

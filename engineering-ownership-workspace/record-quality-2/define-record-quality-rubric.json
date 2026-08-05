@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:13:00+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads: \"Success: a rubric document with every layer-1 item measured against all 56 records before admission, and an ADR recording why the layers are split the way they are.\" Both criteria are properties the change was built to have — a document exists, a process the author controls was applied, an ADR exists. Neither states an outcome that could have come out otherwise; a reader stopping here learns nothing about whether the rubric works. The remainder is \"Non-goals: producing any score (that is the dry run and the grading pass); writing any code; changing any existing record\", which is exactly the list of exclusions the dimension says does not satisfy it. I searched the section for any proposition whose truth was open at the time of writing (e.g. that some candidate rule would discriminate, or that any item would survive measurement) and found none stated; the record itself later concedes \"Nothing here is known to discriminate in practice\".",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"Each layer-1 candidate was run against all 56 records before admission:\" — followed by per-candidate outcomes, e.g. \"Correction without a header marker | 3 / 56 | admitted\" and \"Term first use links to a definition | 52 / 56 would fail | rejected as a guard; kept as a layer-2 expectation\". A second named check states its result: \"The four stale statuses were cross-checked against `.engineering/evidence/`: all 22 evidence records are closed, so all four are contradictions rather than history.\" The checks are named and what came out of each is stated, not deferred to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on: (1) \"layer-1\" / \"layer 2\" — the organising concept of the whole record, never defined here and explicitly deferred: \"an ADR recording why the layers are split the way they are\"; a reader cannot judge \"every layer-1 item measured against all 56 records\" without resolving what makes an item layer 1. (2) \"layer 2's all-pass/all-fail check\" — named as one of the two guards against the stated failure mode, with no statement of what it does beyond \"whether or not it removes anything\". (3) \"`fill-required`\" and \"`check`\" — a rejection is justified by \"rejected — `check` already blocks it\", with neither term's role stated. (4) \"R1\", \"the tier\", and \"`explain`\" in \"at R1 the tier allocates no decision document, so `explain` will not mention it\". The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The dead-link guard's first implementation manufactured a defect by ignoring code spans, flagging a link inside backticks. Fixed before admission, and recorded in the rubric as the reason every item must be run over the corpus first.\" The transferable claim — run a candidate rule over the whole corpus before adopting it — carries the specific observation from this change that produced it (a guard that invented a violation by matching inside a code span). Reinforced by the observation that a candidate failing 52 / 56 was \"rejected as a guard\".",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is satisfiable by assertion. It instructs the judge to score the record's account rather than the subject matter, so a fabricated table of violation counts is indistinguishable from a measured one — this record's '3 / 56' and '22 evidence records are closed' were graded on their form alone. It also imposes no relevance bar: 'ran the formatter, no diff' passes identically to a corpus-wide measurement, so D2 rewards mentioning a check rather than checking the thing that could fail.\n\nD3's exemption is gameable in the opposite direction from how it is strict. 'Role stated in the sentence that uses it' can be met with a gloss that conveys nothing ('`check`, which checks the record'), so a record can inoculate itself term by term while staying opaque. Meanwhile, because any non-empty list fails, any record using genuine domain vocabulary fails regardless of how much it explains — this record defines its four borrowed guard rules inline ('no private vocabulary, silence never passes, discrimination required, per-item reporting') and still fails on 'layer 1'. A dimension that almost everything fails does not discriminate any better than one nothing fails.\n\nD4 accepts any observation from this change attached to any generalisation; it does not test whether the observation actually supports the claim's reach. A bad record could pair a genuine incident with an unrelated platitude and pass.\n\nD1 is judged from wording, so a record can pass by phrasing a foregone conclusion as a wager ('success: the migration does not lose rows') without anything having been at risk."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads in full: \"Success: a rubric document with every layer-1 item measured against all 56 records before admission, and an ADR recording why the layers are split the way they are.\" followed by \"Non-goals: producing any score (that is the dry run and the grading pass); writing any code; changing any existing record.\" Both success criteria are properties the author controls by construction — a document exists, and a measurement was performed. Neither states an outcome that could have resolved the other way: the criterion is satisfied whatever the measurement showed, which the record itself demonstrates when it admits an item at \"Dead relative links | 0 / 56 | admitted as a tripwire\". The remainder of the opening is the excluded-features list the dimension explicitly rules insufficient. A reader who stopped at this section would reach the same conclusion — 'a standard was added, measured somehow' — regardless of what the counts turned out to be.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"Each layer-1 candidate was run against all 56 records before admission:\" followed by a table giving each check's result, e.g. \"`Status: In progress` after close | 4 / 56 | admitted\" and \"Term first use links to a definition | 52 / 56 would fail | rejected as a guard; kept as a layer-2 expectation\". A second check is named with its output: \"The four stale statuses were cross-checked against `.engineering/evidence/`: all 22 evidence records are closed, so all four are contradictions rather than history.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on, none resolvable from the sentence that uses them: (1) \"layer-1\" / \"layer 2\" — the entire record is organised around this split (\"every layer-1 item measured against all 56 records\", \"layer 2's all-pass/all-fail check is mandatory\", \"kept as a layer-2 expectation\") and nowhere says what distinguishes a layer-1 item from a layer-2 one, yet the reader cannot judge \"an ADR recording why the layers are split the way they are\" without it; (2) \"`check`\" in \"rejected — `check` already blocks it\", an in-repo identifier whose role is asserted, not stated, and it carries two of the six rejections; (3) \"`fill-required`\" in \"`fill-required` remaining | 0 / 56\"; (4) \"R1\" and the tier system in \"at R1 the tier allocates no decision document, so `explain` will not mention it\", together with \"`explain`\" and \"the evidence record's artifact map\". I searched the record for any definition or in-place gloss of \"layer 1\"/\"layer 2\" and found none.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The dead-link guard's first implementation manufactured a defect by ignoring code spans, flagging a link inside backticks. Fixed before admission, and recorded in the rubric as the reason every item must be run over the corpus first.\" The transferable claim (run a candidate rule over the whole corpus before adopting it) is carried by the specific observation from this change that produced it — a guard that invented a violation by matching a link inside backticks.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is the weakest dimension: it asks only that a check be named and an outcome stated, not that the outcome bear on the record's central claim. A clearly bad record passes it by reporting 'ran the link checker, 0 errors' on a change whose real risk is elsewhere — exactly the failure this record names as its own hazard ('a standard that measures nothing while appearing rigorous'). Consider requiring that at least one reported check could have come out badly for the change's main claim.\n\nD1 and D4 pull against each other in a way that penalises honesty about placement rather than substance. This record discloses that nothing has been shown to discriminate ('The rubric has not been dry-run. Nothing here is known to discriminate in practice'), which is the strongest trust-calibrating sentence in the document — but it sits in Known limits, so D1 cannot count it, and the non-goals sentence that gestures at the same fact is disqualified as a deferred-features list. D1 currently grades where the calibration is written, not whether the record calibrates.\n\nD3's exemption ('in-repo identifiers whose role is stated in the sentence that uses them') gives no guidance on repo-wide vocabulary that is never introduced anywhere — 'record', 'the corpus', 'evidence record', 'tier'. A grader who treats those as ambient project nouns and one who treats them as undefined terms will reach opposite verdicts on the same text. Since D3 is boolean and the list is the evidence, that ambiguity decides the verdict for most records."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "define-record-quality-rubric"
+}

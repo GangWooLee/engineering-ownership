@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T10:53:02+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening states preservation claims that were not guaranteed by construction and could have resolved the other way: \"`refs check` still passes with references to closed changes; `engineering check` behavior is byte-identical; all 11 existing evidence records remain readable with no data rewrite\". A reader who stopped here knows the record is claiming that adding a terminal state broke no existing consumer and required no migration — findings to the contrary would change the decision. The non-goals also carry a rejected alternative with its reason (\"deriving closure from commit state (rejected: it cannot distinguish completed from abandoned work, the most expensive confusion for a successor)\"), not merely a deferral list.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "Checks are named with their outcomes: \"`python3 -m unittest discover -s tests`: 79 tests pass (72 pre-existing, 7 new: 6 in `test_cli.py`, 1 in `test_hooks.py`)\" and \"`engineering refs check --change add-terminal-close-state`: PASS.\" A fourth check reports a real-world result rather than a plan: \"Migration executed with the new verb: the 10 finished records closed; plain `status` now reports open records only.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms a new engineer must resolve elsewhere: (1) \"R3\" — \"deferred deliberately to keep the R3 diff minimal\" is the sole justification for a stated limit, and nothing in the record says whether R3 is a release, a risk tier, a review round, or a work package, so the deferral cannot be judged; (2) \"contract commands\" — \"All four contract commands pass for this change via `engineering verify`\" asserts a verification result over a set of four commands that are never named or characterised anywhere in the record; (3) \"`Status:` Brief convention\" — \"The hand-written `Status:` Brief convention was examined: no parser exists except `decision_is_superseded`, which reads ADRs only\" supports the argument that no existing mechanism covers lifecycle, but a \"Brief\" is never identified as a document type or explained, so the reader cannot judge whether the convention was fairly ruled out. (By contrast `reference_gaps`, `command_check`, `decision_is_superseded` and `change review` do have their roles stated in the sentences that use them and are exempt.)",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"filtering happens in the presentation callers (`command_status`, `handoff_text`, the hook) because `reference_gaps` and `command_check` build on the same record list and must keep seeing closed records\" — the transferable rule (put a lifecycle filter in the presentation layer, not the shared data layer) is carried by the specific observation from this change that produced it. A second instance: \"`closed_at` records when the terminal state was recorded, not when work finished — finish timing already lives in `updated_at`, `verified_at`, and git history; a backdating flag was rejected because it would let records claim states that were never observed.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is the weakest dimension and a clearly bad record would pass it. Its bar — name a check, state what came out — is met by one unverifiable line such as \"ran the suite: PASS\"; a fabricated count would score identically to a real one, and the dimension explicitly disclaims judging repeatability, so there is nothing left to distinguish honest reporting from assertion. Worse, D2 is satisfied by any check anywhere in the record, so a record can dodge its riskiest claim exactly the way D2's own exclusion describes and still pass. This record does that: the entire `Failure, security, and recovery` section is \"See the linked threat model\" (no link is present), which is the pointer-at-another-document pattern D2 says counts as naming no check — yet an unrelated test-suite line rescues the score. D2 would discriminate better if it were scoped to the record's own highest-stakes claim, or required the check to be tied to a stated success criterion.\n\nD4's first branch is also cheap: \"carries the specific observation from *this* change\" is satisfiable by naming any in-repo identifier next to a design rule, because identifiers read as specificity. The second branch (a stopping condition naming an overturning observation) is far harder, and nothing in this record meets it — every takeaway here passes on branch one. If the intent is that takeaways be bounded, the branches are not equally demanding and the easy one will absorb almost every record.\n\nOne structural tension worth noting: D1 rewards openings stated as crisp, checkable propositions, which in a CLI project means naming subsystems and commands, while D3 fails the record for undefined terms. The same sentence can earn a D1 pass and supply a D3 failure. That may be intended, but it means D1 and D3 are not independent and a record cannot maximise both without a glossary section that the graded six-section set does not include."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"`engineering check` behavior is byte-identical; all 11 existing evidence records remain readable with no data rewrite\" — these are preservation claims about surrounding systems that a change adding a new persisted field could plausibly have violated, not properties the change was built to exhibit. The section also states rejected alternatives with reasons (\"deriving closure from commit state (rejected: it cannot distinguish completed from abandoned work, the most expensive confusion for a successor)\"), so a reader who stopped at the opening knows the record stands or falls on whether the compatibility bars held.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 79 tests pass (72 pre-existing, 7 new: 6 in `test_cli.py`, 1 in `test_hooks.py`).\" and \"`engineering refs check --change add-terminal-close-state`: PASS.\" Named commands with stated outcomes, plus a reported migration result: \"the 10 finished records closed; plain `status` now reports open records only.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Non-empty list of undefined load-bearing terms: (1) \"R3\" in \"deferred deliberately to keep the R3 diff minimal\" — appears once, nowhere defined; a reader cannot judge whether the deferral is justified without resolving it. (2) \"All four contract commands pass for this change via `engineering verify`\" — the set of four is never enumerated, so the verification claim cannot be judged. (3) \"See the linked threat model.\" — the entire failure/security argument is delegated to a document that is neither named nor shown. (4) `ensure_open` and `save_evidence` appear as bare arrow steps in \"`change close <id>` → `ensure_open` → set `closed = {closed_at, revision}` … → `save_evidence`\" with no role stated in the sentence that uses them, so the in-place-definition exemption does not apply.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"`closed_at` records when the terminal state was recorded, not when work finished — finish timing already lives in `updated_at`, `verified_at`, and git history; a backdating flag was rejected because it would let records claim states that were never observed.\" The transferable claim (don't add a backdating affordance) carries the specific observation from this change that produced it (finish timing is already recoverable from three existing sources here). A second instance: \"repository-wide `engineering refs check --all` was already BLOCKED before this change by ~10 pre-existing dangling references (test literals, tutorial examples, committed eval artifacts, and an eval fixture) … This change's new test composes its marker at runtime so it adds no new gap.\"",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D1 is cheap to satisfy. Its bar — at least one criterion that could have resolved the other way — is met by any backward-compatibility boilerplate (\"existing tests still pass\", \"no behavior change\"), which is technically falsifiable, mechanically writable for almost any change, and tells a reader nothing about how much to trust the record's findings. A clearly bad record that pasted three regression-style criteria would pass D1 as written. Consider requiring the criterion to be one whose failure would have changed the shape of the change, not merely one whose failure would have been a bug.\n\nD3 has the opposite problem: its exemption is structurally unreachable for one common format. A data-flow section written as `A → B → C` cannot, by construction, state each identifier's role in the sentence that uses it, so every record containing an arrow-notation flow fails D3 regardless of how clear it is. Here `ensure_open` and `save_evidence` are near-self-documenting from context, yet they land on the list on a technicality while the genuinely opaque items (\"R3\", the unenumerated \"four contract commands\", the invisible \"linked threat model\") are what actually block a new reader. The dimension would discriminate better if the test were whether the reader can act on the sentence, rather than whether a defining clause is syntactically present.\n\nD2 and D4 both did real work on this record and I have no complaint about them, though note that D2's stated indifference to repeatability means a record could pass by reporting an unreproducible number; that appears to be the intended trade-off rather than a defect."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "add-terminal-close-state"
+}

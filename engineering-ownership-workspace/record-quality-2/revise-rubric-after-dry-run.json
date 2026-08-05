@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:44:59+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Non-goals: automating anything; grading the corpus; changing any record. The revised dimensions are untested and must not skip the step the first ones just failed.\" — the opening section does more than list exclusions: it states the epistemic status of the deliverable (the revised dimensions are unvalidated) and asserts a proposition that could plausibly have resolved the other way, namely that the previous version of these dimensions failed its check. A reader who stopped at this section would decline to automate on this output; had the prior dimensions survived their check, that decision would differ. Success criterion two — \"the rubric stating plainly that the revised dimensions have not themselves been dry-run\" — is a commitment to disclose a known negative, not a property the change was built to succeed at.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"Two judges, six records, four dimensions — 24 cells each.\" followed by outcomes: \"**Agreement: 22/24 (92%)**, and both disagreements fell on dimensions the judges independently flagged as ambiguous\" and \"**Pass counts across both graders:** D1 11/12, D2 2/12, **D3 0/12**, D4 11/12.\" The check is named (two blinded judges over a stratified six-record sample) and its result is stated numerically in the record itself, not deferred to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on: (1) \"which is what the first layer 2 was\" — \"layer 2\" is never defined anywhere in the record, yet the entire change is a revision of it and the Failure section's core claim is a claim about what it was. (2) \"Six records, stratified by risk tier and revision history\" — \"risk tier\" is undefined, and the representativeness of the six-record sample, which the record itself concedes is thin, cannot be judged without it. (3) D1, D2, D3, D4 are argued about throughout (\"D3 0/12\", \"D1 is guaranteed by the template\", \"D2's revision asks the judge to separate...\") but their texts are never given; only fragments appear, e.g. the \"consequential fact after the halfway mark\" clause, which is quoted without the surrounding dimension it belongs to. A reader cannot evaluate \"D3 0/12, therefore rewrite D3\" without resolving what D3 said. The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The failure this guards against is a standard that looks rigorous and measures nothing — which is what the first layer 2 was. It is caught by the mandatory all-pass/all-fail check, which is exactly what caught it here.\" The transferable claim — score a proposed rubric against a sample and treat a dimension that is constant across it as measuring nothing — carries the specific observation from this change that produced it: \"D1 11/12, D2 2/12, **D3 0/12**, D4 11/12. One dimension separated the set; one was a constant; two were near-constants.\" It also carries an overturning condition a reader could observe: \"The judges were the same model family. Agreement between them measures rubric clarity less well than agreement between different families would\" — running different families and seeing agreement collapse would overturn the inference drawn from 22/24.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D1 is the weakest of the four and a clearly bad record could pass it cheaply. \"Untested\" is a universal hedge: any record can open with \"this has not been validated\" and thereby state something that resolved one way and could have resolved the other, without that statement being contingent on anything the work found. I passed this record partly on a backward reference — \"the step the first ones just failed\" — which reports a prior outcome; strip that clause and the section reduces to two design properties plus a disclaimer, and I am not confident I would have failed it. Consider requiring the opening to state a finding from *this* run whose opposite was live, rather than a status property of the output.\n\nD3 as written may be near-unfailable-to-fail for any record inside a multi-record project. The in-place-definition exemption rescues in-repo identifiers but nothing else, so any record that argues about artifacts named elsewhere — numbered dimensions, layers, tiers, prior runs — fails by construction. That is defensible if the intent is \"this record must stand alone,\" but it then measures self-containment rather than opacity of argument, and it will return the same verdict for a genuinely muddled record and for a lucid one that is the fifth entry in a series. The record's own judges reported the predecessor was \"unsatisfiable for any in-repository record\"; the revision narrows the failure mode but does not obviously escape it.\n\nD2 is satisfiable by any record that reports a number, including a number produced by a check that does not bear on the change's central claim. This record's numbers do bear on it, but the dimension as phrased would also pass a record that says \"ran the linter; zero warnings\" while the substantive claim goes unchecked. Requiring that the reported check be one whose outcome could have contradicted the record's main claim would close that gap."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: ... the rubric stating plainly that the revised dimensions have not themselves been dry-run.\" and \"The revised dimensions are untested and must not skip the step the first ones just failed.\" Reading only this section, I learn two outcome-contingent facts: a prior version of these dimensions failed, and the deliverable here is unvalidated. That changes what I would do with what follows (do not adopt or automate the revised dimensions yet) versus an opening that reported them exercised. It is not a deferred-feature list, and it is not a property the change was built to have — whether a dry-run had happened could have resolved either way, and the opening commits to disclosing whichever way it did.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"Two judges, six records, four dimensions — 24 cells each.\" / \"**Agreement: 22/24 (92%)**, and both disagreements fell on dimensions the judges independently flagged as ambiguous.\" / \"**Pass counts across both graders:** D1 11/12, D2 2/12, **D3 0/12**, D4 11/12.\" The check is named (two mutually blind judges grading six records on four dimensions) and its output is stated as numbers plus two specific findings the judges reached independently. Nothing here is a pointer to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the argument rests on: (1) \"which is what the first layer 2 was\" — \"layer 2\" appears once, is never defined, and I cannot tell what layers exist or what artifact \"the first layer 2\" was. (2) \"Six records, stratified by risk tier and revision history\" — \"risk tier\" is a project classification with no stated meaning, and I need it to judge the record's own claim that six records \"is a small basis.\" (3) \"D1\", \"D2\", \"D3\", \"D4\" — the record's stated success condition is \"each revised dimension traceable to the specific failure that caused the revision,\" but it never states what any dimension requires. D3 and D2 get fragments (\"unsatisfiable for any in-repository record\", \"separate 'the record's account of a check' from 'whether the check is deterministic'\"); D4 appears only as \"11/12\" with no content at all, so I cannot judge whether its revision was warranted without fetching the rubric. Contrast the one term that is exempt because its role is stated in place: \"the existing judge output contract — quoted evidence, no partial credit, a critique channel where the judge attacks the expectations themselves.\"",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The transferable claim — \"The failure this guards against is a standard that looks rigorous and measures nothing... It is caught by the mandatory all-pass/all-fail check, which is exactly what caught it here\" — carries the specific observation from this change that produced it: \"**Pass counts across both graders:** D1 11/12, D2 2/12, **D3 0/12**, D4 11/12. One dimension separated the set; one was a constant; two were near-constants.\" A reader building any rubric can take away: check whether your dimensions separate the set before trusting them. A second claim carries a stopping condition rather than an observation: \"The judges were the same model family. Agreement between them measures rubric clarity less well than agreement between different families would\" — naming the observation (cross-family disagreement) that would overturn the 92% figure's meaning.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D1 is the weakest as I applied it. Its disqualifiers constrain the *success criteria* ('at least one must state a proposition that could plausibly have resolved the other way'), but the headline test — would a reader who stopped there decide differently — can be met by a single hedging sentence sitting outside the criteria, which is how this record passed. Both success criteria here are properties the change was built to have; a clearly bad record could append 'note: this is unvalidated' to a boilerplate opening and pass identically. Either the disqualifier should govern the whole section, or the headline test should require the falsifiable proposition explicitly.\n\nD2 passes any record that reports a number, regardless of whether the process behind it was sound. That is deliberate ('judge the record's account'), but the consequence is that a fabricated '92% agreement' scores exactly as a real one, and the dimension gives the judge no lever to say so. Worth naming as an accepted cost rather than leaving it implicit.\n\nD3 has a structural bias worth watching: a record *about* a grading rubric must refer to its dimensions, and abbreviating them as D1–D4 — which the grading criteria themselves do — is what sank this record. The exemption clause is satisfiable (this record defines 'judge output contract' in place and earns the exemption), so the dimension is not unsatisfiable as its predecessor apparently was. But it will systematically penalise records whose subject is the vocabulary itself, and that is a property of the topic, not of the writing.\n\nD4's disjunction makes the easy branch always available: 'the specific observation from this change' is satisfied by any record containing a number near a general claim. The stopping-condition branch is the one that does real work, and this record happens to supply one (same-model-family judges), but it did not need to in order to pass."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "revise-rubric-after-dry-run"
+}

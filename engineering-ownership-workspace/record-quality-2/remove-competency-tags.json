@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:39:17+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: full suite passes; the release ZIP no longer contains the catalog; `grep` finds no live tag plumbing outside historical records and eval fixture data; a regression test proves legacy records with the field stay readable.\" The last criterion states a proposition that could plausibly have resolved the other way: removing a required field from a schema does not automatically leave records that still carry it parseable, and whether old records survive depends on strictness settings elsewhere in the schema, not on the removal itself. A reader who stopped at this section knows the record's claim of success hinges on findings (does grep turn up a live consumer; do legacy records still load) whose failure would change the decision to trust the removal.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 80 tests pass (one test reworked to drop the tag echo assertion, one added for legacy-field compatibility).\" and \"Release ZIP rebuilt: zero entries matching the catalog or tag resources.\" Each named check is paired with what it produced rather than pointing at another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The list is non-empty. (1) \"The audit's refutation pass already confirmed no consumer exists\" — the central argument for the removal being safe rests entirely on this, and neither \"the audit\" nor \"refutation pass\" is defined; the sentence states the finding but not what the pass consisted of or where it lives, so a new engineer cannot judge how thorough the search was without resolving it elsewhere. (2) \"All four contract commands pass via `engineering verify`\" — \"contract commands\" is undefined and unenumerated; the reader cannot tell what passed. (3) \"scoped `refs check --change remove-competency-tags`: PASS\" — what `refs check` checks is never stated in the sentence that uses it. These are not in-repo identifiers whose role is given in place; they are references the reader must chase before the safety claim and one of the four verification claims can be judged.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"Covered by `test_evidence_with_legacy_competencies_field_stays_readable` and by the schema keeping the field merely unlisted (no `additionalProperties: false` anywhere).\" combined with \"New records are written without the field; old records keep it, unread.\" The transferable claim — a field can be removed one-directionally, stopping the write path while leaving existing data readable — carries the specific observation from this change that produced it, and that observation doubles as the condition under which it stops applying: a reader can check for `additionalProperties: false` in their own schema, and if it is present the claim is overturned.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 as written is cleared by naming a command and appending an outcome word, with no requirement that the outcome be specific enough to be falsifiable. This record happens to give '80 tests pass' and 'zero entries matching', but a record that wrote only 'make test: passed' and ran nothing would score identically — the dimension distinguishes 'named a result' from 'pointed at a document', not 'reported something a reader could check'. Note also that D2 and D3 pull in opposite directions on the same sentences here: the fourth verification bullet satisfies D2 (a check with an outcome) while being exactly the undefined term that fails D3, so the same text is simultaneously credited and penalised. That may be intended, but it means D2's pass carries less information than it appears to.\n\nD4 does not say where the takeaway must live, so the judge is free to assemble one from any sentence in the record. This record's own designated section, `Known limits and learning gaps`, contains nothing but scope disclaimers of precisely the form the dimension disqualifies ('deliberately untouched', twice) — yet it passes on a parenthetical in a different section. Either D4 should be scoped to the section meant to carry it, or it should say explicitly that the judge may construct the claim from anywhere; as written, two judges will disagree about whether a record that offers no takeaway can pass because one is latent in it.\n\nD1's exclusion of 'properties the change was built to have' is hard to apply consistently, since every success criterion is by construction something the change aims at. I resolved it by asking whether failure was mechanically possible given the implementation, but the rubric does not name that test, and 'full suite passes' in the same list would not survive it."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: full suite passes; the release ZIP no longer contains the catalog; `grep` finds no live tag plumbing outside historical records and eval fixture data; a regression test proves legacy records with the field stay readable.\" A reader who stopped here does not make the same decision regardless of findings: at least two of these could plausibly have resolved the other way and are not properties guaranteed by construction. The grep is a search over the repository that could have surfaced a live reader the removal missed, and \"legacy records with the field stay readable\" is a prediction about existing data surviving a schema change — deleting a schema property routinely does invalidate old documents. Either one coming back negative would tell the reader the change is not done. The non-goals list is a deferral list and carries no weight here, but the success clause stands on its own.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 80 tests pass (one test reworked to drop the tag echo assertion, one added for legacy-field compatibility).\" and \"`python3 scripts/validate_distribution.py`: passed after removing the catalog count check.\" and \"Release ZIP rebuilt: zero entries matching the catalog or tag resources.\" Each names a concrete check and states what it produced — a count, a pass, a zero-match result — rather than deferring to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "\"The audit's refutation pass already confirmed no consumer exists: no gate, filter, aggregation, or hook reads the field.\" The central argument of this record is that the field is safe to delete because nothing live reads it, and that claim rests entirely on \"the audit's refutation pass\" — an unnamed prior artifact and an undefined procedure. The sentence states what the pass concluded but not what it is or what it examined, so a new engineer cannot judge how much the conclusion is worth without resolving \"the audit\" elsewhere; this is the same failure as citing \"see the threat model.\" Also undefined and load-bearing on the completeness claim: \"All four contract commands pass via `engineering verify`\" — neither which four commands nor what a contract command is appears anywhere in the record — and \"scoped `refs check --change remove-competency-tags`: PASS\", where nothing states what `refs check` inspects. By contrast `validate_evidence` is exempt: \"The only compatibility surface is `validate_evidence`, which now ignores the field instead of validating it against a vocabulary that no longer exists\" states its role in place.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The whole of \"Known limits and learning gaps\" is: \"Historical texts (v0.1.0 release notes, CHANGELOG 0.1.0, closed change records, one validation observation) still mention the tags as facts about the past; deliberately untouched. Eval fixture evidence files carry the field as realistic legacy data — also deliberately untouched.\" Both sentences are scope disclaimers of the form \"X was not covered,\" which the dimension explicitly disqualifies. I searched the remaining sections for a stated transferable claim and found none — the closest material, \"the schema keeping the field merely unlisted (no `additionalProperties: false` anywhere),\" is offered as coverage for this change's one risky failure, not as a lesson for a similar decision, and the record never generalises it into a claim that a reader could carry away or falsify.",
+          "passed": false
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D3 rewards vagueness. The list-is-the-evidence construction means a record that names no specific mechanism has an empty jargon list and passes automatically, while a record that names its components accurately accumulates candidate terms. This record failed partly because it cited a specific prior investigation by name; a record that said only \"we checked and nothing reads it\" would have offered the reader strictly less and passed. The dimension should be scoped to terms whose *resolution would change the reader's verdict*, not terms that are merely unglossed. Relatedly, the exemption clause is written for in-repo identifiers (`save_evidence`) and gives no guidance on references to processes, prior artifacts, or workflow stages (\"the audit's refutation pass\", \"contract commands\"), which is where I had to make the call — two graders could split on the same sentence.\n\nD1's bar is low enough that most competent completion records clear it incidentally. \"The test suite passes\" and \"grep finds no remaining references\" are boilerplate closing criteria, and grep in particular is always nominally falsifiable, so nearly any record that mentions a search passes. If the intent is that the author staked something on an uncertain outcome, the expectation should require the record to say what it expected to find and whether the finding matched — a criterion the author already knew the answer to when writing is not calibration, and this rubric cannot currently tell the two apart."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "remove-competency-tags"
+}

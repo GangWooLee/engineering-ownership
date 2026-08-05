@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T10:50:13+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section's success criteria are: \"`docs/engineering/README.md` lists every change record with its title, risk, state, and links to its documents; `README.md` links it; adding a record without regenerating fails the suite; every link resolves from the index's own directory.\" All four are properties the change was built to have — the index lists records, the README links it, the guard fires, the links resolve — so none states a proposition that could plausibly have resolved the other way. The remainder of the section is the non-goals list (\"rewriting existing records...; a glossary...; changing what `status` shows\"), which the dimension excludes explicitly. A reader who stopped after this section would learn what the change was aiming at and what it declined to do, but nothing that would change their decision depending on what the record went on to find. Notably, the record does contain such a proposition — \"Fifty-one of fifty-two documents could be named from the evidence; that one could not\" — but it appears in `System and data flow`, not the opening section.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 88 tests pass (83 before, 5 added).\" and \"Guard proved by breaking it: adding an unlisted document to `docs/engineering/decisions/` fails the suite; removing it passes again.\" Both name a specific check and state what it produced. A third does the same with a count: \"All 58 links in the generated index resolve from `docs/engineering/`.\" (The `Failure, security, and recovery` section's \"See the linked threat model and runbook\" is pointer-only and names no check, but it is not the record's only account of verification.)",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: **R1 / R2** (risk tiers). The record's central argument — why the index scans the filesystem rather than only the evidence store — rests entirely on them: \"an ADR written under an R1 record has nowhere to live in that record's artifact map, because `artifact_paths` allocates a decision document only from R2 up.\" A new engineer cannot judge whether this gap is narrow or systemic without resolving what R1 and R2 are and how a record acquires a tier; the record never says. The same term recurs unexplained in the bounding claim \"an orphan runbook — which the current risk tiers cannot produce.\" Also undefined: **\"the four contract commands\"** in \"The four contract commands pass via `engineering verify`\" — the reader is told a set passed without being told what set. By contrast, `list_evidence`, `handoff_text`, `command_status`, `index_rows`, `index_text`, `link_from`, `command_index`, and `artifact_paths` are all exempt: each has its role stated in the sentence using it.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The transferable claim — an index derived only from the primary metadata store inherits that store's blind spots — carries the specific observation from this change that produced it: \"Fifty-one of fifty-two documents could be named from the evidence; that one could not. An index that only walked the evidence would have reproduced the blind spot it was built to remove.\" A second claim carries a stopping condition rather than a scope disclaimer: \"The guard checks that every record is named and that regeneration is a no-op. It does not check that the row is *right* beyond that; a title that misdescribes its change will pass\" — a reader who observes a stale-but-passing row with a wrong title has overturned the claim that the guard keeps the index correct.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is satisfiable without doing the work. It requires only that a check be named and its output stated, so \"ran the suite: 88 tests pass\" passes even when the suite never exercises the change — the dimension has no purchase on whether the check could have failed. This record happens to close that gap with \"Guard proved by breaking it,\" but the dimension would not have noticed its absence. Consider borrowing D1's falsifiability requirement: at least one reported check whose failure mode is stated.\n\nD3's exemption clause is clear for in-repo identifiers but silent on domain shorthand, and that is where the judgment actually gets made. \"R1\"/\"R2\" and \"ADR\" sit on opposite sides of a line the rubric never draws — one is project-local vocabulary a new engineer cannot resolve, the other is broadly standard — yet nothing in the wording distinguishes them, so two judges could split on the same record. The rule that \"the list is the evidence\" also means a judge who assembles a long list of marginal terms and one who lists only the load-bearing ones both produce a defensible FAIL, which makes the verdict stable but the reasoning behind it not comparable across records.\n\nD4's \"specific observation\" branch is the weaker of its two branches: any concrete-sounding number attached to a generic lesson satisfies it, and the dimension provides no test of whether the observation actually supports the claim. The stopping-condition branch is much harder to fake, since it demands a falsifying observation; a bad record will reliably take the observation branch."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads: \"Success: `docs/engineering/README.md` lists every change record with its title, risk, state, and links to its documents; `README.md` links it; adding a record without regenerating fails the suite; every link resolves from the index's own directory.\" All four criteria are properties the change was constructed to have — an index that lists rows, a link from the top-level README, a guard that fails on staleness, and relative link rewriting (the record itself names the mechanism: \"with every link rewritten relative to the index's own directory by `link_from`\"). None states a proposition that could plausibly have resolved the other way; there is no criterion whose falsity the reader could have expected. The remainder of the section — \"Non-goals: rewriting existing records ...; a glossary ...; changing what `status` shows to open work only\" — is a list of excluded features, which the dimension explicitly does not accept. A reader who stopped after this section would make the same decision about the change regardless of what the record went on to find; notably, the record's most consequential finding (that one of fifty-two documents could not be named from the evidence at all) is nowhere anticipated here.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 88 tests pass (83 before, 5 added).\" and \"Guard proved by breaking it: adding an unlisted document to `docs/engineering/decisions/` fails the suite; removing it passes again.\" and \"All 58 links in the generated index resolve from `docs/engineering/`.\" Each names a specific check and states what came out of it, with counts. (The pointer in the preceding section — \"See the linked threat model and runbook\" — would count as naming no check, but the Verification evidence section carries the dimension on its own.)",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: (1) the risk tiers **R1** and **R2**. The record's central argument — why the orphan scan exists at all — is \"an ADR written under an R1 record has nowhere to live in that record's artifact map, because `artifact_paths` allocates a decision document only from R2 up.\" A new engineer cannot tell what places a record in R1 versus R2, so cannot judge how large or how avoidable this class of orphan is; the same term carries a stated limit, \"an orphan runbook — which the current risk tiers cannot produce.\" Neither passage states what the tiers are. (2) **\"the four contract commands\"** and **`engineering verify`**, in \"The four contract commands pass via `engineering verify`\" — the record never says which four commands, nor what a contract command is, so the reader cannot resolve what that check covered. (3) **\"contract key\"**, in \"the index needs no new input and no new contract key\" — used to support the claim that nothing new was invented, but never defined. Contrast the identifiers that are correctly exempt: `list_evidence`, `handoff_text`, `command_status`, `index_rows`, `index_text`, `link_from`, and `command_index` each have their role stated in the sentence that uses them. The list above is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The transferable claim carries the specific observation from this change that produced it: \"That file was reachable by `ls` and by nothing else — not `explain`, not `refs check`, not `status`. Fifty-one of fifty-two documents could be named from the evidence; that one could not. An index that only walked the evidence would have reproduced the blind spot it was built to remove.\" A reader facing a similar decision takes away that an index derived solely from a system's own records inherits that system's gaps, and the 51-of-52 count is the observation from this change that produced it rather than a restated general property. The record additionally supplies a falsifier for its own guard: \"It does not check that the row is *right* beyond that; a title that misdescribes its change will pass\" — an observation a reader could make that bounds how far the result carries.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is the weakest dimension: it asks only that a check be named with an outcome, with no requirement that the check bear on the record's own central risk. A record could write \"ran the suite: all pass\" about a suite that exercises none of the changed behaviour and pass cleanly. Here that gap is visible — the record admits in its limits that the guard cannot tell whether a row is correct, yet nothing in D2 asks whether the reported checks reach the thing most likely to be wrong.\n\nD4's \"specific observation\" branch is similarly cheap: it requires the observation to be present, not that it actually supports the generalization. A record could attach any concrete number from the work to a well-known lesson and pass. The stopping-condition branch is the demanding one and is well specified; the observation branch lets records route around it.\n\nD1's negative constraints are the sharpest in the rubric, but \"could plausibly have resolved the other way\" is adjudicated by the grader's own sense of plausibility. I judged \"every link resolves from the index's own directory\" as a built-in property because the record names the mechanism that guarantees it; a grader reading it as an empirical check that could have failed would pass this record. That is a genuine split, not a marginal one, and the dimension gives no tiebreak.\n\nD3 has no cap and no ranking, so it scales with surface area: a record that explains more mechanisms mentions more identifiers and accumulates more failure candidates. That is in tension with the instruction not to let length influence a verdict. It also leaves \"load-bearing\" to judgment — whether a term in the limits section counts as central is arguable, and I resolved it toward failure. A short record that asserts its claim without naming any machinery has a structural advantage under this dimension."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "add-record-index"
+}

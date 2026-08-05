@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T10:55:49+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"the release workflow fetches full history so the timestamp comparison is real in CI, not trivially equal on a shallow clone.\" This is a success criterion that names a state the change could plausibly have landed in instead — a gate that runs, reports success, and compares two identical timestamps because the checkout was shallow. A reader who stopped at the opening learns that the author treated \"the gate is real, not vacuous\" as an open question, so a finding either way would change how much weight they put on the gate. The non-goals list (tag creation, version label, trigger-rate numbers) is pure deferral and carries none of this on its own.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 81 tests pass, including the new `test_efficacy_shaped_numbers_need_a_results_contract_or_retired_status`.\" and \"`python3 scripts/validate_release_tag.py v0.2.1` after the notes amendment commit: passes. (Before the amendment was committed, it refused — observed...)\" Both name a specific command and state what it produced, including a before/after pair where the negative outcome is reported.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The central test-side claim is stated entirely in undefined terms: \"any README/validation surface pairing a with/without-skill comparison with score-shaped numbers must carry either the machine-readable results block or a Withdrawn/Superseded status.\" A new engineer cannot judge that rule without resolving elsewhere: what a \"skill\" is, what makes a number \"score-shaped\", what \"the machine-readable results block\" is (definite article, never described), and what \"Withdrawn/Superseded status\" attaches to. Also load-bearing and undefined: \"`PublishedResultCase`\" in \"The republication check extends the existing `PublishedResultCase` rather than adding a parallel mechanism\" — the sentence states it is being extended but never states what it does, so the reader cannot judge whether extending it was the right call; \"committed probe runs\" in \"backed by committed probe runs\", which is the sole stated justification for exempting release notes from the gate; and \"All four contract commands pass via `engineering verify`\", where neither the four commands nor what `engineering verify` checks is stated. The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The stale-notes refusal branch has no hermetic unit test: the validator resolves its repository root from its own location, so exercising the failure requires manipulating this repository's history. Observed manually instead (see verification). A test-only root override was rejected as a backdoor in a release-critical script.\" The transferable claim — accept an untestable branch rather than add a test-only override to a release-critical script — carries the specific observation from this change that produced it (the validator derives its root from its own file location, which is what makes the failure path unreachable in a hermetic test). The other limit, \"The widened gate covers README and `docs/validation/**`\", is a bare scope disclaimer and would not have carried this on its own.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 as written judges only whether a check is named with an outcome, not whether the named check could bear on the change. A clearly bad record that said \"`ruff check .`: clean\" on a change to a YAML workflow file would pass D2 exactly as this record does. If that is intentional (the dimension is about honesty of reporting, not relevance), it is worth saying so in the dimension text, because a grader reaching for a strict reading will otherwise invent a relevance test the criteria do not authorize.\n\nD1's escape hatch — \"at least one must state a proposition that could plausibly have resolved the other way\" — is judged against the grader's imagination and has no floor. Almost any success criterion is could-have-failed in principle, including \"the full suite passes\", which is present in this record and which I did not lean on precisely because it would let every record naming a test suite in its opening claim a pass. The dimension already rules out one degenerate form (deferred-feature lists); it does not rule out \"the tests pass\", which is the far more common one. Consider requiring the proposition to be one the record itself reports resolving, so the opening can be checked against a later section rather than assessed for hypothetical falsifiability.\n\nD4's first branch — \"the specific observation from *this* change that produced it\" — is satisfiable by attaching any concrete implementation detail to any claim, whether or not the claim transfers to another project. The second branch (a stopping condition) is meaningfully hard; the first is not. A record could pass D4 with \"we used a mutex here because two threads wrote the same field\" and no transferable content at all."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section's three success criteria are all properties the change was constructed to have: \"`validate_release_tag.py` refuses missing or stale notes; the full suite passes including the widened gate; the release workflow fetches full history so the timestamp comparison is real in CI, not trivially equal on a shallow clone.\" The remainder is a list of exclusions — \"Non-goals: creating the v0.2.1 tag (explicitly out of scope); deciding the version label ...; gating trigger-rate numbers in release notes and change records\" — which the criteria explicitly bar from satisfying this dimension. I searched the opening for any statement that the record's own evidence might be weak, partial, or contested and found none; the one such admission in the record, \"The stale-notes refusal branch has no hermetic unit test\", appears only in the closing section. A reader who stopped after the opening would believe every claim below is machine-checked, and would decide the same way whatever the record went on to report.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 scripts/validate_release_tag.py v0.2.1` after the notes amendment commit: passes. (Before the amendment was committed, it refused — observed, which is the gate doing its job on this very branch's stale notes.)\" and \"`python3 -m unittest discover -s tests`: 81 tests pass, including the new `test_efficacy_shaped_numbers_need_a_results_contract_or_retired_status`.\" Each names a specific check and states what it produced, including one negative-then-positive observation.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The gate that is half the record's argument is stated entirely in undefined vocabulary: \"any README/validation surface pairing a with/without-skill comparison with score-shaped numbers must carry either the machine-readable results block or a Withdrawn/Superseded status.\" A new engineer must resolve elsewhere: what a \"skill\" is (and so what a \"with/without-skill comparison\" measures), what \"score-shaped numbers\" are, and what \"the machine-readable results block\" contains — none of which appear anywhere else in the record. Also undefined and load-bearing: `PublishedResultCase`, used only as \"The republication check extends the existing `PublishedResultCase` rather than adding a parallel mechanism\", which states what was done to it but not what it is; \"trigger-rate numbers backed by committed probe runs\", the stated reason two document classes are exempt from the gate; and \"All four contract commands pass via `engineering verify`\", which reports an outcome for four checks the reader cannot identify.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The stale-notes refusal branch has no hermetic unit test: the validator resolves its repository root from its own location, so exercising the failure requires manipulating this repository's history. Observed manually instead (see verification). A test-only root override was rejected as a backdoor in a release-critical script.\" The transferable claim — a release-critical script that locates its own root cannot be hermetically tested without adding an override, and the override is worse than the untested branch — carries the specific observation from this change that produced it (this validator's root resolution), not a scope disclaimer.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is passable by a record with no work behind it. It instructs the judge to grade the account rather than repeatability, so a fabricated line — 'ran the suite: 81 tests pass' — is indistinguishable from an honest one and scores identically. Every dimension here is judged on the record's prose alone, which is defensible for D1/D3/D4 (they are claims about the writing) but makes D2 a test of formatting: the difference between a passing and failing record is whether the author appended a colon and a result. If the intent is that D2 catch unverified changes rather than under-reported ones, it needs something the writing alone cannot supply, such as requiring a check whose reported outcome is surprising or negative.\n\nD1's tightened clause is ambiguous in a way that decided this verdict. 'At least one must state a proposition that could plausibly have resolved the other way' does not separate cleanly from ordinary efficacy claims. Two criteria here are arguably falsifiable — whether the existing corpus survives a widened gate is discovered, not built, and 'the timestamp comparison is real in CI, not trivially equal on a shallow clone' names a specific way the change's own gate could have been vacuous. I failed D1 because both are still written as targets the change was built to meet and the section discloses no doubt about the evidence below, but a second judge could quote either sentence and pass it. The clause needs to say whether it means 'a claim the author could not have known the answer to in advance' or 'a disclosed weakness in this record's own evidence' — those are different tests, and only the second matches the dimension's name.\n\nD4's first branch is weak enough that a poor record clears it. 'Carries the specific observation from this change that produced it' is satisfied by attaching any implementation detail to any platitude — 'prefer narrow gates; this one covers two directories' would pass. The second branch (a stopping condition naming an observation that would overturn the claim) is the demanding one and is well specified; the first should probably require that the observation be one that constrained the decision, not merely one that accompanied it."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "arm-release-currency-gate"
+}

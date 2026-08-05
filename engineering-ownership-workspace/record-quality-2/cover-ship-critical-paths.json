@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:04:22+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "Most success criteria restate what the change was built to do (\"`evidence.py`, `templates.py`, `resources/schemas/**`, the three release/validation scripts, and `release.yml` classify R3; `ci.yml` classifies R2\"), but the opening also stakes the change on \"the full suite and all contract commands pass under the new contract\" — a proposition that could plausibly have resolved the other way, since raising the classification of paths this change itself touches imposes stricter obligations on it and existing tests may assert the old classifications. A reader who stopped at the opening would decide differently depending on how that resolved.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 81 tests pass under the new contract.\" and \"Spot-check: `evidence.py` now matches an R3 entry; `ci.yml` matches R2; no glob matches `scripts/eval/**` (deliberate).\" Both name a check and state what it produced, rather than pointing at another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: (1) the risk levels R3, R2, R1 — \"...classify R3; `ci.yml` classifies R2\" and \"a test edit alone still classifies R1\". The entire argument is that these reclassifications are correct and worth their cost, yet the record never says what obligations R3, R2, or R1 carry; \"costs ceremony\" is the closest it comes and is itself undefined. (2) \"the contract\" / \"contract commands\" — \"All four contract commands pass via `engineering verify`\" names neither the four commands nor what a contract is. (3) \"the ADR\" — \"deliberate, recorded in the ADR\", a bare pointer. I searched the record for any definition, expansion, or in-sentence role statement for R1/R2/R3 and for \"contract\" and found none; by contrast `classify_risk` and `effective_risk` do state their roles in place (\"matches changed paths against the globs with `fnmatch`\", \"takes the maximum\") and are exempt.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"`tests/**` remains uncovered: a test edit alone still classifies R1. Accepted for now — the unit suite is itself the verification layer, and taxing test edits with R2 ceremony would discourage exactly the additions the audit asked for. Revisit if a test change ever ships a behavior regression.\" The transferable claim (exempt the test suite from risk ceremony so the ceremony does not suppress test additions) carries a stopping condition naming an observation a reader could make — a test-only change shipping a behavior regression — that would overturn it. The Failure section supplies the originating observation as well: \"the previous misclassification downward cost silent under-verification of the modules that write the evidence this tool exists to keep.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D1 is the weakest as written. Its escape hatch — \"at least one must state a proposition that could plausibly have resolved the other way\" — is satisfied by appending \"and the tests pass\" to any success list, which is boilerplate in most engineering records and tells a reader almost nothing about how much to trust the findings. I passed this record largely on that clause, and a clearly bad record could earn the same pass the same way. Consider requiring the falsifiable criterion to be about the change's *claimed effect* rather than about the build staying green, or requiring the record to say what result would have made the change wrong.\n\nD4 has a milder version of the same problem: \"Revisit if <bad thing> ever happens\" is a formula that can be appended without thought, and the dimension cannot distinguish a genuinely load-bearing trigger from a decorative one. A tighter phrasing might require the condition to be one the author could plausibly detect in normal operation.\n\nD3 was the only dimension that discriminated here, and it did so decisively — but note it is doing double duty as this rubric's main filter, which means a record could be substantively empty and still score 3/4 by defining its terms. D2 as phrased is satisfied by naming any check with any outcome, with no requirement that the check bear on the record's central claim; a record could pass by reporting a linter run."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: `evidence.py`, `templates.py`, `resources/schemas/**`, the three release/validation scripts, and `release.yml` classify R3; `ci.yml` classifies R2; the full suite and all contract commands pass under the new contract.\" The classification clauses are properties the change was built to have, but the final clause -- \"the full suite and all contract commands pass under the new contract\" -- is a proposition that could plausibly have resolved the other way: widening the globs raises obligations on the changed paths and could have broken existing tests asserting the old classification, and the record itself reports the new contract being applied to this very change (\"All four contract commands pass via `engineering verify` for this change\"). A reader who stopped at the opening section learns the outcome hinges on that, not only on scope. The non-goals list on its own would not have sufficed.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"- `python3 -m unittest discover -s tests`: 81 tests pass under the new contract.\" Named command plus stated result. Two further checks also carry outcomes: \"All four contract commands pass via `engineering verify` for this change\" and \"Spot-check: `evidence.py` now matches an R3 entry; `ci.yml` matches R2; no glob matches `scripts/eval/**` (deliberate).\" None of these is a bare pointer at another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on: (1) `R3`, `R2`, `R1` -- the entire change is the assignment of these labels (\"...classify R3; `ci.yml` classifies R2\", \"a test edit alone still classifies R1\") and the record never states what obligations any level imposes, so a new engineer cannot judge whether the assignments are correct or proportionate; the only hint is the ordering implied by \"`effective_risk` takes the maximum\". (2) \"the contract\" / \"the new contract\" / \"all four contract commands\" -- \"the full suite and all contract commands pass under the new contract\" and \"All four contract commands pass via `engineering verify`\"; the commands are never named and the artifact called \"the contract\" is never described. (3) \"ceremony\" -- load-bearing in the core cost argument, \"Misclassification upward costs ceremony\" and \"taxing test edits with R2 ceremony\", never defined. (4) \"the ADR\" -- \"deliberate, recorded in the ADR\", a pointer to an unidentified document that carries the justification for the non-goals. (5) \"the audit\" -- \"discourage exactly the additions the audit asked for\", an unresolvable referent supporting the accepted-limit argument. Exempt by the in-place rule: `classify_risk` (\"matches changed paths against the globs with `fnmatch`\") and `risk_paths` (\"the single source of truth for path-detected risk\"). The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"Accepted for now -- the unit suite is itself the verification layer, and taxing test edits with R2 ceremony would discourage exactly the additions the audit asked for. Revisit if a test change ever ships a behavior regression.\" The transferable claim -- exempt test paths from escalated risk because the added friction suppresses the very contributions you want -- carries a stopping condition naming an observation a reader could make (a test-only change that ships a behavior regression), not a scope disclaimer.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D1 is close to satisfiable by boilerplate. Here the only clause meeting the \"could have resolved the other way\" bar is \"the full suite and all contract commands pass\" -- a sentence that appears in essentially every record of a code change and is usually written after the suite is already green. As phrased, D1 can be passed by appending \"and the tests pass\" to a list of built-in properties. If the intent is calibration, the bar should be a proposition whose resolution the author did not already know when scoping the change, or one whose failure would have changed the design rather than just delayed the merge.\n\nD2 does not distinguish a check that exercises the change from one that merely coexists with it. \"81 tests pass under the new contract\" passes identically whether the suite contains an assertion about the new globs or was untouched by them; the spot-check line is the only evidence here that the changed data was actually exercised, and D2 would have passed without it. Requiring that at least one reported check name what about *this change* it would have caught would close that gap.\n\nD4's stopping condition is weakly constrained. \"Revisit if a test change ever ships a behavior regression\" is a well-formed condition, but the same template -- \"revisit if the thing I excluded ever causes the harm I excluded it from\" -- can be generated for any exclusion without observation or thought. D4 as written cannot separate that from a condition the author has specific reason to think detectable.\n\nD3 was the only dimension that a reader genuinely could not pass by filling a template, and it is doing most of the discriminating work in this rubric."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "cover-ship-critical-paths"
+}

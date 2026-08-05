@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:53:32+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section's success criteria are: \"Success is a second fixture base with ordinary engineering conventions and none of this skill's artifacts, the scenarios that ask about producing discipline moved onto it, and a test that fails if this skill's template fields appear there.\" All three are artifacts the change constructs — build the base, move the scenarios, write the guard test — and none states a proposition that could have resolved the other way. The remainder of the section is scope exclusion (\"Not a goal: removing this skill's artifacts from every fixture\"), which the dimension explicitly excludes. I searched the opening section for any criterion whose outcome depended on what the work found — e.g. a statement of what the measurement enabled by this fixture would have to show — and found none; the record's actual finding (that the skill never triggered on the new base) is not foreshadowed there, so a reader who stopped after the opening would decide identically whether the measurement succeeded or collapsed.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 61 tests pass.\" and \"The new guard was given a `Superseded by:` line in the unmanaged base and observed rejecting it, then restored.\" Both name a check and state its result; the measurement's outcome is also stated as a table with \"managed | 4/4 | 3/4 | yes\" and \"unmanaged | 1/5 | 2/5 | **no**\", with the caveat \"The pass rates are not comparable - an expectation was split between the runs, so the denominators differ - but `skill_loaded` is.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Load-bearing undefined references: (1) `iteration-3`'s result. The record's headline claim is \"**The check did not answer its own question, and found something larger.**\" and its consequence is stated as \"So how much of `iteration-3`'s result came from the fixture is still unmeasured.\" The record never says what `iteration-3` found, so a reader cannot judge what was left unmeasured or why the fixture split mattered without resolving it elsewhere; the path is given only as a location (\"`engineering-ownership-workspace/iteration-4` against `iteration-3`\"), not a role or content. (2) \"The ninth scenario and the unfamiliar-repository scenario moved to `unmanaged`.\" \"The ninth scenario\" is an ordinal pointer into an external list with no content given, and it names half of what was actually run on the base whose null result the record is arguing about.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"What makes it worth recording is that it was visible: the runner tracks whether the skill was actually invoked, so a run where the treatment did not take is distinguishable from one where it took and did not help. Any future reporting has to separate those two, or a non-triggering run will silently dilute a mean.\" The transferable claim carries the specific observation from this change that produced it: \"`skill_loaded` is false for the treatment while the preflight in the same iteration records the plugin loaded and the skill visible, so this is not availability. The treatment took three actions and wrote nothing; the baseline took thirteen and wrote three files.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is the weakest dimension: it is satisfied by any record that writes a command name and a count (\"`pytest`: 12 tests pass\"), which a record with no engineering thought behind it can produce for free. It measures the presence of a sentence shape, not whether the check bore on the claim — nothing in D2 requires the stated check to be capable of falsifying anything the record asserts. Consider requiring that at least one reported check relate to a claim the record makes, not merely exist.\n\nD4 has a similar cheapness at the low end: 'carries the specific observation from this change' is met by bolting any concrete number onto a generic lesson. This record clears it substantively, but a bad one clears it by decoration.\n\nD3's exemption boundary is underspecified in a way that will make verdicts unstable across graders. It exempts 'in-repo identifiers whose role is stated in the sentence that uses them,' but is silent on two common cases I had to rule on by invention: (a) ordinal or positional references to external lists ('the ninth scenario') — a pointer, not a term; and (b) references to a prior *result* rather than a prior *thing* ('`iteration-3`'s result'), where the identifier's role is obvious but its content is what the argument rests on. A second grader could defensibly call this record's list empty. Naming whether content-references count would fix it.\n\nD1's failure mode here is worth noting: the record's opening is genuinely informative about what the change was for, and still fails, correctly, because every criterion is a build target. But the fix a writer would infer is to append one hedged sentence ('success is also that the run shows X'), which passes the letter without the criterion doing any load-bearing work. D1 might additionally require that the open proposition be one the record later reports the resolution of."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads: \"Success is a second fixture base with ordinary engineering conventions and none of this skill's artifacts, the scenarios that ask about producing discipline moved onto it, and a test that fails if this skill's template fields appear there.\" All three criteria are properties the change was built to have — a base exists, scenarios were moved onto it, a guard test was written — and the remainder of the section is the excluded form: \"Not a goal: removing this skill's artifacts from every fixture.\" I searched the section for any criterion whose outcome depended on something the work would discover (e.g. whether the new base produced a comparable measurement, or whether the fixture explained the earlier result) and found none. A reader who stopped after this section would not learn that the run could come out null; the record in fact reports \"On the unmanaged repository the skill never engaged,\" and nothing in the opening admits that possibility.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 61 tests pass.\" and \"The new guard was given a `Superseded by:` line in the unmanaged base and observed rejecting it, then restored.\" Both name a specific check and state what it produced; the second is a negative control whose result is reported, not deferred to another document. The `skill_loaded` table also reports an outcome inline (\"unmanaged | 1/5 | 2/5 | **no**\").",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Non-empty list of undefined load-bearing terms. (1) `iteration-3`: the central conclusion is \"So how much of `iteration-3`'s result came from the fixture is still unmeasured.\" The record never states what iteration-3's result was, so a new engineer cannot judge whether that unmeasured quantity matters; the name is introduced only as a path, \"The measurement itself, `engineering-ownership-workspace/iteration-4` against `iteration-3`.\" (2) \"the ninth scenario\": \"The ninth scenario and the unfamiliar-repository scenario moved to `unmanaged`.\" Ninth of what, and asking what, is nowhere stated, yet which scenarios moved is what the 1/5 vs 2/5 row is measuring. By contrast `build_fixture.py`, `recipe.json`, `build_release.py`, the preflight, and `skill_loaded` do have their roles stated in the sentences that use them and are exempt.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The transferable claim — \"Any future reporting has to separate those two, or a non-triggering run will silently dilute a mean\" — is carried with the specific observation from this change that produced it: \"`skill_loaded` is false for the treatment while the preflight in the same iteration records the plugin loaded and the skill visible, so this is not availability. The treatment took three actions and wrote nothing; the baseline took thirteen and wrote three files.\" That is an observation from this run, not a restated general property of a third-party tool.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is satisfiable without doing the work that the record's own argument depends on. It asks only that some check be named with some outcome, so a record whose central claim is a measurement result can pass on an unrelated unit-test count alone — this record would have passed D2 on the '61 tests pass' line even if the measurement table had been omitted entirely. If the intent is that the record substantiate its own claim, the dimension needs to require at least one reported check that bears on the record's central assertion. D4 has a milder version of the same gap: 'carries the specific observation from this change that produced it' is met by attaching any concrete detail to a generic lesson, without requiring that the observation actually support the generalisation. D3's exemption is written for identifiers whose *role* is stated in place, which leaves a hole for names that stand for *results* rather than roles: 'the previous measurement, `iteration-3`' would state the role fully while the content the argument rests on remains absent. Finally, D1's disqualifier is likely to split graders on deliverables phrased as falsifiable tests — 'a test that fails if this skill's template fields appear there' sounds like a proposition that could resolve either way, but is a property the change was built to have; the wording would be sharper if it said the proposition must concern an outcome the work could not control."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "separate-fixture-from-answer-key"
+}

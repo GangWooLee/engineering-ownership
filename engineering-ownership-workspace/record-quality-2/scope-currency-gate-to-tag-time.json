@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:50:19+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: the suite passes mid-development with stale notes, and still fails if the tag/package mismatch regresses; `validate_release_tag.py v0.3.0` passes once the notes actually cover the shipped content.\" The second and third clauses are propositions that could have resolved the other way: the change loosens an existing assertion, so \"still fails if the tag/package mismatch regresses\" could have been broken by the loosening, and whether `v0.3.0` passes depends on content outside the change (and in fact did not hold until the notes were amended). A reader stopping here would trust the record differently depending on which way those resolved.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"- `python3 -m unittest discover -s tests`: 83 tests pass.\" and \"- `python3 scripts/validate_release_tag.py v0.3.0`: passes after the release notes and CHANGELOG were amended to cover `refs.exclude`\". Both name a command and state what it produced.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing term: \"the quoting concern\", used in \"The mismatch assertion for the invalid tag (`v9.9.9`) already covers the quoting concern's negative case; only the positive case needed re-aiming.\" The record's central claim is that the existing test was too broad for this concern and that its negative case is already covered, but the record never says what is being quoted or why quoting could fail. I searched every section for any statement of what the quoting concern is; the only other mention is \"no longer registers as a quoting failure\", which uses the term without defining it. A new engineer cannot judge \"only the positive case needed re-aiming\" without resolving this elsewhere. Also undefined in place: \"the gate\" (\"the content fix the gate was asking for\"), introduced with a definite article as if previously named, and never tied to `validate_release_tag.py` or the release job explicitly.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The gate's own failure path remains manually observed rather than tested (twice now: on this branch's stale notes, and again today). If it fires a third time without catching a real problem, revisit whether the comparison is too coarse.\" The transferable claim — an untested failure path is tolerable while every firing corresponds to a real problem — carries both the specific observations from this change (two firings, named) and an overturning condition a reader could observe (a firing with no real problem behind it).",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is satisfiable without doing the work that matters. It asks only that some check be named with some outcome; it does not require the check to bear on the proposition D1 identified as at risk. A record that changed a test's assertion and reported only \"83 tests pass\" — without the suite ever exercising the regression case the narrowing might have destroyed — passes D2 identically to this one. Consider requiring that at least one stated check produce an outcome for a criterion named in the opening section.\n\nD1's exclusion clause is ambiguous at exactly the point that decides this record. \"Still fails if the tag/package mismatch regresses\" can be read as a property the change was built to preserve (excluded) or as a proposition the loosening could plausibly have falsified (required). I read it the second way; a judge reading it the first way would fail the same text. The clause needs a test that distinguishes \"built to have\" from \"built to preserve while doing something that endangers it\".\n\nD3's exemption is written around in-repo identifiers (`save_evidence`), which may lead a judge to scan for code symbols. The terms that actually sink this record are definite-article noun phrases — \"the quoting concern\", \"the gate\" — which read as if introduced earlier in a conversation the reader was not part of. Naming that pattern in the dimension would make the failure easier to detect consistently."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: the suite passes mid-development with stale notes, and still fails if the tag/package mismatch regresses\" — the second clause is a proposition that could plausibly have resolved the other way. The change loosens an assertion (\"asserts the absence of the tag-mismatch message rather than a zero exit\"), and loosening is exactly the move that destroys a test's detection power, so a reader who stopped at the opening section knows what finding would sink the change and does not make the same decision regardless of what follows.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 83 tests pass.\" and \"`python3 scripts/validate_release_tag.py v0.3.0`: passes after the release notes and CHANGELOG were amended to cover `refs.exclude`\" — each names a command and states its outcome, without deferring to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing term: \"quoting\". It appears as \"already covers the quoting concern's negative case; only the positive case needed re-aiming\" and \"no longer registers as a quoting failure\", and it is the thing the repaired test is supposed to measure. I searched the whole record for any statement of what is quoted, where, or why a quoting defect would surface — no sentence defines it. Without that, a reader cannot judge the record's central move: why \"the absence of the tag-mismatch message\" is the correct positive-case assertion for a quoting claim. Second, smaller instance: \"the quoting concern's negative case\" / \"positive case\" are used as an established pairing without stating which is which here.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The gate's own failure path remains manually observed rather than tested (twice now: on this branch's stale notes, and again today). If it fires a third time without catching a real problem, revisit whether the comparison is too coarse.\" — this carries both the specific observation from this change (two spurious firings, one of them today) and an overturning condition a reader could observe: a third firing that catches no real problem.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D1 is gameable by phrasing. The dimension inspects only whether one success criterion is worded as a proposition that could have resolved the other way; it does not ask whether the record ever reports how that criterion resolved. This record is a live example: \"still fails if the tag/package mismatch regresses\" earns the pass, but Verification evidence reports only \"83 tests pass\" — it never states that the mismatch case was exercised or that it failed when it should. A clearly bad record can pass D1 by appending a boilerplate negative clause (\"and nothing else regresses\") to an otherwise built-to-have list. Consider requiring that the falsifiable criterion be one the record later says something about.\n\nD3's in-place-definition exemption has a soft edge that rewards inoculating appositives. \"a currency refusal — a different, legitimate refusal\" states the term's category, not its meaning; it tells the reader the refusal is legitimate but not what \"currency\" is measured against. I let it pass because surrounding sentences (\"passes once the notes actually cover the shipped content\") supply the meaning, but as written the dimension can be satisfied by a dash and a synonym rather than by a definition.\n\nD4 accepts a stopping condition that is a project follow-up rather than a bound on the transferable claim. \"If it fires a third time... revisit whether the comparison is too coarse\" is an action item for this repository's maintainers; a reader elsewhere cannot observe this gate firing. It survives the letter of the dimension because it names an observable event, but the dimension does not require that the observation be one the *reader* could make in their own situation."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "scope-currency-gate-to-tag-time"
+}

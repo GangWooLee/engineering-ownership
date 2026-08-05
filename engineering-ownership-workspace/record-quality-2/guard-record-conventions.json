@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:33:53+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: the three guards fail on the corpus before the fixes and pass after, demonstrated in that order; the guard that could manufacture defects has its false-positive set pinned; the suite grows without any existing test changing.\" The first clause is a proposition that could have resolved the other way — if the guards had not failed on the unfixed corpus, they would have been shown to measure nothing, and the record later reports that one of the three (\"G3 has never fired\") did exactly that. A reader stopping at this section learns the record is staking a falsifiable before/after claim, not restating properties the change was built to have.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"Guards written first, run against the unfixed corpus: two failed, naming exactly the six files predicted\" … \"`tests/test_records.py`: 4 passed.\" … \"Full suite: **92 tests pass**, up from 88, with no existing test modified.\" Each named check is paired with its stated outcome, including the number of files each guard flagged and the before/after suite counts.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: (1) \"G4\" — used in \"`evidence_gaps` already covers G4; this change adds no second implementation of it\", and neither \"G4\" nor \"`evidence_gaps`\" is described anywhere in the record; this sentence carries the whole no-duplication argument. (2) \"G2\" — appears only as a parenthetical label on a file list, \"`v0-2-immediate-workflow` (G2)\"; I searched for any sentence stating what G2 checks and found none, so the reader must reverse-engineer it from the count of deleted `Status: In progress` lines. (3) \"layer 2\" — \"that is layer 2's job, and layer 2 failed its dry run and has not yet been re-validated\", with no statement of what the layers are or what the dry run was. (4) \"the rubric's own rule says a never-firing guard on a grown surface should be re-measured rather than trusted\" — the rubric is an external document and the rule is not restated in resolvable terms. The record's central claim is \"the three guards fail on the corpus before the fixes and pass after\"; a new engineer cannot judge that claim without resolving what at least two of the three guards check.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"**Seven of twenty-four change records were caught.** That number is the point: a guard that caught nothing would be measuring nothing.\" The transferable claim — run a new guard against the existing corpus and require it to catch something before trusting it — is carried with the specific observation from this change (7 of 24). It is reinforced by a named overturning condition elsewhere: \"G3 has never fired. It guards a surface with five links in it; if the corpus stays link-free it will keep proving nothing\", which names an observation a reader could make (a guard that fires on nothing) that would withdraw trust from it.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is the weakest dimension: it is satisfied by any record that names a command and a number, without requiring that the check bear on the record's actual claim. A clearly bad record asserting an unrelated conclusion and appending 'full suite: 92 tests pass' would pass D2 exactly as this one did. Consider requiring that the stated outcome be connected to the success criterion it is supposed to settle.\n\nD1 has a similar softness. 'Fail before, pass after' is a boilerplate framing available to any test-adding change; a record could write it mechanically with no genuine uncertainty and satisfy the 'could plausibly have resolved the other way' test on the letter. What made it real here is only visible later in the record (G3 never fired), which the dimension explicitly forbids the judge from reading.\n\nD3 gives no threshold for how much inference is allowed. 'G1' is partially characterized in place ('matches the form every real correction uses'), 'G2' is inferable only by matching counts across two sections, and 'G4' is uninferable — the dimension treats all three identically, so the verdict turns on the judge's tolerance for chained inference rather than on anything stated. It is also the only dimension sensitive to compact internal notation, so a record can be substantively excellent and fail on labelling alone; that may be intended, but the boolean gives no way to say so."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: the three guards fail on the corpus before the fixes and pass after, demonstrated in that order; ... the suite grows without any existing test changing.\" Both clauses state propositions that could have resolved the other way: the guards might have passed on the unfixed corpus (the corpus might have contained no defects, making the guards worthless), and an existing test might have had to change. A reader who stopped at the opening knows the record's value is contingent on the pre-fix run failing, so the answer changes their decision.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"Guards written first, run against the unfixed corpus: two failed, naming exactly the six files predicted\" and \"`tests/test_records.py`: 4 passed\" and \"Full suite: **92 tests pass**, up from 88, with no existing test modified.\" Checks are named and each has a stated outcome, including counts and file names, not a pointer to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: (1) \"G4\" in \"`evidence_gaps` already covers G4; this change adds no second implementation of it.\" — G4 appears exactly once, is never explained, and the no-duplication claim rests on it; `evidence_gaps` likewise has no stated role. (2) \"G2\" — the central verification claim \"two failed, naming exactly the six files predicted\" depends on G2, but I searched the whole record for any statement of what G2 detects and found none; only G1 is characterised (\"a keyword search for \\\"correct\\\"\", \"the `(Corrected YYYY-MM-DD: …)` form\"). (3) The G1–G4 numbering itself comes from a gap list outside the record — a reader must resolve it elsewhere to know what \"the three guards\" cover or why there are four G-numbers for three guards.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"**Seven of twenty-four change records were caught.** That number is the point: a guard that caught nothing would be measuring nothing.\" — the transferable claim (demonstrate fail-before/pass-after or the guard measures nothing) carries the specific count from this change, and a stopping condition is named as an observable: \"G3 has never fired. It guards a surface with five links in it; if the corpus stays link-free it will keep proving nothing\" — a reader can check whether a guard has ever fired and overturn trust in it on that basis.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D1 is weakly falsifiable as written. \"At least one must state a proposition that could plausibly have resolved the other way\" is satisfied by any success criterion phrased as an outcome rather than a property — a clearly bad record writing \"Success: the tests pass and CI is green\" would pass, because tests can fail. The distinguishing feature of this record's opening is that failure of the criterion would have made the change worthless, not merely incomplete; the dimension does not ask for that, so it cannot separate the two cases. D2 grades the record's account, which is stated deliberately, but the consequence is that a fabricated number passes identically to a real one — nothing in the dimension is sensitive to whether the check was run, only to whether an outcome sentence exists. D3's exemption clause (\"whose role is stated in the sentence that uses them\") gave me the only genuinely close call here: G2's role is inferable by cross-reading three separate sections (`Status: In progress` lines, the `.engineering/evidence/<id>.json` read, the four filenames), and the rubric does not say whether reconstruction from elsewhere in the record counts as defined or undefined. Two judges could split on that term while agreeing on G4; the dimension should state whether the definition must be local to the sentence or merely present somewhere in the record."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "guard-record-conventions"
+}

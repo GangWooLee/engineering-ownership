@@ -1,7 +1,14 @@
 # Record quality, full corpus
 
-Status: Current
+Status: Superseded
 Checked: 2026-08-05
+Superseded by: docs/validation/record-quality-2026-08-rerun.md
+
+This run graded the corpus without the `Verification evidence` section, which is
+the section D2 asks about. The defect is described in full below, under *What
+the judges said about the dimensions*; it was fixed the same day and the corpus
+was re-graded. This document is kept unedited from that point on, because it is
+the record of what was measured before the fix and of how the defect was found.
 
 Every change record in `docs/engineering/changes/` graded against the layer-2
 dimensions in [record-quality-rubric.md](record-quality-rubric.md). Two blind
@@ -172,6 +179,13 @@ The reason it was excluded does not survive contact with the corpus -- the two
 records authored against the older template do not have the section under any
 name that would be extracted, so including it costs those two nothing and
 returns the answer for the other 25.
+
+**Done, 2026-08-05, in `grade-verification-sections`.** The section is now
+extracted, as optional, and four guards fail on a grader-rubric disagreement of
+the kind that hid this. The corpus has **not** been re-graded under the fixed
+extraction, so every column in the table above still describes the run reported
+here. When a full run happens it will produce its own document; this one is not
+retroactively corrected, because the numbers in it are what that run measured.
 
 ## Limits
 

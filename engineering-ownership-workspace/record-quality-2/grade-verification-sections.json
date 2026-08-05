@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:31:58+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"The last of those could plausibly have gone the other way: a guard comparing prose to code can be written so loosely that it passes on any input, and the first version of one of these guards did exactly that.\" This is a success criterion that is a proposition, not a property the change was built to have, and the opening states it already resolved badly once. The opening also calibrates downward on the prior work: \"That run's numbers stand as what was measured under the extraction it used, and the document reporting them already says the D2 column is not usable.\" A reader who stopped after the first section knows the guards are the untrustworthy part and knows one earlier result is void — that is a different posture than if the section had only listed intended outcomes.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "Named checks each carry an outcome: \"| Extraction, `add-record-index` | Now contains `## Verification evidence` with its four reported checks; extract is 3,218 characters |\"; \"| First version of the rubric guard | Did **not** fail when a name was deleted from the rubric; recorded here rather than quietly rewritten |\"; \"| Suite | 96 tests, all passing |\". The re-grade also reports its result rather than pointing at it: \"**No verdict changed.** All twelve cells landed where they did before.\" No check is identified only by reference to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Searched for undefined terms the central argument rests on and found none that go unglossed at the point of use. Each in-repo identifier states its role in the sentence using it: \"`GRADED_SECTIONS` becomes a tuple of `(name, required)` pairs in the order a reader meets them\"; \"`extract_sections` skips a missing optional section and continues; a missing required section still returns `None`\"; \"`RecordIndexCase` fails when the index and the records disagree\"; \"`--only` is added so a change to extraction can be checked against named records without paying for a full run\". The dimension label the argument turns on is defined by its use: \"The two lowest records fail D2 under both extractions, which is what should happen. Neither has a `Verification evidence` section, so the fix gave the judge nothing new to read\". D1 and D4 appear only in the claim that other verdicts may also move, which a reader can judge without resolving them.",
+          "passed": true
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The transferable claim — \"The failure this introduces is a guard that passes on anything, which is worse than no guard because it reads as coverage\" — carries the specific observation from this change that produced it: \"the first rubric-agreement guard checked that each section name appears somewhere in a long paragraph that mentions those names repeatedly, so deleting a name from the list left it green. It was found by breaking it and watching nothing fail, then re-broken from the grader side, where it does fail.\" A second takeaway is bounded the same way: \"The `--only` flag makes a partial run easy, which makes it easy to report a partial run as if it were a full one. Nothing prevents that but the habit of saying which records were graded.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is the weakest discriminator as written. A single table row of the form \"Suite | all passing\" names a check and states its outcome, so any record whose author ran the project's test suite passes D2 regardless of whether the check bears on the change — a record that shipped an unexercised feature and ran the pre-existing suite would pass. The dimension deliberately declines to judge whether the check could have failed, but D1 already carries that burden for success criteria; extending the same 'could have resolved the other way' test to at least one reported check would close the gap without reintroducing subject-matter judgement.\n\nD3's exemption clause is doing more work than its wording admits. 'Role stated in the sentence that uses it' is clear for a function name but not for a term whose meaning is distributed across the record — here 'D2' is never defined, yet a later sentence makes its meaning recoverable. Graders will split on whether recoverable-from-elsewhere-in-the-record counts, and since D3 fails on a non-empty list with no partial credit, that ambiguity decides whole verdicts. Saying explicitly whether the gloss must be local to the first load-bearing use or may appear anywhere in the record would fix it.\n\nD4's carve-outs are sharp, but the 'specific observation from this change' branch is easy to satisfy with a vivid war story that generalises to nothing. This record clears it on substance, but the criterion as phrased would also pass a record that narrates one incident and asserts a lesson without establishing that the lesson holds outside the incident."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success is that the extract for a record with the section now contains it, that the two records without it still produce an extract rather than being skipped, and that a future edit which puts the grader and the rubric out of step fails the suite. The last of those could plausibly have gone the other way: a guard comparing prose to code can be written so loosely that it passes on any input, and the first version of one of these guards did exactly that.\" The third criterion is a proposition about the guard's discriminating power, not a property the change automatically has by being written, and the opening states that the first attempt resolved it the wrong way. A reader who stopped after the opening also learns the scope bound that decides how far to trust any downstream claim: \"Non-goals: re-grading the corpus... That run's numbers stand as what was measured under the extraction it used, and the document reporting them already says the D2 column is not usable.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "Named checks with stated outcomes, e.g. \"Extraction, the two records without the section | Still extract, 2,135 and 2,006 characters; not skipped\"; \"Flipping `Verification evidence` to required fails `test_a_required_section_is_one_every_record_has`, naming `documentation-first-workflow` and `v0-1-0-public-release`\"; \"First version of the rubric guard | Did **not** fail when a name was deleted from the rubric; recorded here rather than quietly rewritten\"; \"Suite | 96 tests, all passing\". The judge re-run also reports its result rather than pointing elsewhere: \"**No verdict changed.** All twelve cells landed where they did before.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "I searched for terms the central claim rests on that a new engineer would have to resolve elsewhere, and found each glossed in the sentence using it: \"`GRADED_SECTIONS` becomes a tuple of `(name, required)` pairs in the order a reader meets them\"; \"`extract_sections` skips a missing optional section and continues; a missing required section still returns `None`, which is what makes the grader report a record as ungradeable rather than score a fragment\"; \"`--only` is added so a change to extraction can be checked against named records without paying for a full run\"; \"`RecordIndexCase` fails when the index and the records disagree\". The dimension shorthand `D2` is likewise made operational where the argument turns on it: \"Before, both judges quoted an audit count from the data-flow section -- the only check-with-outcome they could see. Now both quote the section that reports checks\".",
+          "passed": true
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The failure this introduces is a guard that passes on anything, which is worse than no guard because it reads as coverage. It nearly happened: the first rubric-agreement guard checked that each section name appears somewhere in a long paragraph that mentions those names repeatedly, so deleting a name from the list left it green. It was found by breaking it and watching nothing fail, then re-broken from the grader side, where it does fail.\" The transferable claim carries the specific observation from this change that produced it, and the limits section supplies an overturning condition rather than a scope disclaimer: \"They catch a name present in one and absent from the other. They do not catch a rubric paragraph that names the right sections and describes them wrongly.\"",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is the weakest dimension as written: it asks only that a check be named with an outcome, so a single row reading \"Suite | 96 tests, all passing\" satisfies it even when the suite exercises nothing the change touched. Nothing in the expectation requires the reported check to bear on the record's own claims, so a record that ran a pre-existing test command and wrote down the exit status would pass alongside this one. Consider requiring at least one check whose outcome would have differed had the change been wrong.\n\nD1's escape clause — \"at least one must state a proposition that could plausibly have resolved the other way\" — is currently judged on the record's own assertion of plausibility. A record can write \"this could have gone either way\" about a criterion that could not, and the judge has no in-record basis to dispute it. This record happens to substantiate the claim (\"the first version of one of these guards did exactly that\"), but the dimension does not demand that substantiation.\n\nD3's exemption (\"whose role is stated in the sentence that uses them\") admits circular glosses — \"the grader, which grades the records\" satisfies the letter of it. It also gives the judge no threshold for how much of a term's meaning must be recoverable; I had to decide for myself whether the operational gloss of `D2` here was enough, and a different judge could reasonably have gone the other way on the same text."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "grade-verification-sections"
+}

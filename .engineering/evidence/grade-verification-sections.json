@@ -1,0 +1,82 @@
+{
+  "artifacts": {
+    "brief": "docs/engineering/changes/grade-verification-sections.md"
+  },
+  "change_id": "grade-verification-sections",
+  "created_at": "2026-08-05T19:36:20+09:00",
+  "diff": {
+    "digest": "270546388fb9666ea83e13085d8672dcc240e2d388f8406b756022578b9771b4",
+    "paths": [
+      "docs/engineering/README.md",
+      "docs/engineering/changes/grade-verification-sections.md",
+      "docs/validation/README.md",
+      "docs/validation/record-quality-2026-08-rerun.md",
+      "docs/validation/record-quality-2026-08.md",
+      "docs/validation/record-quality-rubric.md",
+      "engineering-ownership-workspace/record-quality-2/add-record-index.json",
+      "engineering-ownership-workspace/record-quality-2/add-terminal-close-state.json",
+      "engineering-ownership-workspace/record-quality-2/arm-release-currency-gate.json",
+      "engineering-ownership-workspace/record-quality-2/complete-the-fixture-set.json",
+      "engineering-ownership-workspace/record-quality-2/correct-git-attribution.json",
+      "engineering-ownership-workspace/record-quality-2/cover-ship-critical-paths.json",
+      "engineering-ownership-workspace/record-quality-2/declare-english-canonical.json",
+      "engineering-ownership-workspace/record-quality-2/defensible-skill-evaluation.json",
+      "engineering-ownership-workspace/record-quality-2/define-record-quality-rubric.json",
+      "engineering-ownership-workspace/record-quality-2/describe-when-to-invoke.json",
+      "engineering-ownership-workspace/record-quality-2/documentation-first-workflow.json",
+      "engineering-ownership-workspace/record-quality-2/exclude-illustrative-references.json",
+      "engineering-ownership-workspace/record-quality-2/fix-benchmark-postpass.json",
+      "engineering-ownership-workspace/record-quality-2/fix-blinding-redaction.json",
+      "engineering-ownership-workspace/record-quality-2/grade-the-record-corpus.json",
+      "engineering-ownership-workspace/record-quality-2/grade-verification-sections.json",
+      "engineering-ownership-workspace/record-quality-2/guard-record-conventions.json",
+      "engineering-ownership-workspace/record-quality-2/observable-run-evidence.json",
+      "engineering-ownership-workspace/record-quality-2/remove-competency-tags.json",
+      "engineering-ownership-workspace/record-quality-2/rename-pending-release-030.json",
+      "engineering-ownership-workspace/record-quality-2/revise-rubric-after-dry-run.json",
+      "engineering-ownership-workspace/record-quality-2/rewrite-evaluation-expectations.json",
+      "engineering-ownership-workspace/record-quality-2/scope-currency-gate-to-tag-time.json",
+      "engineering-ownership-workspace/record-quality-2/separate-fixture-from-answer-key.json",
+      "engineering-ownership-workspace/record-quality-2/tighten-rubric-with-control.json",
+      "engineering-ownership-workspace/record-quality-2/v0-1-0-public-release.json",
+      "engineering-ownership-workspace/record-quality-2/v0-2-immediate-workflow.json",
+      "engineering-ownership-workspace/record-quality-2/validate-revised-rubric.json",
+      "engineering-ownership-workspace/record-quality-2/withdraw-unsupported-evaluation-claim.json",
+      "engineering-ownership-workspace/record-quality-verify/add-record-index.json",
+      "engineering-ownership-workspace/record-quality-verify/documentation-first-workflow.json",
+      "engineering-ownership-workspace/record-quality-verify/v0-1-0-public-release.json",
+      "scripts/eval/redact_action_logs.py",
+      "scripts/grade_records.py",
+      "tests/test_docs.py"
+    ]
+  },
+  "risk": "R1",
+  "schema_version": 1,
+  "title": "Grade the verification section the verification dimension asks about",
+  "understanding": {
+    "gaps": [],
+    "revisit_after": "2026-08-12",
+    "status": "not-reviewed"
+  },
+  "updated_at": "2026-08-05T21:09:47+09:00",
+  "verification": [
+    {
+      "command_id": "unit",
+      "diff_digest": "270546388fb9666ea83e13085d8672dcc240e2d388f8406b756022578b9771b4",
+      "duration_ms": 21453,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-08-05T21:09:47+09:00"
+    },
+    {
+      "command_id": "distribution",
+      "diff_digest": "270546388fb9666ea83e13085d8672dcc240e2d388f8406b756022578b9771b4",
+      "duration_ms": 52,
+      "exit_code": 0,
+      "status": "passed",
+      "timed_out": false,
+      "verified_at": "2026-08-05T21:09:47+09:00"
+    }
+  ]
+}

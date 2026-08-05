@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:57:02+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: the control fails the dimensions it was built to game and passes the one it was not, and any dimension it slips through is tightened using wording a judge proposed and checked against the corpus.\" This is a prediction about how an external instrument behaves when attacked, not a property the artifact was built to have — the control could have slipped through every dimension it was built to game, and the second clause names what would follow if it did. A reader who stopped at the opening section would read a reported failure of the control as evidence the instrument works and a reported pass as evidence it is lenient, so the finding changes the decision. The non-goals list (\"grading the full corpus; adding dimensions\") is a deferred-feature list and does not carry this on its own, but the success clause does.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"Prediction fixed before the run: the control fails D1, D2, D4 and passes D3.\" The check is named — seven extracts \"graded by two blind judges under the current dimensions\" — and its output is stated rather than pointed at: \"Control | **6 of 8 cells failed** — D1, D2, D4 by both judges; D3 passed by both\", \"Prediction | met exactly\", \"Agreement | 26 / 28 (93%)\", \"Control's rank | worst of seven by rubric score\". A second, separately-run check is also reported with its outcome: \"Asked separately from the rubric which document they would least want to inherit, both judges named the same one — and it was not the control.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: (1) **D1, D2, D4** — the central claim is stated as \"the control fails D1, D2, D4 and passes D3\" and \"The rubric catches a record built to beat it\", but the record nowhere states what these dimensions require. I searched the whole record for a statement of the four dimensions and found only post-hoc partial glosses describing what each *tightening added* — \"a deferred-feature list no longer satisfies D1; a check named only by pointing at another document counts as no check under D2; a scope disclaimer is not a stopping condition under D4\" — which do not state what the dimensions required *before* the tightening, i.e. exactly what the control was tested against. (D3 alone is glossed in the sentence that uses it: \"It deliberately does not game D3 — every identifier is glossed where it appears\".) (2) **the correction guard** — \"`tests/test_evals.py` already pins a false-positive set for the correction guard\"; the guard's role is never stated, and it is the prior art the 'this is not a new shape here' argument rests on. (3) **the previous run** — \"the leniencies the previous run speculated about are narrower than feared\" names a prior result with no statement of what it was.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"One judge: 'The rubric over-penalizes legible thinness and under-penalizes abstraction with no referent.'\" This transferable claim carries the specific observation from this change that produced it: \"Asked separately from the rubric which document they would least want to inherit, both judges named the same one — and it was not the control. It was a real record that scores better than the control on the rubric... the rejected record covers an entire release, names no file, no command, and no number, and delegates its assurance to 'exercised by tests' — yet passed D1 and D4.\" A second takeaway carries a stopping condition naming an observation that would overturn it: \"The tightenings carry predicted verdicts, not measured ones... the full pass tests those predictions, and a miss is a finding about the rubric.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is the weakest dimension: it grades \"the record's account\", so a record that asserts a check and a result in well-formed prose passes regardless of whether the run happened. This record's results table is structurally indistinguishable from a fabricated one — same shape, same specificity. If D2 is meant to reward honesty rather than fluency, it needs to require something a fabricator would have to forge, e.g. a pointer to where the raw output lives (which is awkward, since D2 currently treats pointing at another document as disqualifying under its own D2 clause about named checks). As written, a bad record that invents plausible numbers scores identically to a good one.\n\nD3's exemption — \"whose role is stated in the sentence that uses them\" — makes the verdict turn on sentence boundaries rather than comprehension. Here D3-the-term is glossed in its own sentence and passes the exemption, while D1/D2/D4 are glossed three paragraphs later and do not, even though a reader encountering the later paragraph is equally unblocked. Either the exemption should be \"stated anywhere in the record before the claim it supports\", or it should be dropped in favour of \"a reader must leave this document\" as the sole test. As currently phrased, an author can pass by relocating a clause without adding any information.\n\nD1's instruction \"Read only the opening section\" is in tension with its own bar: judging whether a criterion \"could plausibly have resolved the other way\" often requires knowing what the change was, which the opening section may not say. An author can also manufacture apparent falsifiability by phrasing a guaranteed outcome as a prediction (\"success: the check we added fires\"), and a reader confined to the opening section has no way to detect it."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success: the control fails the dimensions it was built to game and passes the one it was not, and any dimension it slips through is tightened using wording a judge proposed and checked against the corpus.\" This is a two-sided proposition, not a property the change was built to have: the control was deliberately constructed to beat those dimensions, so the stated success condition is that it fails anyway. It could plausibly have resolved the other way (the control slips through), and the clause \"any dimension it slips through is tightened\" concedes that branch in advance. A reader who stopped after the opening section would decide differently depending on which way it went, and would know the non-goals list alone is not carrying the calibration.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"Prediction fixed before the run: the control fails D1, D2, D4 and passes D3.\" followed by the table: \"Control | **6 of 8 cells failed** — D1, D2, D4 by both judges; D3 passed by both\", \"Prediction | met exactly\", \"Agreement | 26 / 28 (93%)\", \"Control's rank | worst of seven by rubric score\". The check is named (seven extracts graded by two blind judges under the current dimensions) and its output is stated numerically. A second check is also named with its result: \"verified by the suite staying green with it present.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The list is non-empty. (1) \"preferences carrying a bare `because`\" — this is one of the three leniencies the control was built to game, and the control's construction is what the whole record is about. The other two in the same sentence are self-explanatory (\"a non-goals list containing only features not built\"; \"'the full suite passes' placed inside a success clause and never reported as run\"), but I searched the record for any statement of what a \"preference\" is in this context, or what makes a `because` \"bare\", and found none. (2) \"the leniencies the previous run speculated about are narrower than feared\" — the concluding inference of the verification section rests on what the previous run feared; I searched for any statement of what that was and found only this backward reference. (3) \"`tests/test_evals.py` already pins a false-positive set for the correction guard\" — \"the correction guard\" is used with no statement of what it guards, so it does not meet the in-place-gloss exemption. Note that D1–D4 themselves do meet the exemption: D3 via \"It deliberately does not game D3 — every identifier is glossed where it appears\", and the others via \"a deferred-feature list no longer satisfies D1; a check named only by pointing at another document counts as no check under D2; a scope disclaimer is not a stopping condition under D4.\"",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The rubric over-penalizes legible thinness and under-penalizes abstraction with no referent.\" This transferable claim carries the specific observation from this change that produced it: \"Asked separately from the rubric which document they would least want to inherit, both judges named the same one — and it was not the control. It was a real record that scores better than the control on the rubric... the rejected record covers an entire release, names no file, no command, and no number, and delegates its assurance to 'exercised by tests' — yet passed D1 and D4.\" A stopping condition is also stated for the tightenings: \"Each judge stated which records their edit would newly fail; the full pass tests those predictions, and a miss is a finding about the rubric\" — a miss is an observation a reader could make that overturns the claim.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 as written is satisfiable by a fabricated table. It explicitly instructs the judge to assess \"the record's account, not whether the subject matter is deterministically repeatable,\" and this record's entire D2 case is four self-reported numbers (6 of 8, 26/28, 93%, worst of seven) that no reader can check from the record. A record that invented those numbers, or ran nothing and wrote a plausible table, passes D2 identically to one that did the work. The dimension measures whether an outcome was *stated*, which is a weaker property than it appears to be, and the phrasing \"a blinded judge run reported honestly passes\" quietly assumes the honesty it cannot test. If that is the intended trade (rewarding reporting discipline, not auditability), it is worth saying so, because as phrased it reads as a verification check.\n\nD1's escape hatch is narrower than it looks but still open. The requirement is \"at least one must state a proposition that could plausibly have resolved the other way\" — but plausibility is judged by the same judge reading only the opening section, with no way to tell a genuine bet from a foregone conclusion phrased as one. \"Success: the new parser handles all inputs the old one did\" reads as a two-sided proposition and is in fact a property the change was built to have. This record passes on the substantive ground that the control was built to beat the rubric and success was that it failed anyway, which is a real bet — but a record with no such tension can imitate the grammar cheaply.\n\nD4 permits a transferable claim to be carried by a quotation from a third party. Here the quoted judge line is well-grounded in an observation from this change, so it passes on the merits. But the dimension does not require the claim to be the record author's, so borrowing a striking generalization from an interlocutor and attaching a thin observation to it would satisfy the letter of it.\n\nOn D3: this was the closest call of the four, and the dimension's own strictness is what decided it. The record glosses D1–D4 in place and is unusually legible elsewhere; it fails on three phrases, one of which (\"the correction guard\") sits in a supporting-precedent sentence rather than the central argument. A dimension where any non-empty list is fatal will produce failures that correlate with how much supporting context a record volunteers, which mildly penalizes records that bother to cite prior art. That may be the intended cost, but it means a shorter record that omitted the \"Existing responsibilities searched\" content entirely would have had a smaller list to fail on."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "tighten-rubric-with-control"
+}

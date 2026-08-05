@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:26:31+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"replaying the eight quarantined leak commands through the fixed code yields zero residual leaks\" — this is a proposition about a pre-existing corpus of eight already-captured failures, not a property the change was built to have by construction; the six enumerated token forms could have failed to cover what those eight real commands contained. A reader stopping at this section knows the record commits to a binary outcome on evidence that existed before the fix, and would decide differently if any residual leak were reported. The non-goals section additionally states what is deliberately untouched: \"scrubbing the response, transcript, or fixture contents.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 71 tests pass (70 pre-existing after quarantine, 1 new: `test_action_targets_never_carry_the_runner_location`).\" and \"Replay: the eight quarantined leak commands passed through the fixed `action_target` + `redact` produce zero targets containing the runner name.\" Both name a specific check and state what it produced; neither defers to another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Non-empty list of undefined load-bearing terms. (1) \"the fixture\": the core mechanism sentence is \"`$`-prefixed tokens are treated as outside the fixture\", and the record never says what the fixture is — a reader cannot judge whether \"outside the fixture\" is the right test. Related uses \"in-fixture-filename\", \"fixture deltas\" also unexplained. (2) \"`ROOT`\": \"any target still carrying `ROOT.name` after the token pass is scrubbed wholesale\" — `ROOT` has no antecedent anywhere in the record. (3) \"the skill\": \"A run whose own response names the skill is inadmissible by the grader's refusal check\" — introduced with a definite article and never identified. (4) The blinding rationale: the record's premise is that carrying \"the runner location\" is a defect, but why is only gestured at via \"`JudgeBlindingCase`\" and \"the grader's leak refusal\"; the record never states what is being blinded from whom, so a new engineer cannot judge whether the fix addresses the harm. Terms that do meet the in-place exemption and are not on this list: \"`redact()` also runs over transcripts and fixture deltas\", \"`--resume` re-runs any run directory that was moved out\".",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The backstop was placed in `action_target` itself, not in `redact()`, because `redact()` also runs over transcripts and fixture deltas where replacing the repository name would rewrite agent-authored content\". The transferable claim — put a scrubbing backstop at the narrow stage whose output is machine-generated rather than at the shared stage — carries the specific observation from this change that produced it (that the shared stage here also passes over transcripts and fixture deltas), rather than being a bare scope disclaimer or a restated general property.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D1 is close to unfalsifiable as written. 'A proposition that could plausibly have resolved the other way' is adjudicated by the grader's imagination, not by anything in the text: almost any test-based success criterion can be narrated as 'the test could have failed.' A clearly bad record saying only 'Success: the new tests pass' is defensibly passable under a lenient reading and defensibly failable under a strict one, and the rubric gives no tiebreaker. Consider requiring that the proposition reference evidence that existed before the change (a pre-existing corpus, an outside baseline, a competing hypothesis), which is what actually distinguished this record.\n\nD3's exemption is ambiguous about scope. It says a term is exempt when its role is stated 'in the sentence that uses them,' but records define identifiers across sections — here `action_target` is only characterised by a data-flow line in a different section than the sentence that argues about it. I resolved this as sufficient, but the rubric does not say whether cross-section definition counts, and that single call can flip the verdict on records that lean on a glossary-style flow diagram.\n\nD2 is satisfiable without doing the work: 'ran the suite, 71 pass' meets 'names a check and says what came out of it' even when the suite exercises nothing the change touched. The bar catches records that point at another document, but not records that report an outcome irrelevant to the claim. This record passes on stronger grounds than the rubric requires (the named regression test and the replay both target the specific claim), which the boolean cannot record."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"replaying the eight quarantined leak commands through the fixed code yields zero residual leaks\" — this is not a restatement of a property the change was built to have in the abstract: the eight commands are pre-existing captured artifacts (\"exercised today for eight runs now in `/tmp/eo-quarantine/`\"), and a reader who stopped at the opening section knows the change is only trustworthy if every one of those independently-collected leaks comes back clean. If two of the eight had survived, the record's finding would differ and so would the decision. The non-goals half (\"scrubbing the response, transcript, or fixture contents\") is only an exclusion list and would not carry this alone.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 71 tests pass (70 pre-existing after quarantine, 1 new: `test_action_targets_never_carry_the_runner_location`).\" and \"Replay: the eight quarantined leak commands passed through the fixed `action_target` + `redact` produce zero targets containing the runner name.\" Both name a specific check and state its output (a count, and a zero-result), rather than pointing at another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on, with no role stated in the sentence that uses them: (1) \"the fixture\" — the boundary that decides the whole fix, in \"`$`-prefixed tokens are treated as outside the fixture\" and \"in-fixture-filename forms of the runner location\"; I cannot tell whether a fixture is a directory, a checked-out repo, a per-run workspace, or a test data file, and the scrub rule is unjudgeable without it. (2) \"judge bundle\" — the terminus of \"`parse_stream` → `action_target(name, input, cwd)` → `redact(...)` → `actions.json` → judge bundle\", never explained, so the reason a leaked runner name matters at all is not stated. (3) \"the grader's refusal check\" / \"the grader's leak refusal\" — one of the \"two independent nets behind this fix\", with no statement of what the grader is or what it refuses. (4) \"`ROOT.name`\" in \"any target still carrying `ROOT.name` after the token pass is scrubbed wholesale\" — introduced without definition, and the reader must guess its relation to the separately-used phrases \"the runner location\", \"the runner name\", and \"the repository name\". (5) \"what is graded\" in \"altering them would distort what is graded\" — the object of grading is never named. `JudgeBlindingCase`, `redact()`, and `--resume` are exempt: each has its role given in place.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The backstop was placed in `action_target` itself, not in `redact()`, because `redact()` also runs over transcripts and fixture deltas where replacing the repository name would rewrite agent-authored content\" — a transferable placement rule (put a wholesale scrub at the narrow stage whose inputs you are permitted to rewrite, not at the shared stage that also passes over material that must survive verbatim), carrying the specific observation from this change that produced it: redact()'s input set includes transcripts and fixture deltas.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D1 and D2 are both satisfiable without doing the work, and a clearly bad record would pass them. D1's discriminator — \"a proposition that could plausibly have resolved the other way\" — is judged on the grader's guess about plausibility, and I had to make that guess here with no way to check it: I cannot tell from the record whether the eight quarantined commands were the *same* eight that motivated the fix, in which case \"zero residual leaks\" is exactly the property the change was built to have and the criterion is circular. A record that wrote only \"Success: the full suite passes\" invites the same lenient reading, since a suite can always fail. If D1 is meant to exclude that, it should require the record to name what specifically it would have looked like for the criterion to fail. D2 as written is satisfied by any named command with any stated output: \"ran the linter: no errors\" passes, regardless of whether the check bears on the change's actual risk. It measures reporting hygiene, not verification — which may be the intent, but the dimension name promises more. D3, by contrast, is the only dimension here that a competent-but-uninformed reader can apply mechanically, and it is close to unpassable for any record embedded in a project with its own vocabulary: a record cannot re-derive its domain in every section without becoming a tutorial. The boolean form gives no way to distinguish \"three terms block the central claim\" from \"one term is mildly opaque,\" and since \"the list is the evidence,\" the dimension's verdict is decided entirely by how generously the grader reads the in-place-definition exemption."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "fix-blinding-redaction"
+}

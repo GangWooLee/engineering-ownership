@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:06:33+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "Opening section reads: \"Success: the decision is recorded; `README.ko.md` and `first-work.ko.md` each open by naming their English source and their status as a summary; nothing in either claims to be complete.\" All three clauses are properties the edit was built to have — writing the headers makes them true by construction; none states a proposition that could plausibly have resolved the other way. The remainder of the section is \"Non-goals: retranslating the Korean documents to match the current English ... translating the engineering records; changing the language of conversation with the owner\", which is a list of excluded work and is explicitly disqualified. A reader who stopped at this section would make the same decision regardless of what the record found.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: suite green.\" and \"`python3 scripts/validate_distribution.py`: passes.\" and \"`git log -1 --format=%ci` on each README pair, showing the three-day drift quoted above.\" Each names a specific check and states what it produced.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the argument rests on: (1) \"R2\" — \"`artifact_paths` (`cli.py:135-145`) allocates a decision document only at R2 and above\" and \"raising the risk to R2 purely to obtain a file would have been the tail wagging the dog\"; the record never says what the risk tiers are or what R2 denotes, yet the whole product-gap conclusion turns on it. (2) \"the Brief\" — \"the evidence record's `artifacts` map lists only the Brief\"; a capitalised artifact type never introduced. (3) \"the skill description\" in \"`tests/test_evals.py` requires eval prompts, expectations, and the skill description to be ASCII\", which carries the claim that \"the evaluated surface is already English by enforcement rather than by decision\" — which skill, and what surface it covers, must be resolved elsewhere. `artifact_paths` and `tests/test_evals.py` are exempt, since each sentence states what they do; R2, the Brief, and the skill description are not.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"A guard could assert that each `*.ko.md` names its English source, but the drift this change documents is about content, not headers, and no cheap check catches that — a test that compared the two would fail permanently by design. Left as a stated limit rather than a false gate.\" The transferable claim (state the limit rather than add a gate that cannot pass) carries the specific observation from this change that produced it: the drift is in content, so a test comparing the Korean summary to its English source would fail by design. The second takeaway is likewise grounded — \"The tier is meant to be a floor on required artifacts, not a ceiling on judgement\" is attached to the observed consequence that \"the ADR exists on disk while the evidence record's `artifacts` map lists only the Brief.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is satisfiable without doing work relevant to the change. This record passes on \"suite green\" and \"passes\" for a change its own System-and-data-flow section describes as \"Documentation only. No code, no contract, no test touches language choice\" — running the full suite and a distribution validator verifies nothing about the claim under review. As written, D2 asks only for a named check plus an outcome, so any record can pass by pasting a project's standard CI commands regardless of whether they could have detected a defect in this change. Consider requiring that at least one reported check bear on a proposition the record actually asserts.\n\nD3's scope hinges on the phrase \"central argument,\" which two graders will resolve differently. Here the decision itself (English is canonical) uses almost no undefined vocabulary, while the Known-limits paragraph — the same paragraph that supplies the D4 takeaway — is dense with unexplained project terms (R2, the Brief, `engineering explain`). Whether the record fails depends entirely on whether that paragraph counts as central. The dimension would be more reliable if it named the target explicitly, e.g. any claim a reader would have to accept or reject to act on the record, including its stated limits."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads: \"Success: the decision is recorded; `README.ko.md` and `first-work.ko.md` each open by naming their English source and their status as a summary; nothing in either claims to be complete.\" All three clauses are properties the change was built to have — the edit consists of adding those headers, so they cannot resolve the other way. The remainder is \"Non-goals: retranslating the Korean documents ...; translating the engineering records; changing the language of conversation with the owner\", i.e. a list of excluded work. I searched the opening section for any proposition that could plausibly have come out false (a risk, a hypothesis about drift, a threshold the change might have missed) and found none; a reader who stopped after this section would adopt the change regardless of what the rest reported.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: suite green.\" and \"`python3 scripts/validate_distribution.py`: passes.\" and \"`git log -1 --format=%ci` on each README pair, showing the three-day drift\" — each names a concrete command and states what it produced.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the argument rests on: (1) \"R2\" / the risk tier scheme — \"allocates a decision document only at R2 and above\" and \"raising the risk to R2 purely to obtain a file would have been the tail wagging the dog\"; the force of that judgement depends on what R2 classifies and where this change sits, which the record never says. \"The tier is meant to be a floor on required artifacts, not a ceiling on judgement\" states what tiers are *for* without saying what they are. (2) \"the Brief\" — \"the evidence record's `artifacts` map lists only the Brief\"; a capitalised artifact type used as the contrast to the ADR, never defined. (3) \"evidence record\" — used as a known document kind with an `artifacts` map, its role never stated in the sentence that uses it. A new engineer must resolve all three elsewhere before judging the claim that the gap was \"[r]ecorded here rather than worked around.\"",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"A guard could assert that each `*.ko.md` names its English source, but the drift this change documents is about content, not headers, and no cheap check catches that — a test that compared the two would fail permanently by design. Left as a stated limit rather than a false gate.\" The transferable claim (prefer a stated limit to a gate that must fail by design) carries the specific observation from this change that produced it: the translated documents are summaries, so a content-comparison test could never pass.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is the weak dimension: it asks only that a check be named with an outcome, and is satisfied here by two commands that bear no relation to the change's risk. This record edits two Korean document headers; `python3 -m unittest discover -s tests` and `validate_distribution.py` would report exactly the same 'green' / 'passes' whether or not those headers say anything true, and the one check that does bear on the claim delegates its result to a figure \"quoted above\" that appears nowhere in the graded sections. Any record that pastes the repo's standard commands passes D2 without having verified its own claim. Consider requiring that at least one reported check could have come out differently had the change been wrong — the same falsifiability bar D1 already applies to success criteria.\n\nD4's first branch is also cheap. \"Carries the specific observation from this change that produced it\" is met by any maxim placed next to the file names it came from; the second branch (a stopping condition naming an observation that would overturn the claim) is much harder, so records will reliably take the first and the dimension will rarely discriminate.\n\nD3's exemption clause has an edge the criteria do not resolve: `artifact_paths` is exempt because the sentence states its role, but that same sentence introduces \"R2\", which is not an in-repo identifier at all. A record can smuggle undefined vocabulary in through the explanatory clause that earns an identifier its exemption."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "declare-english-canonical"
+}

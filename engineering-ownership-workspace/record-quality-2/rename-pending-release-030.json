@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:41:11+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads in full: \"Success: `pyproject.toml`, both plugin manifests, `marketplace.json`, `SKILL.md` metadata, `__init__.py`, and the contract's `release-package` command all read `0.3.0`; `docs/releases/v0.3.0.md` exists; `validate_release_tag.py v0.3.0` passes including the new currency check; the suite passes with the version-pinned release tests updated.\" and \"Non-goals: creating the tag or publishing the release — still the owner's call, and the notes must be reviewed first.\" Every success criterion is a property the change was built to have — files carrying the new string, a notes file the change created, and tests the same change updated to pin the new version (\"the suite passes with the version-pinned release tests updated\"). I searched the opening for a criterion stating a proposition that could plausibly have resolved the other way and found none; the non-goals are deferred work, which the dimension excludes. A reader who stopped here would treat the record identically whether or not it found anything — and in fact it found something material (verification could not be bound) that the opening gives no reason to expect.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"- `python3 -m unittest discover -s tests`: 81 tests pass.\" and \"- `python3 scripts/validate_distribution.py`: passed (all manifests agree — this is the check that proves the rename is complete).\" Named checks with stated outcomes, not pointers to another document. The record also states honestly what did not run and why: \"`engineering verify` refused ... The four commands above were therefore run directly and their results recorded here rather than in the evidence file.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on: (1) `R3` / `R2` — \"the tree-wide diff detects R3 and exceeds this record's declared R2\" and \"Escalating this record to R3 would attach another change's work to it\". These are never defined; they carry the entire justification for why verification was not bound, and a new engineer cannot judge whether the refusal was legitimate or whether declaring R2 was correct without resolving them elsewhere. (2) \"bind\" / \"unbound\" as used in \"bind clean evidence\", \"an unbound record\", \"diff binding\" — the record never says what binding evidence to a diff consists of, yet the whole verification caveat and the transferable finding rest on it. (3) \"the evidence file\" — referenced as an alternative destination for results, never identified. (4) \"the contract's `release-package` command\" — \"the contract\" is used as a known noun in the success criteria with no role stated in the sentence. By contrast `validate_distribution.py` is exempt, being defined in place: \"already asserts that every manifest agrees with `pyproject.toml`\". The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"Concurrency limit discovered here: risk detection and diff binding are tree-wide, so two agents sharing one working tree cannot both bind clean evidence. The tool has no per-change diff scoping and no worktree guidance.\" The transferable claim carries the specific observation from this change that produced it, stated concretely earlier in the record: \"a concurrent session is editing `cli.py` and `model.py` in this same working tree, so the tree-wide diff detects R3 and exceeds this record's declared R2.\" This is not a general property of a third-party tool restated in the abstract — the encounter is named.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 and D4 are both satisfiable well below the bar they seem to intend. D2 is met by any record that appends a command and the word \"passed\"; this record clears it easily, but so would a record whose four one-line results were fabricated or stale, since the dimension asks only that an outcome be stated. The dimension has no purchase on whether the stated check bears on the stated success criteria — a record could report `pytest` passing for a change to a shell script and pass. D4's two branches are joined by \"either/or\", and the first branch (\"the specific observation from this change\") is much cheaper than the second (a condition that would overturn the claim). Any record that puts a concrete detail next to a generalisation clears it, so the disjunction lets every author skip the harder and more useful half; I would consider requiring the stopping condition outright, or requiring the observation branch to also say what about the observation makes it generalise. D1 has a different problem: for a genuinely mechanical change like this one, an honest author may have nothing that could plausibly have resolved the other way, and the dimension's remedy is to invent one. The rubric as written cannot distinguish \"this change carried no real uncertainty\" from \"this author hid the uncertainty\", and it rewards manufactured suspense. Note also that this record's most decision-relevant fact — that its verification is unbound and it is still open — appears only in the fifth section; a calibration dimension that reads only the opening will keep missing that class of disclosure whenever the template puts it last."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads in full: \"Success: `pyproject.toml`, both plugin manifests, `marketplace.json`, `SKILL.md` metadata, `__init__.py`, and the contract's `release-package` command all read `0.3.0`; `docs/releases/v0.3.0.md` exists; `validate_release_tag.py v0.3.0` passes including the new currency check; the suite passes with the version-pinned release tests updated.\" Every clause is a property the change was constructed to produce — a mechanical version substitution, its notes file, and the checks that confirm the substitution landed. I searched the section for a proposition that could plausibly have resolved the other way and found none. The non-goals — \"creating the tag or publishing the release\" — are a list of deferred work, which the dimension excludes. A reader who stopped after this section would proceed identically whether or not the record later reported that verification could not be bound at all.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"- `python3 -m unittest discover -s tests`: 81 tests pass.\" and \"- `python3 scripts/validate_distribution.py`: passed (all manifests agree — this is the check that proves the rename is complete).\" Each names a specific command and states what it produced, in the record itself rather than by pointing at another document. The record also states honestly what did not run: \"`engineering verify` refused\".",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "\"a concurrent session is editing `cli.py` and `model.py` in this same working tree, so the tree-wide diff detects R3 and exceeds this record's declared R2.\" `R3` and `R2` are undefined risk levels; nothing in the record says what they denote, what makes one exceed the other, or what consequence a level carries. They are load-bearing: the entire justification for why the record is unbound — and for the choice not to escalate — rests on R3 exceeding R2. Also undefined and load-bearing is the notion of evidence being \"bound\" to a diff (\"**Not bound to the current diff, and why.**\", \"two agents sharing one working tree cannot both bind clean evidence\"); the record states the consequence of failing to bind but never what binding is, so a new engineer cannot judge whether running the four commands by hand was an adequate substitute or a material loss.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"Concurrency limit discovered here: risk detection and diff binding are tree-wide, so two agents sharing one working tree cannot both bind clean evidence. The tool has no per-change diff scoping and no worktree guidance.\" The transferable claim carries the specific observation from this change that produced it, stated earlier in the record: \"`engineering verify` refused: a concurrent session is editing `cli.py` and `model.py` in this same working tree, so the tree-wide diff detects R3 and exceeds this record's declared R2.\" The claim names the mechanism (tree-wide scope) that a reader could check against their own setup, rather than restating a generic property of a tool.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D1 does not distinguish bad writing from a genuinely low-uncertainty change. For a mechanical rename, *every* honest success criterion is a property the change was built to have; there may exist no proposition that could plausibly resolve the other way. As written, D1 is unpassable for a whole class of changes, which pushes an author toward manufacturing a fake open question in the opening section rather than reporting accurately. If the intent is 'tell the reader what would make this record worth doubting,' say that — a record could satisfy it by stating up front 'verification is unbound; see below,' which is exactly the calibration this record withholds and which the current wording gives no credit for.\n\nD2 is satisfiable by a record that lists whatever happened to be green while omitting the check that mattered. This record passes D2 on the strength of a test suite and a manifest comparison, and it does disclose the refusal — but the dimension as phrased would equally pass a record that ran the same four commands and silently dropped the '`engineering verify` refused' paragraph. The dimension asks only 'what was checked and what came out,' never 'was anything checked that should have been and was not.' Consider requiring that a record naming a verification tool it did not run says so.\n\nD4's disjunction is loose. 'The specific observation from this change that produced it' is much easier to satisfy than 'the condition under which it stops applying,' and only the second actually bounds the claim. A record can satisfy D4 with a vivid anecdote attached to an unfalsifiable generalisation. Here the claim happens to be checkable (tree-wide scope, no per-change scoping), but that is a property of this record, not something D4 required.\n\nD3 is the strongest of the four: it demands a list and treats the list as the evidence, so silence fails and the verdict is hard to fudge."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "rename-pending-release-030"
+}

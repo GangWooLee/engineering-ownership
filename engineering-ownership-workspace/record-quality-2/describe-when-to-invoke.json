@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:15:44+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success is all three pre-registered criteria: the positive interval clears the prior upper bound of 0.41, the negative interval stays below 0.5, and engagement on an already-configured repository does not regress.\" Each of these is a proposition that could have resolved the other way — the positive interval's lower bound could have failed to clear 0.41 — so a reader who stopped at the opening section knows the record's verdict was not guaranteed by construction, and knows the bar against which to read it. The section also states what the result cannot support: \"Not a goal: showing that the skill *helps*. A trigger rate says whether it runs, never how well.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "Checks are named with their outcomes stated inline, not by reference: \"unmanaged | should trigger | 16/17 | [0.71, 1.00] | lower bound above 0.41 | pass\"; \"The held-out half passes on its own, measured once after train\" with \"should trigger | 5/5 | [0.48, 1.00] | clears 0.41\"; \"`python3 -m unittest discover -s tests`: 68 tests pass.\"; \"Three new guards were each given a violation and observed rejecting it: a description with angle brackets, one over the 1024 character limit, and a probe set with its negatives removed.\" Adverse outcomes are also reported: \"Six runs produced no result — five lost to rate limiting, one to a timeout — and the harness could not say so.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "I looked for terms the central claim (that the rewritten description triggers above the pre-registered bars) rests on and that a reader must resolve outside the record. The candidates resolve in place: \"`run_trigger_probes.py` builds a fixture on a named base, runs the treatment only - the baseline cannot invoke a skill it was not given - and records whether the `Skill` tool was used\" defines treatment, baseline, and engagement; \"Runs are keyed by a digest of the description they measured\" states the digest's role; \"Those runs used the capability prompts rather than these probes, so this is two measurements of one question and not a paired comparison of one prompt\" states the consequence of the term rather than requiring the reader to look it up; \"It is an unscored probe and does not touch any verdict\" defines unscored. The weakest case is \"managed\"/\"unmanaged\", never defined outright, but the opening criterion \"engagement on an already-configured repository does not regress\" maps to the table's managed row, and \"0 of 7 on an unmanaged repository, interval [0, 0.41]\" establishes which class is the previously-failing one — enough to judge the claim without leaving the record.",
+          "passed": true
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"It matched processes by name with `pgrep -f \"run_trigger_probes.py\"`, and the waiting shell's own command line contains that string, so the condition could never become false. Two shells spun until they were killed, and the managed-base regression run queued behind one of them never started.\" The transferable claim — that the fix is removing the waiter, not writing a better pattern — carries the specific observation from this change that produced it, including the contrast with what worked: \"an earlier wait in this same session, on a specific PID with `kill -0`, worked correctly. Switching to a name pattern for convenience reintroduced it.\" A second takeaway is likewise bound to its observation: \"the probe set was frozen before the description was written, and editing it now would spend the only guarantee this design has.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is cheap to satisfy in its current form. \"Names a check and says what came out of it\" is met by any record that lists a contract command and its exit status — \"ran the suite, 68 tests pass\" would pass even if the suite has no bearing on the record's central claim. This record clears a much higher bar (it reports intervals against pre-registered thresholds, and reports six runs that produced no result), but the dimension as written does not distinguish the two. Consider requiring that at least one reported check bear on the claim the record is making, not merely on the tree being green.\n\nD1 has a similar softness: \"a proposition that could plausibly have resolved the other way\" is satisfied by any numeric threshold, including one chosen to be unmissable (\"the interval's upper bound stays below 1.0\"). What makes this record's 0.41 non-trivial is that it is anchored to a prior measurement of the same question — the dimension does not ask for that anchoring, so a record could pre-register a vacuous bar and pass.\n\nD3's decision procedure is where I expect graders to diverge. The exemption covers \"in-repo identifiers whose role is stated in the sentence that uses them\", but says nothing about domain vocabulary that is never defined yet is resolvable by cross-referencing two places in the record — here, managed/unmanaged repository. I passed it on the grounds that \"must resolve elsewhere\" means outside the record; a grader reading \"undefined\" as \"not defined in the sentence that introduces it\" would fail the same text. Since the dimension is boolean and the list is the evidence, that ambiguity decides verdicts. Worth stating explicitly whether in-record inference counts as resolution."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"Success is all three pre-registered criteria: the positive interval clears the prior upper bound of 0.41, the negative interval stays below 0.5, and engagement on an already-configured repository does not regress.\" These are numeric bars fixed in advance, not properties the change was built to have: \"the positive interval clears the prior upper bound of 0.41\" is a proposition the measurement could plainly have resolved the other way, and the opening also tells the reader what the record cannot settle — \"Not a goal: showing that the skill *helps*. A trigger rate says whether it runs, never how well.\" A reader who stopped after this section would trust the record conditionally on a stated threshold being met.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "Checks are named with their outcomes rather than pointed at: \"| unmanaged | should trigger | 16/17 | [0.71, 1.00] | lower bound above 0.41 | pass |\" and \"| managed | should trigger | 6/6 | [0.54, 1.00] | no regression | pass |\", the held-out measurement \"| should trigger | 5/5 | [0.48, 1.00] | clears 0.41 |\", and the contract commands \"`python3 -m unittest discover -s tests`: 68 tests pass.\" and \"`claude plugin validate --strict .`: passed.\" The guards are also reported as exercised: \"Three new guards were each given a violation and observed rejecting it\".",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central claim rests on, none defined in the sentence that uses them: (1) \"unmanaged\" / \"managed\" repository — the entire result is stated per repository class (\"| unmanaged | should trigger | 16/17 |\", \"| managed | should trigger | 6/6 |\") and the opening says the treatment-engaging repository \"did not exist for the unmanaged case\", but what makes a repository managed is never stated; \"an already-configured repository\" only relocates the question to what configuration. (2) \"capability prompts\" — \"Those runs used the capability prompts rather than these probes, so this is two measurements of one question and not a paired comparison\". The 0.41 bar in the success criterion is derived from those runs, so a reader cannot judge whether the bar is the right one without resolving this term elsewhere. (3) \"train\" / \"the held-out half\" as applied here — \"measured once after train\" and \"the test score is biased by having selected on train\" assume a split of the probe set that the record never describes making. I searched the record for any sentence defining managed/unmanaged or capability prompts and found none.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"It matched processes by name with `pgrep -f \\\"run_trigger_probes.py\\\"`, and the waiting shell's own command line contains that string, so the condition could never become false.\" The transferable claim carries the specific observation from this change that produced it — \"A waiting loop of mine idled for three hours and twenty-one minutes\", \"the managed-base regression run queued behind one of them never started\" — and states the resolution rather than a generic tool property: \"The fix was not a better pattern but removing the waiter\". The train/test takeaway also carries its stopping condition: \"The description was revised once and measured once. No selection across attempts took place, so the test figure is not inflated by picking the best of several - the bias the split was there to bound did not arise.\"",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is satisfiable without checking the claim the record is about. Its expectation is met by any named check with a stated outcome, so \"`python3 -m unittest discover -s tests`: 68 tests pass\" would carry the dimension alone even in a record whose central claim went entirely unmeasured. If D2 is meant to test whether verification bears on the argument, it should require at least one reported check whose outcome could have contradicted the record's main claim; as written it rewards reporting the cheapest check available.\n\nD1's guard leans on a judgement the record cannot supply. \"At least one must state a proposition that could plausibly have resolved the other way\" asks the judge to estimate the prior probability of a criterion failing, which is not visible in the opening section and is exactly what a weak author can disguise: a foregone outcome dressed as a threshold (\"the suite must stay green\", \"latency must stay under 10s\" where it is already 40ms) reads identically to a real bar. This record happens to state its prior — \"0 of 7 on an unmanaged repository, interval [0, 0.41]\" — but that appears in `Verification evidence`, not in the section D1 says to read in isolation, so the pass rests on information the dimension instructs the judge to set aside. Requiring the opening to state the prior or the expected-failure mode would make the guard checkable from the section it names.\n\nD3 and D4 both did the work they were meant to here; D3 in particular is the only dimension whose bar this record failed, and it failed for a reason a new reader actually hits on the first table."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "describe-when-to-invoke"
+}

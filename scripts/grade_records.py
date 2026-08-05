@@ -19,8 +19,8 @@ rejected. That parse is confined to the already-extracted layer-2 section, which
 is why it cannot reach the superseded table -- but it is the same regex shape as
 the hazard above, and widening its input would reintroduce it.
 
-Judges see only the five graded sections. No filename, no date, no risk tier,
-no commit message: a judge that can identify a record can score its author.
+Judges see only the graded sections. No filename, no date, no risk tier, no
+commit message: a judge that can identify a record can score its author.
 """
 from __future__ import annotations
 
@@ -38,15 +38,28 @@ ROOT = Path(__file__).resolve().parents[1]
 RECORDS = ROOT / "docs" / "engineering" / "changes"
 RUBRIC = ROOT / "docs" / "validation" / "record-quality-rubric.md"
 
-# The sections whose template instructions have never changed. Scoring the ones
-# that moved would measure the template rather than the writing. The rubric
-# states this list in prose; a disagreement between the two is a defect.
+# The sections handed to the judge, in the order a reader meets them, each with
+# whether the record must have it. Scoring a section whose template instructions
+# moved would measure the template rather than the writing, which is why most of
+# the template is left out. The rubric states this list in prose; a disagreement
+# between the two is a defect, and `tests/test_evals.py` fails on one.
+#
+# `Verification evidence` is optional rather than required. It has never carried
+# instruction text -- it is a bare heading, as three of the required sections are
+# -- so the reason the other sections were dropped does not reach it. Its heading
+# was renamed once, from `Verification plan`, and the two records written before
+# that rename have no section under the new name. Requiring it would drop those
+# two from grading entirely; leaving it out of the extract, as the first run did,
+# blinds the verification dimension in the 25 records that do have it. Optional
+# gives the judge the section when it exists and lets its absence read as what it
+# is.
 GRADED_SECTIONS = (
-    "Success and non-goals",
-    "Existing responsibilities searched",
-    "System and data flow",
-    "Failure, security, and recovery",
-    "Known limits and learning gaps",
+    ("Success and non-goals", True),
+    ("Existing responsibilities searched", True),
+    ("System and data flow", True),
+    ("Failure, security, and recovery", True),
+    ("Verification evidence", False),
+    ("Known limits and learning gaps", True),
 )
 
 RUBRIC_SECTION = "Layer 2"
@@ -134,14 +147,16 @@ def extract_sections(path: Path) -> str | None:
     if UNFILLED in text:
         return None
     parts = []
-    for name in GRADED_SECTIONS:
+    for name, required in GRADED_SECTIONS:
         match = re.search(
             r"^## " + re.escape(name) + r"\s*?\n(.*?)(?=\n## |\Z)",
             text,
             re.MULTILINE | re.DOTALL,
         )
         if match is None:
-            return None
+            if required:
+                return None
+            continue
         parts.append(f"## {name}\n{match.group(1).rstrip()}")
     return "\n\n".join(parts)
 
@@ -248,6 +263,13 @@ def main() -> int:
     parser.add_argument("--out", default="engineering-ownership-workspace/record-quality")
     parser.add_argument("--timeout", type=int, default=420)
     parser.add_argument("--resume", action="store_true", help="skip records already graded")
+    parser.add_argument(
+        "--only",
+        action="append",
+        metavar="RECORD_ID",
+        help="grade just this record; repeatable. For checking a change to "
+        "extraction against known records without paying for a full run.",
+    )
     args = parser.parse_args()
 
     section = rubric_section()
@@ -256,8 +278,17 @@ def main() -> int:
         raise SystemExit("no dimensions found in the rubric section")
     out = ROOT / args.out
 
+    wanted = set(args.only or ())
+    if wanted:
+        present = {path.stem for path in RECORDS.glob("*.md")}
+        unknown = sorted(wanted - present)
+        if unknown:
+            raise SystemExit(f"no such record(s): {', '.join(unknown)}")
+
     graded = 0
     for path in sorted(RECORDS.glob("*.md")):
+        if wanted and path.stem not in wanted:
+            continue
         target = out / f"{path.stem}.json"
         if args.resume and target.is_file():
             print(f"{path.stem}: cached")

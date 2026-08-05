@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:20:15+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads: \"Success: `refs check --all` exits 0; the four test literals compose markers at runtime; tutorials keep their concrete worked example; eval fixtures and committed eval records are untouched; the full suite passes with new coverage for exclusion behavior and contract validation.\" Every one of these is a property the change was constructed to have — the exit code the exclusion mechanism produces, the runtime composition it introduces, the tutorial example it exists to preserve, the artifacts it deliberately did not touch, and its own new tests. I searched the section for any proposition that could plausibly have resolved the other way (an uncertainty about whether the exclusion was needed, whether scan cost or coverage would move, a threshold that might not be met) and found none. The remainder, \"Non-goals: an inline \\\"example\\\" pragma in the scanner...; excluding `tests/**`...; editing historical eval artifacts\", is a list of deferred and excluded features, which the dimension excludes. A reader who stopped after this section would take away only \"the change works and broke nothing\" — the same conclusion regardless of what the record went on to find.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 83 tests pass, including new `test_refs_check_skips_contract_excluded_paths` (BLOCKED without the glob, PASS with it) and `test_contract_rejects_escaping_refs_exclude_pattern`.\" and \"`refs check --all` on this repository: 152 files scanned, RESULT: PASS.\" Both name a specific check and state its outcome, including a differential result (BLOCKED without the glob, PASS with it) rather than a bare pointer. The record's one pointer-only check, \"See the threat model for the gate-weakening analysis,\" appears in a different section and does not carry the verdict.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on: (1) \"marker\" — the record's core safety argument is \"test files can and do compose markers at runtime, so they stay scanned\" and \"Revisit if an excluded path ever needs a real enforcement marker\"; nowhere does the record say what a marker is or what its presence enforces, yet no reader can judge whether excluding a path is safe without knowing it. (2) \"the threat model\" — \"See the threat model for the gate-weakening analysis\" defers the security argument of the `Failure, security, and recovery` section to an unnamed document. (3) \"`cover-ship-critical-paths`\" — \"The deliberate-exclusion precedent is `cover-ship-critical-paths` (the harness is not taxed with ceremony); this change extends the same recorded stance\"; the justification for excluding paths at all rests on a precedent the reader must go read, and the parenthetical is itself in undefined vocabulary (\"the harness\", \"ceremony\"). (4) \"R3\" — \"All four R3 contract commands recorded via `engineering verify`\" is offered as verification with no statement of what R3 designates. By contrast, `reference_scan_paths`, `text_paths` and `risk_paths` are exempt: their roles are stated in the sentences that use them (\"`reference_scan_paths` filters `text_paths` output through the globs\"; \"Repository-specific path policy already lives in the contract (`risk_paths`, matched with `fnmatch`)\"). The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The transferable claim: when a repository-wide scan produces false positives, extend the existing configuration surface rather than add a second in-file mechanism. It carries the specific observation from this change that produced it — \"Repository-specific path policy already lives in the contract (`risk_paths`, matched with `fnmatch`); `refs.exclude` reuses that exact shape and matching semantics rather than adding a new config surface\" — paired with the alternative it displaced, \"Non-goals: an inline \\\"example\\\" pragma in the scanner (second mechanism for the same problem).\" The observation is one made in this repository during this change (an existing key with a specific matching function), not a general property restated. A reader deciding the same question could apply it by looking for an equivalent existing key in their own config.",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is the weakest of the four. As written it asks only for a named check and a stated outcome, so a record that ran a check guaranteed to pass and reported \"152 files scanned, RESULT: PASS\" satisfies it fully — the dimension cannot distinguish a check that could have failed from one that could not. The differential detail in this record (\"BLOCKED without the glob, PASS with it\") is what actually earns trust, and D2 does not ask for it; adding a requirement that at least one reported check state what a failing result would have looked like would close the gap without importing D1's concern.\n\nD4 asks the judge to *construct* the transferable claim (\"State what someone facing a similar decision could take from this record\") and only then tests whether it is grounded. A record that never generalises at all can pass, so long as the judge can assemble a claim from its project-local decisions and find grounding attached — which makes the verdict partly a measure of the judge's inventiveness rather than the writing. Requiring the record itself to state the claim would make it falsifiable.\n\nD3's exemption turns on \"in-repo identifiers\", but the terms that actually sank this record — \"marker\", \"R3\", \"the harness\" — are project vocabulary, not identifiers, and the exemption's phrasing does not say whether a bare noun is eligible for rescue by an in-sentence gloss the way a function name is. Two judges could split on \"`risk_paths`, matched with `fnmatch`\" for the same reason: it names the mechanism without stating what the policy governs."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section's success criteria are \"`refs check --all` exits 0; the four test literals compose markers at runtime; tutorials keep their concrete worked example; eval fixtures and committed eval records are untouched; the full suite passes with new coverage for exclusion behavior and contract validation.\" Every one of these is a property the change was built to have — the command it added passes, the helper it introduced is used, the files it decided not to touch are untouched, its own new tests pass. I searched the opening section for a proposition that could plausibly have resolved the other way — an uncertainty, a hypothesis that might have failed, a confidence statement, a stated risk — and found none; the remainder is the non-goals list (\"an inline \\\"example\\\" pragma in the scanner...; excluding `tests/**`...; editing historical eval artifacts\"), which the dimension excludes. A reader stopping after this section learns the change's shape but nothing about how much to trust the findings, and would make the same decision whatever the record went on to report.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 83 tests pass, including new `test_refs_check_skips_contract_excluded_paths` (BLOCKED without the glob, PASS with it) and `test_contract_rejects_escaping_refs_exclude_pattern`.\" and \"`refs check --all` on this repository: 152 files scanned, RESULT: PASS.\" Both name a specific check and state what it produced, including the with/without contrast for the new test. (The record does also contain a pointer-only check — \"See the threat model for the gate-weakening analysis\" — but the dimension is satisfied by the checks above.)",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Non-empty list of undefined load-bearing terms. (1) \"marker\" — the central argument turns on it and it is never defined: \"the four test literals compose markers at runtime\", \"Runtime marker composition already existed in `test_refs_check_passes_when_referenced_change_is_closed`; promoted to a shared `decision_marker` helper\", \"Excluded paths are not reported per-file\" ... \"Revisit if an excluded path ever needs a real enforcement marker.\" Without knowing what a marker is and why a literal one in a file is a problem, a new engineer cannot judge either the runtime-composition fix or whether excluding paths from the scan weakens enforcement. (2) \"R3\" in \"All four R3 contract commands recorded via `engineering verify`\" — a verification claim the reader cannot size. (3) \"the threat model\" in \"See the threat model for the gate-weakening analysis\" — the security argument rests on a document named but not summarised. (4) \"`cover-ship-critical-paths` (the harness is not taxed with ceremony)\" — the precedent the exclusion decision leans on, resolvable only elsewhere; \"the harness\" and \"ceremony\" are themselves unexplained. By contrast `reference_scan_paths`, `text_paths`, and `risk_paths` are exempt: their roles are stated in the sentences that use them (\"`reference_scan_paths` filters `text_paths` output through the globs\"; \"Repository-specific path policy already lives in the contract (`risk_paths`, matched with `fnmatch`)\").",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"`fnmatch` treats `*` and `**` identically (both cross `/`), so `refs.exclude` globs are broader than gitignore semantics — same caveat as `risk_paths`, acceptable because both err toward matching more.\" This ties the tool property to how this change encountered it — the new key reused the contract's existing matching (\"`refs.exclude` reuses that exact shape and matching semantics\") and thereby inherited the caveat. It is then bounded by a nameable observation: \"Revisit if an excluded path ever needs a real enforcement marker.\" A reader could observe that condition and it would overturn the \"acceptable\" verdict, so this is a stopping condition rather than a scope disclaimer.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is the weakest dimension: it asks only that a check be named and its output stated, with no requirement that the check bear on the claim the record is making. A record that says \"ran the full suite: 83 tests pass\" clears D2 even if not one of those tests touches the change — this record earns the pass on a stronger basis (\"BLOCKED without the glob, PASS with it\", which shows the test discriminates), but the dimension gives no credit for that and would have passed the weaker version identically. Consider requiring that at least one stated check could have come out otherwise had the change been wrong.\n\nD4's stopping-condition clause is close to satisfiable by boilerplate. \"Revisit if an excluded path ever needs a real enforcement marker\" is a revisit-when sentence of a shape almost any record can produce (\"revisit if requirements change\", \"revisit if this pattern spreads\"); it names an observation, so it passes as written, but the dimension does not ask whether the condition is one that would plausibly ever be observed, or whether the reader is told what to do when it is. Relatedly, D4 does not check whether the takeaway is sound: here the stated rationale — broad globs are \"acceptable because both err toward matching more\" — is transferred from `risk_paths`, where matching more means flagging more risk, to `refs.exclude`, where matching more means scanning less. A reader taking the lesson away would carry that inversion with it, and the dimension has no way to notice.\n\nD1 and D3 both did real work here and I would not change them; D3's exemption for identifiers defined in the sentence that uses them was decisive in keeping the list to terms that genuinely block judgement."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "exclude-illustrative-references"
+}

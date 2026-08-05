@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T10:58:09+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads in full: \"Success is nine fixtures that build deterministically, each carrying the state its expectations need, plus a guard that closes the gap rather than describing it.\" and \"Not a goal: running the suite. Building the repositories and measuring in them are separate steps, and the second is expensive enough to decide on its own.\" I searched the opening for a criterion stating a proposition that could plausibly have resolved the other way and found none: \"build deterministically\", \"carrying the state its expectations need\", and \"a guard that closes the gap\" are each a property the change was constructed to have, so a reader who stopped there would predict the same outcome for all three. The only other content, \"Not a goal: running the suite\", is the excluded-work form the dimension explicitly rules out.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 70 tests pass.\" and \"pointing a borrowed overlay at a directory that does not exist was observed failing on its own with `eval-3 borrows overlay 'nonexistent', which does not exist`\" — named checks with their outcomes stated in the record, not delegated to another document. Also \"Scenario 1's diff is one insertion and one deletion, `settlment` to `settlement`.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on, none explained in the sentence that uses them: (1) \"expectations\" — the success claim is \"each carrying the state its expectations need\" and the record never says what an expectation is or where it lives, so a new engineer cannot judge whether the state matches; (2) \"the managed base\" / \"the unmanaged base\" — \"The unmanaged base still serves two scenarios and the managed base seven\" and \"The managed base's commit changed\", with no statement of what distinguishes them, though both limits turn on it; (3) \"trigger-probe runs\" — \"Trigger-probe runs already recorded against the previous commit therefore no longer match what the recipe builds\", the entire basis of the first limit; (4) \"the contract\" — \"on a path the contract treats as highest risk\", the justification for scenario 2's chosen state; (5) \"a skill\" — \"whether a skill is consulted\" and \"what the skill does inside a repository\", the thing all nine fixtures exist to measure.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The unmanaged base still serves two scenarios and the managed base seven. That is fine while the question is what the skill does inside a repository, and it will need revisiting if a scenario needs a language or a layout this service does not have.\" — the transferable claim (sharing one repository base across many scenarios is acceptable) carries a stopping condition naming an observation a reader could actually make. The first limit likewise pairs its claim with the specific observation that produced it: \"The managed base's commit changed, because scenario 1 needs the typo to exist before it can be fixed... the recorded figures were taken against a repository that no longer exists in exactly that form\".",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is satisfiable without doing the relevant work: \"`python3 -m unittest discover -s tests`: 70 tests pass\" names a check and its outcome, but nothing in the dimension requires the check to bear on the change. A record that ran a pre-existing suite untouched by its own edits, and reported the count, passes D2 identically to one that exercised the new behaviour. This record happens to also report guard exercises, so the verdict is unaffected — but the dimension alone would not have separated them. D4 has a similar soft edge: it bars scope disclaimers of the form \"X does not cover Y\", but a bad record can clear it with a vague futurity clause (\"will need revisiting if requirements change\") that is grammatically an observation and practically unfalsifiable; the dimension would be tighter if it required the condition to be checkable at the time of reading. D1's blanket rule that \"a list of deferred or excluded features does not satisfy this\" over-fires here: \"Not a goal: running the suite. Building the repositories and measuring in them are separate steps\" does genuinely calibrate trust — it tells a reader who stops there that the record cannot claim the fixtures work in practice, which is a real bound on what follows. The rule cannot distinguish that from a feature-punt list, and I applied it as written."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section states two things: \"Success is nine fixtures that build deterministically, each carrying the state its expectations need, plus a guard that closes the gap rather than describing it\" and \"Not a goal: running the suite.\" The second is a deferral, which the dimension excludes. I searched the remaining criteria for a proposition that could plausibly have resolved the other way and found none: fixtures building deterministically, carrying the state their expectations need, and a guard that closes the gap are each a restatement of what the change was built to produce. Nothing here is a bet whose losing outcome the record would have had to report — a reader who stopped at this section would proceed identically whether the record went on to report nine clean fixtures or nine broken ones.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 70 tests pass.\" and \"pointing a borrowed overlay at a directory that does not exist was observed failing on its own with `eval-3 borrows overlay 'nonexistent', which does not exist`.\" Also \"Scenario 1's diff is one insertion and one deletion, `settlment` to `settlement`.\" Each names a check and states what it produced, in the record itself rather than by pointing at another document.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central claims rest on: (1) \"Trigger-probe runs already recorded against the previous commit therefore no longer match what the recipe builds\" — a new reader cannot weigh how serious this invalidation is without resolving \"trigger-probe run\" elsewhere; (2) \"skill\", in \"cannot plausibly affect whether a skill is consulted\", which is the term the dismissal of that limit turns on; (3) \"the managed base\" / \"the unmanaged base\" / \"this service\", in \"The unmanaged base still serves two scenarios and the managed base seven... if a scenario needs a language or a layout this service does not have\" — the whole last limit is unjudgeable without knowing what makes a base managed; (4) \"the contract\", in \"on a path the contract treats as highest risk\", which is the sole justification given for scenario 2's fixture state. None is defined in the sentence that uses it.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The unmanaged base still serves two scenarios and the managed base seven. That is fine while the question is what the skill does inside a repository, and it will need revisiting if a scenario needs a language or a layout this service does not have.\" — the transferable claim (a small number of shared base repositories can serve many scenarios) carries an observation a reader could make that would overturn it: a scenario requiring a language or layout the shared base lacks. Separately, \"The managed base's commit changed, because scenario 1 needs the typo to exist before it can be fixed... the recorded figures were taken against a repository that no longer exists in exactly that form\" carries the specific observation from this change that produced the claim.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D2 is satisfiable without the check bearing on the change. It asks only that a check be named and its output stated; \"70 tests pass\" would pass this dimension even in a record whose subject matter no test touches. If the intent is that the record shows its claims were tested, D2 should require at least one stated check whose outcome bears on a claim the record makes.\n\nD4's stopping-condition route is cheap to satisfy in form. Appending \"this will need revisiting if X\" to any limitation passes, regardless of whether the claim it bounds is worth transferring. The dimension has no floor on the claim itself, only on its bounding. A record whose only takeaway is trivially true would pass as long as it named a condition.\n\nD1's carve-out is the ambiguous one and drove my closest call here. \"Properties the change was built to have\" describes nearly every success criterion ever written — a change is by construction built to have the properties its author declared as success. \"Nine fixtures build deterministically\" is falsifiable in the ordinary sense (they might not have built), yet it is also plainly a property the change was built to have, so the two clauses of the expectation point opposite directions on the same sentence. I read the dimension as asking for a proposition about the world independent of whether the author's code works, and failed the record on that reading, but a grader reading \"could plausibly have resolved the other way\" as ordinary falsifiability would pass it. That split is a defect in the dimension, not in the record."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "complete-the-fixture-set"
+}

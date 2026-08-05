@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T12:05:46+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section's fourth success criterion is a proposition that could have resolved the other way and that a reader's decision depends on: \"The release ZIP digest is unchanged, so the published integrity claim in `correct-git-attribution` stays true.\" A change that touched any shipped file would have failed this, and the opening also tells me the record's own scope of trust — \"Producing a replacement measurement... is scoped separately\" — so a reader who stopped at the opening knows this record removes a claim and does not supply evidence for one.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "Checks are named with their outcomes: \"`python3 -m unittest discover -s tests`: 50 tests pass (38 pre-existing, 12 new)\" and \"`python3 scripts/build_release.py --version 0.2.0`: digest `8507a02d…`, unchanged from the pre-change build\". The record goes further and states outcomes for deliberately induced failures, e.g. Guard \"Backed-number gate\", fault \"Results block citing a non-existent iteration\", observed \"`published results cite iteration-9 but no benchmark.json is committed`\", with \"The full suite returned to green after each restoration.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: the risk classifications **R1** and **R2**, and the **R2 rebuild**. The scoping argument rests on them — \"Keeping them untouched is what holds this change at R1 and keeps the ZIP digest stable\" — but nothing in the record says what an R1 or R2 classification obligates, so I cannot judge whether holding at R1 justifies leaving the eight evals' expectations wrong. The same terms carry a deferral in the limits section: \"Deliberately left for the R2 rebuild, where the replacement runner lands and the classification can be decided with its evidence rather than in passing.\" I searched the record for any sentence defining R1, R2, or 'rebuild' and found only the pointer \"`.engineering/contract.json`\", which is elsewhere. Also undefined in place: `risk_paths`, whose absence is offered as causal — \"`scripts/**` still matches no `risk_paths` entry ... is therefore unclassified, which is part of how this defect survived\" — but the consequence of being unclassified is never stated.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"Real-runtime evidence, recorded separately from the test results because a passing test that has never been observed failing is not evidence: each of four guards was deliberately broken and confirmed to fail with a specific message, then restored.\" The transferable claim (a green test is not evidence until it has been seen to fail) is carried with the specific observation from this change that produced it — the four injected faults and their exact observed messages. A second instance: \"It was removed rather than repaired: it could not run (`WORKSPACE` pointed at a non-existent `iteration-2`), had assertions for four of eight evals and `raise ValueError` for the rest, and matched on the skill's own vocabulary.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D1's operational test and its stated purpose have come apart. The prose asks what the opening tells me about how much to trust what follows, but the only pass/fail rule is 'at least one success criterion could plausibly have resolved the other way.' A record whose opening is otherwise pure self-endorsement passes by appending one incidentally-falsifiable line ('CI stayed green', 'the hash did not change'), and nothing requires the record to say whether that criterion actually held — so the falsifiability is assessed against the grader's imagination rather than anything on the page. Consider requiring that the falsifiable criterion be one whose failure would change what a reader does with the record.\n\nD3 is the weakest dimension and I am not confident another grader would return the same verdict. 'The record's central argument' is never fixed, so which terms are load-bearing is the grader's choice: I could have exempted R1/R2 by declaring the retraction, not the scoping, to be central, and passed this record. Worse, the dimension is inversely correlated with engagement — a record that says 'we followed the usual process and it was approved' has an empty jargon list and passes, while this record fails partly for citing the specific contract tier it was held to. The in-place-definition exemption is also trivially gamed: 'the contract classifies it R2 (the higher tier)' satisfies the letter of the exemption while leaving the reader exactly as unable to judge the claim.\n\nD2 is satisfiable by one throwaway check with an outcome ('ran the linter: passed') while the record's actual substantive claim goes unverified; it tests for the presence of a reported result, not for whether the reported result bears on the claim. This record clears the bar by a wide margin, which makes it a poor discriminator here."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "Three of the four success criteria are properties the change was built to have (\"No current document presents an efficacy number\", \"The withdrawn number is quoted alongside the reasons it fails\", \"Automated checks fail if a number is published without a committed artifact behind it\"). The fourth is not: \"The release ZIP digest is unchanged, so the published integrity claim in `correct-git-attribution` stays true.\" That is a proposition about a build output the change did not construct, discoverable only by rebuilding, and it could have come out the other way — a reader who stopped at the opening section learns the record stakes itself on a byte-level comparison that a bad outcome would have exposed. The opening section also tells the reader how far to trust what follows: \"Producing a replacement measurement ... is scoped separately\", so this record cannot be read as evidence that the tool works. The non-goals list on its own would not have carried this dimension.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "Checks are named with their outputs, not by pointing elsewhere: \"`python3 -m unittest discover -s tests`: 50 tests pass (38 pre-existing, 12 new).\" and \"`python3 scripts/build_release.py --version 0.2.0`: digest `8507a02d…`, unchanged from the pre-change build\". The record additionally reports observed failures from deliberate fault injection, with the message each produced — e.g. injected fault \"Results block citing a non-existent iteration\" producing \"`published results cite iteration-9 but no benchmark.json is committed`\" — and states \"The full suite returned to green after each restoration.\"",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined load-bearing terms: **R1**, **R2**, and the classification semantics of **`risk_paths`**. The scoping argument rests on them: \"Those live under `plugins/engineering-ownership/skills/**`, which the contract classifies R2 and which ships in the release ZIP. Keeping them untouched is what holds this change at R1 and keeps the ZIP digest stable.\" Nothing in the record says what an R1 or R2 classification obligates, so a new engineer cannot judge whether staying at R1 is sound scoping or avoidance of a review step. The same terms carry a known limit — \"`scripts/**` still matches no `risk_paths` entry in `.engineering/contract.json`. The script that generates the project's public efficacy claims is therefore unclassified, which is part of how this defect survived\" — and a deferral, \"Deliberately left for the R2 rebuild\". Neither the tier names nor what `risk_paths` classification confers is stated in the sentences that use them, so the in-repo-identifier exemption does not apply. I searched the record for any gloss of \"R1\", \"R2\", or the contract's risk tiers and found none.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"Real-runtime evidence, recorded separately from the test results because a passing test that has never been observed failing is not evidence: each of four guards was deliberately broken and confirmed to fail with a specific message, then restored.\" The transferable claim (an unfallen test is not evidence that a guard works) arrives with the specific observation from this change that produced it — the four named guards, their injected faults, and the exact messages observed, e.g. \"`fake_eval_grader.py hardcodes eval 'r0-readme-typo'`\". A second bounded claim carries a stopping condition rather than a scope disclaimer: \"Recovery is to narrow the assertion with a recorded reason rather than delete it, since the test encodes a defect that actually occurred\" — the overturning observation being a legitimate future need, \"for example if a replacement grader must legitimately mention an eval name\".",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D1's escape hatch is cheap. \"At least one must state a proposition that could plausibly have resolved the other way\" is satisfied by any no-regression criterion — \"the existing tests still pass\", \"the digest is unchanged\", \"no public API changed\" — because a new reader has no way to judge the prior probability that it would have failed. A record with four vacuous criteria plus one boilerplate regression line passes on the boilerplate line, as this one arguably does. If the intent is that the record risked something, the expectation should require the criterion to be one whose failure would have changed the shape of the change, not merely blocked the merge.\n\nD2 is passable by naming an irrelevant check. The dimension deliberately judges the record's account rather than the substance, but that means \"ran the linter: clean\" satisfies it for a record whose central claim is about measurement validity. A clearly bad record that lists four commands and their exit statuses, none of which bear on what it asserts, would pass. The expectation could require that at least one reported check bear on a success criterion from the opening section.\n\nD4's two disjuncts are not equally demanding, and the easier one dominates. \"Carries the specific observation from this change that produced it\" is met by attaching any concrete detail to any generalisation, which most Known-limits sections do incidentally. The stopping-condition branch is carefully fenced against scope disclaimers; the observation branch has no comparable fence, so the fence rarely binds."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "withdraw-unsupported-evaluation-claim"
+}

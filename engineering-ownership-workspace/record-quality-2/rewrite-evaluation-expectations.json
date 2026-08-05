@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T11:48:14+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section's criteria are: \"Success is that every expectation satisfies four stated rules, that the rules are enforced by tests rather than by review, and that the maintenance behaviour the owner identified as this project's distinguishing focus is actually covered.\" All three are properties the change was constructed to have — the author wrote the expectations against the rules, wrote the tests that enforce them, and wrote the coverage. The only other content is \"Not in scope: running the rewritten manifest at a sample size that would support a published number. Two harness changes have to land first, and they are named under known limits,\" which is a deferral list and is explicitly excluded by the dimension. I searched the section for a criterion stating a proposition whose outcome was genuinely open — something of the form 'success is that removing these expectations does not lose coverage' or 'success is that the new rules do not reject expectations we want to keep' — and found none. A reader who stopped at this section learns the change's intended shape but nothing that would distinguish a record reporting the rules worked from one reporting they did not.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 58 tests pass.\" and \"`dist/engineering-ownership-v0.2.0.zip.sha256` still reads `8507a02d…`, confirming the published integrity claim survived the version bump.\" The section also states an adversarial check with its result: \"Each new guard was given a violating expectation and observed rejecting it, then restored,\" followed by a table pairing each injected string with what was observed — e.g. injected `\"Requires a runbook before...\"` against observed \"requires 'runbook'\", and the fourth row where the amended phrasing was \"accepted, as intended.\" Named checks, each with a stated outcome.",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The central claim is \"every expectation satisfies four stated rules\" — but the four rules are never stated in this record. Only one surfaces later, partially: \"'Not satisfiable by silence' is checked syntactically\". The other three must be resolved elsewhere before a reader can judge whether the success criterion was met. Also undefined and load-bearing: \"the maintenance behaviour the owner identified as this project's distinguishing focus\" (a success criterion that names no behaviour); \"this skill\" in \"the treatment's transcript names this skill four times\" (the leakage argument rests on which artefact leaks, and the record never says what the skill is); \"the language confound killed the first one\", which is the sole justification for the symmetric-capability requirement and refers to a prior experiment never described; and \"the integrity claim in `correct-git-attribution`\", where the identifier's role is not stated in the sentence using it. The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"The judge must see what the run did, without learning which run it was. It currently receives only the response. Handing it the transcript is the obvious fix and the wrong one: the treatment's transcript names this skill four times and the baseline's never does, and `metrics.json` carries a `Skill` key on one side only.\" The transferable claim — a blinded comparison cannot be repaired by handing the judge raw transcripts — carries the specific counts from this change that produced it. A second instance carries a stopping condition rather than an observation: \"That would have caught every instance of the actual regression, and will not catch a carefully worded future one.\"",
+          "passed": true
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D2 is the weakest dimension: it is satisfied by any command paired with any outcome, with no requirement that the check bear on the change. This record's first bullet, \"`python3 -m unittest discover -s tests`: 58 tests pass,\" would be equally true of a change that touched nothing, and would pass D2 on its own. A clearly bad record that ran the suite and reported the count passes. The injection table here is far stronger evidence, and D2 as phrased cannot tell the two apart — consider requiring at least one check whose outcome would have differed had the change been wrong.\n\nD1's carve-out is close to unsatisfiable in practice. Nearly every success criterion for a deliberate change is \"a property the change was built to have\" — that is what building to a spec means. The escape hatch, \"a proposition that could plausibly have resolved the other way,\" is not distinguished from it by any stated test, so the verdict turns on whether the author happened to phrase a criterion as an audit rather than a goal. Meanwhile this record's opening does bound trust in a decision-relevant way — it says no sample size supporting a published number was run and two blockers are outstanding — but that lands in the \"deferred features\" bucket the dimension excludes. The exclusion is aimed at scope lists that say nothing about confidence; it currently also catches deferrals that say a great deal about it. Suggest distinguishing 'work not done' from 'result not established'.\n\nD3 has little discriminating power as written: the exemption covers only terms whose role is stated in the sentence using them, so any record that cites a prior experiment, a sibling record, or a named artefact by identifier fails. That is likely the intended direction, but it means D3 will be non-empty for almost every real record and so carries almost no signal about quality. D3 also asks for terms \"the central argument rests on\" without saying how to identify the central argument in a record that makes several; here I had to pick, and a judge picking the failure/recovery section instead would produce a different list."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section in full offers three success criteria — \"that every expectation satisfies four stated rules, that the rules are enforced by tests rather than by review, and that the maintenance behaviour the owner identified as this project's distinguishing focus is actually covered\" — each of which is a property the change was built to have; and one exclusion, \"Not in scope: running the rewritten manifest at a sample size that would support a published number.\" I searched the opening for a proposition whose outcome could plausibly have resolved the other way (e.g. a threshold the rewrite might have missed, a comparison that might have come out unfavourably) and found none; the only forward-looking statement is a deferral of work, which the dimension excludes.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"`python3 -m unittest discover -s tests`: 58 tests pass.\" and \"`dist/engineering-ownership-v0.2.0.zip.sha256` still reads `8507a02d…`, confirming the published integrity claim survived the version bump.\" The injection table also names both the check and its result: \"Each new guard was given a violating expectation and observed rejecting it, then restored\", with rows such as \"`\\\"Does not require a change brief for a small edit.\\\"` | phrased as bare restraint\" and the control row \"Same, with `\\\"and says why that level of process is unnecessary\\\"` | accepted, as intended\".",
+          "passed": true
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Non-empty list of undefined terms the central argument rests on: (1) \"four stated rules\" — the first success criterion is \"that every expectation satisfies four stated rules\", and the record never enumerates them; only one, \"Not satisfiable by silence\", is later named. (2) \"the maintenance behaviour the owner identified as this project's distinguishing focus\" — a success criterion whose referent is never stated, so a reader cannot tell what coverage claim is being made. (3) \"the language confound killed the first one\" — the premise for the symmetry requirement in limit 1 points at a prior event with no account of it here. (4) \"iteration\" as a project artifact — \"that belongs with an iteration, not with the unit tests\" carries the argument about where the empirical check lives, with no statement of what an iteration is. (5) \"the integrity claim in `correct-git-attribution`\" — the identifier whose falsification is the stated hazard is never given a role in the sentence that uses it. Also undefined and used as evidence that expectations were rightly removed: \"diff-digest staleness gating\", \"the decision-marker format\", \"the four `refs check` failure modes\".",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "\"Handing it the transcript is the obvious fix and the wrong one: the treatment's transcript names this skill four times and the baseline's never does, and `metrics.json` carries a `Skill` key on one side only.\" The transferable claim (a blinded judge cannot be given raw transcripts) carries the specific counts observed in this change. The record also supplies a stopping condition for its own rule check: \"That would have caught every instance of the actual regression, and will not catch a carefully worded future one. The empirical version is to grade a deliberately vacuous response and require it to score zero\" — naming an observation (a vacuous response scoring above zero) that would overturn the claim.",
+          "passed": true
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D1's two disqualifiers collide on records like this one. The opening here does calibrate in substance — it says no run at publishable sample size exists, so nothing downstream can be an empirical result — but that statement is shaped as a deferral, which the dimension excludes by fiat, forcing a FAIL on an opening that genuinely constrains how much to trust the record. The dimension needs to distinguish 'features we didn't build' from 'the validating measurement was not taken', which is calibration in the sense the dimension is after. Conversely, the falsifiability escape hatch is cheap to fake: inserting the word 'actually' or 'still' into a built-to-have criterion ('success is that the parser still handles X') reads as a proposition that could have resolved the other way while committing to nothing, and I would have had to pass it.\n\nD2 as written is passed by any record that prints a command and a green result, with no requirement that the check bear on the record's central claim. A clearly bad record — one that rewrote a data file and then reported 'unittest: 58 tests pass' where none of the 58 touch the file — passes D2 verbatim. Adding 'and say what the check would have shown had the change been wrong' would close this; the injection table in this record is precisely the thing that distinguishes it from that bad record, and D2 gives it no credit over the bare test count.\n\nD3's boolean-on-non-empty rule makes the verdict a function of how hard the judge looks and where they draw the boundary of 'the central argument'. This record has one section whose argument is fully self-contained and another that leans on unresolvable prior events; a judge scoping 'central' to the verification section would pass it, one scoping to the success criteria fails it. Some threshold — jargon in the success criteria and the load-bearing premises, say — would make the verdict reproducible rather than dependent on enumeration effort.\n\nD4 gave a clear signal here and I have no complaint about it, though note it is satisfiable by one good sentence in a record whose other takeaways are unbounded; it does not ask whether the record's transferable claims are bounded, only whether one is."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "rewrite-evaluation-expectations"
+}

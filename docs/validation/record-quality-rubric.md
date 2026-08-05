@@ -146,12 +146,31 @@ statement of what was searched for and not found, no partial credit, and a
 critique channel where the judge says which expectations a clearly bad record
 would also have passed.
 
-**What is graded.** Only the five sections whose template instructions have never
-changed: `Success and non-goals`, `Existing responsibilities searched`,
-`System and data flow`, `Failure, security, and recovery`, and
-`Known limits and learning gaps`. The template was rewritten four times, and the
-two oldest records were authored against materially different instructions —
-scoring the sections that moved would measure the template, not the writing.
+**What is graded.** (Corrected 2026-08-05: `Verification evidence` was excluded
+here and in the grader, so the first full-corpus run measured D2 without the one
+section that answers it. The reason given for excluding it did not apply to that
+section, and the consequence for a dimension about verification was not
+considered. The run that carried the defect is reported in
+[record-quality-2026-08.md](record-quality-2026-08.md).)
+
+Six sections, in the order a reader meets them: `Success and non-goals`,
+`Existing responsibilities searched`, `System and data flow`,
+`Failure, security, and recovery`, `Verification evidence`, and
+`Known limits and learning gaps`.
+
+Everything else is left out because the template was rewritten four times and
+the two oldest records were authored against materially different instructions —
+scoring a section whose instructions moved would measure the template, not the
+writing.
+
+`Verification evidence` is included, and is the one section treated as optional.
+It has never carried instruction text; it is a bare heading, as three of the
+five required sections are, so nothing about it could have moved. Its heading
+was renamed once, from `Verification plan`, and the two records written before
+that rename have no section under the new name. Requiring it would drop those
+two records from grading; excluding it, as the first run did, withholds from the
+judge the one section that answers D2. Optional gives the judge the section when
+it exists and lets its absence read as the absence of a reported check.
 
 Records are graded at HEAD. An earlier draft of this rule said to grade the
 version at each record's add commit, so a later audit's corrections would not

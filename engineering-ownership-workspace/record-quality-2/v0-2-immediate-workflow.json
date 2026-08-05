@@ -1,0 +1,65 @@
+{
+  "dimensions_graded": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+  ],
+  "graded_at": "2026-08-05T12:00:55+00:00",
+  "graders": [
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "The opening section reads: \"Success means a user can request work, resume it, or check it with the single skill; setup previews all writes before approval; declared risk never falls; changed paths can require explicit upward escalation; dated records and decision references remain valid; a saved handoff does not alter the diff digest; and doctor/hooks disclose no secrets or home paths.\" Every clause is a property the change was built to have — a router that routes, a risk value that only rises, a redactor that redacts. I searched the section for any claim that could have resolved the other way (a measurement, an expectation that might not hold, an unknown to be settled) and found none; the remainder is \"Non-goals are TDD, planning, product review, automatic releases, autonomous loops, mandatory comments, or generalized host adapters\", which the criterion excludes as a list of excluded features. A reader stopping here learns the intended shape of the change but nothing about how much to trust what follows.",
+          "passed": false
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"The unit suite covers risk floors, escalation, dated titles, canonical and broken/superseded references, handoff digest stability, doctor redaction, and hook off/remind behavior. Distribution checks validate the single router, bundled hook surface, manifests, schemas, and release archive.\" These name coverage areas by pointing at a suite — the \"exercised by tests\" form the criterion rules out — and state no result. I searched the whole record for any reported outcome (pass/fail counts, an observed value, a printed output, \"all green\", a date of running) and found none; the only other verification sentence is prospective: \"Host plugin validation and fresh install checks are required before release.\"",
+          "passed": false
+        },
+        {
+          "dimension": "D3",
+          "evidence": "The central argument rests on these undefined terms, none of which has its role stated in the sentence that uses it: \"diff digest\" (\"a saved handoff does not alter the diff digest\"; \"Verification results remain bound to the current diff digest\" — I cannot tell what it digests or why binding matters); \"the validated contract\" and \"contract classifier\" (\"The bundled CLI reads the validated contract and evidence\" — never says what a contract declares); \"declared, path-detected, and explicit risk\" (\"computes effective risk as the maximum of declared, path-detected, and explicit risk\" — the compound is defined, its three inputs are not); \"Briefs\" (\"Framework outputs remain canonical in their own repositories and are linked from Briefs\"); \"handoff\" and \"study\" as router modes (\"select setup, start, resume, check, handoff, or study\"); \"advise-only check\" versus \"verify\" (\"Stop runs advise-only check. Neither path invokes `verify`\" — the distinction carries the security claim but neither command is explained); \"v0.2-only commands\" (\"Rollback is removal of hook declarations and v0.2-only commands\"). By contrast `automation.session_hooks` is exempt, since \"exits immediately unless `automation.session_hooks` is `remind`\" states its role in place.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The closing section offers \"Plugin hosts may disable or decline trust for hooks; the skill and CLI must remain sufficient.\" This is a general property of third-party hosts; I searched for any statement of how this change encountered it — a host that actually declined, a behavior observed during the work — and found none. The other two items are scope disclaimers the criterion excludes: \"`doctor` can only report whether host plugin listings expose the package and does not prove implicit skill selection quality\" and \"The setup preview is agent behavior described by the skill, not an autonomous CLI configuration detector.\" No sentence in the record names an observation a reader could make that would overturn a transferable claim.",
+          "passed": false
+        }
+      ],
+      "grader": 1,
+      "rubric_feedback": "D3 is close to unfalsifiable for any record describing a system rather than a single function. Its exemption — a term is defined if 'its role is stated in the sentence that uses it' — is judge-dependent at exactly the margin that decides most cases: I exempted `automation.session_hooks` and failed 'diff digest', but a different reader could argue 'Verification results remain bound to the current diff digest' states the role of a diff digest (a thing verification binds to) just as well. Because the list only needs one entry and every project has proper nouns, D3 will read as an automatic fail on almost anything, which makes its verdict carry little information. Consider requiring that the listed term be one whose meaning changes whether the central claim is true, rather than any term a reader would have to look up.\n\nD2 is cheap to satisfy relative to what it is trying to measure. A record that ran nothing but a linter and wrote 'ran the linter, no output' passes, while this record — which enumerates eight specific behaviors under test — fails for omitting one outcome sentence. The dimension rewards the presence of a result clause, not the substance of the checking, so a clearly bad record can pass it by appending seven words.\n\nD1's operative test, 'a proposition that could plausibly have resolved the other way', asks the judge to reconstruct what the author did not yet know at authoring time from a document written after the fact. I was reasonably confident here because every clause was an invariant, but a borderline case would turn on my guess about the author's prior state of knowledge, which the record cannot show me."
+    },
+    {
+      "dimensions": [
+        {
+          "dimension": "D1",
+          "evidence": "\"a saved handoff does not alter the diff digest\" — among a list of otherwise feature-restating criteria (\"setup previews all writes before approval\", \"declared risk never falls\"), this one states a proposition that could plausibly have resolved the other way: writing a file during a handoff would ordinarily change the diff, and the record later lists \"handoff writes invalidating evidence\" as a primary failure. \"doctor/hooks disclose no secrets or home paths\" is a second such proposition — an absence claim about tool output that is routinely found false. A reader who stopped at the opening knows what outcome would have counted as failure.",
+          "passed": true
+        },
+        {
+          "dimension": "D2",
+          "evidence": "\"The unit suite covers risk floors, escalation, dated titles, canonical and broken/superseded references, handoff digest stability, doctor redaction, and hook off/remind behavior. Distribution checks validate the single router, bundled hook surface, manifests, schemas, and release archive.\" Both sentences state what the checks are aimed at, in the present tense, and neither states what came out of running them — no pass/fail, no count, no observed result. I searched the whole record for any reported outcome of any check (\"passed\", \"failed\", a number of tests, a described result) and found none. The third sentence, \"Host plugin validation and fresh install checks are required before release\", explicitly describes checks not yet performed. \"The unit suite covers X\" is the \"exercised by tests\" pattern: a check identified by pointing at a body of tests without saying what it produced.",
+          "passed": false
+        },
+        {
+          "dimension": "D3",
+          "evidence": "Undefined terms the central argument rests on: (1) \"diff digest\" — load-bearing in both \"a saved handoff does not alter the diff digest\" and \"Verification results remain bound to the current diff digest\"; the reader cannot judge either claim without knowing what it digests. (2) \"contract\" / \"validated contract\" — \"The bundled CLI reads the validated contract and evidence\"; never said what a contract is or what validation means. (3) \"evidence\" as an artifact type — \"keeping existing contract/evidence records readable\". (4) \"declared\", \"path-detected\", and \"explicit\" risk — \"computes effective risk as the maximum of declared, path-detected, and explicit risk\" defines *effective* risk in place, but not its three inputs, and the difference between \"declared\" and \"explicit\" is not recoverable from the sentence. (5) \"Briefs\", capitalized — \"Framework outputs remain canonical in their own repositories and are linked from Briefs.\" (6) \"the single skill\" / \"shared skill router\" / \"shared Agent Skill\". (7) \"`verify`\" — \"Neither path invokes `verify`\", presented as the security-relevant fact of the paragraph, with no statement of what `verify` does. (8) \"advise-only check\". (9) \"v0.2-only commands\", named as the unit of rollback. The list is non-empty.",
+          "passed": false
+        },
+        {
+          "dimension": "D4",
+          "evidence": "The three candidate takeaways are: \"Plugin hosts may disable or decline trust for hooks; the skill and CLI must remain sufficient.\" — a general property of third-party hosts, with nothing said about how this change encountered it (no host that declined, no observation made here). \"`doctor` can only report whether host plugin listings expose the package and does not prove implicit skill selection quality.\" — a scope disclaimer of the excluded \"X does not cover Y\" form. \"The setup preview is agent behavior described by the skill, not an autonomous CLI configuration detector.\" — likewise a clarification of what the thing is not. I searched for a stopping condition naming an observation a reader could make that would overturn a claim, and for a specific observation from this change that produced a transferable claim; neither appears.",
+          "passed": false
+        }
+      ],
+      "grader": 2,
+      "rubric_feedback": "D1 is the weak dimension, and this record shows why. Its headline test — \"State what it tells you about how much to trust what follows\" — and its operational test — \"at least one must state a proposition that could plausibly have resolved the other way\" — pull apart. This opening reports no outcome, no confidence, and no residual doubt; it is entirely a statement of intended properties. It passes only because one of those properties happens to be phrased as a negative invariant. Any author can clear that bar for free by appending \"and nothing else regresses\" to a goals list, without the record having found anything. If the intent is calibration, the expectation should require the opening to state something the record *resolved* (or failed to resolve), not merely something that was falsifiable in principle. As written, D1 grades sentence grammar, not calibration.\n\nD3 has no threshold, only a non-emptiness test, so its verdict is determined almost entirely by how much domain vocabulary a system has, not by how carefully the record was written. A record about a system with a rich internal ontology fails even if it defines nine terms in place and misses one; a record about a trivially-named system passes by having little to name. It also creates a perverse incentive toward vagueness: replacing \"does not alter the diff digest\" with \"does not disturb existing state\" would remove a jargon term and weaken the claim at the same time, improving the D3 verdict. Consider pairing it with a count, or scoping it to terms the record's *central* claim rests on rather than any term a reader must resolve.\n\nD2 and D4 are well-specified: both name the exact evasion they are meant to catch, and both caught it cleanly here."
+    }
+  ],
+  "judge_model": "claude-opus-5",
+  "record": "v0-2-immediate-workflow"
+}
