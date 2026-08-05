@@ -3,6 +3,10 @@
     "brief": "docs/engineering/changes/grade-verification-sections.md"
   },
   "change_id": "grade-verification-sections",
+  "closed": {
+    "closed_at": "2026-08-05T21:10:22+09:00",
+    "revision": "ed2f18c5cba99eb4dc9881eb67b8770771faaeaf"
+  },
   "created_at": "2026-08-05T19:36:20+09:00",
   "diff": {
     "digest": "270546388fb9666ea83e13085d8672dcc240e2d388f8406b756022578b9771b4",
@@ -58,7 +62,7 @@
     "revisit_after": "2026-08-12",
     "status": "not-reviewed"
   },
-  "updated_at": "2026-08-05T21:09:47+09:00",
+  "updated_at": "2026-08-05T21:10:22+09:00",
   "verification": [
     {
       "command_id": "unit",

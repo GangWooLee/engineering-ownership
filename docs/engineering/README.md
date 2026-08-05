@@ -21,7 +21,7 @@ records themselves.
 | **Deliver the promised post-pass for the vendored aggregator**<br>`fix-benchmark-postpass` | R1 | closed 2026-07-26 at `e1dd42cd43dc` | [brief](changes/fix-benchmark-postpass.md) |
 | **Close quoting evasions in the judge-visible action log**<br>`fix-blinding-redaction` | R2 | closed 2026-07-26 at `e1dd42cd43dc` | [brief](changes/fix-blinding-redaction.md), [decision](decisions/fix-blinding-redaction.md) |
 | **Grade the whole record corpus against the tightened rubric**<br>`grade-the-record-corpus` | R1 | closed 2026-08-05 at `b1c44d2412a6` | [brief](changes/grade-the-record-corpus.md) |
-| **Grade the verification section the verification dimension asks about**<br>`grade-verification-sections` | R1 | open | [brief](changes/grade-verification-sections.md) |
+| **Grade the verification section the verification dimension asks about**<br>`grade-verification-sections` | R1 | closed 2026-08-05 at `ed2f18c5cba9` | [brief](changes/grade-verification-sections.md) |
 | **Guard the record conventions with tests, not shipped code**<br>`guard-record-conventions` | R1 | closed 2026-07-29 at `9daa55364757` | [brief](changes/guard-record-conventions.md) |
 | **Let runs write, and show the judge what they did**<br>`observable-run-evidence` | R2 | closed 2026-07-26 at `2ec5d1d43a8a` | [brief](changes/observable-run-evidence.md), [decision](decisions/observable-run-evidence.md) |
 | **Remove the write-only competency tag subsystem**<br>`remove-competency-tags` | R3 | closed 2026-07-26 at `e1dd42cd43dc` | [brief](changes/remove-competency-tags.md), [decision](decisions/remove-competency-tags.md), [runbook](runbooks/remove-competency-tags.md), [threat_model](security/remove-competency-tags.md) |
