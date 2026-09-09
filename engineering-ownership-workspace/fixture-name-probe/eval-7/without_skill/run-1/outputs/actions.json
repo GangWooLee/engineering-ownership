@@ -1,0 +1,84 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "target": "git status && echo --- && git log --oneline -10 && echo --- && git diff"
+    },
+    {
+      "action": "search",
+      "target": "**/*propos*"
+    },
+    {
+      "action": "search",
+      "target": "**/*plan*"
+    },
+    {
+      "action": "run",
+      "target": "git log --all --oneline | head -50 && echo --- && find . -iname *.md -not -path */node_modules/* -not -path */.git/* 2>/dev/null"
+    },
+    {
+      "action": "read",
+      "target": "docs/proposals/settlement-currency.md"
+    },
+    {
+      "action": "read",
+      "target": "plans/settlement-currency.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/changes/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "docs/engineering/decisions/partner-settlement-rounding.md"
+    },
+    {
+      "action": "read",
+      "target": "AGENTS.md"
+    },
+    {
+      "action": "run",
+      "target": "find docs -type f | sort"
+    },
+    {
+      "action": "run",
+      "target": "find docs -maxdepth 2 -type d && find . -iname \"*template*\" -not -path */.git/* && find . -iname \"README*\" -not -path */.git/*"
+    },
+    {
+      "action": "read",
+      "target": "README.md"
+    },
+    {
+      "action": "run",
+      "target": "git log --all --format='%H %ad %s' --date=short -- docs/engineering/changes docs/engineering/decisions docs/proposals plans 2>/dev/null; echo ---; git log --dif"
+    },
+    {
+      "action": "run",
+      "target": "find src -type f -name *.py | sort"
+    },
+    {
+      "action": "read",
+      "target": "src/db/schema.py"
+    },
+    {
+      "action": "read",
+      "target": "src/api/partner_adapter.py"
+    },
+    {
+      "action": "run",
+      "target": "find tests -type f 2>/dev/null | sort"
+    },
+    {
+      "action": "search",
+      "target": "report"
+    },
+    {
+      "action": "run",
+      "target": "date -u +%Y-%m-%dT%H:%M:%S+00:00"
+    },
+    {
+      "action": "write",
+      "target": "docs/engineering/changes/settlement-currency.md"
+    }
+  ]
+}

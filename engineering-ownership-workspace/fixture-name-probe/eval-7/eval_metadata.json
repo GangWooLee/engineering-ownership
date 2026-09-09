@@ -1,0 +1,10 @@
+{
+  "eval_id": 7,
+  "eval_name": "reuse-existing-planning-documents",
+  "expectations": [
+    "Locates the existing planning documents and refers to them by where they are, rather than producing its own version of them.",
+    "Records only what the existing documents do not already cover, and says what that gap is.",
+    "Says what it chose to leave in place rather than restate, and why."
+  ],
+  "prompt": "We already have a written proposal and an implementation plan for this change in the repository. Start tracking the work."
+}

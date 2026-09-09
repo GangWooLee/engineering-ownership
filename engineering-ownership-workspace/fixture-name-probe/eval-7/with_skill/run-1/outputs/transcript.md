@@ -1,12 +1,8 @@
----
-name: engineering-ownership
-description: Use when someone is changing software they will have to live with, and the reasoning would otherwise survive only in this conversation. Covers setting up an engineering process in a repository that has none, starting work whose design is expensive to reverse, picking up work another person left unfinished, deciding whether a change is ready to merge, handing work over, and recovering why an existing decision was made before overturning it. Trigger on phrasings like 'set this repo up properly', 'take this over', 'continue the previous work', 'is this ready to merge', 'hand this off', 'why was it built this way' - and on the situation itself even when the user does not ask for process: a repository with no engineering setup, an unfinished diff, an .engineering/contract.json, or a decision record the requested change would contradict. Consult it before writing the code, not after. For diagnosing a single failure, a debugging skill fits better.
-license: MIT
-compatibility: Python 3.11+ and Git. The bundled engineering CLI needs no separate installation when this plugin is installed.
-metadata:
-  author: GangWooLee
-  version: "0.3.0"
----
+I'll look for the proposal and implementation plan documents in the repo, and check the current state of work.
+
+This confirms it: the repo uses an `.engineering` tracking system (contract.json + per-change brief/decision/evidence docs), already used for `partner-settlement-rounding`. The `settlement-currency` work has a proposal and plan but no tracking artifacts yet. This is exactly the engineering-ownership skill's territory, so I'll invoke it to set up tracking correctly.
+
+Base directory for this skill: ~/engineering-ownership/plugins/engineering-ownership/skills/engineering-ownership
 
 # Engineering Ownership
 
@@ -95,7 +91,6 @@ Do not add this marker to every file. Existing markers must pass
 Artifacts show what happened; they are not maturity, competence, readiness,
 or person scores. Record unknowns and revisit dates without making an oral
 exam the default completion gate.
-Do not mark the human-ownership checklist for the user; the owner marks it.
 
 Load only what is needed:
 
@@ -108,3 +103,26 @@ Load only what is needed:
 - [Evidence model](references/evidence-model.md)
 - [Decision recording](references/recording-decisions.md)
 - [CLI reference](references/cli.md)
+
+
+ARGUMENTS: Start tracking work for the "settlement-currency" change. There's already a written proposal at docs/proposals/settlement-currency.md and an implementation plan at plans/settlement-currency.md. The repo tracks engineering changes via .engineering/contract.json + docs/engineering/changes/<id>.md + docs/engineering/decisions/<id>.md + .engineering/evidence/<id>.json, as seen in the existing "partner-settlement-rounding" change. Steps 1 (schema) and 3 (adapter payload) of the plan are in progress — there's an uncommitted diff in src/db/schema.py adding a settlement_currency column. Steps 2 (backfill), 4 (reporting read), and 5 (remove hard-coded currency) are not started. Set up the tracking artifacts for this change.
+
+The `engineering` CLI is available. Let me check current status and then start tracking the change.
+
+Now let me look at the generated scaffolds and fill in the Brief with the proposal's content.
+
+Now I'll fill both scaffolds using the content already agreed in the proposal and plan documents, matching the style of the existing `partner-settlement-rounding` records.
+
+Now let's verify the fill-required markers are gone and run the contract's verification/check to record evidence for the current diff.
+
+Verification passed (unit tests). Let's check the resulting status and evidence record.
+
+Tracking is set up. I won't commit since you didn't ask me to — let me know if you'd like these staged/committed.
+
+**Summary:** Set up `.engineering` tracking for the `settlement-currency` change (R2, since it touches `src/db/**` and `src/api/**`), matching the pattern already used for `partner-settlement-rounding`:
+
+- `docs/engineering/changes/settlement-currency.md` — Brief filled in from `docs/proposals/settlement-currency.md` and `plans/settlement-currency.md`, noting steps 1 & 3 in progress and 2/4/5 not started
+- `docs/engineering/decisions/settlement-currency.md` — ADR recording the "store on the row vs. per-partner table" decision from the proposal
+- `.engineering/evidence/settlement-currency.json` — created by `engineering change start`, now has a passing `unit` verification run against the current diff (`src/db/schema.py`)
+
+`engineering status --all` shows `settlement-currency` tracked with `current_diff=yes` and passing verification; `engineering check --mode advise` passes. Note: the pre-existing `partner-settlement-rounding` record shows stale/failing gaps unrelated to this — left untouched since it wasn't part of this request.
