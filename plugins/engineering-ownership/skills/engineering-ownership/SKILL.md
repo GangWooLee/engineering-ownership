@@ -95,6 +95,7 @@ Do not add this marker to every file. Existing markers must pass
 Artifacts show what happened; they are not maturity, competence, readiness,
 or person scores. Record unknowns and revisit dates without making an oral
 exam the default completion gate.
+Do not mark the human-ownership checklist for the user; the owner marks it.
 
 Load only what is needed:
 
